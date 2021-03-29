@@ -6,34 +6,34 @@ class HardSkillForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            hardSkillDetail: {
-                hardSkillID: 0,
-                exp: 0,
-                certificationID: 0,
-                priority: 0
+            hardSkills: {
+                skillID: 0,
+                skillLevel: 0,
+                empCertifications: []
             },
             isMinimize: false
         }
     }
-    onAddHardSkill = (positionFormIndex) => {
-        this.props.onAddHardSkill(positionFormIndex, this.state.hardSkillDetail)
+    onAddHardSkill = () => {
+        this.props.onAddHardSkill(this.state.hardSkills)
     }
 
-    showItems = (hardSkill, positionFormIndex) => {
+    showItems = (hardSkill) => {
         var result = null;
-        result = hardSkill.map((hardSkillDetail, hardSkillIndex) => {
-            return (
-                <HardSkillFormContent key={hardSkillIndex}
-                    hardSkillDetail={hardSkillDetail}
-                    hardSkillIndex={hardSkillIndex}
-                    positionFormIndex={positionFormIndex}
-                    onDeleteHardSkill={this.props.onDeleteHardSkill}
-                    updateHardSkillExpPriority={this.props.updateHardSkillExpPriority}
-                    onUpdateHardSkillID={this.props.onUpdateHardSkillID}
-                    onUpdateHardSkillCerti={this.props.onUpdateHardSkillCerti}
-                />
-            );
-        })
+        if (typeof hardSkill !== 'undefined') {
+            result = hardSkill.map((hardSkillDetail, hardSkillIndex) => {
+                return (
+                    <HardSkillFormContent key={hardSkillIndex}
+                        hardSkillDetail={hardSkillDetail}
+                        hardSkillIndex={hardSkillIndex}
+                        onDeleteHardSkill={this.props.onDeleteHardSkill}
+                        updateHardSkillExpPriority={this.props.updateHardSkillExpPriority}
+                        onUpdateHardSkillID={this.props.onUpdateHardSkillID}
+                        onUpdateHardSkillCerti={this.props.onUpdateHardSkillCerti}
+                    />
+                );
+            })
+        }
         return result;
     }
 
@@ -44,19 +44,19 @@ class HardSkillForm extends Component {
     }
 
     render() {
-        var { hardSkill, positionFormIndex } = this.props
+        var { hardSkill } = this.props
 
-        const showHardSkill = (hardSkill,positionFormIndex) => {
+        const showHardSkill = (hardSkill) => {
             if (this.state.isMinimize)
                 return ""
             else
                 return (<div className="card-body">
-                    {this.showItems(hardSkill, positionFormIndex)}
+                    {this.showItems(hardSkill)}
                     <span className="material-icons add"
-                        onClick={() => this.onAddHardSkill(positionFormIndex)}>add_box</span>
+                        onClick={this.onAddHardSkill}>add_box</span>
                 </div>)
         }
-        
+
         return (
             <div className="card">
                 <div className="card-header ">
@@ -71,7 +71,7 @@ class HardSkillForm extends Component {
                         </div>
                     </div>
                 </div>
-                {showHardSkill(hardSkill,positionFormIndex)}
+                {showHardSkill(hardSkill)}
             </div>
 
         );

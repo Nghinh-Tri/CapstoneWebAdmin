@@ -12,9 +12,9 @@ const navigation = [
         exact: false
     },
     {
-        name: 'Register',
+        name: 'Employee',
         icon: 'fa fa-registered',
-        path: '/Register',
+        path: '/employee',
         exact: true
     },
     {

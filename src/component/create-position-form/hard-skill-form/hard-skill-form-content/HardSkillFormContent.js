@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import SelectSearch from '../../select-search/SelectSearch';
+import SelectBar from '../../select-search/SelectBar';
 import { fetchHardSkill } from "../../../../service/action/HardSkillSelectBarAction";
 import { fetchCertification } from "../../../../service/action/CertificationSelectBarAction";
 import { convertSkillList, convertCertificationList } from "../../../../service/util/util";
@@ -45,7 +45,7 @@ class HardSkillFormContent extends Component {
         var { hardSkillIndex, positionFormIndex, hardSkillList, certificationList, hardSkillDetail, item } = this.props
         var hardSkillListConverted = convertSkillList(hardSkillList)
         var certificationListConverted = convertCertificationList(certificationList)
-        var {dateBegin, dateEndEst} = this.state
+        var { dateBegin, dateEndEst } = this.state
         console.log(item)
         return (
             <div className="row">
@@ -57,12 +57,12 @@ class HardSkillFormContent extends Component {
                     </label>
                 </div>
                 <div className="col-2">
-                    <SelectSearch positionFormIndex={positionFormIndex}
+                    {/* <SelectBar positionFormIndex={positionFormIndex}
                         hardSkillIndex={hardSkillIndex}
                         list={hardSkillListConverted}
                         name="hardSkillID"
                         value={hardSkillDetail.hardSkillID}
-                        onUpdateHardSkillID={this.props.onUpdateHardSkillID} />
+                        onUpdateHardSkillID={this.props.onUpdateHardSkillID} /> */}
                 </div>
                 {/* Level */}
                 <div className="col mt-15-ml-30">
@@ -71,12 +71,12 @@ class HardSkillFormContent extends Component {
                     </label>
                 </div>
                 <div className="col-2">
-                    <SelectSearch positionFormIndex={positionFormIndex}
+                    {/* <SelectBar positionFormIndex={positionFormIndex}
                         hardSkillIndex={hardSkillIndex}
                         list={hardSkillListConverted}
                         name="level"
                         value={hardSkillDetail.hardSkillLevel}
-                        onUpdateHardSkillLevel={this.props.onUpdateHardSkillLevel} />
+                        onUpdateHardSkillLevel={this.props.onUpdateHardSkillLevel} /> */}
                 </div>
 
                 {/* Exp */}
@@ -105,12 +105,12 @@ class HardSkillFormContent extends Component {
                     </label>
                 </div>
                 <div className="col-2">
-                    <SelectSearch positionFormIndex={positionFormIndex}
+                    {/* <SelectSearch positionFormIndex={positionFormIndex}
                         hardSkillIndex={hardSkillIndex}
                         list={certificationListConverted}
                         name="certiID"
                         value={hardSkillDetail.certificationID}
-                        onUpdateHardSkillCerti={this.props.onUpdateHardSkillCerti} />
+                        onUpdateHardSkillCerti={this.props.onUpdateHardSkillCerti} /> */}
                 </div>
 
                 <div className="col">

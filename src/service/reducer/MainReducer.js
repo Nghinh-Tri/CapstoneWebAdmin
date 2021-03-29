@@ -13,6 +13,8 @@ import SuggestCandidateSelect from "./SuggestCandidateSelect";
 import SuggestCandidateSelectedList from "./SuggestCandidateSelectedListReducer";
 import SkillReducer from "./SkillReducer";
 import CertificationReducer from "./CertificationReducer";
+import ProfileFetchReducer from "./ProfileFetchReducer";
+import PositionAssignReducer from "./PositionAssignReducer";
 
 const MainReducer = combineReducers({
     authentication,
@@ -27,7 +29,9 @@ const MainReducer = combineReducers({
     SuggestCandidateSelect,
     SuggestCandidateSelectedList,
     SkillReducer,
-    CertificationReducer
+    CertificationReducer,
+    ProfileFetchReducer,
+    PositionAssignReducer
 })
 
 export default MainReducer

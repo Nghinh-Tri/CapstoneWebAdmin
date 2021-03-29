@@ -50,7 +50,6 @@ class Register extends Component {
             <div className="content">
                 <div className="container-fluid">
                     <div className="row">
-                        <div className="col-md-8">
                             <div className="card">
                                 <div className="card-header card-header-primary">
                                     <h4 className="card-title">Create Emp</h4>
@@ -59,10 +58,9 @@ class Register extends Component {
                                 <div className="card-body">
                                     <form onSubmit={this.handleSubmit} >
                                         <div className="row">
-
                                             <div className="col-md-3">
                                                 <div className="form-group">
-                                                    <label className="bmd-label-floating">FulllName</label>
+                                                    <label className="bmd-label-floating">Full name</label>
                                                     <input
                                                         name="fullname"
                                                         type="text"
@@ -71,7 +69,7 @@ class Register extends Component {
                                                         onChange={this.handleInputChange}
                                                     />
                                                     {submitted && !fullname &&
-                                                        <div className="help-block">fullname is required</div>
+                                                        <div className="help-block error">Full name is required</div>
                                                     }
                                                 </div>
                                             </div>
@@ -87,7 +85,7 @@ class Register extends Component {
                                                         onChange={this.handleInputChange}
                                                     />
                                                     {submitted && !userName &&
-                                                        <div className="help-block">Username is required</div>
+                                                        <div className="help-block error">Username is required</div>
                                                     }
                                                 </div>
                                             </div>
@@ -103,7 +101,7 @@ class Register extends Component {
                                                         onChange={this.handleInputChange}
                                                     />
                                                     {submitted && !email &&
-                                                        <div className="help-block">Email is required</div>
+                                                        <div className="help-block error">Email is required</div>
                                                     }
                                                 </div>
                                             </div>
@@ -121,7 +119,7 @@ class Register extends Component {
                                                         onChange={this.handleInputChange}
                                                     />
                                                     {submitted && !identityNumber &&
-                                                        <div className="help-block">Email is required</div>
+                                                        <div className="help-block error">Identity Number is required</div>
                                                     }
                                                 </div>
                                             </div>
@@ -129,7 +127,7 @@ class Register extends Component {
                                         <div className="row">
                                             <div className="col-md-6">
                                                 <div className="form-group">
-                                                    <label className="bmd-label-floating">password</label>
+                                                    <label className="bmd-label-floating">Password</label>
                                                     <input
                                                         name="password"
                                                         type="password"
@@ -138,7 +136,7 @@ class Register extends Component {
                                                         onChange={this.handleInputChange}
                                                     />
                                                     {submitted && !password &&
-                                                        <div className="help-block">Password is required</div>
+                                                        <div className="help-block error">Password is required</div>
                                                     }
                                                 </div>
                                             </div>
@@ -154,7 +152,7 @@ class Register extends Component {
 
                                                     />
                                                     {submitted && !confirmPassword &&
-                                                        <div className="help-block">Password is required</div>
+                                                        <div className="help-block error">Confirm password is required</div>
                                                     }
                                                 </div>
                                             </div>
@@ -188,7 +186,7 @@ class Register extends Component {
                                                         onChange={this.handleInputChange}
                                                     />
                                                     {submitted && !address &&
-                                                        <div className="help-block">address is required</div>
+                                                        <div className="help-block error">Address is required</div>
                                                     }
                                                 </div>
                                             </div>
@@ -205,13 +203,11 @@ class Register extends Component {
                                                         onChange={this.handleInputChange}
                                                     />
                                                     {submitted && !phoneNumber &&
-                                                        <div className="help-block">phoneNO is required</div>
+                                                        <div className="help-block error">Phone is required</div>
                                                     }
                                                 </div>
                                             </div>
                                         </div>
-
-
                                         <button type="submit" className="btn btn-primary pull-right">Create Emp</button>
                                         <div className="clearfix" />
                                     </form>
@@ -219,7 +215,6 @@ class Register extends Component {
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
         );
     }

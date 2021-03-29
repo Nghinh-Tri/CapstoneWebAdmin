@@ -47,7 +47,6 @@ export const convertPositionList = (list) => {
         result.push({
             label: element.name,
             value: element.posID,
-            isSelect: typeof element.isSelect === 'undefined' ? false : element.isSelect
         })
     });
     return result;

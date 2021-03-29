@@ -10,23 +10,22 @@ class SelectBar extends Component {
     }
 
     onSelectPosition = (value) => {
-        var { positionFormIndex } = this.props
-        this.props.onUpdatePositionID(value, positionFormIndex)
+        this.props.onUpdatePositionID(value)
     }
 
     onSelectSoftSkill = (value) => {
-        var { positionFormIndex, softSkillIndex } = this.props
-        this.props.onUpdateSoftSkillID(value, softSkillIndex, positionFormIndex)
+        var { softSkillIndex } = this.props
+        this.props.onUpdateSoftSkillID(value, softSkillIndex)
     }
 
     onSelectLanguage = (value) => {
-        var { positionFormIndex, languageIndex } = this.props
-        this.props.onUpdateLanguageID(value, languageIndex, positionFormIndex)
+        var { languageIndex } = this.props
+        this.props.onUpdateLanguageID(value, languageIndex)
     }
 
     onSelectLanguagePriority = (value) => {
-        var { positionFormIndex, languageIndex } = this.props
-        this.props.onUpdateLanguagePriority(value, languageIndex, positionFormIndex)
+        var { languageIndex } = this.props
+        this.props.onUpdateLanguageLevel(value, languageIndex)
     }
 
     onSelectHardSkillPriority = (value) => {
@@ -75,7 +74,6 @@ class SelectBar extends Component {
                 <Select
                     showSearch
                     style={{ width: 200 }}
-                    className="softSkill"
                     placeholder="Select a position"
                     onSelect={this.onSelectPosition}
                     optionFilterProp="children"
@@ -83,13 +81,12 @@ class SelectBar extends Component {
                         option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                     }
                 >
-                    {this.showDefaultOption()}
+                    {this.showPriorityOption()}
                 </Select>)
         } else {
             return (
                 <Select value={value}
                     style={{ width: 200 }}
-                    className="softSkill"
                     showSearch
                     placeholder="Select a position"
                     onSelect={this.onSelectPosition}
@@ -98,7 +95,7 @@ class SelectBar extends Component {
                         option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                     }
                 >
-                    {this.showSelectedOption()}
+                    {this.showPriorityOption()}
                 </Select>)
         }
     }
@@ -143,7 +140,6 @@ class SelectBar extends Component {
                 <Select
                     showSearch
                     style={{ width: 200 }}
-                    className="softSkill"
                     placeholder="Select a soft skill"
                     onSelect={this.onSelectSoftSkill}
                     optionFilterProp="children"
@@ -158,7 +154,6 @@ class SelectBar extends Component {
                 <Select value={value}
                     showSearch
                     style={{ width: 200 }}
-                    className="softSkill"
                     placeholder="Select a soft skill"
                     onSelect={this.onSelectSoftSkill}
                     optionFilterProp="children"
@@ -222,8 +217,7 @@ class SelectBar extends Component {
                 <Select
                     showSearch
                     style={{ width: 200 }}
-                    className="softSkill"
-                    placeholder="Select priority"
+                    placeholder="Select level"
                     onSelect={this.onSelectLanguagePriority}
                     optionFilterProp="children"
                     filterOption={(input, option) =>
@@ -237,8 +231,7 @@ class SelectBar extends Component {
                 <Select value={value}
                     showSearch
                     style={{ width: 200 }}
-                    className="softSkill"
-                    placeholder="Select priority"
+                    placeholder="Select level"
                     onSelect={this.onSelectLanguagePriority}
                     optionFilterProp="children"
                     filterOption={(input, option) =>
@@ -422,14 +415,54 @@ class SelectBar extends Component {
         }
     }
 
+    onSelectPosLevel = (value) => {
+        this.props.onUpdatePositionLevel(value)
+    }
+
+    showPosLevel = () => {
+        var { value } = this.props
+        if (value === 0) {
+            return (
+                <Select
+                    style={{ minWidth: 250, maxWidth: 'auto' }}
+                    showSearch
+                    placeholder="Select position level"
+                    onChange={this.onSelectPosLevel}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showPriorityOption()}
+                </Select>)
+        }
+        else {
+            return (
+                <Select value={value}
+                    style={{ minWidth: 250, maxWidth: 'auto' }}
+                    showSearch
+                    placeholder="Select position level"
+                    onChange={this.onSelectPosLevel}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showPriorityOption()}
+                </Select>)
+        }
+    }
+
     showSelect = () => {
         var { name } = this.props
         switch (name) {
             case 'positionID':
                 return this.showPosition()
+            case 'posLevel':
+                return this.showPosLevel()
             case 'language':
                 return this.showLanguage()
-            case 'languagePriority':
+            case 'languageLevel':
                 return this.showLanguagePriority()
             case 'softSkillID':
                 return this.showSoftSkill()
@@ -443,6 +476,7 @@ class SelectBar extends Component {
                 return this.showSkillType()
             case 'hardSkillList':
                 return this.showHardSkillList()
+
             default:
                 break;
         }

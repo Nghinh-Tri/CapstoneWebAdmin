@@ -11,6 +11,8 @@ import Skill from "./screen/skill/Skill"
 import CreateSkills from "./screen/skill/CreateSkills"
 import Certification from "./screen/certification/Certification"
 import CreateCertification from "./screen/certification/CreateCertification"
+import EmpList from "./screen/Employees/EmpList"
+import PositionAssign from "./screen/create-user/PositionAssign"
 
 
 const route = [
@@ -47,9 +49,19 @@ const route = [
 
     },
     {
-        path: "/register",
+        path: "/employee",
+        exact: true,
+        main: () => <EmpList />
+    },
+    {
+        path: "/employee/register",
         exact: true,
         main: () => <Register />
+    },
+    {
+        path: "/employee/position-assign",
+        exact: true,
+        main: () => <PositionAssign />
     },
     {
         path: "/position",

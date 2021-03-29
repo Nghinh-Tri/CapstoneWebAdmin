@@ -230,3 +230,8 @@
   background-color: #555;
   color: white;
 }
+
+.error{
+  color: red;
+  font-weight: 600;
+}

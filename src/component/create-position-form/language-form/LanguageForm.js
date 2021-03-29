@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { fetchLanguage } from '../../../service/action/LanguageSelectBarAction';
 import LanguageFormContent from './language-form-content/LanguageFormContent';
 
 class LanguageForm extends Component {
@@ -6,32 +8,57 @@ class LanguageForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isMinimize: false
+            isMinimize: false,
+            language: {
+                langID: 0,
+                langLevel: 0
+            }
         }
     }
-// add level
 
-    onAddLanguage = (positionFormIndex) => {
-        this.props.onAddLanguage(positionFormIndex)
+    componentDidMount = () => {
+        this.props.onFetchLanguage()
     }
 
-    showItems = (language, positionFormIndex) => {
+    // add level
+    onAddLanguage = () => {
+        this.props.onAddLanguage(this.state.language)
+    }
+
+    getLanguageListNotSelect = () => {
+        var { languageList, language } = this.props
+        var listNotSelect = languageList.slice(0, languageList.length)
+        for (let i = 0; i < listNotSelect.length; i++) {
+            for (let k = 0; k < language.length; k++) {
+                if (listNotSelect[i].langID === language[k].langID) {
+                    var clone = { ...listNotSelect[i] }
+                    clone.isSelect = true
+                    listNotSelect[i] = clone
+                }
+            }
+        }
+        return listNotSelect
+    }
+
+    showItems = (language) => {
         var result = null;
-        result = language.map((item, languageIndex) => {
-            return (
-                <LanguageFormContent key={languageIndex}
-                    positionFormIndex={positionFormIndex}
-                    languageIndex={languageIndex}
-                    onDeleteLanguage={this.props.onDeleteLanguage}
-                    item={item}
-                    onUpdateLanguageID={this.props.onUpdateLanguageID}
-                    onUpdateLanguageLevel={this.props.onUpdateLanguageLevel}
-
-                />
-            );
-        })
+        var languageList = this.getLanguageListNotSelect()
+        if (typeof language !== 'undefined') {
+            result = language.map((item, languageIndex) => {
+                return (
+                    <LanguageFormContent key={languageIndex}
+                        languageIndex={languageIndex}
+                        languageList={languageList}
+                        onDeleteLanguage={this.props.onDeleteLanguage}
+                        item={item}
+                        onUpdateLanguageID={this.props.onUpdateLanguageID}
+                        onUpdateLanguageLevel={this.props.onUpdateLanguageLevel}
+                    />
+                );
+            })
+        }
         return result;
-    }
+    }    
 
     setMinimize = () => {
         this.setState({
@@ -40,16 +67,16 @@ class LanguageForm extends Component {
     }
 
     render() {
-        var { language, positionFormIndex } = this.props
+        var { language } = this.props
 
-        const showLanguage = (language, positionFormIndex) => {
+        const showLanguage = (language) => {
             if (this.state.isMinimize)
                 return ""
             else {
                 return (<div className="card-body">
-                    {this.showItems(language, positionFormIndex)}
+                    {this.showItems(language)}
                     <span className="material-icons add"
-                        onClick={() => this.onAddLanguage(positionFormIndex)}>add_box</span>
+                        onClick={() => this.onAddLanguage()}>add_box</span>
                 </div>)
             }
 
@@ -67,11 +94,24 @@ class LanguageForm extends Component {
                     </div>
 
                 </div>
-                {showLanguage(language, positionFormIndex)}
+                {showLanguage(language)}
             </div>
-
         );
     }
 }
 
-export default LanguageForm;
+const mapStateToProps = (state) => {
+    return {
+        languageList: state.LanguageSelectBarReducer
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onFetchLanguage: () => {
+            dispatch(fetchLanguage())
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LanguageForm);

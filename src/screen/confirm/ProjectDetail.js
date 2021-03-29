@@ -44,12 +44,12 @@ class ProjectDetail extends Component {
                     <div className="row pull-right">
                         <div className="col">
                             <NavLink to="/project">
-                                <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }}>Back</button>
+                                <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }}>Decline</button>
                             </NavLink>
                         </div>
                         <div className="col">
                             <div className='col' >
-                                <NavLink to={`/project/candidateList/${project.projectID}`} className='btn btn-primary pull-right'>Next</NavLink>
+                                <NavLink to={`/project/candidateList/${project.projectID}`} className='btn btn-primary pull-right' style={{ width: 110, fontWeight: 600 }}>Accept</NavLink>
                             </div>
                         </div>
                     </div>
