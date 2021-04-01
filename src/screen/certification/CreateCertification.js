@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SelectBar from '../../component/create-position-form/select-search/SelectBar';
 import { checkSession } from '../../service/action/AuthenticateAction';
-import { createCertification, generateCertification, updateCertificationName, updateCertiLevel, updateSKillId } from '../../service/action/CertificationSelectBarAction';
+import { createCertification, fetchCertificationDetail, generateCertification, updateCertificate, updateCertificationName, updateCertiLevel, updateSKillId } from '../../service/action/CertificationSelectBarAction';
 import { fetchHardSkill } from '../../service/action/HardSkillSelectBarAction';
 import { convertSkillList } from '../../service/util/util';
 
@@ -26,11 +26,27 @@ class CreateCertification extends Component {
         }
     }
 
-
     componentDidMount = () => {
         this.props.checkSession()
-        this.props.onGenerateCerti()
         this.props.onFetchHardSkill()
+
+        var { match } = this.props
+        if (typeof match !== 'undefined') {
+            this.props.fetchCertiDetail(match.params.id)
+        } else
+            this.props.onGenerateCerti()
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.certi !== prevState.certi) {
+            return { someState: nextProps.certi };
+        }
+        return null;
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.certi !== this.props.certi) {
+        }
     }
 
     handleChange = (e) => {
@@ -47,7 +63,10 @@ class CreateCertification extends Component {
 
     onSubmit = (e) => {
         e.preventDefault()
-        this.props.onCreateCertification(this.props.certi)
+        if (typeof this.props.match === 'undefined')
+            this.props.onCreateCertification(this.props.certi)
+        else
+            this.props.updateCertficate(this.props.certi)
     }
 
     render() {
@@ -55,15 +74,17 @@ class CreateCertification extends Component {
         var listConverted = convertSkillList(this.props.hardSkillList)
         return (
             <div className="card">
-                <div className="card-header">
-                    <p style={{ fontSize: 20, fontWeight: 600, color: '#9c27b0' }}>Create Certification</p>
+                <div className="card-header card-header-primary">
+                    <h4 className="card-title">
+                        {typeof this.props.match !== 'undefined' ? 'Update Certificate' : 'Create Certificate'}
+                    </h4>
                 </div>
                 <div className="card-body">
                     <form onSubmit={this.handleSubmit} >
                         <div className='row'>
                             <div className='col'>
                                 <fieldset className="form-group">
-                                    <label className="bmd-label-floating">Certification</label>
+                                    <label className={`bmd-label-${typeof this.props.match !== 'undefined' ? 'static' : 'floating'}`}>Certification</label>
                                     <input type="text"
                                         id="certificationName" name="certificationName"
                                         className="form-control"
@@ -73,7 +94,7 @@ class CreateCertification extends Component {
                             </div>
                         </div>
                         <div className='row'>
-                            <div className='col-auto' style={{  marginTop: 15 }}>
+                            <div className='col-auto' style={{ marginTop: 15 }}>
                                 <label className="bmd-label-floating">Skill</label>
                             </div>
                             <div className='col-auto' style={{ marginLeft: 30, marginTop: 10 }}>
@@ -101,7 +122,7 @@ class CreateCertification extends Component {
                         <div className="row" style={{ marginTop: 10 }}>
                             <div className='col'>
                                 <fieldset className="form-group">
-                                    <label className="bmd-label-floating">Description</label>
+                                    <label className={`bmd-label-${typeof this.props.match !== 'undefined' ? 'static' : 'floating'}`}>Description</label>
                                     <textarea type="textarea"
                                         id="description" name="description"
                                         value={certi.description}
@@ -111,7 +132,9 @@ class CreateCertification extends Component {
                                 </fieldset>
                             </div>
                         </div>
-                        <button className="btn btn-primary pull-right" onClick={this.onSubmit}>Create</button>
+                        <button className="btn btn-primary pull-right" onClick={this.onSubmit}>
+                            {typeof this.props.match !== 'undefined' ? 'Update' : 'Create'}
+                        </button>
                     </form>
                 </div>
             </div>
@@ -149,6 +172,12 @@ const mapDispatchToProps = (dispatch) => {
         },
         onCreateCertification: (certificate) => {
             dispatch(createCertification(certificate))
+        },
+        fetchCertiDetail: (certiID) => {
+            dispatch(fetchCertificationDetail(certiID))
+        },
+        updateCertficate: (certi) => {
+            dispatch(updateCertificate(certi))
         }
     }
 }

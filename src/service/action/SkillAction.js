@@ -60,7 +60,7 @@ export const updateSkill = (skill) => {
     }
 }
 
-export const changeStatus = (skillID) => {
+export const changeStatus = (skillID, pageIndex) => {
     var url = `${API_URL}/Skill/changeStatus/${skillID}`
     return (dispatch) => {
         axios.put(
@@ -69,7 +69,7 @@ export const changeStatus = (skillID) => {
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
         ).then(res => {
             if (res.status = 200) {
-                dispatch(fetchSkill(1))
+                dispatch(fetchSkill(pageIndex))
             }
         }).catch(err => {
             // if (err.response.status === 401) {

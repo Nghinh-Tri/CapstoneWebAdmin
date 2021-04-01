@@ -107,6 +107,11 @@ const route = [
         exact: true,
         main: () => <CreateCertification />
     },
+    {
+        path: "/certification/update/:id",
+        exact: true,
+        main: ({ match }) => <CreateCertification match={match} />
+    },
 ]
 
 export default route

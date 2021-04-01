@@ -17,7 +17,7 @@ class Position extends Component {
     }
 
     onChangeStatus = (posID) => {
-        this.props.changeStatus(posID)
+        this.props.changeStatus(posID, this.props.item.pageIndex)
     }
 
     onShowListPosition = (list) => {
@@ -137,8 +137,8 @@ const mapDispatchToProps = (dispatch) => {
         fetchPosittion: (pageIndex) => {
             dispatch(fetchPostionListPaging(pageIndex))
         },
-        changeStatus: posID => {
-            dispatch(changeStatusPosition(posID))
+        changeStatus: (posID, pageIndex) => {
+            dispatch(changeStatusPosition(posID, pageIndex))
         }
     }
 }

@@ -6,15 +6,6 @@ import { createSkill, fetchSkillDetail, generateSkill, updateSkill, updateSkillN
 
 class CreateSkills extends Component {
 
-    componentDidMount = () => {
-        this.props.checkSession()
-        var { match } = this.props
-        if (typeof match !== 'undefined') {
-            this.props.fetchSkillDetail(match.params.id)
-        } else
-            this.props.onGenerateSkill()
-    }
-
     constructor(props) {
         super(props);
         this.state = {
@@ -22,8 +13,16 @@ class CreateSkills extends Component {
                 { label: 'Hard Skill', value: 0 },
                 { label: 'Soft Skill', value: 1 }
             ],
-            statusList: [{ label: 'Enable', value: true }, { label: 'Disable', value: false }]
         }
+    }
+
+    componentDidMount = () => {
+        this.props.checkSession()
+        var { match } = this.props
+        if (typeof match !== 'undefined') {
+            this.props.fetchSkillDetail(match.params.id)
+        } else
+            this.props.onGenerateSkill()
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -34,8 +33,7 @@ class CreateSkills extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.position !== this.props.skill) {
-
+        if (prevProps.skill !== this.props.skill) {
         }
     }
 
@@ -49,7 +47,6 @@ class CreateSkills extends Component {
 
     onSubmit = (e) => {
         e.preventDefault()
-        console.log(typeof this.props.match === 'undefined')
         if (typeof this.props.match === 'undefined')
             this.props.createSkill(this.props.skill)
         else

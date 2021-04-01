@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { checkSession } from '../../service/action/AuthenticateAction';
-import { fetchCertificationPaging } from '../../service/action/CertificationSelectBarAction';
+import { changeStatus, fetchCertificationPaging } from '../../service/action/CertificationSelectBarAction';
 import { history } from '../../service/helper/History';
+import { showPositionSpan, showPositionStatus } from '../../service/util/util';
 
 class Certification extends Component {
 
@@ -11,17 +12,36 @@ class Certification extends Component {
         this.props.fetchCertifications(1)
     }
 
+    onChangeStatus = (certificationID) => {
+        this.props.changeStatus(certificationID, this.props.certiList.pageIndex)
+    }
+
+    onUpdate = (certificationID) => {
+        history.push(`/certification/update/${certificationID}`)
+    }
+
     onShowListCertifications = (list) => {
         var result = null
         if (list.length > 0) {
             result = list.map((item, index) => {
+                console.log(item)
                 return (
                     <tr key={index}>
                         <th className="text-center">{index + 1}</th>
-                        <th className="" style={{minWidth:250,maxWidth:250}}>{item.certificationName}</th>
-                        <th className="" style={{minWidth:250,maxWidth:250}}>{item.skillName}</th>
-                        <th className="">{item.certiLevel}</th>
-                        <th className="text-primary"><a className="text-primary" style={{ cursor: 'pointer' }}>Delete</a></th>
+                        <th className="" style={{ width: 350 }}>{item.certificationName}</th>
+                        <th className="" style={{ width: 250 }}>{item.skillName}</th>
+                        <th className="text-center">{item.certiLevel}</th>
+                        <th className="text-center" style={{ width: 150 }} >
+                            <span className={`badge badge-pill ${showPositionSpan(item.status)} span`}>
+                                {showPositionStatus(item.status)}
+                            </span>
+                        </th>
+                        <th className="text-primary">
+                            <a className="text-primary" style={{ cursor: 'pointer' }} onClick={() => this.onUpdate(item.certificationID)}>Update</a>
+                        </th>
+                        <th className="text-primary">
+                            <a className="text-primary" style={{ cursor: 'pointer' }} onClick={() => this.onChangeStatus(item.certificationID)}>Change Status</a>
+                        </th>
                     </tr>
                 )
             })
@@ -69,7 +89,8 @@ class Certification extends Component {
                                             <th className="font-weight-bold text-center">No</th>
                                             <th className="font-weight-bold" style={{ marginLeft: 20 }}>Certification</th>
                                             <th className="font-weight-bold" style={{ marginLeft: 20 }}>Skill</th>
-                                            <th className="font-weight-bold" style={{ marginLeft: 20 }}>Level</th>
+                                            <th className="font-weight-bold text-center">Level</th>
+                                            <th className="font-weight-bold text-center">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -121,6 +142,9 @@ const mapDispatchToProps = (dispatch) => {
         checkSession: () => {
             dispatch(checkSession())
         },
+        changeStatus: (certificationID, pageIndex) => {
+            dispatch(changeStatus(certificationID, pageIndex))
+        }
     }
 }
 

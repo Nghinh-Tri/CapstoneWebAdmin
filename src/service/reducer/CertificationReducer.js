@@ -28,6 +28,9 @@ const certificationSelectBarReducer = (state = initState, action) => {
             clone.certiLevel = parseInt(action.value)
             state = clone
             return state
+        case CERTIFICATION.FETCH_CERTIFICATION_DETAIL:
+            state = action.certi
+            return state
         default:
             return state;
     }

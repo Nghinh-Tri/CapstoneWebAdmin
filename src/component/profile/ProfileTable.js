@@ -30,7 +30,8 @@ class ProfileTable extends Component {
                                 </label>
                             </div>
                             <div className="col" style={{ marginLeft: 100, marginTop: -15, width: 250 }}>
-                                <Input className="form-group" value={profile.name} disabled="true" style={{ color: "black", cursor: 'default', fontWeight: 700, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
+                                <Input className="form-group" value={profile.name} disabled="true" 
+                                style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
                             </div>
                         </div>
 
@@ -42,7 +43,8 @@ class ProfileTable extends Component {
                                 </label>
                             </div>
                             <div className="col" style={{ marginLeft: 80, marginTop: -15, width: 250 }}>
-                                <Input className="form-group" value={profile.address} disabled="true" style={{ color: "black", cursor: 'default', fontWeight: 700, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
+                                <Input className="form-group" value={profile.address} disabled="true" 
+                                style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
                             </div>
                         </div>
 
@@ -54,7 +56,8 @@ class ProfileTable extends Component {
                                 </label>
                             </div>
                             <div className="col" style={{ marginLeft: 95, marginTop: -15, width: 250 }}>
-                                <Input className="form-group" value={profile.phoneNumber} disabled="true" style={{ color: "black", cursor: 'default', fontWeight: 700, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
+                                <Input className="form-group" value={profile.phoneNumber} disabled="true" 
+                                style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
                             </div>
                         </div>
 
@@ -66,7 +69,8 @@ class ProfileTable extends Component {
                                 </label>
                             </div>
                             <div className="col" style={{ marginLeft: 100, marginTop: -15, width: 250 }}>
-                                <Input className="form-group" value={profile.email} disabled="true" style={{ color: "black", cursor: 'default', fontWeight: 700, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
+                                <Input className="form-group" value={profile.email} disabled="true" 
+                                style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
                             </div>
                         </div>
 
@@ -78,7 +82,8 @@ class ProfileTable extends Component {
                                 </label>
                             </div>
                             <div className="col" style={{ marginLeft: 62, marginTop: -15, width: 250 }}>
-                                <Input className="form-group" value={profile.userName} disabled="true" style={{ color: "black", cursor: 'default', fontWeight: 700, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
+                                <Input className="form-group" value={profile.userName} disabled="true" 
+                                style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
                             </div>
                         </div>
 
@@ -90,7 +95,8 @@ class ProfileTable extends Component {
                                 </label>
                             </div>
                             <div className="col" style={{ marginLeft: 5, marginTop: -15, width: 250 }}>
-                                <Input className="form-group" value={profile.identityNumber} disabled="true" style={{ color: "black", cursor: 'default', fontWeight: 700, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
+                                <Input className="form-group" value={profile.identityNumber} disabled="true" 
+                                style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
                             </div>
                         </div>
 
@@ -102,7 +108,8 @@ class ProfileTable extends Component {
                                 </label>
                             </div>
                             <div className="col" style={{marginLeft:109, marginTop: -15, width: 250 }}>
-                                <Input className="form-group" value={profile.identityNumber} disabled="true" style={{ color: "black", cursor: 'default', fontWeight: 700, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
+                                <Input className="form-group" value={profile.identityNumber} disabled="true" 
+                                style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
                             </div>
                         </div>
                     </div>

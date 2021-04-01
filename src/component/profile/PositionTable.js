@@ -96,8 +96,8 @@ class PositionTable extends Component {
                                 <div className='col' style={{ fontWeight: 400, marginLeft: -20 }}>Basic Knowledge</div>
                             </div>
                             {/* List Certi */}
-                            <div className='row' style={{boxShadow: '0 5px 5px 0 rgb(0 0 0 / 20%)'}}>
-                                <div className='col' style={{ fontSize: 16, marginLeft: 30, marginBottom: 20, marginTop: 20 }}>
+                            <div className='row' style={{boxShadow: '0 5px 5px 0 rgb(0 0 0 / 20%)' ,marginRight:10}}>
+                                <div className='col' style={{ fontSize: 16,  marginBottom: 20, marginTop: 20 }}>
                                     <ul>
                                         <li >
                                             <div className='row'>
@@ -107,7 +107,7 @@ class PositionTable extends Component {
                                                 <div className='col-auto' style={{ marginLeft: 30, fontWeight: 400 }}>Taken Date : </div>
                                                 <div className='col-auto' style={{ marginLeft: -20, fontWeight: 350 }}>20-03-2015</div>
                                                 <div className='col-auto' style={{ marginLeft: 30, fontWeight: 400 }}>Expired Date : </div>
-                                                <div className='col' style={{ fontWeight: 350 }}>-</div>
+                                                <div className='col' style={{ fontWeight: 350 }}>20-03-201</div>
                                             </div>
                                         </li>
                                     </ul>

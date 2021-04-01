@@ -24,7 +24,7 @@ class Skill extends Component {
     }
 
     onChangeStatus = (skillID) => {
-        this.props.changeStatus(skillID)
+        this.props.changeStatus(skillID, this.props.skills.pageIndex)
     }
 
     onShowListSkills = (items) => {
@@ -35,8 +35,8 @@ class Skill extends Component {
                     <tr key={index}>
                         <th className="text-center">{index + 1}</th>
                         <th className="" style={{ minWidth: 200, maxWidth: 200 }} >{item.skillName}</th>
-                        <th style={{ fontWeight: 600 }}>{item.skillType === 0 ? 'Hard skill' : 'Soft skill'}</th>
-                        <th className="text-center" style={{width:250}} >
+                        <th style={{ fontWeight: 600, width: 200 }}>{item.skillType === 0 ? 'Hard skill' : 'Soft skill'}</th>
+                        <th className="text-center" style={{ width: 150 }} >
                             <span className={`badge badge-pill ${showPositionSpan(item.status)} span`}>
                                 {showPositionStatus(item.status)}
                             </span>
@@ -144,8 +144,8 @@ const mapDispatchToProps = (dispatch) => {
         checkSession: () => {
             dispatch(checkSession())
         },
-        changeStatus: (skillID) => {
-            dispatch(changeStatus(skillID))
+        changeStatus: (skillID, pageIndex) => {
+            dispatch(changeStatus(skillID, pageIndex))
         }
     }
 }
