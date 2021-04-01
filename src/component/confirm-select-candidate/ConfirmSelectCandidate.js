@@ -1,21 +1,11 @@
 import React, { Component } from 'react';
 import CandidateTable from '../../component/confirm-candidate/CandidateTable';
 import './ConfirmPage.css'
-import * as Action from "../../service/action/SuggestCandidateAction";
-import { connect } from 'react-redux';
-import { checkSession } from '../../service/action/AuthenticateAction';
 
 class ConfirmSelectCandidate extends Component {
 
-    componentDidMount = () => {
-        this.props.checkSession()
-        this.props.fetchSelectCandidate()
-    }
-
-
     showList = (candidateList) => {
         var result = null
-        console.log(candidateList);
         result = candidateList.map((item, index) => {
             return (<CandidateTable key={index} item={item} />)
         })
@@ -24,33 +14,18 @@ class ConfirmSelectCandidate extends Component {
 
     render() {
         var { candidateList } = this.props
+        console.log(candidateList)
         return (
-
             <div className='card mb-80'>
-                {this.showList(candidateList)}
+                <div className="card-body">
+                    {candidateList.length === 0 ?
+                        <h4 className="text-center" style={{ fontStyle: 'italic', color: 'gray' }}>No data</h4> :
+                        this.showList(candidateList)}
+                </div>
             </div>
         );
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        candidateList: state.SuggestCandidateSelectedList
-    }
-}
 
-const mapDispatchToProps = dispatch => {
-    return {
-        fetchSelectCandidate: () => {
-            dispatch(Action.fetchSelectedList())
-        },
-        confirmSuggestList: suggestList => {
-            dispatch(Action.confirmSuggestList(suggestList))
-        },
-        checkSession: () => {
-            dispatch(checkSession())
-        }
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ConfirmSelectCandidate);
+export default ConfirmSelectCandidate;

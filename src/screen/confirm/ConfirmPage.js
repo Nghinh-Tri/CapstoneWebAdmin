@@ -6,8 +6,8 @@ import ConfirmSelectCandidate from '../../component/confirm-select-candidate/Con
 import { checkSession } from '../../service/action/AuthenticateAction';
 import { NavLink } from 'react-router-dom';
 import ProgressBar from '../../component/progress-bar/ProgressBar';
-
-
+import { confirmSuggestList, fetchSelectedList } from '../../service/action/SuggestCandidateAction';
+import { convertSuggestList } from '../../service/util/util';
 
 class ConfirmPage extends Component {
 
@@ -27,15 +27,17 @@ class ConfirmPage extends Component {
     onClickMenu = (value) => {
         this.setState({ select: value })
     }
-    handleSubmit = (e) => {
-        e.preventDefault();
+
+    onConfirm = () => {
+        var item = convertSuggestList(this.props.candidateList)
+        this.props.onConfirm(item, this.props.project.projectID)
     }
 
     render() {
         var { project } = this.props
         return (
             <div>
-                  <ProgressBar step="step3" />
+                <ProgressBar step="step3" />
                 <div className='row'>
                     <div className='col-auto' style={{ marginTop: 30 }}>
                         <ul className='ul'>
@@ -49,24 +51,20 @@ class ConfirmPage extends Component {
                     </div>
 
                     <div className='col'>
-                        <div className="card">
-                            {this.state.select === 1 ?
-                                <ProjectDetailTable project={project} match={this.props.match} />
-                                :
-                                <ConfirmSelectCandidate   />
-                            }
+                        {this.state.select === 1 ?
+                            <ProjectDetailTable project={project} match={this.props.match} />
+                            :
+                            <ConfirmSelectCandidate candidateList={this.props.candidateList} />
+                        }
 
-                        </div >
                         <div className="row pull-right">
                             <div className="col">
-                                <NavLink to="/project/candidateList/:id">
+                                <NavLink to={`/project/candidateList/${project.projectID}`}>
                                     <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }}>Back</button>
                                 </NavLink>
                             </div>
                             <div className="col">
-                                <NavLink to="/confirmPage">
-                                    <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }}>confirm</button>
-                                </NavLink>
+                                <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }} onClick={this.onConfirm} >Confirm</button>
                             </div>
                         </div>
                     </div>
@@ -78,7 +76,8 @@ class ConfirmPage extends Component {
 
 const mapStateToProp = state => {
     return {
-        project: state.ProjectFetchReducer
+        project: state.ProjectFetchReducer,
+        candidateList: state.SuggestCandidateSelectedList
     }
 }
 
@@ -87,8 +86,14 @@ const mapDispatchToProp = dispatch => {
         fetchProjectDetail: projectID => {
             dispatch(Action.fetchProjectDetail(projectID))
         },
+        fetchSelectCandidate: () => {
+            dispatch(fetchSelectedList())
+        },
         checkSession: () => {
             dispatch(checkSession())
+        },
+        onConfirm: (item, projectID) => {
+            dispatch(confirmSuggestList(item, projectID))
         }
     }
 }

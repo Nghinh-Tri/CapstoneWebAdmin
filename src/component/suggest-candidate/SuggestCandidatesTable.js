@@ -24,7 +24,7 @@ class SuggestCandidates extends Component {
                 candidateSelectedList={selectedItem === null ? null : selectedItem.candidateSelect}
             />)
         })
-        
+
         return result
     }
 
@@ -52,8 +52,11 @@ class SuggestCandidates extends Component {
                                         <thead className=" text-primary">
                                             <tr>
                                                 <th className="font-weight-bold text-center">No</th>
-                                                <th className="font-weight-bold text-center">Name</th>
-                                                <th className="font-weight-bold text-center">GET</th>
+                                                <th className="font-weight-bold">Name</th>
+                                                <th className="font-weight-bold">Phone</th>
+                                                <th className="font-weight-bold">Email</th>
+                                                <th className="font-weight-bold">Number of project has joined</th>
+                                                <th className="font-weight-bold">GET</th>
                                             </tr>
                                         </thead>
                                         <tbody>

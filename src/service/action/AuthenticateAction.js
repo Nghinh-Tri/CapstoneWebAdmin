@@ -15,7 +15,6 @@ export const checkSession = () => {
     })
     var now = moment().format("DD/MM/YYYY HH:mm:ss")
     var diff = moment(time, "DD/MM/YYYY HH:mm:ss").diff(moment(now, "DD/MM/YYYY HH:mm:ss"))
-    console.log(diff)
     return (dispatch) => {
         if (diff <= 0) {
             localStorage.clear()

@@ -11,9 +11,9 @@ class ListCandidate extends Component {
 
     componentDidMount = () => {
         this.props.checkSession()
-        var {match} = this.props
+        var { match } = this.props
         this.props.fetchSuggestCandidateList(match.params.id)
-        
+
     }
 
     onSelected = (index) => {
@@ -34,11 +34,11 @@ class ListCandidate extends Component {
     }
 
     selectCandidate = (candidate, posName, posID) => {
-        this.props.selectCandidate(candidate,  posName, posID)
+        this.props.selectCandidate(candidate, posName.trim(), posID)
     }
 
     unselectCandidate = (candidate, posName) => {
-        this.props.unSelectCandidate(candidate, posName)
+        this.props.unSelectCandidate(candidate, posName.trim())
     }
 
     getSelectedCandidateList = (suggestCandidateItem, selecedCandidateList) => {
@@ -48,8 +48,6 @@ class ListCandidate extends Component {
         }
         return null
     }
-
-    
 
     render() {
         var { suggestCandidateList, selectedIndex, candidateSelectedList } = this.props
@@ -71,7 +69,7 @@ class ListCandidate extends Component {
                                 selectedItem={this.getSelectedCandidateList(suggestCandidateList[selectedIndex], candidateSelectedList)}
                                 onUnselectCandidate={this.unselectCandidate}
                             />
-                             :
+                            :
                             ''
                         }
                     </div>
@@ -79,18 +77,13 @@ class ListCandidate extends Component {
 
                 <div className="row pull-right">
                     <div className="col">
-                        <NavLink to="/project/confirm/:id">
-                            <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }}>Back</button>
-                        </NavLink>
-                    </div>
-                    <div className="col">
-                        <NavLink to="/confirmPage">
+                        <NavLink to="/project/confirm">
                             <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }}>Next</button>
                         </NavLink>
                     </div>
                 </div>
 
-              
+
             </div>
         );
     }
@@ -107,7 +100,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         selectCandidate: (candidate, posName, posID) => {
-            dispatch(Action.selectCandidate(candidate,  posName, posID))
+            dispatch(Action.selectCandidate(candidate, posName, posID))
         },
         unSelectCandidate: (candidate, posName) => {
             dispatch(Action.unselectCandiate(candidate, posName))

@@ -15,7 +15,10 @@ class CreateSkills extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            type: [{ value: 0, label: 'Hard Skill' }, { value: 0, label: 'Soft Skill' }]
+            type: [
+                { label: 'Hard Skill', value: 0 },
+                { label: 'Soft Skill', value: 1 }
+            ]
         }
     }
 
@@ -56,10 +59,13 @@ class CreateSkills extends Component {
                                 </fieldset>
                             </div>
                             <div className='col-auto' style={{ marginLeft: 30, marginTop: 15 }}>
-                                <label className="bmd-label-floating">Description</label>
+                                <label className="bmd-label-floating">Skill Type</label>
                             </div>
                             <div className='col' style={{ marginLeft: 30, marginTop: 10 }}>
                                 <SelectBar name='skillType'
+                                    type="special"
+                                    placeholder="Select skill type"
+                                    list={this.state.type}
                                     onSelectSkillType={this.onSelect}
                                     value={result.skillType}
                                 />

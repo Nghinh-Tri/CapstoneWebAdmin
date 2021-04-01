@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import SelectBar from '../../component/create-position-form/select-search/SelectBar';
 import * as Action from "../../service/action/PositionAssignAction";
 import { fetchPostionList } from '../../service/action/PositionSelectBarAction';
+import { checkSession } from '../../service/action/AuthenticateAction';
 import { convertPositionList } from '../../service/util/util';
 import LanguageForm from "../../component/create-position-form/language-form/LanguageForm";
 import SoftSkillForm from "../../component/create-position-form/soft-skill-form/SoftSkillForm";
@@ -31,6 +32,7 @@ class PositionAssign extends Component {
     }
 
     componentDidMount = () => {
+        this.props.checkSession()
         this.props.onGeneratePotitionAssign(this.state.positionInfo)
         this.props.onFetchPosition()
     }
@@ -75,67 +77,117 @@ class PositionAssign extends Component {
         this.props.onAddHardSkill(hardSkill)
     }
 
+    onDeleteHardSkill = (index) => {
+        this.props.onDeleteHardSkill(index)
+    }
+
+    onUpdateHardSkillID = (value, hardSkillIndex) => {
+        this.props.onUpdateHardSkillID(value, hardSkillIndex)
+    }
+
+    onUpdateHardSkillLevel = (value, hardSkillIndex) => {
+        this.props.onUpdateHardSkillLevel(value, hardSkillIndex)
+    }
+
+    onAddCertificate = (hardSkillIndex, certificate) => {
+        this.props.onAddCertificate(hardSkillIndex, certificate)
+    }
+
+    onDeleteCertificate = (certificateIndex, hardSkillIndex) => {
+        this.props.onDeleteCertificate(certificateIndex, hardSkillIndex)
+    }
+
+    onUpdateCertficateID = (value, certificateIndex, hardSkillIndex) => {
+        this.props.onUpdateCertficateID(value, certificateIndex, hardSkillIndex)
+    }
+
+    onUpdateCertificateDate = (name, value, certificateIndex, hardSkillIndex) => {
+        this.props.onUpdateCertificateDate(name, value, certificateIndex, hardSkillIndex)
+    }
+
+    onAssignPosition = (e) => {
+        e.preventDefault()
+    }
+
     render() {
         var { item, positionList } = this.props
         var listConverted = convertPositionList(positionList)
-        console.log(item)
+        console.log('Position Assign', item)
         return (
-            <div className="card mb-50" style={{ marginRight: 20 }}>
-                <div className="card-body">
-                    <div className="form-group">
-                        <div className="row">
-                            {/* Position */}
-                            <div className="col-1" style={{ marginLeft: 20, marginTop: 20, }}>
-                                <label className="bmd-label  ">
-                                    <h4 className="font-weight-bold">
-                                        Position
+            <div>
+                <div className="card mb-50" style={{ marginRight: 20 }}>
+                    <div className="card-header card-header-primary">
+                        <h4 className="card-title">Assign Position</h4>
+                    </div>
+                    <div className="card-body">
+                        <div className="form-group">
+                            <div className="row">
+                                {/* Position */}
+                                <div className="col-1" style={{ marginLeft: 20, marginTop: 20, }}>
+                                    <label className="bmd-label  ">
+                                        <h4 className="font-weight-bold">
+                                            Position
                                 </h4>
-                                </label>
-                            </div>
-                            {/* Select Bar */}
-                            <div className="col" style={{ marginLeft: 20, marginTop: 15 }}>
-                                <SelectBar
-                                    list={listConverted}
-                                    onUpdatePositionID={this.onUpdatePositionID}
-                                    name="positionID"
-                                    value={item.posID}
-                                />
-                            </div>
-                            {/* Position Level */}
-                            <div className="col-auto" style={{ marginLeft: 20, marginTop: 20, }}>
-                                <label className="bmd-label ">
-                                    <h4 className="font-weight-bold ">
-                                        Position Level
+                                    </label>
+                                </div>
+                                {/* Select Bar */}
+                                <div className="col" style={{ marginLeft: 20, marginTop: 15 }}>
+                                    <SelectBar
+                                        name="positionID"
+                                        type='common'
+                                        placeholder="Select position"
+                                        list={listConverted}
+                                        onUpdatePositionID={this.onUpdatePositionID}
+                                        value={item.posID}
+                                    />
+                                </div>
+                                {/* Position Level */}
+                                <div className="col-auto" style={{ marginLeft: 20, marginTop: 20, }}>
+                                    <label className="bmd-label ">
+                                        <h4 className="font-weight-bold ">
+                                            Position Level
                                     </h4>
-                                </label>
+                                    </label>
+                                </div>
+                                <div className="col" style={{ marginLeft: 20, marginTop: 15 }}>
+                                    <SelectBar name="posLevel"
+                                        type='common'
+                                        placeholder="Select position level"
+                                        list={this.state.posLevel}
+                                        onUpdatePositionLevel={this.onUpdatePositionLevel}
+                                        value={item.posLevel}
+                                    />
+                                </div>
                             </div>
-                            <div className="col" style={{ marginLeft: 20, marginTop: 16 }}>
-                                <SelectBar
-                                    list={this.state.posLevel}
-                                    onUpdatePositionLevel={this.onUpdatePositionLevel}
-                                    name="posLevel"
-                                    value={item.posLevel}
-                                />
-                            </div>
+
+                            <LanguageForm language={item.languages}
+                                onAddLanguage={this.onAddLanguage}
+                                onDeleteLanguage={this.onDeleteLanguage}
+                                onUpdateLanguageID={this.onUpdateLanguageID}
+                                onUpdateLanguageLevel={this.onUpdateLanguageLevel} />
+
+                            <SoftSkillForm softSkill={item.softSkills}
+                                onAddSoftSkill={this.onAddSoftSkill}
+                                onDeleteSoftSkill={this.onDeleteSoftSkill}
+                                onUpdateSoftSkillID={this.onUpdateSoftSkillID} />
+
+                            <HardSkillForm hardSkill={item.hardSkills}
+                                onAddHardSkill={this.onAddHardSkill}
+                                onDeleteHardSkill={this.onDeleteHardSkill}
+                                onUpdateHardSkillID={this.onUpdateHardSkillID}
+                                onUpdateHardSkillLevel={this.onUpdateHardSkillLevel}
+
+                                //Certi
+                                onAddCertificate={this.onAddCertificate}
+                                onDeleteCertificate={this.onDeleteCertificate}
+                                onUpdateCertficateID={this.onUpdateCertficateID}
+                                onUpdateCertificateDate={this.onUpdateCertificateDate}
+                            />
+
                         </div>
-
-                        <LanguageForm language={item.languages}
-                            onAddLanguage={this.onAddLanguage}
-                            onDeleteLanguage={this.onDeleteLanguage}
-                            onUpdateLanguageID={this.onUpdateLanguageID}
-                            onUpdateLanguageLevel={this.onUpdateLanguageLevel} />
-
-                        <SoftSkillForm softSkill={item.softSkills}
-                            onAddSoftSkill={this.onAddSoftSkill}
-                            onDeleteSoftSkill={this.onDeleteSoftSkill}
-                            onUpdateSoftSkillID={this.onUpdateSoftSkillID} />
-
-                        <HardSkillForm hardSkill={item.hardSkills}
-                            onAddHardSkill={this.onAddHardSkill}
-                        />
-
                     </div>
                 </div>
+                <button type="submit" className="btn btn-primary pull-right" style={{ fontWeight: 700, marginTop: -25, marginRight: 25 }} onClick={this.onAssignPosition} >Assign</button>
             </div>
         );
     }
@@ -150,6 +202,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        checkSession: () => {
+            dispatch(checkSession())
+        },
         onGeneratePotitionAssign: item => {
             dispatch(Action.generatePositionAssign(item))
         },
@@ -185,6 +240,30 @@ const mapDispatchToProps = dispatch => {
         },
         onAddHardSkill: hardSkill => {
             dispatch(Action.addHardSkill(hardSkill))
+        },
+        onDeleteHardSkill: index => {
+            dispatch(Action.deleteHardSkill(index))
+        },
+        onUpdateHardSkillID: (value, hardSkillIndex) => {
+            dispatch(Action.updateHardSkillID(value, hardSkillIndex))
+        },
+        onUpdateHardSkillLevel: (value, hardSkillIndex) => {
+            dispatch(Action.updateHardSkillLevel(value, hardSkillIndex))
+        },
+        onAddCertificate: (hardSkillIndex, certificate) => {
+            dispatch(Action.addCertificate(hardSkillIndex, certificate))
+        },
+        onDeleteCertificate: (certificateIndex, hardSkillIndex) => {
+            dispatch(Action.deleteCertificate(certificateIndex, hardSkillIndex))
+        },
+        onUpdateCertficateID: (value, certificateIndex, hardSkillIndex) => {
+            dispatch(Action.updateCertificateID(value, certificateIndex, hardSkillIndex))
+        },
+        onUpdateCertificateDate: (name, value, certificateIndex, hardSkillIndex) => {
+            dispatch(Action.updateCertificateDate(name, value, certificateIndex, hardSkillIndex))
+        },
+        onAssignPosition: (empID, item) => {
+            dispatch(Action.assignPosition(empID,item))
         }
     }
 }

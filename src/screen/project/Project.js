@@ -50,6 +50,7 @@ class Project extends Component {
 
     render() {
         var { projects } = this.props
+        console.log(projects)
         return (
             <div className="container-fluid">
                 <div className="row">
@@ -61,11 +62,11 @@ class Project extends Component {
 
                                         <div className="table-responsive">
                                             <table className="table">
-                                                <thead className=" text-primary">
+                                                <thead className="text-primary">
                                                     <tr>
                                                         <th className="font-weight-bold text-center">No</th>
-                                                        <th className="font-weight-bold text-center">Project Name</th>
-                                                        <th className="font-weight-bold text-center">Project Manager Name</th>
+                                                        <th className="font-weight-bold">Project Name</th>
+                                                        <th className="font-weight-bold">Project Manager Name</th>
                                                         <th className="font-weight-bold text-center">Status</th>
                                                         <th className="font-weight-bold text-center"></th>
                                                     </tr>

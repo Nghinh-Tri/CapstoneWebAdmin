@@ -4,48 +4,7 @@ import React, { Component } from 'react';
 
 class SelectBar extends Component {
 
-    onSelectHardSkill = (value) => {
-        var { positionFormIndex, hardSkillIndex } = this.props
-        this.props.onUpdateHardSkillID(value, hardSkillIndex, positionFormIndex)
-    }
-
-    onSelectPosition = (value) => {
-        this.props.onUpdatePositionID(value)
-    }
-
-    onSelectSoftSkill = (value) => {
-        var { softSkillIndex } = this.props
-        this.props.onUpdateSoftSkillID(value, softSkillIndex)
-    }
-
-    onSelectLanguage = (value) => {
-        var { languageIndex } = this.props
-        this.props.onUpdateLanguageID(value, languageIndex)
-    }
-
-    onSelectLanguagePriority = (value) => {
-        var { languageIndex } = this.props
-        this.props.onUpdateLanguageLevel(value, languageIndex)
-    }
-
-    onSelectHardSkillPriority = (value) => {
-        var { positionFormIndex, hardSkillIndex } = this.props
-        this.props.onUpdateHardSkillPriority(value, hardSkillIndex, positionFormIndex)
-    }
-
-    onSelectCertificateLevel = (value) => {
-        this.props.onUpdateCerti(value)
-    }
-
-    onSelectLanguageLevel = (value) => {
-        var { positionFormIndex, languageIndex } = this.props
-        this.props.onUpdateHardSkillCerti(value, languageIndex, positionFormIndex)
-    }
-
-    onSelectSkillType = (value) => {
-        this.props.onSelectSkillType(value)
-    }
-
+    //importantt
     showDefaultOption = () => {
         var { list } = this.props
         var list = this.getUnSelectedList(list)
@@ -56,6 +15,7 @@ class SelectBar extends Component {
         return result
     }
 
+    //importantt
     showSelectedOption = () => {
         var { list, value } = this.props
         var list = this.getSelectedList(value, list)
@@ -67,421 +27,185 @@ class SelectBar extends Component {
         return result
     }
 
-    showPosition = () => {
-        var { value } = this.props
-        if (value === 0) {
-            return (
-                <Select
-                    showSearch
-                    style={{ width: 200 }}
-                    placeholder="Select a position"
-                    onSelect={this.onSelectPosition}
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                    }
-                >
-                    {this.showPriorityOption()}
-                </Select>)
-        } else {
-            return (
-                <Select value={value}
-                    style={{ width: 200 }}
-                    showSearch
-                    placeholder="Select a position"
-                    onSelect={this.onSelectPosition}
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                    }
-                >
-                    {this.showPriorityOption()}
-                </Select>)
-        }
-    }
-
-    showHardSkill = () => {
-        var { value } = this.props
-        if (value === 0) {
-            return (
-                <Select
-                    showSearch
-                    style={{ width: 150 }}
-                    placeholder="Select a hard skill"
-                    onSelect={this.onSelectHardSkill}
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                    }
-                >
-                    {this.showDefaultOption()}
-                </Select>)
-        } else {
-            return (
-                <Select value={value}
-                    style={{ width: 150 }}
-                    showSearch
-                    placeholder="Select a hard skill"
-                    onSelect={this.onSelectHardSkill}
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                    }
-                >
-                    {this.showSelectedOption()}
-                </Select>)
-        }
-    }
-
-    showSoftSkill = () => {
-        var { value } = this.props
-        if (value === 0) {
-            return (
-                <Select
-                    showSearch
-                    style={{ width: 200 }}
-                    placeholder="Select a soft skill"
-                    onSelect={this.onSelectSoftSkill}
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                    }
-                >
-                    {this.showDefaultOption()}
-                </Select>)
-        } else {
-            return (
-                <Select value={value}
-                    showSearch
-                    style={{ width: 200 }}
-                    placeholder="Select a soft skill"
-                    onSelect={this.onSelectSoftSkill}
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                    }
-                >
-                    {this.showSelectedOption()}
-                </Select>)
-        }
-    }
-
-    showLanguage = () => {
-        var { value } = this.props
-        if (value === 0) {
-            return (
-                <Select
-                    showSearch
-                    style={{ width: 200 }}
-                    className="softSkill"
-                    placeholder="Select a language"
-                    onSelect={this.onSelectLanguage}
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                    }
-                >
-                    {this.showDefaultOption()}
-                </Select>)
-        } else {
-            return (
-                <Select value={value}
-                    showSearch
-                    style={{ width: 200 }}
-                    className="softSkill"
-                    placeholder="Select a language"
-                    onSelect={this.onSelectLanguage}
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                    }
-                >
-                    {this.showSelectedOption()}
-                </Select>)
-        }
-    }
-
-    showPriorityOption = () => {
+    //important
+    showCommonOption = () => {
         var { list } = this.props
         var result = null
         result = list.map((item, index) => {
             return (<Option key={index} value={item.value}>{item.label}</Option>)
         })
         return result
-    }
+    }   
 
-    showLanguagePriority = () => {
-        var { value } = this.props
-        if (value === 0) {
-            return (
-                <Select
-                    showSearch
-                    style={{ width: 200 }}
-                    placeholder="Select level"
-                    onSelect={this.onSelectLanguagePriority}
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                    }
-                >
-                    {this.showPriorityOption()}
-                </Select>)
-        } else {
-            return (
-                <Select value={value}
-                    showSearch
-                    style={{ width: 200 }}
-                    placeholder="Select level"
-                    onSelect={this.onSelectLanguagePriority}
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                    }
-                >
-                    {this.showPriorityOption()}
-                </Select>)
-        }
-    }
-
-    showHardSkillPriority = () => {
-        var { value } = this.props
-        if (value === 0) {
-            return (
-                <Select
-                    style={{ width: 140 }}
-                    showSearch
-                    placeholder="Select priority"
-                    onSelect={this.onSelectHardSkillPriority}
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                    }
-                >
-                    {this.showPriorityOption()}
-                </Select>)
-        } else {
-            return (
-                <Select value={value}
-                    style={{ width: 140 }}
-
-                    showSearch
-                    placeholder="Select priority"
-                    onSelect={this.onSelectHardSkillPriority}
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                    }
-                >
-                    {this.showPriorityOption()}
-                </Select>)
-        }
-    }
-
-    showCertificateLevel = () => {
-        var { value } = this.props
-        if (value === -1) {
-            return (
-                <Select
-                    style={{ width: 180 }}
-                    showSearch
-                    placeholder="Select certificate level"
-                    onSelect={this.onSelectCertificateLevel}
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                    }
-                >
-                    {this.showPriorityOption()}
-                </Select>)
-        } else {
-            return (
-                <Select value={value}
-                    style={{ width: 180 }}
-                    showSearch
-                    placeholder="Select priority"
-                    onSelect={this.onSelectCertificateLevel}
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                    }
-                >
-                    {this.showPriorityOption()}
-                </Select>)
-        }
-    }
-
-    showLangLevel = () => {
-        var { value } = this.props
-        if (value === -1) {
-            return (
-                <Select
-                    style={{ width: 180 }}
-                    showSearch
-                    placeholder="Select language level"
-                    onSelect={this.onSelectLanguageLevelLevel}
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                    }
-                >
-                    {this.showPriorityOption()}
-                </Select>)
-        } else {
-            return (
-                <Select value={value}
-                    style={{ width: 180 }}
-                    showSearch
-                    placeholder="Select priority"
-                    onSelect={this.onSelectLanguageLevel}
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                    }
-                >
-                    {this.showPriorityOption()}
-                </Select>)
-        }
-    }
-
-    showSkillType = () => {
-        var { value } = this.props
-        if (value === -1) {
-            return (
-                <Select
-                    style={{ width: 250 }}
-                    showSearch
-                    placeholder="Select Skill type"
-                    onSelect={this.onSelectSkillType}
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                    }
-                >
-                    <Option value='0'>Hard Skill</Option>
-                    <Option value='1'>Soft Skill</Option>
-                </Select>)
-        } else {
-            return (
-                <Select value={value}
-                    style={{ width: 250 }}
-                    showSearch
-                    placeholder="Select Skill type"
-                    onSelect={this.onSelectSkillType}
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                    }
-                >
-                    <Option value='0'>Hard Skill</Option>
-                    <Option value='1'>Soft Skill</Option>
-                </Select>)
-        }
-    }
-
-    onSelectSkill = (value) => {
-        this.props.onSelectSkill(value)
-    }
-
-    showHardSkillList = () => {
-        var { value } = this.props
-        if (value === 0) {
-            return (
-                <Select
-                    style={{ width: 180 }}
-                    showSearch
-                    placeholder="Select skill"
-                    onSelect={this.onSelectSkill}
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                    }
-                >
-                    {this.showPriorityOption()}
-                </Select>)
-        } else {
-            return (
-                <Select value={value}
-                    style={{ width: 180 }}
-                    showSearch
-                    placeholder="Select skill"
-                    onSelect={this.onSelectSkill}
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                    }
-                >
-                    {this.showPriorityOption()}
-                </Select>)
-        }
-    }
-
-    onSelectPosLevel = (value) => {
-        this.props.onUpdatePositionLevel(value)
-    }
-
-    showPosLevel = () => {
-        var { value } = this.props
-        if (value === 0) {
-            return (
-                <Select
-                    style={{ minWidth: 250, maxWidth: 'auto' }}
-                    showSearch
-                    placeholder="Select position level"
-                    onChange={this.onSelectPosLevel}
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                    }
-                >
-                    {this.showPriorityOption()}
-                </Select>)
-        }
-        else {
-            return (
-                <Select value={value}
-                    style={{ minWidth: 250, maxWidth: 'auto' }}
-                    showSearch
-                    placeholder="Select position level"
-                    onChange={this.onSelectPosLevel}
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                    }
-                >
-                    {this.showPriorityOption()}
-                </Select>)
-        }
-    }
-
+    //important
     showSelect = () => {
+        var { type } = this.props
+        switch (type) {
+            case 'unique':
+                return this.showUnique()
+            case 'common':
+                return this.showCommon()
+            case 'special':
+                return this.showSpecial()
+        }
+    }
+    //important
+    showUnique = () => {
+        var { value } = this.props
+        if (value === 0) {
+            return (
+                <Select
+                    showSearch
+                    style={{ width: 250 }}
+                    placeholder={this.props.placeholder}
+                    onSelect={this.onSelectUnique}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showDefaultOption()}
+                </Select>)
+        } else {
+            return (
+                <Select value={value}
+                    style={{ width: 250 }}
+                    showSearch
+                    placeholder={this.props.placeholder}
+                    onSelect={this.onSelectUnique}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showSelectedOption()}
+                </Select>)
+        }
+    }
+
+    //important
+    showCommon = () => {
+        var { value } = this.props
+        if (value === 0) {
+            return (
+                <Select
+                    showSearch
+                    style={{ width: 250 }}
+                    placeholder={this.props.placeholder}
+                    onSelect={this.onSelectCommon}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showCommonOption()}
+                </Select>)
+        } else {
+            return (
+                <Select value={value}
+                    style={{ width: 250 }}
+                    showSearch
+                    placeholder={this.props.placeholder}
+                    onSelect={this.onSelectCommon}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showCommonOption()}
+                </Select>)
+        }
+    }
+
+    //important
+    showSpecial = () => {
+        var { value } = this.props
+        if (value === -1) {
+            return (
+                <Select
+                    showSearch
+                    style={{ width: 250 }}
+                    placeholder={this.props.placeholder}
+                    onSelect={this.onSelectSpecial}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showCommonOption()}
+                </Select>)
+        } else {
+            return (
+                <Select value={value}
+                    style={{ width: 250 }}
+                    showSearch
+                    placeholder={this.props.placeholder}
+                    onSelect={this.onSelectSpecial}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showCommonOption()}
+                </Select>)
+        }
+    }
+
+    //important
+    onSelectCommon = (value) => {
         var { name } = this.props
         switch (name) {
             case 'positionID':
-                return this.showPosition()
+                this.props.onUpdatePositionID(value)
+                break
             case 'posLevel':
-                return this.showPosLevel()
-            case 'language':
-                return this.showLanguage()
+                this.props.onUpdatePositionLevel(value)
+                break
             case 'languageLevel':
-                return this.showLanguagePriority()
-            case 'softSkillID':
-                return this.showSoftSkill()
-            case 'hardSkill':
-                return this.showHardSkill()
-            case 'hardSkillPriority':
-                return this.showHardSkillPriority()
-            case 'certiLevel':
-                return this.showCertificateLevel()
-            case 'skillType':
-                return this.showSkillType()
+                this.props.onUpdateLanguageLevel(value, this.props.languageIndex)
+                break
+            case 'skillLevel':
+                this.props.onUpdateHardSkillLevel(value, this.props.hardSkillIndex)
+                break
             case 'hardSkillList':
-                return this.showHardSkillList()
-
-            default:
-                break;
+                this.props.onSelectSkill(value)
+                break
+            case 'certiLevel':
+                this.props.onUpdateCerti(value)
+                break
         }
     }
 
+    //important
+    onSelectUnique = (value) => {
+        var { name } = this.props
+        switch (name) {
+            case 'softSkillID':
+                this.props.onUpdateSoftSkillID(value, this.props.softSkillIndex)
+                break
+            case 'language':
+                this.props.onUpdateLanguageID(value, this.props.languageIndex)
+                break
+            case 'hardSkill':
+                this.props.onUpdateHardSkillID(value, this.props.hardSkillIndex)
+                break
+            case 'certificateID':
+                this.props.onUpdateCertficateID(value, this.props.certificateIndex, this.props.hardSkillIndex)
+                break
+        }
+    }
+
+    //important
+    onSelectSpecial = (value) => {
+        var { name } = this.props
+        switch (name) {
+            case 'skillType':
+                this.props.onSelectSkillType(value)
+                break
+        }
+    }
+
+    //important
     getUnSelectedList = (list) => {
         var result = []
         for (let index = 0; index < list.length; index++) {
@@ -491,6 +215,7 @@ class SelectBar extends Component {
         return result
     }
 
+    //important
     getSelectedList = (value, list) => {
         var result = []
         for (let index = 0; index < list.length; index++) {
@@ -500,6 +225,7 @@ class SelectBar extends Component {
         return result
     }
 
+    //important
     render() {
         return (
             <div>

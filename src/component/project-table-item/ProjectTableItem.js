@@ -6,12 +6,13 @@ class ProjectTableItem extends Component {
 
     onHandle = () => {
         var { project } = this.props
-        var url = `/project/confirm/${project.projectID}`
-        if(project.status === 0){
-            console.log(url)
+        var url = `/project/detail/${project.projectID}`
+        var confirmUrl = `/project/confirm/${project.projectID}`
+        if (project.status === 0 || project.isAddNewCandidate) {
+            history.push(confirmUrl)
+        } else {
             history.push(url)
         }
-
     }
 
     render() {
@@ -19,15 +20,15 @@ class ProjectTableItem extends Component {
         return (
             <tr>
                 <th className="text-center">{index + 1}</th>
-                <th className="text-center">{project.projectName}</th>
-                <th className="text-center">{project.name}</th>
+                <th className="">{project.projectName}</th>
+                <th className="">{project.name}</th>
                 <th className="text-center">
                     <span className={`badge badge-pill ${showSpan(project.status)} span`}>
                         {showStatus(project.status)}
                     </span>
                 </th>
                 <th className="text-center">
-                    <a onClick={this.onHandle} style={{cursor:'pointer'}}>
+                    <a onClick={this.onHandle} style={{ cursor: 'pointer' }}>
                         Detail
                     </a>
                 </th>
@@ -35,5 +36,6 @@ class ProjectTableItem extends Component {
         );
     }
 }
+
 
 export default ProjectTableItem;

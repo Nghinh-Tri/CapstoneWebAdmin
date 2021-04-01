@@ -1,5 +1,5 @@
 import Register from "./screen/create-user/Register"
-import ProjectDetail from "./screen/confirm/ProjectDetail"
+import ProjectDetail from "./screen/project/ProjectDetail"
 import ListCandidate from "./screen/confirm/ListCandidate"
 import ConfirmPage from "./screen/confirm/ConfirmPage"
 import Dashboard from "./screen/dashboard/Dashboard"
@@ -13,6 +13,7 @@ import Certification from "./screen/certification/Certification"
 import CreateCertification from "./screen/certification/CreateCertification"
 import EmpList from "./screen/Employees/EmpList"
 import PositionAssign from "./screen/create-user/PositionAssign"
+import ConfirmProjectDetail from "./screen/confirm/ConfirmProjectDetail"
 
 
 const route = [
@@ -29,7 +30,7 @@ const route = [
     {
         path: '/project/detail/:id',
         exact: true,
-        main: ({ match }) => <Profile match={match} />
+        main: ({ match }) => <ProjectDetail match={match} />
     },
     {
         path: "/project/candidateList/:id",
@@ -39,19 +40,22 @@ const route = [
     {
         path: "/project/confirm/:id",
         exact: true,
-        main: ({ match }) => <ProjectDetail match={match} />
+        main: ({ match }) => <ConfirmProjectDetail match={match} />
     },
-
     {
-        path: "/confirmPage",
+        path: "/project/confirm",
         exact: true,
         main: ({ match }) => <ConfirmPage match={match} />
-
     },
     {
         path: "/employee",
         exact: true,
         main: () => <EmpList />
+    },
+    {
+        path: "/employee/profile/:id",
+        exact: true,
+        main: ({ match }) => <Profile match={match} />
     },
     {
         path: "/employee/register",

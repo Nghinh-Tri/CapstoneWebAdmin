@@ -4,8 +4,8 @@ import { API_URL } from "../util/util";
 import { store } from "react-notifications-component";
 import { history } from "../helper/History";
 
-export const fetchCertification = () => {
-    var url = `${API_URL}/Certification/getCertifications`
+export const fetchCertification = (hardSkillID) => {
+    var url = `${API_URL}/Certification/getCertifications/${hardSkillID}`
     return (dispatch) => {
         axios.get(
             url,

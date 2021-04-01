@@ -1,6 +1,6 @@
 import axios from "axios";
-import { Type } from "../constant";
-import { API_URL, callAPI } from "../util/util";
+import { Type, alertConstants } from "../constant";
+import { API_URL } from "../util/util";
 import { history } from "../helper/History";
 
 export const generateProject = (project) => {
@@ -34,7 +34,6 @@ export const fetchProjectDetail = (projectID) => {
     var url = `${API_URL}/Project/${projectID}`
     return (dispatch) => {
         return axios.get(url, { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }).then(res => {
-            console.log(res)
             dispatch(fetchProjectDetailSuccess(res.data.resultObj))
         })
     }
@@ -66,4 +65,27 @@ export const updateProjectSuccess = (resultObj) => {
     }
 }
 
+export const declineProject = projectID => {
+    var url = `${API_URL}/Project/${projectID}`
+    return (dispatch) => {
+        return axios.delete(
+            url,
+            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }).
+            then(res => {
+                console.log(res.data)
+                if (res.data.isSuccessed)
+                    dispatch(declineProjectSuccess())
+            }).catch(err => {
+                dispatch(declineProjectFail())
+            })
+    }
+}
 
+export const declineProjectSuccess = () => {
+    history.push('/project')
+    return { type: Type.DECLINE_PROJECT }
+}
+
+export const declineProjectFail = () => {
+    return { type: alertConstants.ERROR }
+}

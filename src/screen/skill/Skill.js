@@ -25,7 +25,7 @@ class Skill extends Component {
                 return (
                     <tr key={index}>
                         <th className="text-center">{index + 1}</th>
-                        <th className="">{item.skillName}</th>
+                        <th className="" style={{minWidth:200, maxWidth:200}} >{item.skillName}</th>
                         <th className="">{item.skillType === 0 ? 'Hard skill' : 'Soft skill'}</th>
                         <th className="text-primary"><a className="text-primary" style={{ cursor: 'pointer' }}>Delete</a></th>
                     </tr>
@@ -66,7 +66,7 @@ class Skill extends Component {
                     onClick={this.onHandle}
                 >
                     <i className="material-icons mr-5">add_box</i>
-                        Create New Skills
+                        Create New Skill
                 </button>
                 <div className="row">
                     <div className="card mb-80">

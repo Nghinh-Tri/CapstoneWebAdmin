@@ -58,7 +58,7 @@ class LanguageForm extends Component {
             })
         }
         return result;
-    }    
+    }
 
     setMinimize = () => {
         this.setState({
@@ -68,6 +68,9 @@ class LanguageForm extends Component {
 
     render() {
         var { language } = this.props
+        var result = []
+        if (typeof language !== 'undefined')
+            result = language
 
         const showLanguage = (language) => {
             if (this.state.isMinimize)
@@ -75,11 +78,13 @@ class LanguageForm extends Component {
             else {
                 return (<div className="card-body">
                     {this.showItems(language)}
-                    <span className="material-icons add"
-                        onClick={() => this.onAddLanguage()}>add_box</span>
+                    {this.props.languageList.length === language.length ?
+                        '' :
+                        <span className="material-icons add"
+                            onClick={() => this.onAddLanguage()}>add_box</span>
+                    }
                 </div>)
             }
-
         }
         return (
             <div className="card mb-50">
@@ -94,7 +99,7 @@ class LanguageForm extends Component {
                     </div>
 
                 </div>
-                {showLanguage(language)}
+                {showLanguage(result)}
             </div>
         );
     }

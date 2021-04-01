@@ -26,8 +26,8 @@ class ProjectDetail extends Component {
         this.setState({ select: value })
     }
 
-    onHandleSumit = (project) => {
-        history.push(`/project/candidateList/${project.projectID}`)
+    onDecline = () => {
+        this.props.onDecline(this.props.project.projectID)
     }
 
     render() {
@@ -36,16 +36,12 @@ class ProjectDetail extends Component {
             <div>
                 <div className='col'>
                     <ProgressBar step="step1" />
-                    <div className="card">
                         <ProjectDetailTable project={project} match={this.props.match} />
-                    </div >
 
 
                     <div className="row pull-right">
                         <div className="col">
-                            <NavLink to="/project">
-                                <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }}>Decline</button>
-                            </NavLink>
+                            <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }} onClick={this.onDecline}>Decline</button>
                         </div>
                         <div className="col">
                             <div className='col' >
@@ -73,6 +69,9 @@ const mapDispatchToProp = dispatch => {
         },
         checkSession: () => {
             dispatch(checkSession())
+        },
+        onDecline: projectID => {
+            dispatch(Action.declineProject(projectID))
         }
     }
 }

@@ -11,11 +11,10 @@ export const setPositionSelect = index => {
 }
 
 export const selectCandidate = (candidate, position, posId) => {
-    console.log(position)
     return {
         type: SUGGEST_CANDIDATE.SELECT_CANDIDATE,
         candidate, position, posId
-        
+
     }
 }
 
@@ -28,7 +27,7 @@ export const unselectCandiate = (candidate, position) => {
 
 export const fetchSelectedList = () => {
     return {
-         type: SUGGEST_CANDIDATE.FETCH_SELECTED_LIST
+        type: SUGGEST_CANDIDATE.FETCH_SELECTED_LIST
     }
 }
 
@@ -39,10 +38,8 @@ export const fetchSuggestList = (projectID) => {
             urlToGetListSuggest,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
         ).then(res => {
-            console.log(res)
             if (res.status === 200) {
                 dispatch(fetchSuggestListSuccess(res.data.resultObj))
-                // history.push("/confirmPage")
             }
         })
     }
@@ -55,21 +52,19 @@ export const fetchSuggestListSuccess = (list) => {
     }
 }
 
-export const confirmSuggestList = suggestList => {
-    var projectID = localStorage.getItem('projectId')
-    var url = `${API_URL}/Project/addCandidate/${projectID}`
-    console.log('suggestList',suggestList)
+export const confirmSuggestList = (suggestList, projectID) => {
+    var url = `${API_URL}/Project/confirmCandidate/${projectID}`
+    var candidates = { candidates: suggestList }
+    console.log(candidates)
     return (dispatch) => {
         axios.post(
             url,
-            suggestList,
+            candidates,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
         ).then(res => {
+            console.log(res)
             if (res.status === 200) {
                 dispatch(confirmSuggestListSuggest())
-                localStorage.removeItem('positionRequire')
-                localStorage.removeItem('projectId')
-                localStorage.removeItem('isNewPosition')
                 history.push("/project")
             }
         })

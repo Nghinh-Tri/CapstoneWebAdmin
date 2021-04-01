@@ -3,8 +3,9 @@ import { POSITION_ASSIGN } from "../constant"
 const initState = {}
 
 const PositionAssignReducer = (state = initState, action) => {
-    var clone, language = null
+    var clone, certificate = null
     switch (action.type) {
+
         case POSITION_ASSIGN.GENERATE_POSTION_ASSIGN:
             state = action.item
             return state
@@ -67,6 +68,59 @@ const PositionAssignReducer = (state = initState, action) => {
             clone = { ...state }
             clone.hardSkills.push(action.hardSkill)
             state = clone
+            return state
+
+        case POSITION_ASSIGN.DELETE_HARD_SKILL:
+            clone = { ...state }
+            clone.hardSkills.splice(action.index, 1)
+            state = clone
+            return state
+
+        case POSITION_ASSIGN.UPDATE_HARD_SKILL_ID:
+            clone = { ...state.hardSkills[action.hardSkillIndex] }
+            clone.skillID = action.value
+            state.hardSkills.splice(action.hardSkillIndex, 1, clone)
+            return state
+
+        case POSITION_ASSIGN.UPDATE_HARD_SKILL_LEVEL:
+            clone = { ...state.hardSkills[action.hardSkillIndex] }
+            clone.skillLevel = action.value
+            state.hardSkills.splice(action.hardSkillIndex, 1, clone)
+            return state
+
+        case POSITION_ASSIGN.ADD_CERTIFICATE:
+            clone = { ...state.hardSkills[action.hardSkillIndex] }
+            certificate = [...clone.empCertifications]
+            certificate.push(action.certificate)
+            clone.empCertifications = certificate
+            state.hardSkills.splice(action.hardSkillIndex, 1, clone)
+            return state
+
+        case POSITION_ASSIGN.DELETE_CERTIFICATE:
+            clone = { ...state.hardSkills[action.hardSkillIndex] }
+            certificate = [...clone.empCertifications]
+            certificate.splice(action.certificateIndex, 1)
+            clone.empCertifications = certificate
+            state.hardSkills.splice(action.hardSkillIndex, 1, clone)
+            return state
+
+        case POSITION_ASSIGN.UPDATE_CERTIFICATE_ID:
+            clone = { ...state.hardSkills[action.hardSkillIndex] }
+            certificate = { ...clone.empCertifications[action.certificateIndex] }
+            certificate.certiID = action.value
+            clone.empCertifications.splice(action.certificateIndex, 1, certificate)
+            state.hardSkills.splice(action.hardSkillIndex, 1, clone)
+            return state
+
+        case POSITION_ASSIGN.UPDATE_CERTIFICATE_DATE:
+            clone = { ...state.hardSkills[action.hardSkillIndex] }
+            certificate = { ...clone.empCertifications[action.certificateIndex] }
+            if (action.name === 'dateTake')
+                certificate.dateTaken = action.value
+            if (action.name === 'dateEnd')
+                certificate.dateEnd = action.value
+            clone.empCertifications.splice(action.certificateIndex, 1, certificate)
+            state.hardSkills.splice(action.hardSkillIndex, 1, clone)
             return state
 
         default:

@@ -15,7 +15,7 @@ const navigation = [
         name: 'Employee',
         icon: 'fa fa-registered',
         path: '/employee',
-        exact: true
+        exact: false
     },
     {
         name: 'Position',

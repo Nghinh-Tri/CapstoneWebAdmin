@@ -33,7 +33,10 @@ export const fetchProfileSuccess = (resultObj) => {
 export const fetchProfileDetail = (id) => {
     var url = `${API_URL}/User/${id}`
     return (dispatch) => {
-        return axios.get(url, { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }).then(res => {
+        return axios.get(
+            url,
+            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
+        ).then(res => {
             console.log(res)
             dispatch(fetchProfileDetailSuccess(res.data.resultObj))
         })
@@ -42,7 +45,7 @@ export const fetchProfileDetail = (id) => {
 
 export const fetchProfileDetailSuccess = (resultObj) => {
     return {
-        type: Type.FETCH_PROJECT_DETAIL,
+        type: Type.FETCH_PROFILE_DETAIL,
         resultObj
     }
 }
@@ -66,10 +69,7 @@ export const updateProfileSuccess = (resultObj) => {
     }
 }
 
-
-
 export const createUser = (profile, match) => {
-
     var url = `${API_URL}/User`
     console.log(profile)
     return (dispatch) => {
@@ -86,12 +86,12 @@ export const createUser = (profile, match) => {
                 }
                 else {
                     history.push(`/empList/detail/${match.params.id}`)
-                    
+
                 }
             }
         }).catch(err => {
             if (err.response.status === 401) {
-                
+
                 history.push('/login')
             }
         })

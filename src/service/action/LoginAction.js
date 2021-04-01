@@ -3,6 +3,7 @@ import { Type } from "../constant/index"
 import { history } from "../helper/History"
 import { API_URL, getRole } from "../util/util"
 import { store } from 'react-notifications-component';
+import moment from "moment"
 
 export const login = (username, password) => {
     var user = { email: username, password: password, rememberMe: true }
@@ -91,29 +92,28 @@ export const failure = (user) => {
 
 export const register = (address, phoneNumber, doB, userName, fullname, email, password, confirmPassword, identityNumber) => {
     var regist = {
-        address: address.toString(),
-        phoneNumber: phoneNumber,
-        doB: doB,
-        userName: userName,
         name: fullname,
+        identityNumber: identityNumber,
+        address: address.toString(),
         email: email,
+        phoneNumber: phoneNumber,
+        userName: userName,
         password: password,
         confirmPassword: confirmPassword,
-        identityNumber: identityNumber
     }
     var url = `${API_URL}/User`
-    console.log(regist)
     return dispatch => {
         dispatch(request(regist))
         axios.post(
             url,
             regist,
-            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }).then(res => {
+            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } })
+            .then(res => {
+                
                 if (res.status === 200) {
-                    localStorage.setItem('EMP', JSON.stringify(res.data.resultObj.empId));
-                    localStorage.setItem('token', JSON.stringify(res.data.resultObj.token));
-                    dispatch(success(JSON.stringify(res.data.resultObj)))
-                    history.push('/');
+                    dispatch(registerSuccess(JSON.stringify(res.data.resultObj)))
+                    history.push('/employee/position-assign');
+                    console.log(res.data.resultObj)
                 }
             })
             .catch(err => {
@@ -145,7 +145,6 @@ export const register = (address, phoneNumber, doB, userName, fullname, email, p
                         }
                     })
                 }
-
             })
     }
 }

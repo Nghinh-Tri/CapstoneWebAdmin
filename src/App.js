@@ -1,5 +1,5 @@
 import './App.css';
-
+import './css/PositionDetail.css'
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import LoginPage from './screen/LoginPage/LoginPage';

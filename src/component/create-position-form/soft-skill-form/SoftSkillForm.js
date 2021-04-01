@@ -61,6 +61,9 @@ class SoftSkillForm extends Component {
 
     render() {
         var { softSkill } = this.props
+        var result = []
+        if (typeof softSkill !== 'undefined')
+            result = softSkill
 
         const showSoftSkill = (softSkill) => {
             if (this.state.isMinimize)
@@ -68,12 +71,16 @@ class SoftSkillForm extends Component {
             else {
                 return (<div className="card-body">
                     {this.showItems(softSkill)}
-                    <span className="material-icons add"
-                        onClick={this.onAddSoftSkill}>add_box</span>
+                    {
+                        this.props.softSkillList.length === softSkill.length ?
+                            '' :
+                            <span className="material-icons add"
+                                onClick={this.onAddSoftSkill}>add_box</span>
+                    }
                 </div>)
             }
-
         }
+        
         return (
             <div className="card mb-50">
                 <div className="card-header ">
@@ -87,7 +94,7 @@ class SoftSkillForm extends Component {
                     </div>
 
                 </div>
-                {showSoftSkill(softSkill)}
+                {showSoftSkill(result)}
             </div>
         );
     }
@@ -99,7 +106,7 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProp = (dispatch, props) => {
+const mapDispatchToProp = (dispatch) => {
     return {
         fetchSoftSkillList: () => {
             dispatch(fetchSoftSkill())

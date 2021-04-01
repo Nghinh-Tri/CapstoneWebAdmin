@@ -4,7 +4,7 @@ const initState = []
 
 const getPositionIndex = (list, position) => {
     for (let index = 0; index < list.length; index++) {
-        if (list[index].position === position)
+        if (list[index].posName === position)
             return index
     }
     return -1
@@ -23,23 +23,23 @@ const SuggestCandidateSelectedList = (state = initState, action) => {
     switch (action.type) {
         case SUGGEST_CANDIDATE.SELECT_CANDIDATE:
             if (state.length === 0) {
-                positionItem = { posName: action.posName, posID: action.posID, candidateSelect: [action.candidate] }
+                positionItem = { posName: action.position, posID: action.posId, candidateSelect: [action.candidate] }
                 state.push(positionItem)
             } else {
-                var index = getPositionIndex(state, action.posName)
+                var index = getPositionIndex(state, action.position)
                 if (index !== -1) {
                     positionObjClone = { ...state[index] }
                     positionObjClone.candidateSelect.push(action.candidate)
                     state.splice(index, 1, positionObjClone)
                 } else {
-                    positionItem = { posName: action.posName, posID: action.posID, candidateSelect: [action.candidate] }
+                    positionItem = { posName: action.position, posID: action.posId, candidateSelect: [action.candidate] }
                     state.push(positionItem)
                 }
             }
             return [...state];
 
         case SUGGEST_CANDIDATE.UNSELECT_CANDIDATE:
-            var positionIndex = getPositionIndex(state, action.posName)
+            var positionIndex = getPositionIndex(state, action.position)
             positionObjClone = { ...state[positionIndex] }
             var candidateIndex = getCandidateIndex(positionObjClone.candidateSelect, action.candidate)
             candidateSelectClone = positionObjClone.candidateSelect.slice()

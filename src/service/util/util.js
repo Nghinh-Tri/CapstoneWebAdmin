@@ -14,10 +14,12 @@ export const callAPI = (endpoint, method = 'GET', body) => {
 export const showStatus = status => {
     switch (status) {
         case 0:
-            return "Pending "
+            return "Pending"
         case 1:
-            return "On Going"
+            return "No Employee"
         case 2:
+            return "On Going"
+        case 3:
             return "Finish"
         default:
             break;
@@ -27,10 +29,12 @@ export const showStatus = status => {
 export const showSpan = status => {
     switch (status) {
         case 0:
-            return "badge-secondary"
+            return "badge-warning"
         case 1:
-            return "badge-primary"
+            return "badge-secondary"
         case 2:
+            return "badge-primary"
+        case 3:
             return "badge-success"
         default:
             break;
@@ -67,7 +71,11 @@ export const convertSkillList = (list) => {
 export const convertCertificationList = (list) => {
     var result = []
     list.forEach(element => {
-        result.push({ label: element.certificationLevel, value: element.certificationLevel })
+        result.push({
+            label: element.certificationName,
+            value: element.certificationID,
+            isSelect: typeof element.isSelect === 'undefined' ? false : element.isSelect
+        })
     });
     return result;
 }
@@ -104,7 +112,7 @@ export const convertSuggestList = list => {
     var result = [], empID = []
     if (list.length > 0) {
         list.forEach(element => {
-            var positionObj = { posID: element.posId, empIDs: [] }
+            var positionObj = { posID: element.posID, empIDs: [] }
             element.candidateSelect.forEach(e => {
                 empID.push(e.empID)
             });

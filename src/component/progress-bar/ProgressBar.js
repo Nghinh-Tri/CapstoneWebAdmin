@@ -39,9 +39,9 @@ class ProgressBar extends Component {
     render() {
         return (
             <ul className="progressbar">
-                <li className={this.state.step1}>Project Detail</li>
-                <li className={this.state.step2}>Select EMP</li>
-                <li className={this.state.step3}>View All</li>
+                <li className={this.state.step1} style={this.state.step1 === 'active' ? { fontWeight: 700 } : { fontWeight: 500 }}>Project Detail</li>
+                <li className={this.state.step2} style={this.state.step2 === 'active' ? { fontWeight: 700 } : { fontWeight: 500 }}>Select Employee</li>
+                <li className={this.state.step3} style={this.state.step3 === 'active' ? { fontWeight: 700 } : { fontWeight: 500 }}>Confirm</li>
             </ul>
         );
     }

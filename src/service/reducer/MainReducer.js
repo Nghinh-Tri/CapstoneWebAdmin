@@ -15,6 +15,7 @@ import SkillReducer from "./SkillReducer";
 import CertificationReducer from "./CertificationReducer";
 import ProfileFetchReducer from "./ProfileFetchReducer";
 import PositionAssignReducer from "./PositionAssignReducer";
+import ListEmployeeReducer from "./ListEmployeeReducer";
 
 const MainReducer = combineReducers({
     authentication,
@@ -31,7 +32,8 @@ const MainReducer = combineReducers({
     SkillReducer,
     CertificationReducer,
     ProfileFetchReducer,
-    PositionAssignReducer
+    PositionAssignReducer,
+    ListEmployeeReducer
 })
 
 export default MainReducer

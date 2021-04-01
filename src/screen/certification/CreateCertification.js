@@ -61,7 +61,7 @@ class CreateCertification extends Component {
                 <div className="card-body">
                     <form onSubmit={this.handleSubmit} >
                         <div className='row'>
-                            <div className='col-5'>
+                            <div className='col'>
                                 <fieldset className="form-group">
                                     <label className="bmd-label-floating">Certification</label>
                                     <input type="text"
@@ -71,11 +71,15 @@ class CreateCertification extends Component {
                                         onChange={this.handleChange} />
                                 </fieldset>
                             </div>
-                            <div className='col-auto' style={{ marginLeft: 30, marginTop: 15 }}>
+                        </div>
+                        <div className='row'>
+                            <div className='col-auto' style={{  marginTop: 15 }}>
                                 <label className="bmd-label-floating">Skill</label>
                             </div>
-                            <div className='col' style={{ marginLeft: 30, marginTop: 10 }}>
+                            <div className='col-auto' style={{ marginLeft: 30, marginTop: 10 }}>
                                 <SelectBar name='hardSkillList'
+                                    type="common"
+                                    placeholder='Select skill'
                                     list={listConverted}
                                     value={certi.skillID}
                                     onSelectSkill={this.onSelectSkill}
@@ -84,8 +88,10 @@ class CreateCertification extends Component {
                             <div className='col-auto' style={{ marginLeft: 30, marginTop: 15 }}>
                                 <label className="bmd-label-floating">Level</label>
                             </div>
-                            <div className='col' style={{ marginLeft: 30, marginTop: 10 }}>
+                            <div className='col-auto' style={{ marginLeft: 30, marginTop: 10 }}>
                                 <SelectBar name='certiLevel'
+                                    type="common"
+                                    placeholder='Select level'
                                     list={this.state.level}
                                     onUpdateCerti={this.onSelectLevel}
                                     value={certi.certiLevel}
@@ -96,10 +102,11 @@ class CreateCertification extends Component {
                             <div className='col'>
                                 <fieldset className="form-group">
                                     <label className="bmd-label-floating">Description</label>
-                                    <textarea col='5' type="textarea"
+                                    <textarea type="textarea"
                                         id="description" name="description"
                                         value={certi.description}
                                         className="form-control"
+                                        row="10"
                                         onChange={this.handleChange} />
                                 </fieldset>
                             </div>
@@ -122,7 +129,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        checkSession:()=>{
+        checkSession: () => {
             dispatch(checkSession())
         },
         onGenerateCerti: () => {

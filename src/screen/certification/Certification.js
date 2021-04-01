@@ -18,8 +18,8 @@ class Certification extends Component {
                 return (
                     <tr key={index}>
                         <th className="text-center">{index + 1}</th>
-                        <th className="">{item.certificationName}</th>
-                        <th className="">{item.skillName}</th>
+                        <th className="" style={{minWidth:250,maxWidth:250}}>{item.certificationName}</th>
+                        <th className="" style={{minWidth:250,maxWidth:250}}>{item.skillName}</th>
                         <th className="">{item.certiLevel}</th>
                         <th className="text-primary"><a className="text-primary" style={{ cursor: 'pointer' }}>Delete</a></th>
                     </tr>
@@ -57,7 +57,7 @@ class Certification extends Component {
                     onClick={this.onHandle}
                 >
                     <i className="material-icons mr-5">add_box</i>
-                        Create New Skills
+                        Create New Certificate
                 </button>
                 <div className="row">
                     <div className="card mb-80">
