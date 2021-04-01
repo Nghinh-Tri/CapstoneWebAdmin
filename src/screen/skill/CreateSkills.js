@@ -2,14 +2,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SelectBar from '../../component/create-position-form/select-search/SelectBar';
 import { checkSession } from '../../service/action/AuthenticateAction';
-import { createPosition } from '../../service/action/PositionSelectBarAction';
-import { createSkill, generateSkill, updateSkill, updateSkillType } from '../../service/action/SkillAction';
+import { createSkill, fetchSkillDetail, generateSkill, updateSkill, updateSkillName, updateSkillType } from '../../service/action/SkillAction';
 
 class CreateSkills extends Component {
 
     componentDidMount = () => {
         this.props.checkSession()
-        this.props.onGenerateSkill()
+        var { match } = this.props
+        if (typeof match !== 'undefined') {
+            this.props.fetchSkillDetail(match.params.id)
+        } else
+            this.props.onGenerateSkill()
     }
 
     constructor(props) {
@@ -18,7 +21,21 @@ class CreateSkills extends Component {
             type: [
                 { label: 'Hard Skill', value: 0 },
                 { label: 'Soft Skill', value: 1 }
-            ]
+            ],
+            statusList: [{ label: 'Enable', value: true }, { label: 'Disable', value: false }]
+        }
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.skill !== prevState.skill) {
+            return { someState: nextProps.skill };
+        }
+        return null;
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.position !== this.props.skill) {
+
         }
     }
 
@@ -32,7 +49,12 @@ class CreateSkills extends Component {
 
     onSubmit = (e) => {
         e.preventDefault()
-        this.props.createSkill(this.props.skill)
+        console.log(typeof this.props.match === 'undefined')
+        if (typeof this.props.match === 'undefined')
+            this.props.createSkill(this.props.skill)
+        else
+            this.props.updateSkill(this.props.skill)
+
     }
 
     render() {
@@ -42,20 +64,18 @@ class CreateSkills extends Component {
             result = skill
         return (
             <div className="card">
-                <div className="card-header">
-                    <p style={{ fontSize: 20, fontWeight: 600, color: '#9c27b0' }}>Create Skill</p>
+                <div className="card-header card-header-primary">
+                    <h4 className="card-title">
+                        {typeof this.props.match !== 'undefined' ? 'Update Skill' : 'Create Skill'}
+                    </h4>
                 </div>
                 <div className="card-body">
-                    <form onSubmit={this.handleSubmit} >
+                    <form >
                         <div className='row'>
-                            <div className='col-5'>
+                            <div className="col-5">
                                 <fieldset className="form-group">
-                                    <label className="bmd-label-floating">Skill</label>
-                                    <input type="text"
-                                        id="skillName" name="skillName"
-                                        className="form-control"
-                                        value={result.skillName}
-                                        onChange={this.handleChange} />
+                                    <label className={`bmd-label-${typeof this.props.match !== 'undefined' ? 'static' : 'floating'}`} >Skill</label>
+                                    <input type="text" className="form-control" name="skillName" value={result.skillName} onChange={this.handleChange} />
                                 </fieldset>
                             </div>
                             <div className='col-auto' style={{ marginLeft: 30, marginTop: 15 }}>
@@ -71,7 +91,9 @@ class CreateSkills extends Component {
                                 />
                             </div>
                         </div>
-                        <button className="btn btn-primary pull-right" onClick={this.onSubmit}>Create</button>
+                        <button className="btn btn-primary pull-right" onClick={this.onSubmit}>
+                            {typeof this.props.match !== 'undefined' ? 'Update' : 'Create'}
+                        </button>
                     </form>
                 </div>
             </div>
@@ -94,7 +116,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(createSkill(skill))
         },
         updateSkillName: (skill) => {
-            dispatch(updateSkill(skill))
+            dispatch(updateSkillName(skill))
         },
         updateSkillType: (skillType) => {
             dispatch(updateSkillType(skillType))
@@ -102,6 +124,12 @@ const mapDispatchToProps = (dispatch) => {
         checkSession: () => {
             dispatch(checkSession())
         },
+        fetchSkillDetail: (skillID) => {
+            dispatch(fetchSkillDetail(skillID))
+        },
+        updateSkill: (skill) => {
+            dispatch(updateSkill(skill))
+        }
     }
 }
 

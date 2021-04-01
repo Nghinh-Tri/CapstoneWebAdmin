@@ -22,7 +22,7 @@ class ProjectTableItem extends Component {
                 <th className="text-center">{index + 1}</th>
                 <th className="">{project.projectName}</th>
                 <th className="">{project.name}</th>
-                <th className="text-center">
+                <th className="text-center" style={{width:250}} >
                     <span className={`badge badge-pill ${showSpan(project.status)} span`}>
                         {showStatus(project.status)}
                     </span>

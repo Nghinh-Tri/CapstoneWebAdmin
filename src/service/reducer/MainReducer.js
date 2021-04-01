@@ -16,16 +16,17 @@ import CertificationReducer from "./CertificationReducer";
 import ProfileFetchReducer from "./ProfileFetchReducer";
 import PositionAssignReducer from "./PositionAssignReducer";
 import ListEmployeeReducer from "./ListEmployeeReducer";
-
+import PositionReducer from "./PositionReducer";
+import PositionFormReducer from "./PositionFormReducer";
 const MainReducer = combineReducers({
-    authentication,
-    ProjectFetchReducer,
+    authentication,//use
+    ProjectFetchReducer,//use
     ProjectFormReducer,
-    CertificationSelectBarReducer,
-    HardSkillSelectBarReducer,
-    SoftSkillSelectBarReducer,
-    PositionSelectBarReducer,
-    LanguageSelectBarReducer,
+    CertificationSelectBarReducer,//use
+    HardSkillSelectBarReducer,//use
+    SoftSkillSelectBarReducer,//use
+    PositionSelectBarReducer,//use
+    LanguageSelectBarReducer,//use
     SuggestCandidateList,
     SuggestCandidateSelect,
     SuggestCandidateSelectedList,
@@ -33,7 +34,9 @@ const MainReducer = combineReducers({
     CertificationReducer,
     ProfileFetchReducer,
     PositionAssignReducer,
-    ListEmployeeReducer
+    ListEmployeeReducer,//use
+    PositionReducer,//use
+    PositionFormReducer//use
 })
 
 export default MainReducer

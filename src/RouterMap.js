@@ -78,6 +78,11 @@ const route = [
         main: () => <CreatePosition />
     },
     {
+        path: "/position/update/:id",
+        exact: true,
+        main: ({ match }) => <CreatePosition match={match} />
+    },
+    {
         path: "/skill",
         exact: true,
         main: () => <Skill />
@@ -86,6 +91,11 @@ const route = [
         path: "/skill/create",
         exact: true,
         main: () => <CreateSkills />
+    },
+    {
+        path: "/skill/update/:id",
+        exact: true,
+        main: ({ match }) => <CreateSkills match={match} />
     },
     {
         path: "/certification",

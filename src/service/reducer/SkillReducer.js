@@ -11,7 +11,7 @@ const skillReducer = (state = initState, action) => {
         case SKILL.GENERATE_SKILL:
             state = action.skill
             return state
-        case SKILL.UPDATE_SKILL:
+        case SKILL.UPDATE_SKILL_NAME:
             var clone = { ...state }
             clone.skillName = action.skill
             state = clone
@@ -21,6 +21,11 @@ const skillReducer = (state = initState, action) => {
             clone.skillType = parseInt(action.skillType)
             state = clone
             return state
+        case SKILL.FETCH_SKILL_DETAIL:
+            state = action.skill
+            return state
+        case SKILL.CHANGE_STATUS:
+            history.push('/skill')
         default:
             return state
     }

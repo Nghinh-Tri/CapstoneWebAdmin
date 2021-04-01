@@ -41,6 +41,28 @@ export const showSpan = status => {
     }
 }
 
+export const showPositionStatus = status => {
+    switch (status) {
+        case true:
+            return "Enable"
+        case false:
+            return "Disable"
+        default:
+            break;
+    }
+}
+
+export const showPositionSpan = status => {
+    switch (status) {
+        case true:
+            return "badge-success"
+        case false:
+            return "badge-secondary"
+        default:
+            break;
+    }
+}
+
 export const formatDate = date => {
     return date.split("/").reverse().join("-")
 }

@@ -16,6 +16,30 @@ export const fetchPostionList = () => {
     }
 }
 
+export const fetchPostionListPaging = (pageIndex) => {
+    var url = `${API_URL}/Position/paging?PageIndex=${pageIndex}&PageSize=10`
+    return (dispatch) => {
+        axios.get(
+            url,
+            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
+        ).then(res => {
+            dispatch(fetchPostionListPaginSuccess(res.data.resultObj))
+        })
+    }
+}
+
+export const fetchPostionDetail = (posID) => {
+    var url = `${API_URL}/Position/${posID}`
+    return (dispatch) => {
+        axios.get(
+            url,
+            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
+        ).then(res => {
+            dispatch(fetchPostionDetailSuccess(res.data.resultObj))
+        })
+    }
+}
+
 export const createPosition = (position) => {
     var url = `${API_URL}/Position`
     return (dispatch) => {
@@ -75,6 +99,34 @@ export const createPosition = (position) => {
     }
 }
 
+export const updatePosition = (posID, position) => {
+    var url = `${API_URL}/Position/${posID}`
+    return (dispatch) => {
+        axios.put(
+            url,
+            position,
+            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
+        ).then(res => {
+            if (res.status === 200)
+                dispatch(updatePositionSuccess())
+        })
+    }
+}
+
+export const changeStatusPosition = (posID) => {
+    var url = `${API_URL}/Position/changeStatus/${posID}`
+    return (dispatch) => {
+        axios.put(
+            url,
+            null,
+            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
+        ).then(res => {
+            if (res.status === 200)
+                dispatch(fetchPostionListPaging(1))
+        })
+    }
+}
+
 export const createPositionSuccess = () => {
     history.push('/position')
     return { type: POSITION.CREATE_SUCCESS }
@@ -90,3 +142,24 @@ export const fetchPostionListSuccess = (positionList) => {
         positionList
     }
 }
+
+export const fetchPostionDetailSuccess = (pos) => {
+    return {
+        type: POSITION.FETCH_POSITION_DETAIL,
+        pos
+    }
+}
+
+export const updatePositionSuccess = () => {
+    history.push('/position')
+    return { type: POSITION.UDPATE_SUCCESS }
+}
+
+
+export const fetchPostionListPaginSuccess = (positionList) => {
+    return {
+        type: POSITION.FETCH_POSITION_LIST_PAGING,
+        positionList
+    }
+}
+

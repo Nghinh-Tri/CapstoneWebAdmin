@@ -1,14 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { checkSession } from '../../service/action/AuthenticateAction';
-import { fetchPostionList } from '../../service/action/PositionSelectBarAction';
+import { changeStatusPosition, fetchPostionListPaging } from '../../service/action/PositionSelectBarAction';
 import { history } from '../../service/helper/History';
+import { showPositionSpan, showPositionStatus } from '../../service/util/util';
 
 class Position extends Component {
 
     componentDidMount = () => {
         this.props.checkSession()
-        this.props.fetchPosittion()
+        this.props.fetchPosittion(1)
+    }
+
+    onUpdate = (posID) => {
+        history.push(`/position/update/${posID}`)
+    }
+
+    onChangeStatus = (posID) => {
+        this.props.changeStatus(posID)
     }
 
     onShowListPosition = (list) => {
@@ -17,23 +26,48 @@ class Position extends Component {
             return (
                 <tr key={index}>
                     <th className="text-center">{index + 1}</th>
-                    <th className="">{value.name}</th>
-                    <th className=""><a className="text-primary" style={{ cursor: 'pointer' }}>Delete</a></th>
+                    <th className="font-weight-bold" style={{ width: 450 }}>{value.name}</th>
+                    <th className="text-center" style={{ width: 150 }}>
+                        <span className={`badge badge-pill ${showPositionSpan(value.status)} span`}>
+                            {showPositionStatus(value.status)}
+                        </span>
+                    </th>
+                    <th className="text-primary">
+                        <a className="text-rigth" style={{ cursor: 'pointer' }} onClick={() => this.onUpdate(value.posID)} >Update</a>
+                    </th>
+                    <th className="text-primary">
+                        <a className="text-primary" style={{ cursor: 'pointer' }} onClick={() => this.onChangeStatus(value.posID)}>Change Status</a>
+                    </th>
+
                 </tr>
             )
         })
         return result
     }
 
-    onHandle = () => [
+    onNext = () => {
+        var { item } = this.props
+        if (item.pageIndex < item.pageCount) {
+            this.props.fetchPosittion(item.pageIndex + 1)
+        }
+    }
+
+    onPrevios = () => {
+        var { item } = this.props
+        if (item.pageIndex > 1) {
+            this.props.fetchPosittion(item.pageIndex - 1)
+        }
+    }
+
+    onHandle = () => {
         history.push('/position/create')
-    ]
+    }
 
     render() {
-        var { positionList } = this.props
-        var list = null
-        if (positionList.length !== null)
-            list = positionList
+        var { item } = this.props
+        var list = []
+        if (typeof item.items !== 'undefined')
+            list = item.items
         return (
             <div className="container-fluid">
                 <button type="button" className="btn btn-primary"
@@ -52,6 +86,7 @@ class Position extends Component {
                                         <tr>
                                             <th className="font-weight-bold text-center">No</th>
                                             <th className="font-weight-bold" style={{ marginLeft: 20 }}>Position</th>
+                                            <th className="font-weight-bold text-center" style={{ marginLeft: 20 }}>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -68,7 +103,7 @@ class Position extends Component {
                                     </div>
                                     <div className="col-auto">
                                         <div className="text-center" style={{ fontSize: 20, fontWeight: 700, color: '#9c27b0' }}>
-                                            {/* {projects.pageIndex} - {projects.pageCount} */}
+                                            {item.pageIndex} - {item.pageCount}
                                         </div>
                                     </div>
                                     <div className="col">
@@ -90,7 +125,7 @@ class Position extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        positionList: state.PositionSelectBarReducer
+        item: state.PositionReducer
     }
 }
 
@@ -99,8 +134,11 @@ const mapDispatchToProps = (dispatch) => {
         checkSession: () => {
             dispatch(checkSession())
         },
-        fetchPosittion: () => {
-            dispatch(fetchPostionList())
+        fetchPosittion: (pageIndex) => {
+            dispatch(fetchPostionListPaging(pageIndex))
+        },
+        changeStatus: posID => {
+            dispatch(changeStatusPosition(posID))
         }
     }
 }

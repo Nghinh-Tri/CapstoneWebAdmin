@@ -35,7 +35,7 @@ class SelectBar extends Component {
             return (<Option key={index} value={item.value}>{item.label}</Option>)
         })
         return result
-    }   
+    }
 
     //important
     showSelect = () => {
@@ -47,6 +47,8 @@ class SelectBar extends Component {
                 return this.showCommon()
             case 'special':
                 return this.showSpecial()
+            case 'status':
+                return this.showStatus()
         }
     }
     //important
@@ -115,6 +117,24 @@ class SelectBar extends Component {
                     {this.showCommonOption()}
                 </Select>)
         }
+    }
+
+    //important
+    showStatus = () => {
+        var { value } = this.props
+        return (
+            <Select value={value}
+                style={{ width: 250 }}
+                showSearch
+                placeholder={this.props.placeholder}
+                onSelect={this.onSelectCommon}
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                }
+            >
+                {this.showCommonOption()}
+            </Select>)
     }
 
     //important

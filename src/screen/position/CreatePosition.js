@@ -1,20 +1,45 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { checkSession } from '../../service/action/AuthenticateAction';
-import { createPosition } from '../../service/action/PositionSelectBarAction';
+import { createPosition, fetchPostionDetail, updatePosition } from '../../service/action/PositionSelectBarAction';
 
 class CreatePosition extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            posID: '',
             position: '',
-            description: ''
+            description: '',
+            status: true,
         }
     }
 
     componentDidMount = () => {
         this.props.checkSession()
+        var { match } = this.props
+        if (typeof match !== 'undefined') {
+            this.props.fetchPositionDetail(match.params.id)
+        }
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.position !== prevState.position) {
+            return { someState: nextProps.position };
+        }
+        return null;
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.position !== this.props.position) {
+            var { position } = this.props
+            this.setState({
+                posID: position.posID,
+                position: position.name,
+                description: position.description,
+                status: position.status
+            })
+        }
     }
 
     handleChange = (e) => {
@@ -24,40 +49,53 @@ class CreatePosition extends Component {
 
     onSubmit = (e) => {
         e.preventDefault()
-        this.props.createPosition({ name: this.state.position, description: this.state.description })
+        if (typeof this.props.match === 'undefined')
+            this.props.createPosition({ name: this.state.position, description: this.state.description })
+        else
+            this.props.updatePosition(this.state.posID, { name: this.state.position, description: this.state.description })
     }
 
     render() {
+        var { position, description } = this.state
+
         return (
             <div className="card">
-                <div className="card-header">
-                    <p style={{ fontSize: 20, fontWeight: 600, color: '#9c27b0' }}>Create Position</p>
+                <div className="card-header card-header-primary">
+                    <h4 className="card-title">
+                        {typeof this.props.match !== 'undefined' ? 'Update Position' : 'Create Position'}
+                    </h4>
                 </div>
+
                 <div className="card-body">
                     <form onSubmit={this.handleSubmit} >
                         <div className='row'>
                             <div className='col'>
                                 <fieldset className="form-group">
-                                    <label className="bmd-label-floating">Position</label>
+                                    <label className={`bmd-label-${typeof this.props.match !== 'undefined' ? 'static' : 'floating'}`}>Position</label>
                                     <input type="text"
                                         id="position" name="position"
                                         className="form-control"
+                                        value={position}
                                         onChange={this.handleChange} />
                                 </fieldset>
                             </div>
+
                         </div>
                         <div className="row" style={{ marginTop: 10 }}>
                             <div className='col'>
                                 <fieldset className="form-group">
-                                    <label className="bmd-label-floating">Description</label>
-                                    <textarea col='5' type="textarea"
+                                    <label className={`bmd-label-${typeof this.props.match !== 'undefined' ? 'static' : 'floating'}`}>Description</label>
+                                    <textarea row='5' type="textarea"
                                         id="description" name="description"
                                         className="form-control"
+                                        defaultValue={description}
                                         onChange={this.handleChange} />
                                 </fieldset>
                             </div>
                         </div>
-                        <button className="btn btn-primary pull-right" onClick={this.onSubmit}>Create</button>
+                        <button className="btn btn-primary pull-right" onClick={this.onSubmit}>
+                            {typeof this.props.match !== 'undefined' ? 'Update' : 'Create'}
+                        </button>
                     </form>
                 </div>
             </div>
@@ -67,7 +105,7 @@ class CreatePosition extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        positionList: state.PositionSelectBarReducer
+        position: state.PositionFormReducer
     }
 }
 
@@ -78,8 +116,14 @@ const mapDispatchToProps = (dispatch) => {
         },
         createPosition: (position) => {
             dispatch(createPosition(position))
+        },
+        fetchPositionDetail: posID => {
+            dispatch(fetchPostionDetail(posID))
+        },
+        updatePosition: (posID, position) => {
+            dispatch(updatePosition(posID, position))
         }
     }
 }
 
-export default connect(null, mapDispatchToProps)(CreatePosition);
+export default connect(mapStateToProps, mapDispatchToProps)(CreatePosition);

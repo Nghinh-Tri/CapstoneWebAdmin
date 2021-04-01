@@ -22,12 +22,77 @@ export const fetchSkill = (pageIndex) => {
     }
 }
 
+export const fetchSkillDetail = (skillID) => {
+    var url = `${API_URL}/Skill/${skillID}`
+    return (dispatch) => {
+        axios.get(
+            url,
+            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
+        ).then(res => {
+            if (res.status = 200) {
+                dispatch(fetchSkillDetailSuccess(res.data.resultObj))
+            }
+        }).catch(err => {
+            // if (err.response.status === 401) {
+            //     history.push('/login')
+            // }
+        })
+    }
+}
+
+export const updateSkill = (skill) => {
+    var url = `${API_URL}/Skill/${skill.skillID}`
+    var item = { skillName: skill.skillName, skillType: skill.skillType }
+    return (dispatch) => {
+        axios.put(
+            url,
+            item,
+            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
+        ).then(res => {
+            if (res.status = 200) {
+                dispatch(updateSkillSuccess())
+            }
+        }).catch(err => {
+            // if (err.response.status === 401) {
+            //     history.push('/login')
+            // }
+        })
+    }
+}
+
+export const changeStatus = (skillID) => {
+    var url = `${API_URL}/Skill/changeStatus/${skillID}`
+    return (dispatch) => {
+        axios.put(
+            url,
+            null,
+            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
+        ).then(res => {
+            if (res.status = 200) {
+                dispatch(fetchSkill(1))
+            }
+        }).catch(err => {
+            // if (err.response.status === 401) {
+            //     history.push('/login')
+            // }
+        })
+    }
+}
+
 export const fetchSkillSuccess = (skills) => {
     return {
         type: SKILL.FETCH_ALL_SKILL,
         skills
     }
 }
+
+export const fetchSkillDetailSuccess = (skill) => {
+    return {
+        type: SKILL.FETCH_SKILL_DETAIL,
+        skill
+    }
+}
+
 
 export const fetchSkillFail = () => {
     return { type: SKILL.FETCH_ALL_SKILL_FAIL }
@@ -38,8 +103,8 @@ export const generateSkill = () => {
     return { type: SKILL.GENERATE_SKILL, skill }
 }
 
-export const updateSkill = (skill) => {
-    return { type: SKILL.UPDATE_SKILL, skill }
+export const updateSkillName = (skill) => {
+    return { type: SKILL.UPDATE_SKILL_NAME, skill }
 }
 export const updateSkillType = (skillType) => {
     return { type: SKILL.UPDATE_SKILL_TYPE, skillType }
@@ -109,6 +174,15 @@ export const createSkill = (skill) => {
 export const createSkillSuccess = () => {
     history.push('/skill')
     return { type: SKILL.CREATE_SKILL }
+}
+
+export const updateSkillSuccess = () => {
+    history.push('/skill')
+    return { type: SKILL.UPDATE_SKILL }
+}
+
+export const changeStatusSuccess = () => {
+    return { type: SKILL.CHANGE_STATUS }
 }
 
 export const createSkillFail = () => {

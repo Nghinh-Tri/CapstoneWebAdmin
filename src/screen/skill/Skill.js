@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { checkSession } from '../../service/action/AuthenticateAction';
-import { fetchSkill, generateSkill } from '../../service/action/SkillAction';
+import { changeStatus, fetchSkill } from '../../service/action/SkillAction';
 import { history } from '../../service/helper/History';
+import { showPositionSpan, showPositionStatus } from '../../service/util/util';
 
 class Skill extends Component {
 
@@ -18,6 +19,14 @@ class Skill extends Component {
         this.props.fetchSkills(this.state.pageIndex)
     }
 
+    onUpdate = (skillID) => {
+        history.push(`/skill/update/${skillID}`)
+    }
+
+    onChangeStatus = (skillID) => {
+        this.props.changeStatus(skillID)
+    }
+
     onShowListSkills = (items) => {
         var result = null
         if (typeof items !== 'undefined' && items.length > 0) {
@@ -25,9 +34,15 @@ class Skill extends Component {
                 return (
                     <tr key={index}>
                         <th className="text-center">{index + 1}</th>
-                        <th className="" style={{minWidth:200, maxWidth:200}} >{item.skillName}</th>
-                        <th className="">{item.skillType === 0 ? 'Hard skill' : 'Soft skill'}</th>
-                        <th className="text-primary"><a className="text-primary" style={{ cursor: 'pointer' }}>Delete</a></th>
+                        <th className="" style={{ minWidth: 200, maxWidth: 200 }} >{item.skillName}</th>
+                        <th style={{ fontWeight: 600 }}>{item.skillType === 0 ? 'Hard skill' : 'Soft skill'}</th>
+                        <th className="text-center" style={{width:250}} >
+                            <span className={`badge badge-pill ${showPositionSpan(item.status)} span`}>
+                                {showPositionStatus(item.status)}
+                            </span>
+                        </th>
+                        <th className="text-primary"><a className="text-primary" style={{ cursor: 'pointer' }} onClick={() => this.onUpdate(item.skillID)}>Update</a></th>
+                        <th className="text-primary"><a className="text-primary" style={{ cursor: 'pointer' }} onClick={() => this.onChangeStatus(item.skillID)}>Change Status</a></th>
                     </tr>
                 )
             })
@@ -78,6 +93,7 @@ class Skill extends Component {
                                             <th className="font-weight-bold text-center">No</th>
                                             <th className="font-weight-bold" style={{ marginLeft: 20 }}>Skill</th>
                                             <th className="font-weight-bold" style={{ marginLeft: 20 }}>Type</th>
+                                            <th className="font-weight-bold text-center" style={{ marginLeft: 20 }}>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -128,6 +144,9 @@ const mapDispatchToProps = (dispatch) => {
         checkSession: () => {
             dispatch(checkSession())
         },
+        changeStatus: (skillID) => {
+            dispatch(changeStatus(skillID))
+        }
     }
 }
 
