@@ -1,4 +1,4 @@
-import { POSITION_ASSIGN } from "../constant"
+import { POSITION_ASSIGN, Type } from "../constant"
 
 const initState = {}
 
@@ -7,6 +7,10 @@ const PositionAssignReducer = (state = initState, action) => {
     switch (action.type) {
 
         case POSITION_ASSIGN.GENERATE_POSTION_ASSIGN:
+            state = action.item
+            return state
+
+        case Type.FETCH_POSITION_PROFILE_UDPATE_DETAIL:
             state = action.item
             return state
 

@@ -27,7 +27,7 @@ class SoftSkillFormContent extends Component {
                         list={listConverted}
                         onUpdateSoftSkillID={this.props.onUpdateSoftSkillID}
                         softSkillIndex={softSkillIndex}
-                        value={item} />
+                        value={typeof item.skillID !== 'undefined'? item.skillID: item} />
                 </div>
                 <div className="col">
                     <span className="material-icons pull-right clear" onClick={() => this.onDeleteSoftSkill(softSkillIndex)}>clear</span>

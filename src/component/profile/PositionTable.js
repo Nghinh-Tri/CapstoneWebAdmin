@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { checkSession } from '../../service/action/AuthenticateAction';
 import { fetchPositionProfileDetail } from '../../service/action/ProfileAction';
+import { history } from '../../service/helper/History';
 import { showHardSkillLevel, showPositionLevel } from '../../service/util/util';
 
 class PositionTable extends Component {
@@ -58,11 +59,14 @@ class PositionTable extends Component {
                             <div className='col' style={{ fontWeight: 400, marginLeft: -20 }}>{showHardSkillLevel(item.skillLevel)}</div>
                         </div>
                         {/* List Certi */}
-                        <div className='row' style={{ boxShadow: '0 5px 5px 0 rgb(0 0 0 / 20%)', marginRight: 10 }}>
-                            <div className='col' style={{ fontSize: 16, marginBottom: 20, marginTop: 20 }}>
-                                {this.showCertificate(item.certifications)}
-                            </div>
-                        </div>
+                        {item.certifications.length > 0 ?
+                            <div className='row' >
+                                <div className='col' style={{ fontSize: 16, marginBottom: 20, marginTop: 20 }}>
+                                    {this.showCertificate(item.certifications)}
+                                </div>
+                            </div> : ''
+                        }
+
                     </li>
                 </ul>
             )
@@ -74,7 +78,7 @@ class PositionTable extends Component {
         var result = null
         result = certificate.map((item, index) => {
             return (
-                <ul key={index}>
+                <ul key={index} style={{ marginTop: 5 }} >
                     <li >
                         <div className='row'>
                             <div className='col-3' style={{ fontWeight: 400 }} >{item.certiName}</div>
@@ -92,80 +96,91 @@ class PositionTable extends Component {
         return result
     }
 
+    onUpdate = () => {
+        history.push(`/employee/update-position/${this.props.empID}`)
+    }
+
     render() {
         var { positionDetail } = this.props
-        console.log(positionDetail)
         return (
             <div className="card">
                 <div className="card-header card-header-primary">
                     <h4 className="card-title">Position Detail</h4>
                 </div>
                 <div className="card-body">
-                    {/* Name */}
-                    <div className="row">
-                        <div className="col-auto">
-                            <label className="bmd-label">
-                                <h4 style={{ fontWeight: 700 }}>Position : </h4>
-                            </label>
-                        </div>
-                        <div className="col" style={{ marginLeft: -20 }}>
-                            <label className="bmd-label">
-                                <h4>{positionDetail.posName.trim()}</h4>
-                            </label>
-                        </div>
-                        <div className='col-auto' style={{ marginLeft: 85, fontWeight: 600 }}>
+                    {positionDetail.posName !== null && typeof positionDetail.posName !== 'undefined' ?
+                        <div>
+                            {/* Name */}
+                            <div className="row">
+                                <div className="col-auto">
+                                    <label className="bmd-label">
+                                        <h4 style={{ fontWeight: 700 }}>Position : </h4>
+                                    </label>
+                                </div>
+                                <div className="col" style={{ marginLeft: -20 }}>
+                                    <label className="bmd-label">
+                                        <h4>{positionDetail.posName.trim()}</h4>
+                                    </label>
+                                </div>
+                                <div className='col-auto' style={{ marginLeft: 85, fontWeight: 600 }}>
 
-                            <h4>Level :</h4>
-                        </div>
-                        <div className="col" style={{ marginLeft: -20 }} >
-                            <label className="bmd-label">
-                                <h4 style={{ fontWeight: 500 }}>{showPositionLevel(positionDetail.posLevel)}</h4>
-                            </label>
-                        </div>
-                    </div>
+                                    <h4>Level :</h4>
+                                </div>
+                                <div className="col" style={{ marginLeft: -20 }} >
+                                    <label className="bmd-label">
+                                        <h4 style={{ fontWeight: 500 }}>{showPositionLevel(positionDetail.posLevel)}</h4>
+                                    </label>
+                                </div>
+                            </div>
 
-                    {/* Language */}
-                    <div className="row">
-                        <div className="col-auto">
-                            <label className="bmd-label">
-                                <h4 style={{ fontWeight: 700 }}>Languages : </h4>
-                            </label>
-                        </div>
-                    </div>
-                    {/* List Language */}
-                    {this.showLanguage(positionDetail.languages)}
+                            {/* Language */}
+                            <div className="row">
+                                <div className="col-auto">
+                                    <label className="bmd-label">
+                                        <h4 style={{ fontWeight: 700 }}>Languages : </h4>
+                                    </label>
+                                </div>
+                            </div>
+                            {/* List Language */}
+                            {this.showLanguage(positionDetail.languages)}
 
-                    {/* Soft Skill */}
-                    <div className="row">
-                        <div className="col-auto">
-                            <label className="bmd-label">
-                                <h4 style={{ fontWeight: 700 }}>Soft Skills : </h4>
-                            </label>
-                        </div>
-                        <div className="col" style={{ marginLeft: 100, marginTop: -15, width: 250 }}>
-                            {/* <Input className="form-group" value={profile.name} disabled="true" style={{ color: "black", cursor: 'default', fontWeight: 700, fontSize: 18, border: 'none', backgroundColor: 'white' }} /> */}
-                        </div>
-                    </div>
-                    {/* List Sost skills */}
-                    {this.showSoftSkill(positionDetail.softSkills)}
+                            {/* Soft Skill */}
+                            <div className="row">
+                                <div className="col-auto">
+                                    <label className="bmd-label">
+                                        <h4 style={{ fontWeight: 700 }}>Soft Skills : </h4>
+                                    </label>
+                                </div>
+                                <div className="col" style={{ marginLeft: 100, marginTop: -15, width: 250 }}>
+                                    {/* <Input className="form-group" value={profile.name} disabled="true" style={{ color: "black", cursor: 'default', fontWeight: 700, fontSize: 18, border: 'none', backgroundColor: 'white' }} /> */}
+                                </div>
+                            </div>
+                            {/* List Sost skills */}
+                            {this.showSoftSkill(positionDetail.softSkills)}
 
-                    {/* Hard Skill */}
-                    <div className="row">
-                        <div className="col-auto">
-                            <label className="bmd-label">
-                                <h4 className="" style={{ fontWeight: 700 }}>Hard Skills : </h4>
-                            </label>
+                            {/* Hard Skill */}
+                            <div className="row">
+                                <div className="col-auto">
+                                    <label className="bmd-label">
+                                        <h4 className="" style={{ fontWeight: 700 }}>Hard Skills : </h4>
+                                    </label>
+                                </div>
+                                <div className="col" style={{ marginLeft: 100, marginTop: -15, width: 250 }}>
+                                    {/* <Input className="form-group" value={profile.name} disabled="true" style={{ color: "black", cursor: 'default', fontWeight: 700, fontSize: 18, border: 'none', backgroundColor: 'white' }} /> */}
+                                </div>
+                            </div>
+                            {/* List Hard Skills */}
+                            {this.showHardSkill(positionDetail.hardSkills)}
+
                         </div>
-                        <div className="col" style={{ marginLeft: 100, marginTop: -15, width: 250 }}>
-                            {/* <Input className="form-group" value={profile.name} disabled="true" style={{ color: "black", cursor: 'default', fontWeight: 700, fontSize: 18, border: 'none', backgroundColor: 'white' }} /> */}
-                        </div>
-                    </div>
-                    {/* List Hard Skills */}
-                    {this.showHardSkill(positionDetail.hardSkills)}
+                        :
+                        <h4 className='text-center'>No Data</h4>
+                    }
+
                     {/* Update */}
                     <div className="col">
-                            <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }} onClick={this.onUpdate}>Update</button>
-                        </div>
+                        <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }} onClick={this.onUpdate}>Update</button>
+                    </div>
                 </div>
             </div>
         );

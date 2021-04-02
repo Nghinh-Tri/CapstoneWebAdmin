@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SelectBar from '../../component/create-position-form/select-search/SelectBar';
 import * as Action from "../../service/action/PositionAssignAction";
+import { fetchPositionProfileDetail } from '../../service/action/ProfileAction';
 import { fetchPostionList } from '../../service/action/PositionSelectBarAction';
 import { checkSession } from '../../service/action/AuthenticateAction';
 import { convertPositionList } from '../../service/util/util';
@@ -35,8 +36,26 @@ class PositionAssign extends Component {
 
     componentDidMount = () => {
         this.props.checkSession()
-        this.props.onGeneratePotitionAssign(this.state.positionInfo)
         this.props.onFetchPosition()
+        var { match } = this.props
+
+        if (typeof match !== 'undefined') {
+            this.props.fetchPositionDetail(match.params.id) //update
+        }
+        else
+            this.props.onGeneratePotitionAssign(this.state.positionInfo) //create
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.item !== prevState.item) {
+            return { someState: nextProps.item };
+        }
+        return null;
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.item !== this.props.item) {
+        }
     }
 
     onUpdatePositionID = (value) => {
@@ -109,16 +128,16 @@ class PositionAssign extends Component {
 
     onAssignPosition = (e) => {
         e.preventDefault()
-        if (typeof this.props.location !== 'undefined') {
+        if (typeof this.props.location.state !== 'undefined') {//create
             this.props.onAssignPosition(this.props.location.state.empID, this.props.item)
+        } else {
+            this.props.updatePosition(this.props.match.params.id, this.props.item)
         }
-
     }
 
     render() {
         var { item, positionList } = this.props
         var listConverted = convertPositionList(positionList)
-        console.log('Position Assign', item)
         return (
             <div>
                 <div className="card mb-50" style={{ marginRight: 20 }}>
@@ -211,6 +230,9 @@ const mapDispatchToProps = dispatch => {
         checkSession: () => {
             dispatch(checkSession())
         },
+        fetchPositionDetail: (empID) => {
+            dispatch(Action.fetchPositionProfileUpdateDetail(empID))
+        },
         onGeneratePotitionAssign: item => {
             dispatch(Action.generatePositionAssign(item))
         },
@@ -270,6 +292,9 @@ const mapDispatchToProps = dispatch => {
         },
         onAssignPosition: (empID, item) => {
             dispatch(Action.assignPosition(empID, item))
+        },
+        updatePosition: (empID, item) => {
+            dispatch(Action.updatePositionDetail(empID, item))
         }
     }
 }

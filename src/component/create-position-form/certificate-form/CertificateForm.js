@@ -17,6 +17,10 @@ class CertificateForm extends Component {
         }
     }
 
+    componentDidMount = () => {
+        this.props.fetchCertificateList(this.props.hardSkillID)
+    }
+
     static getDerivedStateFromProps(nextProps, prevState) {
         if (nextProps.hardSkillID !== prevState.hardSkillID) {
             return { someState: nextProps.hardSkillID };

@@ -28,15 +28,18 @@ class HardSkillForm extends Component {
     getHardSkillListNotSelect = () => {
         var { hardSkillList, hardSkill } = this.props
         var listNotSelect = hardSkillList.slice(0, hardSkillList.length)
-        for (let i = 0; i < listNotSelect.length; i++) {
-            for (let k = 0; k < hardSkill.length; k++) {
-                if (listNotSelect[i].skillID === hardSkill[k].skillID) {
-                    var clone = { ...listNotSelect[i] }
-                    clone.isSelect = true
-                    listNotSelect[i] = clone
+        if (typeof hardSkill !== 'undefined') {
+            for (let i = 0; i < listNotSelect.length; i++) {
+                for (let k = 0; k < hardSkill.length; k++) {
+                    if (listNotSelect[i].skillID === hardSkill[k].skillID) {
+                        var clone = { ...listNotSelect[i] }
+                        clone.isSelect = true
+                        listNotSelect[i] = clone
+                    }
                 }
             }
         }
+
         return listNotSelect
     }
 

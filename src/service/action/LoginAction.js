@@ -91,7 +91,6 @@ export const failure = (user) => {
 
 export const register = (emp) => {
     var url = `${API_URL}/User`
-    console.log(emp)
     return dispatch => {
         axios.post(
             url,
@@ -99,7 +98,7 @@ export const register = (emp) => {
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } })
             .then(res => {
                 if (res.status === 200) {
-                    dispatch(registerSuccess(JSON.stringify(res.data.resultObj)))
+                    dispatch(registerSuccess(res.data.resultObj))
                 }
             })
             .catch(err => {

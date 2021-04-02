@@ -25,24 +25,27 @@ class LanguageForm extends Component {
         this.props.onAddLanguage(this.state.language)
     }
 
-    getLanguageListNotSelect = () => {
-        var { languageList, language } = this.props
+    getLanguageListNotSelect = (language) => {
+        var { languageList } = this.props
         var listNotSelect = languageList.slice(0, languageList.length)
-        for (let i = 0; i < listNotSelect.length; i++) {
-            for (let k = 0; k < language.length; k++) {
-                if (listNotSelect[i].langID === language[k].langID) {
-                    var clone = { ...listNotSelect[i] }
-                    clone.isSelect = true
-                    listNotSelect[i] = clone
+        if (typeof language !== 'undefined') {
+            for (let i = 0; i < listNotSelect.length; i++) {
+                for (let k = 0; k < language.length; k++) {
+                    if (listNotSelect[i].langID === language[k].langID) {
+                        var clone = { ...listNotSelect[i] }
+                        clone.isSelect = true
+                        listNotSelect[i] = clone
+                    }
                 }
             }
         }
+
         return listNotSelect
     }
 
     showItems = (language) => {
         var result = null;
-        var languageList = this.getLanguageListNotSelect()
+        var languageList = this.getLanguageListNotSelect(language)
         if (typeof language !== 'undefined') {
             result = language.map((item, languageIndex) => {
                 return (

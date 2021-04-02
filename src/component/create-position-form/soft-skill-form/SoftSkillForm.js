@@ -20,24 +20,27 @@ class SoftSkillForm extends Component {
         this.props.onAddSoftSkill(0)
     }
 
-    getSoftSkillListNotSelect = () => {
-        var { softSkillList, softSkill } = this.props
+    getSoftSkillListNotSelect = (softSkill) => {
+        var { softSkillList } = this.props
         var listNotSelect = softSkillList.slice(0, softSkillList.length)
-        for (let i = 0; i < listNotSelect.length; i++) {
-            for (let k = 0; k < softSkill.length; k++) {
-                if (listNotSelect[i].skillID === softSkill[k]) {
-                    var clone = { ...listNotSelect[i] }
-                    clone.isSelect = true
-                    listNotSelect[i] = clone
+        if (typeof softSkill !== 'undefined') {
+            for (let i = 0; i < listNotSelect.length; i++) {
+                for (let k = 0; k < softSkill.length; k++) {
+                    if (listNotSelect[i].skillID === softSkill[k]) {
+                        var clone = { ...listNotSelect[i] }
+                        clone.isSelect = true
+                        listNotSelect[i] = clone
+                    }
                 }
             }
         }
+
         return listNotSelect
     }
 
     showItems = (softSkill,) => {
         var result = null;
-        var softSkillList = this.getSoftSkillListNotSelect()
+        var softSkillList = this.getSoftSkillListNotSelect(softSkill)
         if (typeof softSkill !== 'undefined') {
             result = softSkill.map((item, softSkillIndex) => {
                 return (
@@ -64,7 +67,6 @@ class SoftSkillForm extends Component {
         var result = []
         if (typeof softSkill !== 'undefined')
             result = softSkill
-
         const showSoftSkill = (softSkill) => {
             if (this.state.isMinimize)
                 return ""
@@ -80,7 +82,7 @@ class SoftSkillForm extends Component {
                 </div>)
             }
         }
-        
+
         return (
             <div className="card mb-50">
                 <div className="card-header ">

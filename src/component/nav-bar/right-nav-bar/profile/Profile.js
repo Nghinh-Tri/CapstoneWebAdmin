@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logout } from "../../../../service/action/AuthenticateAction";
+import { getUserName } from '../../../../service/util/util';
 
 class Profile extends Component {
 
@@ -13,8 +14,8 @@ class Profile extends Component {
         return (
             <li className="nav-item dropdown">
                 <a className="nav-link" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i className="material-icons">person</i>
-                    <p className="d-lg-none d-md-block">Account</p>
+                    <i className="material-icons" style={{ fontSize: 35 }}>person</i>
+                    <p style={{ display: 'block', float: 'right', fontSize: 20, marginLeft: 15, marginTop: 5, fontWeight: 600 }}>{getUserName()}</p>
                 </a>
                 <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
                     <a className="dropdown-item" >Profile</a>

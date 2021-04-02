@@ -30,7 +30,6 @@ export const fetchProfileDetail = (id) => {
             url,
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
-            console.log(res)
             dispatch(fetchProfileDetailSuccess(res.data.resultObj))
         })
     }
@@ -50,7 +49,6 @@ export const fetchPositionProfileDetail = (id) => {
 
 export const createUser = (profile, match) => {
     var url = `${API_URL}/User`
-    console.log(profile)
     return (dispatch) => {
         return axios.post(
             url,

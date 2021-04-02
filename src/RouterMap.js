@@ -63,6 +63,11 @@ const route = [
         main: ({ match }) => <Register match={match} />
     },
     {
+        path: "/employee/update-position/:id",
+        exact: true,
+        main: () => <PositionAssign />
+    },
+    {
         path: "/employee/register",
         exact: true,
         main: () => <Register />

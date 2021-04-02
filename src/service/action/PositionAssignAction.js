@@ -1,6 +1,6 @@
 import axios from "axios"
 import { store } from "react-notifications-component"
-import { alertConstants, POSITION_ASSIGN } from "../constant"
+import { alertConstants, POSITION_ASSIGN, Type } from "../constant"
 import { history } from "../helper/History"
 import { API_URL } from "../util/util"
 
@@ -105,6 +105,55 @@ export const assignPosition = (empID, positionAssign) => {
     }
 }
 
+export const fetchPositionProfileUpdateDetail = (id) => {
+    var url = `${API_URL}/User/loadEmpInfo/${id}`
+    return (dispatch) => {
+        return axios.get(
+            url,
+            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
+        ).then(res => {
+            dispatch(fetchPositionProfileUpdateDetailSuccess(res.data.resultObj))
+        })
+    }
+}
+
+export const updatePositionDetail = (empID, positionAssign) => {
+    var url = `${API_URL}/User/updateEmpInfo/${empID}`
+    return (dispatch) => {
+        axios.post(
+            url,
+            positionAssign,
+            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } })
+            .then(res => {
+                if (res.status === 200) {
+                    dispatch(updatePositionDetailSuccess(empID))
+                }
+            })
+            .catch(err => {
+                dispatch(assignPositionFail())
+                store.addNotification({
+                    message: err.toString(),
+                    type: "danger",
+                    insert: "top",
+                    container: "top-center",
+                    animationIn: ["animated", "fadeIn"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: {
+                        duration: 2000,
+                        onScreen: false
+                    }
+                })
+            })
+    }
+}
+
+export const fetchPositionProfileUpdateDetailSuccess = (item) => {
+    return {
+        type: Type.FETCH_POSITION_PROFILE_UDPATE_DETAIL,
+        item
+    }
+}
+
 export const assignPositionSuccess = () => {
     history.push('/employee');
     return { type: POSITION_ASSIGN.ASSIGN_POSITION }
@@ -112,4 +161,9 @@ export const assignPositionSuccess = () => {
 
 export const assignPositionFail = () => {
     return { type: alertConstants.ERROR }
+}
+
+export const updatePositionDetailSuccess = (empID) => {
+    history.push(`/employee/profile/${empID}`)
+    return { type: POSITION_ASSIGN.UPDATE_POSITION_DETAIL }
 }
