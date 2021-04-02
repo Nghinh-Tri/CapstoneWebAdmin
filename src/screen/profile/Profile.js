@@ -28,7 +28,6 @@ class Profile extends Component {
             empID = this.props.empID
         else
             empID = this.props.match.params.id
-        console.log(empID)
         return (
             <div>
                 <div className='row'>

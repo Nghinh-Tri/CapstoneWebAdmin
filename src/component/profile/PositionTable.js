@@ -151,9 +151,6 @@ class PositionTable extends Component {
                                         <h4 style={{ fontWeight: 700 }}>Soft Skills : </h4>
                                     </label>
                                 </div>
-                                <div className="col" style={{ marginLeft: 100, marginTop: -15, width: 250 }}>
-                                    {/* <Input className="form-group" value={profile.name} disabled="true" style={{ color: "black", cursor: 'default', fontWeight: 700, fontSize: 18, border: 'none', backgroundColor: 'white' }} /> */}
-                                </div>
                             </div>
                             {/* List Sost skills */}
                             {this.showSoftSkill(positionDetail.softSkills)}
@@ -164,9 +161,6 @@ class PositionTable extends Component {
                                     <label className="bmd-label">
                                         <h4 className="" style={{ fontWeight: 700 }}>Hard Skills : </h4>
                                     </label>
-                                </div>
-                                <div className="col" style={{ marginLeft: 100, marginTop: -15, width: 250 }}>
-                                    {/* <Input className="form-group" value={profile.name} disabled="true" style={{ color: "black", cursor: 'default', fontWeight: 700, fontSize: 18, border: 'none', backgroundColor: 'white' }} /> */}
                                 </div>
                             </div>
                             {/* List Hard Skills */}
