@@ -122,6 +122,11 @@ const route = [
         exact: true,
         main: ({ match }) => <CreateCertification match={match} />
     },
+    {
+        path: "/profile",
+        exact: true,
+        main: () => <Profile empID={JSON.parse(localStorage.getItem('EMP'))} />
+    },
 ]
 
 export default route

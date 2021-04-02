@@ -23,7 +23,12 @@ class Profile extends Component {
     }
 
     render() {
-        var empID = this.props.match.params.id
+        var empID = ''
+        if (typeof this.props.empID !== 'undefined')
+            empID = this.props.empID
+        else
+            empID = this.props.match.params.id
+        console.log(empID)
         return (
             <div>
                 <div className='row'>
@@ -50,7 +55,7 @@ class Profile extends Component {
                                 <NavLink to="/employee">
                                     <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }}>Back</button>
                                 </NavLink>
-                            </div>                            
+                            </div>
                         </div>
                     </div>
                 </div>

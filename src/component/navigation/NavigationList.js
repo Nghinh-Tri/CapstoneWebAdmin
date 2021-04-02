@@ -34,6 +34,12 @@ const navigation = [
         icon: 'assignment_ind',
         path: '/certification',
         exact: false
+    },
+    {
+        name: 'Profile',
+        icon: 'assignment_ind',
+        path: '/profile',
+        exact: false
     }
 ]
 
