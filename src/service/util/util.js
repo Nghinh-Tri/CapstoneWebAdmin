@@ -63,6 +63,54 @@ export const showPositionSpan = status => {
     }
 }
 
+export const showRole = role => {
+    switch (role) {
+        case 'admin':
+            return "Administrator"
+        case 'PM':
+            return "Project Manager"
+        case 'Employee':
+            return "Employee"
+        default:
+            break;
+    }
+}
+
+export const showPositionLevel = level => {
+    switch (level) {
+        case 1:
+            return "Intern"
+        case 2:
+            return "Fresher"
+        case 3:
+            return "Junior"
+        case 4:
+            return "Senior"
+        case 5:
+            return "Master"
+        default:
+            break;
+    }
+}
+
+export const showHardSkillLevel = level => {
+    switch (level) {
+        case 1:
+            return "Basic Knowledge"
+        case 2:
+            return "Limited Experience"
+        case 3:
+            return "Practical"
+        case 4:
+            return "Applied Theory"
+        case 5:
+            return "Recognized Authority"
+        default:
+            break;
+    }
+}
+
+
 export const formatDate = date => {
     return date.split("/").reverse().join("-")
 }

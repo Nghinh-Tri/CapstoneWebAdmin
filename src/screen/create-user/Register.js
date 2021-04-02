@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import SelectBar from '../../component/create-position-form/select-search/SelectBar';
 import { checkSession } from '../../service/action/AuthenticateAction';
 import * as Action from '../../service/action/LoginAction'
+import { fetchProfileDetail, updateProfile } from '../../service/action/ProfileAction';
 class Register extends Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
             userName: '',
             email: '',
@@ -15,15 +16,44 @@ class Register extends Component {
             fullname: '',
             address: '',
             phoneNumber: '',
-            doB: '',
+            role: '',
             identityNumber: '',
             submitted: false,
-            isValidate: true
+            isValidate: true,
+            roleList: [
+                { label: 'Administrator', value: 'admin' },
+                { label: 'Project Manager', value: 'PM' },
+                { label: 'Employee', value: 'Employee' },
+            ]
         }
     }
 
     componentDidMount = () => {
         this.props.checkSession()
+        var { match } = this.props
+        if (typeof match !== 'undefined')
+            this.props.fetchEmpDetail(match.params.id)
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.profile !== prevState.profile) {
+            return { someState: nextProps.profile };
+        }
+        return null;
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.profile !== this.props.profile) {
+            var { profile } = this.props
+            this.setState({
+                fullname: profile.name,
+                address: profile.address,
+                phoneNumber: profile.phoneNumber,
+                identityNumber: profile.identityNumber,
+                role: profile.roleName,
+                email: profile.email,
+            })
+        }
     }
 
     handleInputChange = (e) => {
@@ -33,7 +63,6 @@ class Register extends Component {
         });
         if (name === 'userName') {
             var space = value.indexOf(" ")
-
             if (space >= 0)
                 this.setState({ isValidate: false })
             else
@@ -41,16 +70,48 @@ class Register extends Component {
         }
     }
 
+    onSelectRole = (value) => {
+        this.setState({
+            role: value
+        })
+    }
+
     handleSubmit = (e) => {
         e.preventDefault();
         this.setState({ submitted: true });
-        const { address, phoneNumber, doB, userName, email, fullname, password, confirmPassword, identityNumber } = this.state;
-        if (email && password) {
-            this.props.register(address, phoneNumber, doB, userName, fullname, email, password, confirmPassword, identityNumber);
+        const { address, phoneNumber, userName, email, fullname, password, confirmPassword, identityNumber, role } = this.state;
+        if (typeof this.props.match === 'undefined') {
+            if (email && password) {
+                this.props.register(
+                    {
+                        name: fullname,
+                        identityNumber: identityNumber,
+                        address: address,
+                        email: email,
+                        phoneNumber: phoneNumber,
+                        userName: userName,
+                        password: password,
+                        confirmPassword: confirmPassword,
+                        roleName: role
+                    }
+                );
+            }
+        } else {
+            var { profile } = this.props
+            this.props.updateProfile(profile.id,
+                {
+                    name: fullname,
+                    identityNumber: identityNumber,
+                    address: address,
+                    email: email,
+                    phoneNumber: phoneNumber,
+                    roleName: role
+                })
         }
     }
+
     render() {
-        const { address, phoneNumber, doB, userName, fullname, email, password, confirmPassword, identityNumber, submitted } = this.state;
+        const { address, phoneNumber, userName, fullname, email, password, confirmPassword, identityNumber, submitted, role } = this.state;
 
         return (
             <div className="content">
@@ -58,106 +119,165 @@ class Register extends Component {
                     <div className="row">
                         <div className="card">
                             <div className="card-header card-header-primary">
-                                <h4 className="card-title">Create Employee</h4>
+                                <h4 className="card-title">
+                                    {typeof this.props.match !== 'undefined' ? 'Update Certificate' : 'Create Certificate'}
+                                </h4>
                             </div>
                             <div className="card-body">
                                 <form onSubmit={this.handleSubmit} >
+                                    {/* Full name */}
                                     <div className="row">
-                                        <div className="col-md-3">
+                                        <div className="col-1" style={{ marginTop: 15 }}>
+                                            <label className="bmd-label-floating">Full name : </label>
+                                        </div>
+                                        <div className="col">
                                             <div className="form-group">
-                                                <label className="bmd-label-floating">Full name</label>
+                                                <label className={`bmd-label-${typeof this.props.match !== 'undefined' ? 'static' : 'floating'}`}>Full name</label>
                                                 <input name="fullname" type="text" className="form-control" value={fullname} onChange={this.handleInputChange} />
                                                 {submitted && !fullname &&
-                                                    <div className="help-block error">Full name is required</div>
+                                                    <div className="error text-danger font-weight-bold">Full name is required</div>
                                                 }
                                             </div>
                                         </div>
-                                        <div className="col-md-3">
-                                            <div className="form-group">
-                                                <label className="bmd-label-floating">Username</label>
-                                                <input name="userName" type="text" className="form-control" value={userName} onChange={this.handleInputChange} />
-                                                {submitted && !userName &&
-                                                    <div className="help-block error">Username is required</div>
-                                                }
-                                                {
-                                                    !this.state.isValidate ?
-                                                        <div className="help-block error">Username must not have space</div> : ''
-                                                }
-                                            </div>
+                                    </div>
+
+                                    {/* Email */}
+                                    <div className="row">
+                                        <div className="col-1" style={{ marginTop: 15 }}>
+                                            <label className="bmd-label-floating">Email : </label>
                                         </div>
-                                        <div className="col-md-4">
+                                        <div className="col">
                                             <div className="form-group">
-                                                <label className="bmd-label-floating">Email address</label>
+                                                <label className={`bmd-label-${typeof this.props.match !== 'undefined' ? 'static' : 'floating'}`}>Email</label>
                                                 <input name="email" type="email" placeholder="Email" className="form-control" value={email} onChange={this.handleInputChange} />
                                                 {submitted && !email &&
-                                                    <div className="help-block error">Email is required</div>
+                                                    <div className="error text-danger font-weight-bold">Email is required</div>
                                                 }
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="row">
-                                        <div className="col-md-6">
-                                            <div className="form-group">
-                                                <label className="bmd-label-floating">Identity Number</label>
-                                                <input name="identityNumber" type="identityNumber" placeholder="" className="form-control" value={identityNumber} onChange={this.handleInputChange} />
-                                                {submitted && !identityNumber &&
-                                                    <div className="help-block error">Identity Number is required</div>
-                                                }
+
+                                    {/* Username */}
+                                    {typeof this.props.match === 'undefined' ?
+                                        <div className="row">
+                                            <div className="col-1" style={{ marginTop: 15 }}>
+                                                <label className="bmd-label-floating">Username : </label>
+                                            </div>
+                                            <div className="col">
+                                                <div className="form-group">
+                                                    <label className="bmd-label-floating">Username</label>
+                                                    <input name="userName" type="text" className="form-control" value={userName} onChange={this.handleInputChange} />
+                                                    {submitted && !userName &&
+                                                        <div className="error text-danger font-weight-bold">Username is required</div>
+                                                    }
+                                                    {
+                                                        !this.state.isValidate ?
+                                                            <div className="error text-danger font-weight-bold">Username must not have space</div> : ''
+                                                    }
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-md-6">
-                                            <div className="form-group">
-                                                <label className="bmd-label-floating">Password</label>
-                                                <input name="password" type="password" className="form-control" value={password} onChange={this.handleInputChange} />
-                                                {submitted && !password &&
-                                                    <div className="help-block error">Password is required</div>
-                                                }
+                                        : ''}
+
+                                    {/* Password */}
+                                    {typeof this.props.match === 'undefined' ?
+                                        <div className="row">
+                                            <div className="col-1" style={{ marginTop: 15 }}>
+                                                <label className="bmd-label-floating">Password : </label>
+                                            </div>
+                                            <div className="col-md-4" >
+                                                <div className="form-group">
+                                                    <label className="bmd-label-floating">Password</label>
+                                                    <input name="password" type="password" className="form-control" value={password} onChange={this.handleInputChange} />
+                                                    {submitted && !password &&
+                                                        <div className="error text-danger font-weight-bold">Password is required</div>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div className="col-auto" style={{ marginTop: 15 }}>
+                                                <label className="bmd-label-floating">Confirm Password : </label>
+                                            </div>
+                                            <div className="col-md-4">
+                                                <div className="form-group">
+                                                    <label className="bmd-label-floating">Confirm password</label>
+                                                    <input name="confirmPassword" type="password" value={confirmPassword} className="form-control" onChange={this.handleInputChange} />
+                                                    {submitted && !confirmPassword &&
+                                                        <div className="error text-danger font-weight-bold">Confirm password is required</div>
+                                                    }
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="col-md-6">
-                                            <div className="form-group">
-                                                <label className="bmd-label-floating">Confirm password</label>
-                                                <input name="confirmPassword" type="password" value={confirmPassword} className="form-control" onChange={this.handleInputChange} />
-                                                {submitted && !confirmPassword &&
-                                                    <div className="help-block error">Confirm password is required</div>
-                                                }
-                                            </div>
-                                        </div>
-                                    </div>
+                                        : ''}
+
+                                    {/* Phone Number */}
                                     <div className="row">
-                                        <div className="col-md-6">
-                                            <label className="bmd-label">Date of Birth</label>
-                                            <div className="form-group">
-                                                <input type="date" name="doB" className="form-control" value={doB} onChange={this.handleInputChange} />
-                                            </div>
+                                        <div className="col-1" style={{ marginTop: 15 }}>
+                                            <label className="bmd-label-floating">Phone : </label>
                                         </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-md-12">
+                                        <div className="col">
                                             <div className="form-group">
-                                                <label className="bmd-label-floating">Adress</label>
-                                                <input type="text" name="address" className="form-control" value={address} onChange={this.handleInputChange} />
-                                                {submitted && !address &&
-                                                    <div className="help-block error">Address is required</div>
-                                                }
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-md-12">
-                                            <div className="form-group">
-                                                <label className="bmd-label-floating">Phone Number</label>
+                                                <label className={`bmd-label-${typeof this.props.match !== 'undefined' ? 'static' : 'floating'}`}>Phone Number</label>
                                                 <input type="text" name="phoneNumber" value={phoneNumber} className="form-control" onChange={this.handleInputChange} />
                                                 {submitted && !phoneNumber &&
-                                                    <div className="help-block error">Phone is required</div>
+                                                    <div className="error text-danger font-weight-bold">Phone is required</div>
                                                 }
                                             </div>
                                         </div>
                                     </div>
-                                    <button type="submit" className="btn btn-primary pull-right">Create Emp</button>
-                                    <div className="clearfix" />
+
+                                    {/* Identity Number */}
+                                    <div className="row">
+                                        <div className="col-1" style={{ marginTop: 15 }}>
+                                            <label className="bmd-label-floating">ID No : </label>
+                                        </div>
+                                        <div className="col">
+                                            <div className="form-group">
+                                                <label className={`bmd-label-${typeof this.props.match !== 'undefined' ? 'static' : 'floating'}`}>Identity Number</label>
+                                                <input name="identityNumber" type="identityNumber" placeholder="" className="form-control" value={identityNumber} onChange={this.handleInputChange} />
+                                                {submitted && !identityNumber &&
+                                                    <div className="error text-danger font-weight-bold">Identity Number is required</div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Adress */}
+                                    <div className="row">
+                                        <div className="col-1" style={{ marginTop: 15 }}>
+                                            <label className="bmd-label-floating">Address : </label>
+                                        </div>
+                                        <div className="col">
+                                            <div className="form-group">
+                                                <label className={`bmd-label-${typeof this.props.match !== 'undefined' ? 'static' : 'floating'}`}>Adress</label>
+                                                <input type="text" name="address" className="form-control" value={address} onChange={this.handleInputChange} />
+                                                {submitted && !address &&
+                                                    <div className="error text-danger font-weight-bold" >Address is required</div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Role */}
+                                    <div className="row">
+                                        <div className="col-1" style={{ marginTop: 5 }}>
+                                            <label className="bmd-label-floating">Role : </label>
+                                        </div>
+                                        <div className="col">
+                                            <SelectBar name='role'
+                                                type="role"
+                                                value={role}
+                                                placeholder='Select role'
+                                                list={this.state.roleList}
+                                                onSelectRole={this.onSelectRole} />
+                                            {submitted && !role &&
+                                                <div className="error text-danger font-weight-bold" >Role is required</div>
+                                            }
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" className="btn btn-primary pull-right">
+                                        {typeof this.props.match !== 'undefined' ? 'Update' : 'Create'}
+                                    </button>
                                 </form>
                             </div>
                         </div>
@@ -169,16 +289,25 @@ class Register extends Component {
 }
 
 const mapState = (state) => {
-    return { registering: state.authentication };
+    return {
+        registering: state.authentication,
+        profile: state.ProfileFetchReducer
+    };
 }
 
 const mapDispatchToProp = dispatch => {
     return {
-        register: (address, phoneNumber, doB, userName, fullname, email, password, confirmPassword, identityNumber) => [
-            dispatch(Action.register(address, phoneNumber, doB, userName, fullname, email, password, confirmPassword, identityNumber))
+        register: (emp) => [
+            dispatch(Action.register(emp))
         ],
         checkSession: () => {
             dispatch(checkSession())
+        },
+        fetchEmpDetail: (empID) => {
+            dispatch(fetchProfileDetail(empID))
+        },
+        updateProfile: (empID, emp) => {
+            dispatch(updateProfile(empID, emp))
         }
     }
 }

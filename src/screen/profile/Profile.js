@@ -14,7 +14,7 @@ class Profile extends Component {
         }
     }
 
-    componentDidMount=()=>{
+    componentDidMount = () => {
         this.props.checkSession()
     }
 
@@ -39,23 +39,18 @@ class Profile extends Component {
                     </div>
 
                     <div className='col'>
-                            {this.state.select === 1 ?
-                                <ProfileTable empID={empID} />
-                                :
-                                <PositionTable empID={empID} />
-                            }
+                        {this.state.select === 1 ?
+                            <ProfileTable empID={empID} />
+                            :
+                            <PositionTable empID={empID} />
+                        }
 
                         <div className="row pull-right">
                             <div className="col">
-                                <NavLink to="/eployee">
+                                <NavLink to="/employee">
                                     <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }}>Back</button>
                                 </NavLink>
-                            </div>
-                            <div className="col">
-                                <NavLink to="/eployee">
-                                    <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }}>Update</button>
-                                </NavLink>
-                            </div>
+                            </div>                            
                         </div>
                     </div>
                 </div>

@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { checkSession } from '../../service/action/AuthenticateAction';
 import { fetchProfileDetail } from '../../service/action/ProfileAction';
+import { history } from '../../service/helper/History';
+import { showRole } from '../../service/util/util';
 
 class ProfileTable extends Component {
 
@@ -11,9 +13,13 @@ class ProfileTable extends Component {
         this.props.fetchProfileDetails(this.props.empID)
     }
 
+    onUpdate = () => {
+        history.push(`/employee/update-profile/${this.props.empID}`)
+    }
+
     render() {
         var { profile } = this.props
-        console.log(profile)
+        // console.log(profile)
         return (
             <div className="card">
                 <div className="card-header card-header-primary">
@@ -30,8 +36,8 @@ class ProfileTable extends Component {
                                 </label>
                             </div>
                             <div className="col" style={{ marginLeft: 100, marginTop: -15, width: 250 }}>
-                                <Input className="form-group" value={profile.name} disabled="true" 
-                                style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
+                                <Input className="form-group" value={profile.name} disabled="true"
+                                    style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
                             </div>
                         </div>
 
@@ -43,8 +49,8 @@ class ProfileTable extends Component {
                                 </label>
                             </div>
                             <div className="col" style={{ marginLeft: 80, marginTop: -15, width: 250 }}>
-                                <Input className="form-group" value={profile.address} disabled="true" 
-                                style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
+                                <Input className="form-group" value={profile.address} disabled="true"
+                                    style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
                             </div>
                         </div>
 
@@ -56,8 +62,8 @@ class ProfileTable extends Component {
                                 </label>
                             </div>
                             <div className="col" style={{ marginLeft: 95, marginTop: -15, width: 250 }}>
-                                <Input className="form-group" value={profile.phoneNumber} disabled="true" 
-                                style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
+                                <Input className="form-group" value={profile.phoneNumber} disabled="true"
+                                    style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
                             </div>
                         </div>
 
@@ -69,8 +75,8 @@ class ProfileTable extends Component {
                                 </label>
                             </div>
                             <div className="col" style={{ marginLeft: 100, marginTop: -15, width: 250 }}>
-                                <Input className="form-group" value={profile.email} disabled="true" 
-                                style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
+                                <Input className="form-group" value={profile.email} disabled="true"
+                                    style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
                             </div>
                         </div>
 
@@ -82,8 +88,8 @@ class ProfileTable extends Component {
                                 </label>
                             </div>
                             <div className="col" style={{ marginLeft: 62, marginTop: -15, width: 250 }}>
-                                <Input className="form-group" value={profile.userName} disabled="true" 
-                                style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
+                                <Input className="form-group" value={profile.userName} disabled="true"
+                                    style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
                             </div>
                         </div>
 
@@ -95,8 +101,8 @@ class ProfileTable extends Component {
                                 </label>
                             </div>
                             <div className="col" style={{ marginLeft: 5, marginTop: -15, width: 250 }}>
-                                <Input className="form-group" value={profile.identityNumber} disabled="true" 
-                                style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
+                                <Input className="form-group" value={profile.identityNumber} disabled="true"
+                                    style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
                             </div>
                         </div>
 
@@ -107,10 +113,14 @@ class ProfileTable extends Component {
                                     <h4 className="font-weight-bold">Role : </h4>
                                 </label>
                             </div>
-                            <div className="col" style={{marginLeft:109, marginTop: -15, width: 250 }}>
-                                <Input className="form-group" value={profile.identityNumber} disabled="true" 
-                                style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
+                            <div className="col" style={{ marginLeft: 109, marginTop: -15, width: 250 }}>
+                                <Input className="form-group" value={showRole(profile.roleName)} disabled="true"
+                                    style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
                             </div>
+                        </div>
+                        {/* Update */}
+                        <div className="col">
+                            <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }} onClick={this.onUpdate}>Update</button>
                         </div>
                     </div>
                 </div>

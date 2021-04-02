@@ -18,7 +18,7 @@ class EmpTableItem extends Component {
                 <th className="">{profile.phoneNumber}</th>
                 <th className="">{profile.email}</th>
                 <th className="">{profile.userName}</th>
-                <th className="">
+                <th className="text-primary">
                     <a onClick={this.onHandle} style={{ cursor: 'pointer' }}>
                         Detail
                     </a>

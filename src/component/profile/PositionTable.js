@@ -1,19 +1,106 @@
+import moment from 'moment';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { checkSession } from '../../service/action/AuthenticateAction';
+import { fetchPositionProfileDetail } from '../../service/action/ProfileAction';
+import { showHardSkillLevel, showPositionLevel } from '../../service/util/util';
 
 class PositionTable extends Component {
 
     componentDidMount = () => {
+        this.props.checkSession()
+        this.props.fetchPositionProfileDetai(this.props.empID)
+    }
 
+    showLanguage = (language) => {
+        var result = null
+        result = language.map((item, index) => {
+            return (
+                <ul key={index}>
+                    <li style={{ fontSize: 18, marginLeft: 30, marginBottom: 20 }}>
+                        <div className='row'>
+                            <div className='col' style={{ fontWeight: 600 }}>{item.langName}</div>
+                            <div className='col-auto' style={{ marginLeft: 100, fontWeight: 600, }}>Level : </div>
+                            <div className='col' style={{ fontWeight: 400, marginLeft: -20 }}>{item.langLevel}</div>
+                        </div>
+                    </li>
+                </ul>
+            )
+        })
+        return result
+    }
+
+    showSoftSkill = (softSkill) => {
+        var result = null
+        result = softSkill.map((item, index) => {
+            return (
+                <ul key={index}>
+                    <li style={{ fontSize: 18, marginLeft: 30, marginBottom: 20 }}>
+                        <div className='row'>
+                            <div className='col' style={{ fontWeight: 600 }}>{item.skillName}</div>
+                        </div>
+                    </li>
+                </ul>
+            )
+        })
+        return result
+    }
+
+    showHardSkill = (hardSkill) => {
+        var result = null
+        result = hardSkill.map((item, index) => {
+            return (
+                <ul key={index}>
+                    <li style={{ fontSize: 18, marginLeft: 30, marginBottom: 20 }}>
+                        <div className='row' >
+                            <div className='col' style={{ fontWeight: 600 }}>{item.skillName}</div>
+                            <div className='col-auto' style={{ marginLeft: 100, fontWeight: 600 }}>Level : </div>
+                            <div className='col' style={{ fontWeight: 400, marginLeft: -20 }}>{showHardSkillLevel(item.skillLevel)}</div>
+                        </div>
+                        {/* List Certi */}
+                        <div className='row' style={{ boxShadow: '0 5px 5px 0 rgb(0 0 0 / 20%)', marginRight: 10 }}>
+                            <div className='col' style={{ fontSize: 16, marginBottom: 20, marginTop: 20 }}>
+                                {this.showCertificate(item.certifications)}
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            )
+        })
+        return result
+    }
+
+    showCertificate = (certificate) => {
+        var result = null
+        result = certificate.map((item, index) => {
+            return (
+                <ul key={index}>
+                    <li >
+                        <div className='row'>
+                            <div className='col-3' style={{ fontWeight: 400 }} >{item.certiName}</div>
+                            <div className='col-auto' style={{ marginLeft: 30, fontWeight: 400 }}>Level : </div>
+                            <div className='col-auto' style={{ marginLeft: -20, fontWeight: 350 }}>{item.certiLevel}</div>
+                            <div className='col-auto' style={{ marginLeft: 30, fontWeight: 400 }}>Taken Date : </div>
+                            <div className='col-auto' style={{ marginLeft: -20, fontWeight: 350 }}>{moment(item.dateTaken).format('DD-MM-YYYY')}</div>
+                            <div className='col-auto' style={{ marginLeft: 30, fontWeight: 400 }}>Expired Date : </div>
+                            <div className='col' style={{ fontWeight: 350 }}>{moment(item.dateEnd).format('DD-MM-YYYY')}</div>
+                        </div>
+                    </li>
+                </ul>
+            )
+        })
+        return result
     }
 
     render() {
+        var { positionDetail } = this.props
+        console.log(positionDetail)
         return (
             <div className="card">
                 <div className="card-header card-header-primary">
                     <h4 className="card-title">Position Detail</h4>
                 </div>
                 <div className="card-body">
-
                     {/* Name */}
                     <div className="row">
                         <div className="col-auto">
@@ -23,7 +110,7 @@ class PositionTable extends Component {
                         </div>
                         <div className="col" style={{ marginLeft: -20 }}>
                             <label className="bmd-label">
-                                <h4>Back-end</h4>
+                                <h4>{positionDetail.posName.trim()}</h4>
                             </label>
                         </div>
                         <div className='col-auto' style={{ marginLeft: 85, fontWeight: 600 }}>
@@ -32,7 +119,7 @@ class PositionTable extends Component {
                         </div>
                         <div className="col" style={{ marginLeft: -20 }} >
                             <label className="bmd-label">
-                                <h4 style={{ fontWeight: 500 }}>Fresher</h4>
+                                <h4 style={{ fontWeight: 500 }}>{showPositionLevel(positionDetail.posLevel)}</h4>
                             </label>
                         </div>
                     </div>
@@ -46,15 +133,7 @@ class PositionTable extends Component {
                         </div>
                     </div>
                     {/* List Language */}
-                    <ul>
-                        <li style={{ fontSize: 18, marginLeft: 30, marginBottom: 20 }}>
-                            <div className='row'>
-                                <div className='col' style={{ fontWeight: 600 }}>English</div>
-                                <div className='col-auto' style={{ marginLeft: 100, fontWeight: 600, }}>Level : </div>
-                                <div className='col' style={{ fontWeight: 400, marginLeft: -20 }}>1</div>
-                            </div>
-                        </li>
-                    </ul>
+                    {this.showLanguage(positionDetail.languages)}
 
                     {/* Soft Skill */}
                     <div className="row">
@@ -68,13 +147,7 @@ class PositionTable extends Component {
                         </div>
                     </div>
                     {/* List Sost skills */}
-                    <ul>
-                        <li style={{ fontSize: 18, marginLeft: 30, marginBottom: 20 }}>
-                            <div className='row'>
-                                <div className='col' style={{ fontWeight: 600 }}>English</div>
-                            </div>
-                        </li>
-                    </ul>
+                    {this.showSoftSkill(positionDetail.softSkills)}
 
                     {/* Hard Skill */}
                     <div className="row">
@@ -88,37 +161,32 @@ class PositionTable extends Component {
                         </div>
                     </div>
                     {/* List Hard Skills */}
-                    <ul>
-                        <li style={{ fontSize: 18, marginLeft: 30, marginBottom: 20 }}>
-                            <div className='row' >
-                                <div className='col' style={{ fontWeight: 600 }}>Java</div>
-                                <div className='col-auto' style={{ marginLeft: 100, fontWeight: 600 }}>Level : </div>
-                                <div className='col' style={{ fontWeight: 400, marginLeft: -20 }}>Basic Knowledge</div>
-                            </div>
-                            {/* List Certi */}
-                            <div className='row' style={{boxShadow: '0 5px 5px 0 rgb(0 0 0 / 20%)' ,marginRight:10}}>
-                                <div className='col' style={{ fontSize: 16,  marginBottom: 20, marginTop: 20 }}>
-                                    <ul>
-                                        <li >
-                                            <div className='row'>
-                                                <div className='col-3' style={{ fontWeight: 400 }} >MicroMasters® Program in Artificial Intelligence by Columbia University</div>
-                                                <div className='col-auto' style={{ marginLeft: 30, fontWeight: 400 }}>Level : </div>
-                                                <div className='col-auto' style={{ marginLeft: -20, fontWeight: 350 }}>1</div>
-                                                <div className='col-auto' style={{ marginLeft: 30, fontWeight: 400 }}>Taken Date : </div>
-                                                <div className='col-auto' style={{ marginLeft: -20, fontWeight: 350 }}>20-03-2015</div>
-                                                <div className='col-auto' style={{ marginLeft: 30, fontWeight: 400 }}>Expired Date : </div>
-                                                <div className='col' style={{ fontWeight: 350 }}>20-03-201</div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+                    {this.showHardSkill(positionDetail.hardSkills)}
+                    {/* Update */}
+                    <div className="col">
+                            <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }} onClick={this.onUpdate}>Update</button>
+                        </div>
                 </div>
             </div>
         );
     }
 }
 
-export default PositionTable;
+const mapStateToProps = (state) => {
+    return {
+        positionDetail: state.PositionReducer
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchPositionProfileDetai: (empID) => {
+            dispatch(fetchPositionProfileDetail(empID))
+        },
+        checkSession: () => {
+            dispatch(checkSession())
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PositionTable);

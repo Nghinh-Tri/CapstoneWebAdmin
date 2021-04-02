@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Type } from "../constant";
-import { API_URL, callAPI } from "../util/util";
+import { API_URL } from "../util/util";
 import { history } from "../helper/History";
 
 export const generateProfile = (profile) => {
@@ -23,13 +23,6 @@ export const fetchProfile = (pageIndex) => {
     }
 }
 
-export const fetchProfileSuccess = (resultObj) => {
-    return {
-        type: Type.FETCH_PROFILE,
-        resultObj
-    }
-}
-
 export const fetchProfileDetail = (id) => {
     var url = `${API_URL}/User/${id}`
     return (dispatch) => {
@@ -43,29 +36,15 @@ export const fetchProfileDetail = (id) => {
     }
 }
 
-export const fetchProfileDetailSuccess = (resultObj) => {
-    return {
-        type: Type.FETCH_PROFILE_DETAIL,
-        resultObj
-    }
-}
-
-export const updateProfile = (profile, id) => {
-    var url = `${API_URL}/User/${id}`
+export const fetchPositionProfileDetail = (id) => {
+    var url = `${API_URL}/User/getEmpInfo/${id}`
     return (dispatch) => {
-        return axios.put(
+        return axios.get(
             url,
-            profile,
-            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }).then(res => {
-                dispatch(updateProfileSuccess(res.data.resultObj))
-            })
-    }
-}
-
-export const updateProfileSuccess = (resultObj) => {
-    return {
-        type: Type.UPDATE_PROFILE,
-        resultObj
+            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
+        ).then(res => {
+            dispatch(fetchPositionProfileDetailSuccess(res.data.resultObj))
+        })
     }
 }
 
@@ -95,6 +74,46 @@ export const createUser = (profile, match) => {
                 history.push('/login')
             }
         })
+    }
+}
+
+export const updateProfile = (id, profile) => {
+    var url = `${API_URL}/User/${id}`
+    return (dispatch) => {
+        return axios.put(
+            url,
+            profile,
+            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }).then(res => {
+                dispatch(updateProfileSuccess(id))
+            })
+    }
+}
+
+export const fetchProfileSuccess = (resultObj) => {
+    return {
+        type: Type.FETCH_PROFILE,
+        resultObj
+    }
+}
+
+export const fetchProfileDetailSuccess = (resultObj) => {
+    return {
+        type: Type.FETCH_PROFILE_DETAIL,
+        resultObj
+    }
+}
+
+export const fetchPositionProfileDetailSuccess = (resultObj) => {
+    return {
+        type: Type.FETCH_POSITION_PROFILE_DETAIL,
+        resultObj
+    }
+}
+
+export const updateProfileSuccess = (empID) => {
+    history.push(`/employee/profile/${empID}`)
+    return {
+        type: Type.UPDATE_PROFILE,
     }
 }
 

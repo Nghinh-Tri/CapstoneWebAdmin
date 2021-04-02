@@ -3,7 +3,6 @@ import { Type } from "../constant/index"
 import { history } from "../helper/History"
 import { API_URL, getRole } from "../util/util"
 import { store } from 'react-notifications-component';
-import moment from "moment"
 
 export const login = (username, password) => {
     var user = { email: username, password: password, rememberMe: true }
@@ -90,30 +89,17 @@ export const failure = (user) => {
     }
 }
 
-export const register = (address, phoneNumber, doB, userName, fullname, email, password, confirmPassword, identityNumber) => {
-    var regist = {
-        name: fullname,
-        identityNumber: identityNumber,
-        address: address.toString(),
-        email: email,
-        phoneNumber: phoneNumber,
-        userName: userName,
-        password: password,
-        confirmPassword: confirmPassword,
-    }
+export const register = (emp) => {
     var url = `${API_URL}/User`
+    console.log(emp)
     return dispatch => {
-        dispatch(request(regist))
         axios.post(
             url,
-            regist,
+            emp,
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } })
             .then(res => {
-                
                 if (res.status === 200) {
                     dispatch(registerSuccess(JSON.stringify(res.data.resultObj)))
-                    history.push('/employee/position-assign');
-                    console.log(res.data.resultObj)
                 }
             })
             .catch(err => {
@@ -133,7 +119,7 @@ export const register = (address, phoneNumber, doB, userName, fullname, email, p
                     })
                 } else {
                     store.addNotification({
-                        message: err.toString(),
+                        message: err.response.message,
                         type: "danger",
                         insert: "top",
                         container: "top-center",
@@ -156,11 +142,10 @@ export const registerRequest = (user) => {
     }
 }
 
-export const registerSuccess = (user) => {
-    return {
-        type: Type.REGISTER_SUCCESS,
-        user
-    }
+export const registerSuccess = (userID) => {
+    history.push('/employee/position-assign', { empID: userID });
+
+    return { type: Type.REGISTER_SUCCESS }
 }
 
 export const registerFailure = (user) => {

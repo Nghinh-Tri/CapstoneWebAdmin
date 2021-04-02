@@ -8,6 +8,8 @@ import { convertPositionList } from '../../service/util/util';
 import LanguageForm from "../../component/create-position-form/language-form/LanguageForm";
 import SoftSkillForm from "../../component/create-position-form/soft-skill-form/SoftSkillForm";
 import HardSkillForm from "../../component/create-position-form/hard-skill-form/HardSkillForm";
+import { compose } from 'redux';
+import { withRouter } from 'react-router';
 
 class PositionAssign extends Component {
 
@@ -107,6 +109,10 @@ class PositionAssign extends Component {
 
     onAssignPosition = (e) => {
         e.preventDefault()
+        if (typeof this.props.location !== 'undefined') {
+            this.props.onAssignPosition(this.props.location.state.empID, this.props.item)
+        }
+
     }
 
     render() {
@@ -263,9 +269,9 @@ const mapDispatchToProps = dispatch => {
             dispatch(Action.updateCertificateDate(name, value, certificateIndex, hardSkillIndex))
         },
         onAssignPosition: (empID, item) => {
-            dispatch(Action.assignPosition(empID,item))
+            dispatch(Action.assignPosition(empID, item))
         }
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PositionAssign);
+export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(PositionAssign);

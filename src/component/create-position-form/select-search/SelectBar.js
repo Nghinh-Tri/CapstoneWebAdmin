@@ -49,6 +49,8 @@ class SelectBar extends Component {
                 return this.showSpecial()
             case 'status':
                 return this.showStatus()
+            case 'role':
+                return this.showRole()
         }
     }
     //important
@@ -109,6 +111,40 @@ class SelectBar extends Component {
                     showSearch
                     placeholder={this.props.placeholder}
                     onSelect={this.onSelectCommon}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showCommonOption()}
+                </Select>)
+        }
+    }
+
+    //important
+    showRole = () => {
+        var { value } = this.props
+        if (value === '') {
+            return (
+                <Select
+                    showSearch
+                    style={{ width: 250 }}
+                    placeholder={this.props.placeholder}
+                    onSelect={this.onSelectRole}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showCommonOption()}
+                </Select>)
+        } else {
+            return (
+                <Select value={value}
+                    style={{ width: 250 }}
+                    showSearch
+                    placeholder={this.props.placeholder}
+                    onSelect={this.onSelectRole}
                     optionFilterProp="children"
                     filterOption={(input, option) =>
                         option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
@@ -221,6 +257,16 @@ class SelectBar extends Component {
         switch (name) {
             case 'skillType':
                 this.props.onSelectSkillType(value)
+                break
+        }
+    }
+    
+    //important
+    onSelectRole = (value) => {
+        var { name } = this.props
+        switch (name) {
+            case 'role':
+                this.props.onSelectRole(value)
                 break
         }
     }

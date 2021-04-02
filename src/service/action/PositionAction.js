@@ -170,7 +170,31 @@ export const updateHardSkillCerti = (value, hardSkillIndex, positionFormIndex) =
     }
 }
 
-export const createPosition = (positionItem) => {
+export const assignPosition = (positionItem) => {
+    var urlToAddRequire = `${API_URL}/api/User/${empID} `
+    return (dispatch) => {
+        axios.post(
+            urlToAddRequire,
+            position,
+            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
+        ).then(res => {
+            if (res.status === 200) {
+                axios.post(
+                    urlToGetListSuggest,
+                    position,
+                    { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
+                ).then(res => {
+                    if (res.status === 200) {
+                        dispatch(createPositionSuccess(res.data))
+                        history.push("/project/suggest-candidate")
+                    }
+                })
+            }
+        })
+    }
+}
+
+export const fetchPositionDetail = (empID) => {
     var projectID = localStorage.getItem("projectId")
     var position = { requiredPositions: positionItem }
     var urlToGetListSuggest = `${API_URL}/User/candidate/${projectID}`
@@ -190,12 +214,10 @@ export const createPosition = (positionItem) => {
                     if (res.status === 200) {
                         dispatch(createPositionSuccess(res.data))
                         history.push("/project/suggest-candidate")
-                        // history.push("/")
                     }
                 })
             }
         })
-        // 
     }
 }
 

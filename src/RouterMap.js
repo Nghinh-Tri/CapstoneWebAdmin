@@ -58,6 +58,11 @@ const route = [
         main: ({ match }) => <Profile match={match} />
     },
     {
+        path: "/employee/update-profile/:id",
+        exact: true,
+        main: ({ match }) => <Register match={match} />
+    },
+    {
         path: "/employee/register",
         exact: true,
         main: () => <Register />

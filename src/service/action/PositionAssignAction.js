@@ -86,7 +86,6 @@ export const assignPosition = (empID, positionAssign) => {
             .then(res => {
                 if (res.status === 200) {
                     dispatch(assignPositionSuccess())
-                    history.push('/employee');
                 }
             })
             .catch(err => {
@@ -107,6 +106,7 @@ export const assignPosition = (empID, positionAssign) => {
 }
 
 export const assignPositionSuccess = () => {
+    history.push('/employee');
     return { type: POSITION_ASSIGN.ASSIGN_POSITION }
 }
 
