@@ -11,8 +11,13 @@ export const generateProject = (project) => {
     }
 }
 
-export const fetchProject = (pageIndex) => {
-    var url = `${API_URL}/Project/paging?PageIndex=${pageIndex}&PageSize=5`
+export const fetchProject = (pageIndex, search) => {
+    var url = ''
+    console.log('search', search)
+    if (search.length > 0)
+        url = `${API_URL}/Project/paging?Keyword=${search}&PageIndex=${pageIndex}&PageSize=10`
+    else
+        url = `${API_URL}/Project/paging?PageIndex=${pageIndex}&PageSize=10`
     return (dispatch) => {
         axios.get(
             url,

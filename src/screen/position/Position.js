@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Search from '../../component/search/Search';
 import { checkSession } from '../../service/action/AuthenticateAction';
 import { changeStatusPosition, fetchPostionListPaging } from '../../service/action/PositionSelectBarAction';
 import { history } from '../../service/helper/History';
@@ -7,9 +8,16 @@ import { showPositionSpan, showPositionStatus } from '../../service/util/util';
 
 class Position extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            search: ''
+        }
+    }
+
     componentDidMount = () => {
         this.props.checkSession()
-        this.props.fetchPosittion(1)
+        this.props.fetchPosittion(1, this.state.search)
     }
 
     onUpdate = (posID) => {
@@ -26,7 +34,7 @@ class Position extends Component {
             return (
                 <tr key={index}>
                     <th className="text-center">{index + 1}</th>
-                    <th className="font-weight-bold" style={{ width: 450 }}>{value.name}</th>
+                    <th className="" style={{ width: 450 }}>{value.name}</th>
                     <th className="text-center" style={{ width: 150 }}>
                         <span className={`badge badge-pill ${showPositionSpan(value.status)} span`}>
                             {showPositionStatus(value.status)}
@@ -38,7 +46,6 @@ class Position extends Component {
                     <th className="text-primary">
                         <a className="text-primary" style={{ cursor: 'pointer' }} onClick={() => this.onChangeStatus(value.posID)}>Change Status</a>
                     </th>
-
                 </tr>
             )
         })
@@ -48,19 +55,24 @@ class Position extends Component {
     onNext = () => {
         var { item } = this.props
         if (item.pageIndex < item.pageCount) {
-            this.props.fetchPosittion(item.pageIndex + 1)
+            this.props.fetchPosittion(item.pageIndex + 1, this.state.search)
         }
     }
 
     onPrevios = () => {
         var { item } = this.props
         if (item.pageIndex > 1) {
-            this.props.fetchPosittion(item.pageIndex - 1)
+            this.props.fetchPosittion(item.pageIndex - 1, this.state.search)
         }
     }
 
     onHandle = () => {
         history.push('/position/create')
+    }
+
+    searchPos = (value) => {
+        this.setState({ search: value })
+        this.props.fetchPosittion(1, value)
     }
 
     render() {
@@ -79,39 +91,48 @@ class Position extends Component {
                 </button>
                 <div className="row">
                     <div className="card mb-80">
-                        <div className="row">
-                            <div className="card-body">
-                                <table className="table">
-                                    <thead className="text-primary">
-                                        <tr>
-                                            <th className="font-weight-bold text-center">No</th>
-                                            <th className="font-weight-bold" style={{ marginLeft: 20 }}>Position</th>
-                                            <th className="font-weight-bold text-center" style={{ marginLeft: 20 }}>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {this.onShowListPosition(list)}
-                                    </tbody>
-                                </table>
-                                <div className="row align-items-center">
-                                    <div className="col">
-                                        <button type="button"
-                                            style={{ fontWeight: 700, width: 120 }}
-                                            className="btn btn-primary pull-right" onClick={this.onPrevios}>
-                                            Previous
+                        <div className="card-body">
+                            <div className="form-group">
+                                <div className="row">
+                                    <Search search="Position"
+                                        placeholder="Search position name ..."
+                                        searchPos={this.searchPos} />
+                                </div>
+                                <div className="row">
+                                    <div className="card-body">
+                                        <table className="table">
+                                            <thead className="text-primary">
+                                                <tr>
+                                                    <th className="font-weight-bold text-center">No</th>
+                                                    <th className="font-weight-bold" style={{ marginLeft: 20 }}>Position</th>
+                                                    <th className="font-weight-bold text-center" style={{ marginLeft: 20 }}>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {this.onShowListPosition(list)}
+                                            </tbody>
+                                        </table>
+                                        <div className="row align-items-center">
+                                            <div className="col">
+                                                <button type="button"
+                                                    style={{ fontWeight: 700, width: 120 }}
+                                                    className="btn btn-primary pull-right" onClick={this.onPrevios}>
+                                                    Previous
                                             </button>
-                                    </div>
-                                    <div className="col-auto">
-                                        <div className="text-center" style={{ fontSize: 20, fontWeight: 700, color: '#9c27b0' }}>
-                                            {item.pageIndex} - {item.pageCount}
+                                            </div>
+                                            <div className="col-auto">
+                                                <div className="text-center" style={{ fontSize: 20, fontWeight: 700, color: '#9c27b0' }}>
+                                                    {item.pageIndex} - {item.pageCount}
+                                                </div>
+                                            </div>
+                                            <div className="col">
+                                                <button type="button"
+                                                    style={{ fontWeight: 700, width: 120 }}
+                                                    className="btn btn-primary" onClick={this.onNext}>
+                                                    Next
+                                            </button>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="col">
-                                        <button type="button"
-                                            style={{ fontWeight: 700, width: 120 }}
-                                            className="btn btn-primary" onClick={this.onNext}>
-                                            Next
-                                            </button>
                                     </div>
                                 </div>
                             </div>
@@ -134,8 +155,8 @@ const mapDispatchToProps = (dispatch) => {
         checkSession: () => {
             dispatch(checkSession())
         },
-        fetchPosittion: (pageIndex) => {
-            dispatch(fetchPostionListPaging(pageIndex))
+        fetchPosittion: (pageIndex, search) => {
+            dispatch(fetchPostionListPaging(pageIndex, search))
         },
         changeStatus: (posID, pageIndex) => {
             dispatch(changeStatusPosition(posID, pageIndex))

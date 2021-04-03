@@ -12,7 +12,6 @@ class EmpTableItem extends Component {
 
     render() {
         var { index, profile } = this.props
-        console.log(profile)
         return (
             <tr>
                 <th className="text-center">{index + 1}</th>

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as Action from "../../service/action/ProfileAction";
 import EmpTableItem from "./EmpTableItem";
 import { checkSession } from '../../service/action/AuthenticateAction';
+import Search from '../../component/search/Search';
 
 
 class EmpList extends Component {
@@ -19,13 +20,14 @@ class EmpList extends Component {
                 address: '',
                 roles: ''
             },
-            page: 1
+            page: 1,
+            search: ''
         }
     }
 
     componentDidMount = () => {
         this.props.checkSession()
-        this.props.fetchProfile(this.state.page)
+        this.props.fetchProfile(this.state.page, this.state.search)
     }
 
     onGenerateProfile = (isCreateNew) => {
@@ -47,13 +49,18 @@ class EmpList extends Component {
     onNext = () => {
         var { profiles } = this.props
         if (profiles.pageIndex < profiles.pageCount)
-            this.props.fetchProfile(profiles.pageIndex + 1)
+            this.props.fetchProfile(profiles.pageIndex + 1, this.state.search)
     }
 
     onPrevios = () => {
         var { profiles } = this.props
         if (profiles.pageIndex > 1)
-            this.props.fetchProfile(profiles.pageIndex - 1)
+            this.props.fetchProfile(profiles.pageIndex - 1, this.state.search)
+    }
+
+    searchEmp = (value) => {
+        this.setState({ search: value })
+        this.props.fetchProfile(1, value)
     }
 
     render() {
@@ -72,6 +79,11 @@ class EmpList extends Component {
                     <div className="card mb-80">
                         <div className="card-body">
                             <div className="form-group">
+                                <div className="row">
+                                    <Search search="Employee"
+                                        placeholder="Search employee name ..."
+                                        searchEmp={this.searchEmp} />
+                                </div>
                                 <div className="row">
                                     <div className="card-body">
                                         <div className="table-responsive">
@@ -135,8 +147,8 @@ const mapDispatchToProp = (dispatch) => {
         generateProfile: (profile, isCreateNew) => {
             dispatch(Action.generateProfile(profile, isCreateNew))
         },
-        fetchProfile: (pageIndex) => {
-            dispatch(Action.fetchProfile(pageIndex))
+        fetchProfile: (pageIndex, search) => {
+            dispatch(Action.fetchProfile(pageIndex, search))
         },
         checkSession: () => {
             dispatch(checkSession())

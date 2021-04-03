@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Search from '../../component/search/Search';
 import { checkSession } from '../../service/action/AuthenticateAction';
 import { changeStatus, fetchSkill } from '../../service/action/SkillAction';
 import { history } from '../../service/helper/History';
@@ -10,13 +11,14 @@ class Skill extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            pageIndex: 1
+            pageIndex: 1,
+            search: ''
         }
     }
 
     componentDidMount = () => {
         this.props.checkSession()
-        this.props.fetchSkills(this.state.pageIndex)
+        this.props.fetchSkills(this.state.pageIndex, this.state.search)
     }
 
     onUpdate = (skillID) => {
@@ -53,19 +55,24 @@ class Skill extends Component {
     onNext = () => {
         var { skills } = this.props
         if (skills.pageIndex < skills.pageCount) {
-            this.props.fetchSkills(skills.pageIndex + 1)
+            this.props.fetchSkills(skills.pageIndex + 1, this.state.search)
         }
     }
 
     onPrevios = () => {
         var { skills } = this.props
         if (skills.pageIndex > 1) {
-            this.props.fetchSkills(skills.pageIndex - 1)
+            this.props.fetchSkills(skills.pageIndex - 1, this.state.search)
         }
     }
 
     onHandle = () => {
         history.push('/skill/create')
+    }
+
+    searchSkill = (value) => {
+        this.setState({ search: value })
+        this.props.fetchSkills(1, value)
     }
 
     render() {
@@ -85,40 +92,49 @@ class Skill extends Component {
                 </button>
                 <div className="row">
                     <div className="card mb-80">
-                        <div className="row">
-                            <div className="card-body">
-                                <table className="table">
-                                    <thead className="text-primary">
-                                        <tr>
-                                            <th className="font-weight-bold text-center">No</th>
-                                            <th className="font-weight-bold" style={{ marginLeft: 20 }}>Skill</th>
-                                            <th className="font-weight-bold" style={{ marginLeft: 20 }}>Type</th>
-                                            <th className="font-weight-bold text-center" style={{ marginLeft: 20 }}>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {this.onShowListSkills(result.items)}
-                                    </tbody>
-                                </table>
-                                <div className="row align-items-center">
-                                    <div className="col">
-                                        <button type="button"
-                                            style={{ fontWeight: 700, width: 120 }}
-                                            className="btn btn-primary pull-right" onClick={this.onPrevios}>
-                                            Previous
+                        <div className="card-body">
+                            <div className="form-group">
+                                <div className="row">
+                                    <Search search="Skill"
+                                        placeholder="Search skill name ..."
+                                        searchSkill={this.searchSkill} />
+                                </div>
+                                <div className="row">
+                                    <div className="card-body">
+                                        <table className="table">
+                                            <thead className="text-primary">
+                                                <tr>
+                                                    <th className="font-weight-bold text-center">No</th>
+                                                    <th className="font-weight-bold" style={{ marginLeft: 20 }}>Skill</th>
+                                                    <th className="font-weight-bold" style={{ marginLeft: 20 }}>Type</th>
+                                                    <th className="font-weight-bold text-center" style={{ marginLeft: 20 }}>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {this.onShowListSkills(result.items)}
+                                            </tbody>
+                                        </table>
+                                        <div className="row align-items-center">
+                                            <div className="col">
+                                                <button type="button"
+                                                    style={{ fontWeight: 700, width: 120 }}
+                                                    className="btn btn-primary pull-right" onClick={this.onPrevios}>
+                                                    Previous
                                             </button>
-                                    </div>
-                                    <div className="col-auto">
-                                        <div className="text-center" style={{ fontSize: 20, fontWeight: 700, color: '#9c27b0' }}>
-                                            {result.pageIndex} - {result.pageCount}
+                                            </div>
+                                            <div className="col-auto">
+                                                <div className="text-center" style={{ fontSize: 20, fontWeight: 700, color: '#9c27b0' }}>
+                                                    {result.pageIndex} - {result.pageCount}
+                                                </div>
+                                            </div>
+                                            <div className="col">
+                                                <button type="button"
+                                                    style={{ fontWeight: 700, width: 120 }}
+                                                    className="btn btn-primary" onClick={this.onNext}>
+                                                    Next
+                                            </button>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="col">
-                                        <button type="button"
-                                            style={{ fontWeight: 700, width: 120 }}
-                                            className="btn btn-primary" onClick={this.onNext}>
-                                            Next
-                                            </button>
                                     </div>
                                 </div>
                             </div>
@@ -138,8 +154,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchSkills: (pageIndex) => {
-            dispatch(fetchSkill(pageIndex))
+        fetchSkills: (pageIndex, search) => {
+            dispatch(fetchSkill(pageIndex, search))
         },
         checkSession: () => {
             dispatch(checkSession())

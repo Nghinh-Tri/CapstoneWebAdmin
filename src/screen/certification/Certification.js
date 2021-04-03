@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Search from '../../component/search/Search';
 import { checkSession } from '../../service/action/AuthenticateAction';
 import { changeStatus, fetchCertificationPaging } from '../../service/action/CertificationSelectBarAction';
 import { history } from '../../service/helper/History';
@@ -7,9 +8,16 @@ import { showPositionSpan, showPositionStatus } from '../../service/util/util';
 
 class Certification extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            search: ''
+        }
+    }
+
     componentDidMount = () => {
         this.props.checkSession()
-        this.props.fetchCertifications(1)
+        this.props.fetchCertifications(1, this.state.search)
     }
 
     onChangeStatus = (certificationID) => {
@@ -24,7 +32,6 @@ class Certification extends Component {
         var result = null
         if (list.length > 0) {
             result = list.map((item, index) => {
-                console.log(item)
                 return (
                     <tr key={index}>
                         <th className="text-center">{index + 1}</th>
@@ -56,13 +63,18 @@ class Certification extends Component {
     onNext = () => {
         var { certiList } = this.props
         if (certiList.pageIndex < certiList.pageCount)
-            this.props.fetchCertifications(certiList.pageIndex + 1)
+            this.props.fetchCertifications(certiList.pageIndex + 1, this.state.search)
     }
 
     onPrevios = () => {
         var { certiList } = this.props
         if (certiList.pageIndex > 1)
-            this.props.fetchCertifications(certiList.pageIndex - 1)
+            this.props.fetchCertifications(certiList.pageIndex - 1, this.state.search)
+    }
+
+    searchCert = (value) => {
+        this.setState({ search: value })
+        this.props.fetchCertifications(1, value)
     }
 
     render() {
@@ -81,41 +93,50 @@ class Certification extends Component {
                 </button>
                 <div className="row">
                     <div className="card mb-80">
-                        <div className="row">
-                            <div className="card-body">
-                                <table className="table">
-                                    <thead className="text-primary">
-                                        <tr>
-                                            <th className="font-weight-bold text-center">No</th>
-                                            <th className="font-weight-bold" style={{ marginLeft: 20 }}>Certification</th>
-                                            <th className="font-weight-bold" style={{ marginLeft: 20 }}>Skill</th>
-                                            <th className="font-weight-bold text-center">Level</th>
-                                            <th className="font-weight-bold text-center">Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {this.onShowListCertifications(result.items)}
-                                    </tbody>
-                                </table>
-                                <div className="row align-items-center">
-                                    <div className="col">
-                                        <button type="button"
-                                            style={{ fontWeight: 700, width: 120 }}
-                                            className="btn btn-primary pull-right" onClick={this.onPrevios}>
-                                            Previous
+                        <div className="card-body">
+                            <div className="form-group">
+                                <div className="row">
+                                    <Search search="Certi"
+                                        placeholder="Search certificate name ..."
+                                        searchCert={this.searchCert} />
+                                </div>
+                                <div className="row">
+                                    <div className="card-body">
+                                        <table className="table">
+                                            <thead className="text-primary">
+                                                <tr>
+                                                    <th className="font-weight-bold text-center">No</th>
+                                                    <th className="font-weight-bold" style={{ marginLeft: 20 }}>Certification</th>
+                                                    <th className="font-weight-bold" style={{ marginLeft: 20 }}>Skill</th>
+                                                    <th className="font-weight-bold text-center">Level</th>
+                                                    <th className="font-weight-bold text-center">Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {this.onShowListCertifications(result.items)}
+                                            </tbody>
+                                        </table>
+                                        <div className="row align-items-center">
+                                            <div className="col">
+                                                <button type="button"
+                                                    style={{ fontWeight: 700, width: 120 }}
+                                                    className="btn btn-primary pull-right" onClick={this.onPrevios}>
+                                                    Previous
                                             </button>
-                                    </div>
-                                    <div className="col-auto">
-                                        <div className="text-center" style={{ fontSize: 20, fontWeight: 700, color: '#9c27b0' }}>
-                                            {result.pageIndex} - {result.pageCount}
+                                            </div>
+                                            <div className="col-auto">
+                                                <div className="text-center" style={{ fontSize: 20, fontWeight: 700, color: '#9c27b0' }}>
+                                                    {result.pageIndex} - {result.pageCount}
+                                                </div>
+                                            </div>
+                                            <div className="col">
+                                                <button type="button"
+                                                    style={{ fontWeight: 700, width: 120 }}
+                                                    className="btn btn-primary" onClick={this.onNext}>
+                                                    Next
+                                            </button>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="col">
-                                        <button type="button"
-                                            style={{ fontWeight: 700, width: 120 }}
-                                            className="btn btn-primary" onClick={this.onNext}>
-                                            Next
-                                            </button>
                                     </div>
                                 </div>
                             </div>
@@ -136,8 +157,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchCertifications: (pageIndex) => {
-            dispatch(fetchCertificationPaging(pageIndex))
+        fetchCertifications: (pageIndex, search) => {
+            dispatch(fetchCertificationPaging(pageIndex, search))
         },
         checkSession: () => {
             dispatch(checkSession())

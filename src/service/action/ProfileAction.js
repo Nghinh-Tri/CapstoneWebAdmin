@@ -11,8 +11,12 @@ export const generateProfile = (profile) => {
     }
 }
 
-export const fetchProfile = (pageIndex) => {
-    var url = `${API_URL}/User/paging?PageIndex=${pageIndex}&PageSize=6`
+export const fetchProfile = (pageIndex, search) => {
+    var url = ''
+    if (search.length > 0) {
+        url = `${API_URL}/User/paging?Keyword=${search}&PageIndex=${pageIndex}&PageSize=10`
+    } else
+        url = `${API_URL}/User/paging?PageIndex=${pageIndex}&PageSize=10`
     return (dispatch) => {
         axios.get(
             url,
@@ -22,6 +26,7 @@ export const fetchProfile = (pageIndex) => {
         })
     }
 }
+
 
 export const fetchProfileDetail = (id) => {
     var url = `${API_URL}/User/${id}`

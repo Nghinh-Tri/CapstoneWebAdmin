@@ -16,8 +16,12 @@ export const fetchPostionList = () => {
     }
 }
 
-export const fetchPostionListPaging = (pageIndex) => {
-    var url = `${API_URL}/Position/paging?PageIndex=${pageIndex}&PageSize=10`
+export const fetchPostionListPaging = (pageIndex, search) => {
+    var url = ''
+    if (search.length === 0)
+        url = `${API_URL}/Position/paging?PageIndex=${pageIndex}&PageSize=10`
+    else
+        url = `${API_URL}/Position/paging?Keyword=${search}&PageIndex=${pageIndex}&PageSize=10`
     return (dispatch) => {
         axios.get(
             url,

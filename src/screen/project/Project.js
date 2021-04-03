@@ -3,26 +3,21 @@ import { connect } from 'react-redux';
 import * as Action from "../../service/action/ProjectAction";
 import ProjectTableItem from "../../component/project-table-item/ProjectTableItem";
 import { checkSession } from '../../service/action/AuthenticateAction';
+import Search from '../../component/search/Search';
 
 class Project extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            project: {
-                name: '',
-                dateBegin: '',
-                dateEndEst: '',
-                description: '',
-                stakeholder: ''
-            },
-            page: 1
+            page: 1,
+            search: ''
         }
     }
 
     componentDidMount = () => {
         this.props.checkSession()
-        this.props.fetchProject(this.state.page)
+        this.props.fetchProject(this.state.page, this.state.search)
     }
 
     onShowListProject = (projectList) => {
@@ -38,13 +33,18 @@ class Project extends Component {
     onNext = () => {
         var { projects } = this.props
         if (projects.pageIndex < projects.pageCount)
-            this.props.fetchProject(projects.pageIndex + 1)
+            this.props.fetchProject(projects.pageIndex + 1, this.state.search)
     }
 
     onPrevios = () => {
         var { projects } = this.props
         if (projects.pageIndex > 1)
-            this.props.fetchProject(projects.pageIndex - 1)
+            this.props.fetchProject(projects.pageIndex - 1, this.state.search)
+    }
+
+    searchProject = (value) => {
+        this.setState({ search: value })
+        this.props.fetchProject(1, value)
     }
 
     render() {
@@ -57,8 +57,12 @@ class Project extends Component {
                         <div className="card-body">
                             <div className="form-group">
                                 <div className="row">
+                                    <Search search="project"
+                                        placeholder="Search project name ..."
+                                        searchProject={this.searchProject} />
+                                </div>
+                                <div className="row">
                                     <div className="card-body">
-
                                         <div className="table-responsive">
                                             <table className="table">
                                                 <thead className="text-primary">
@@ -79,19 +83,19 @@ class Project extends Component {
                                         <div className="row align-items-center">
                                             <div className="col">
                                                 <button type="button"
-                                                    style={{ fontWeight: 700, width:120 }}
+                                                    style={{ fontWeight: 700, width: 120 }}
                                                     className="btn btn-primary pull-right" onClick={this.onPrevios}>
                                                     Previous
                                                 </button>
                                             </div>
                                             <div className="col-auto">
-                                                <div className="text-center" style={{fontSize:20, fontWeight:700, color: '#9c27b0'}}>
+                                                <div className="text-center" style={{ fontSize: 20, fontWeight: 700, color: '#9c27b0' }}>
                                                     {projects.pageIndex} - {projects.pageCount}
                                                 </div>
                                             </div>
                                             <div className="col">
                                                 <button type="button"
-                                                    style={{ fontWeight: 700, width:120 }}
+                                                    style={{ fontWeight: 700, width: 120 }}
                                                     className="btn btn-primary" onClick={this.onNext}>
                                                     Next
                                                 </button>
@@ -116,11 +120,8 @@ const mapStateToProp = state => {
 
 const mapDispatchToProp = (dispatch) => {
     return {
-        generateProject: (project) => {
-            dispatch(Action.generateProject(project))
-        },
-        fetchProject: (pageIndex) => {
-            dispatch(Action.fetchProject(pageIndex))
+        fetchProject: (pageIndex, search) => {
+            dispatch(Action.fetchProject(pageIndex, search))
         },
         checkSession: () => {
             dispatch(checkSession())
