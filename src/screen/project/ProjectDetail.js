@@ -41,7 +41,7 @@ class ProjectDetail extends Component {
                                 <a className={this.state.select === 1 ? 'active' : ''} onClick={() => this.onClickMenu(1)}>Project Detail</a>
                             </li>
                             <li className='li' >
-                                <a className={this.state.select === 2 ? 'active' : ''} onClick={() => this.onClickMenu(2)} >List Employees</a>
+                                <a className={this.state.select === 2 ? 'active' : ''} onClick={() => this.onClickMenu(2)} >Employee List</a>
                             </li>
                         </ul>
                     </div>

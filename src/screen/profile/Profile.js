@@ -4,6 +4,8 @@ import { NavLink } from 'react-router-dom';
 import PositionTable from '../../component/profile/PositionTable';
 import ProfileTable from '../../component/profile/ProfileTable';
 import { checkSession } from '../../service/action/AuthenticateAction';
+import { fetchProfileDetail } from '../../service/action/ProfileAction';
+import { getRole } from '../../service/util/util';
 
 class Profile extends Component {
 
@@ -16,6 +18,8 @@ class Profile extends Component {
 
     componentDidMount = () => {
         this.props.checkSession()
+        if (typeof this.props.match !== 'undefined')
+            this.props.fetchProfileDetails(this.props.match.params.id)
     }
 
     onClickMenu = (value) => {
@@ -24,6 +28,7 @@ class Profile extends Component {
 
     render() {
         var empID = ''
+        var { profile } = this.props
         if (typeof this.props.empID !== 'undefined')
             empID = this.props.empID
         else
@@ -31,22 +36,24 @@ class Profile extends Component {
         return (
             <div>
                 <div className='row'>
-                    <div className='col-auto' style={{ marginTop: 30 }}>
-                        <ul className='ul'>
-                            <li className='li'>
-                                <a className={this.state.select === 1 ? 'active' : ''} onClick={() => this.onClickMenu(1)}>Profile</a>
-                            </li>
-                            <li className='li' >
-                                <a className={this.state.select === 2 ? 'active' : ''} onClick={() => this.onClickMenu(2)} >Position</a>
-                            </li>
-                        </ul>
-                    </div>
+                    {typeof this.props.match === 'undefined' ? '' :
+                        <div className='col-auto' style={{ marginTop: 30 }}>
+                            <ul className='ul'>
+                                <li className='li'>
+                                    <a className={this.state.select === 1 ? 'active' : ''} onClick={() => this.onClickMenu(1)}>Profile</a>
+                                </li>
+                                <li className='li' >
+                                    <a className={this.state.select === 2 ? 'active' : ''} onClick={() => this.onClickMenu(2)} >Position</a>
+                                </li>
+                            </ul>
+                        </div>
+                    }
 
                     <div className='col'>
                         {this.state.select === 1 ?
                             <ProfileTable empID={empID} />
                             :
-                            <PositionTable empID={empID} />
+                            <PositionTable empID={empID} role={profile.roleName} />
                         }
 
                         <div className="row pull-right">
@@ -63,12 +70,21 @@ class Profile extends Component {
     }
 }
 
+const mapStateToProp = state => {
+    return {
+        profile: state.ProfileFetchReducer
+    }
+}
+
 const mapDispatchToProp = (dispatch) => {
     return {
+        fetchProfileDetails: (empID) => {
+            dispatch(fetchProfileDetail(empID))
+        },
         checkSession: () => {
             dispatch(checkSession())
         }
     }
 }
 
-export default connect(null, mapDispatchToProp)(Profile);
+export default connect(mapStateToProp, mapDispatchToProp)(Profile);

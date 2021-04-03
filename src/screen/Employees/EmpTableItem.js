@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { history } from '../../service/helper/History';
+import { showRole } from '../../service/util/util';
 
 class EmpTableItem extends Component {
 
@@ -11,6 +12,7 @@ class EmpTableItem extends Component {
 
     render() {
         var { index, profile } = this.props
+        console.log(profile)
         return (
             <tr>
                 <th className="text-center">{index + 1}</th>
@@ -18,6 +20,7 @@ class EmpTableItem extends Component {
                 <th className="">{profile.phoneNumber}</th>
                 <th className="">{profile.email}</th>
                 <th className="">{profile.userName}</th>
+                <th className="">{showRole(profile.roleName)}</th>
                 <th className="text-primary">
                     <a onClick={this.onHandle} style={{ cursor: 'pointer' }}>
                         Detail

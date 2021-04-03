@@ -111,27 +111,30 @@ class PositionTable extends Component {
                     {positionDetail.posName !== null && typeof positionDetail.posName !== 'undefined' ?
                         <div>
                             {/* Name */}
-                            <div className="row">
-                                <div className="col-auto">
-                                    <label className="bmd-label">
-                                        <h4 style={{ fontWeight: 700 }}>Position : </h4>
-                                    </label>
-                                </div>
-                                <div className="col" style={{ marginLeft: -20 }}>
-                                    <label className="bmd-label">
-                                        <h4>{positionDetail.posName.trim()}</h4>
-                                    </label>
-                                </div>
-                                <div className='col-auto' style={{ marginLeft: 85, fontWeight: 600 }}>
+                            {this.props.role === 'Employee' ?
+                                <div className="row">
+                                    <div className="col-auto">
+                                        <label className="bmd-label">
+                                            <h4 style={{ fontWeight: 700 }}>Position : </h4>
+                                        </label>
+                                    </div>
+                                    <div className="col" style={{ marginLeft: -20 }}>
+                                        <label className="bmd-label">
+                                            <h4>{positionDetail.posName.trim()}</h4>
+                                        </label>
+                                    </div>
+                                    <div className='col-auto' style={{ marginLeft: 85, fontWeight: 600 }}>
 
-                                    <h4>Level :</h4>
+                                        <h4>Level :</h4>
+                                    </div>
+                                    <div className="col" style={{ marginLeft: -20 }} >
+                                        <label className="bmd-label">
+                                            <h4 style={{ fontWeight: 500 }}>{showPositionLevel(positionDetail.posLevel)}</h4>
+                                        </label>
+                                    </div>
                                 </div>
-                                <div className="col" style={{ marginLeft: -20 }} >
-                                    <label className="bmd-label">
-                                        <h4 style={{ fontWeight: 500 }}>{showPositionLevel(positionDetail.posLevel)}</h4>
-                                    </label>
-                                </div>
-                            </div>
+                                : ''}
+
 
                             {/* Language */}
                             <div className="row">

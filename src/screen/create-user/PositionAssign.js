@@ -54,8 +54,7 @@ class PositionAssign extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.item !== this.props.item) {
-        }
+        if (prevProps.item !== this.props.item) { }
     }
 
     onUpdatePositionID = (value) => {

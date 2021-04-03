@@ -43,7 +43,6 @@ class Project extends Component {
 
     onPrevios = () => {
         var { projects } = this.props
-        console.log(projects.pageIndex > 1)
         if (projects.pageIndex > 1)
             this.props.fetchProject(projects.pageIndex - 1)
     }
@@ -67,6 +66,7 @@ class Project extends Component {
                                                         <th className="font-weight-bold text-center">No</th>
                                                         <th className="font-weight-bold">Project Name</th>
                                                         <th className="font-weight-bold">Project Manager Name</th>
+                                                        <th className="font-weight-bold text-center">Created Date</th>
                                                         <th className="font-weight-bold text-center">Status</th>
                                                         <th className="font-weight-bold text-center"></th>
                                                     </tr>

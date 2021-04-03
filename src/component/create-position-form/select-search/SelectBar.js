@@ -258,9 +258,12 @@ class SelectBar extends Component {
             case 'skillType':
                 this.props.onSelectSkillType(value)
                 break
+            case 'positionSelect':
+                this.props.onSelectPos(value)
+                break;
         }
     }
-    
+
     //important
     onSelectRole = (value) => {
         var { name } = this.props

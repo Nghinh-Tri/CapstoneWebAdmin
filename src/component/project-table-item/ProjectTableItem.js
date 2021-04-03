@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React, { Component } from 'react';
 import { history } from '../../service/helper/History';
 import { showSpan, showStatus } from '../../service/util/util';
@@ -22,6 +23,7 @@ class ProjectTableItem extends Component {
                 <th className="text-center">{index + 1}</th>
                 <th className="">{project.projectName}</th>
                 <th className="">{project.name}</th>
+                <th className="text-center">{moment(project.dateCreated).format("DD-MM-YYYY")}</th>
                 <th className="text-center" style={{width:250}} >
                     <span className={`badge badge-pill ${showSpan(project.status)} span`}>
                         {showStatus(project.status)}

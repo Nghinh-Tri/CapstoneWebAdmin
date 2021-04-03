@@ -83,6 +83,7 @@ class EmpList extends Component {
                                                         <th className="font-weight-bold ">Phone</th>
                                                         <th className="font-weight-bold ">Email</th>
                                                         <th className="font-weight-bold ">User Name</th>
+                                                        <th className="font-weight-bold ">Role</th>
                                                         <th className="font-weight-bold "></th>
                                                     </tr>
                                                 </thead>
