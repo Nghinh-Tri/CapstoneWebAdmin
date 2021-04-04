@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as Action from "../../service/action/ProjectAction";
 import ProjectDetailTable from "../../component/project-detail/ProjectDetailTable";
-import { history } from '../../service/helper/History';
 import { NavLink } from 'react-router-dom';
 import { checkSession } from '../../service/action/AuthenticateAction';
 import ProgressBar from '../../component/progress-bar/ProgressBar';
+import confirm from 'antd/lib/modal/confirm';
 
 class ProjectDetail extends Component {
 
@@ -27,7 +27,19 @@ class ProjectDetail extends Component {
     }
 
     onDecline = () => {
-        this.props.onDecline(this.props.project.projectID)
+        var { onDecline, project } = this.props
+        confirm({
+            title: 'Are you sure decline this project?',
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+            onOk() {
+                onDecline(project.projectID)
+            },
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
     }
 
     render() {
@@ -36,16 +48,19 @@ class ProjectDetail extends Component {
             <div>
                 <div className='col'>
                     <ProgressBar step="step1" />
-                        <ProjectDetailTable project={project} match={this.props.match} />
+                    <ProjectDetailTable project={project} match={this.props.match} />
 
 
-                    <div className="row pull-right">
-                        <div className="col">
-                            <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }} onClick={this.onDecline}>Decline</button>
-                        </div>
+                    <div className="row pull-right" style={{ marginTop: -20 }}>
+                        {project.status === 0 || project.status === 1 ?
+                            <div className="col">
+                                <button type="button" className="btn btn-danger pull-right" style={{ width: 110, fontWeight: 600, marginBottom: 15 }} onClick={this.onDecline}>Decline</button>
+                            </div>
+                            : ''
+                        }
                         <div className="col">
                             <div className='col' >
-                                <NavLink to={`/project/candidateList/${project.projectID}`} className='btn btn-primary pull-right' style={{ width: 110, fontWeight: 600 }}>Accept</NavLink>
+                                <NavLink to={`/project/candidateList/${project.projectID}`} className='btn btn-success pull-right' style={{ width: 110, fontWeight: 600 }}>Accept</NavLink>
                             </div>
                         </div>
                     </div>

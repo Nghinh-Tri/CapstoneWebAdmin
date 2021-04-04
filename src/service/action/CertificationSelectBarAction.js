@@ -158,7 +158,7 @@ export const updateCertificate = (certi) => {
     }
 }
 
-export const changeStatus = (certificationID, pageIndex) => {
+export const changeStatus = (certificationID, pageIndex, search) => {
     var url = `${API_URL}/Certification/changeStatus/${certificationID}`
     return (dispatch) => {
         axios.put(
@@ -167,7 +167,7 @@ export const changeStatus = (certificationID, pageIndex) => {
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
         ).then(res => {
             if (res.status = 200) {
-                dispatch(fetchCertificationPaging(pageIndex))
+                dispatch(fetchCertificationPaging(pageIndex, search))
             }
         }).catch(err => {
             // if (err.response.status === 401) {

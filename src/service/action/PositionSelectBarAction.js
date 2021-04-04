@@ -117,7 +117,7 @@ export const updatePosition = (posID, position) => {
     }
 }
 
-export const changeStatusPosition = (posID, pageIndex) => {
+export const changeStatusPosition = (posID, pageIndex, search) => {
     var url = `${API_URL}/Position/changeStatus/${posID}`
     return (dispatch) => {
         axios.put(
@@ -126,7 +126,7 @@ export const changeStatusPosition = (posID, pageIndex) => {
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
         ).then(res => {
             if (res.status === 200)
-                dispatch(fetchPostionListPaging(pageIndex))
+                dispatch(fetchPostionListPaging(pageIndex, search))
         })
     }
 }
