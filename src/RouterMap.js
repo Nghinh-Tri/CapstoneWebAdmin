@@ -43,7 +43,7 @@ const route = [
         main: ({ match }) => <ConfirmProjectDetail match={match} />
     },
     {
-        path: "/project/confirm",
+        path: "/project/confirm-accept/:id",
         exact: true,
         main: ({ match }) => <ConfirmPage match={match} />
     },

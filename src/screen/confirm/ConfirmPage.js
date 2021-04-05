@@ -14,7 +14,8 @@ class ConfirmPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            select: 1
+            select: 1,
+            project: {}
         }
     }
 
@@ -24,17 +25,32 @@ class ConfirmPage extends Component {
         this.props.fetchProjectDetail(match.params.id)
     }
 
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.project !== prevState.project) {
+            return { someState: nextProps.project };
+        }
+        return null;
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.project !== this.props.project) {
+            if (typeof this.props.project.pageIndex === 'undefined')
+                this.setState({ project: this.props.project })
+        }
+    }
+
     onClickMenu = (value) => {
         this.setState({ select: value })
     }
 
     onConfirm = () => {
         var item = convertSuggestList(this.props.candidateList)
-        this.props.onConfirm(item, this.props.project.projectID)
+        console.log(item, this.state.project.projectID, this.state.project.projectName, this.state.project.pmID)
+        this.props.onConfirm(item, this.state.project.projectID, this.state.project.projectName, this.state.project.pmID)
     }
 
     render() {
-        var { project } = this.props
+        var { project } = this.state
         return (
             <div>
                 <ProgressBar step="step3" />
@@ -92,8 +108,8 @@ const mapDispatchToProp = dispatch => {
         checkSession: () => {
             dispatch(checkSession())
         },
-        onConfirm: (item, projectID) => {
-            dispatch(confirmSuggestList(item, projectID))
+        onConfirm: (item, projectID, projectName, pmID) => {
+            dispatch(confirmSuggestList(item, projectID, projectName, pmID))
         }
     }
 }

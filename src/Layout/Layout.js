@@ -13,20 +13,12 @@ class Layout extends Component {
 
     componentDidMount = () => {
         const messaging = firebase.messaging()
-        messaging.requestPermission().then(() => {
-            return messaging.getToken()
-        }).then(token => {
-            console.log('token', token)
-        })
-
         messaging.getToken({ vapidKey: 'BCzV0OJHq4w2DQyltsiIxhhiM7Ce4yLOujK-1QRgWkmjUloUxEPRkvp2PgtvuRQ0nj8rVe1OTIcA2eKTIbEZE2w' })
             .then(token => {
                 if (token)
                     this.props.recievedNoti(token)
             })
-
         messaging.onMessage((payload) => {
-            console.log('payload', payload)
             this.showNotificate(payload.notification)
         });
     }
@@ -35,11 +27,7 @@ class Layout extends Component {
         notification.info({
             message: messaging.title,
             description: messaging.body,
-            placement: 'bottomRight',
-            style: {
-                fontWeight: 500,
-                border: 20
-            }
+            placement: 'bottomRight'
         });
     }
 

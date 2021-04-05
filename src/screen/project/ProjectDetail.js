@@ -11,7 +11,8 @@ class ProjectDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            select: 1
+            select: 1,
+            project: {}
         }
     }
 
@@ -19,6 +20,20 @@ class ProjectDetail extends Component {
         this.props.checkSession()
         var { match } = this.props
         this.props.fetchProjectDetail(match.params.id)
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.project !== prevState.project) {
+            return { someState: nextProps.project };
+        }
+        return null;
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.project !== this.props.project) {
+            if (typeof this.props.project.pageIndex === 'undefined')
+                this.setState({ project: this.props.project })
+        }
     }
 
     onClickMenu = (value) => {
@@ -31,7 +46,7 @@ class ProjectDetail extends Component {
     }
 
     render() {
-        var { project } = this.props
+        var { project } = this.state
         return (
             <div>
                 <div className='row'>

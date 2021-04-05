@@ -2,6 +2,7 @@ import axios from "axios"
 import { SUGGEST_CANDIDATE } from "../constant"
 import { history } from "../helper/History"
 import { API_URL } from "../util/util"
+import { sendNotificate } from "./FirebaseAction"
 
 export const setPositionSelect = index => {
     return {
@@ -32,7 +33,7 @@ export const fetchSelectedList = () => {
 }
 
 export const fetchSuggestList = (projectID) => {
-    var urlToGetListSuggest = `${API_URL}/Project/getEmpsInProject/${projectID}`
+    var urlToGetListSuggest = `${API_URL}/Project/getCandidates/${projectID}`
     return (dispatch) => {
         axios.get(
             urlToGetListSuggest,
@@ -52,19 +53,24 @@ export const fetchSuggestListSuccess = (list) => {
     }
 }
 
-export const confirmSuggestList = (suggestList, projectID) => {
+export const confirmSuggestList = (suggestList, projectID, projectName, pmID) => {
     var url = `${API_URL}/Project/confirmCandidate/${projectID}`
     var candidates = { candidates: suggestList }
-    console.log(candidates)
+
     return (dispatch) => {
         axios.post(
             url,
             candidates,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
         ).then(res => {
-            console.log(res)
             if (res.status === 200) {
                 dispatch(confirmSuggestListSuggest())
+                dispatch(sendNotificate(pmID, projectName, 'accept'))
+                suggestList.forEach(element => {
+                    element.empIDs.forEach(e1 => {
+                        dispatch(sendNotificate(e1, projectName, 'accept'))
+                    });
+                });
                 history.push("/project")
             }
         })

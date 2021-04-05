@@ -77,13 +77,11 @@ class ListCandidate extends Component {
 
                 <div className="row pull-right">
                     <div className="col">
-                        <NavLink to="/project/confirm">
+                        <NavLink to={`/project/confirm-accept/${this.props.match.params.id}`}>
                             <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }}>Next</button>
                         </NavLink>
                     </div>
                 </div>
-
-
             </div>
         );
     }

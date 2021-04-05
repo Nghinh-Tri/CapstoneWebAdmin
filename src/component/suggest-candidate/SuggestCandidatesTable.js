@@ -55,8 +55,8 @@ class SuggestCandidates extends Component {
                                                 <th className="font-weight-bold">Name</th>
                                                 <th className="font-weight-bold">Phone</th>
                                                 <th className="font-weight-bold">Email</th>
-                                                <th className="font-weight-bold">Number of project has joined</th>
-                                                <th className="font-weight-bold">GET</th>
+                                                <th className="font-weight-bold text-center">Joined Projects</th>
+                                                <th className="font-weight-bold text-center">GET</th>
                                             </tr>
                                         </thead>
                                         <tbody>

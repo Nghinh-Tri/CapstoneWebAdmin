@@ -12,7 +12,8 @@ class ProjectDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            select: 1
+            select: 1,
+            project: {}
         }
     }
 
@@ -22,30 +23,46 @@ class ProjectDetail extends Component {
         this.props.fetchProjectDetail(match.params.id)
     }
 
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.project !== prevState.project) {
+            return { someState: nextProps.project };
+        }
+        return null;
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.project !== this.props.project) {
+            if (typeof this.props.project.pageIndex === 'undefined')
+                this.setState({ project: this.props.project })
+        }
+    }
+
     onClickMenu = (value) => {
         this.setState({ select: value })
     }
 
     onDecline = () => {
-        this.props.onDecline(this.props.project.projectID)
+        this.props.onDecline(this.state.project.projectID, this.state.project.pmID)
     }
 
     render() {
-        var { project } = this.props
+        var { project } = this.state
         return (
             <div>
                 <div className='col'>
                     <ProgressBar step="step1" />
-                        <ProjectDetailTable project={project} match={this.props.match} />
-
-
+                    <ProjectDetailTable project={project} match={this.props.match} />
                     <div className="row pull-right">
                         <div className="col">
                             <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }} onClick={this.onDecline}>Decline</button>
                         </div>
                         <div className="col">
                             <div className='col' >
-                                <NavLink to={`/project/candidateList/${project.projectID}`} className='btn btn-primary pull-right' style={{ width: 110, fontWeight: 600 }}>Accept</NavLink>
+                                {this.state.project.status === 1 ?
+                                    <NavLink to={`/project`} className='btn btn-primary pull-right' style={{ width: 110, fontWeight: 600 }}>Back</NavLink>
+                                    :
+                                    <NavLink to={`/project/candidateList/${this.props.match.params.id}`} className='btn btn-success pull-right' style={{ width: 110, fontWeight: 600 }}>Accept</NavLink>
+                                }
                             </div>
                         </div>
                     </div>
@@ -70,8 +87,8 @@ const mapDispatchToProp = dispatch => {
         checkSession: () => {
             dispatch(checkSession())
         },
-        onDecline: projectID => {
-            dispatch(Action.declineProject(projectID))
+        onDecline: (projectID, pmID) => {
+            dispatch(Action.declineProject(projectID, pmID))
         }
     }
 }
