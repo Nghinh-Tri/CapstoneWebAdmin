@@ -8,6 +8,7 @@ import Donut from '../../component/Chart/donut'
 import { checkSession } from '../../service/action/AuthenticateAction';
 import { connect } from 'react-redux';
 import { fetchDataStatistics } from "../../service/action/StatisticAction";
+import ChartStatus from '../../component/Chart/ChartStatus';
 
 
 class Dashboard extends Component {
@@ -18,7 +19,8 @@ class Dashboard extends Component {
                 projectByTypes: [],
                 employeebyhardskills: [],
                 employeeByPositions: [],
-                employeeByProjects: []
+                employeeByProjects: [],
+                projectByStatuses: [],
             }
         }
     }
@@ -61,6 +63,15 @@ class Dashboard extends Component {
     }
 
 
+    onShowStatusList = (dataStatisticList) => {
+        var result = null
+        if (typeof dataStatisticList !== 'undefined') {
+            return (
+                <ChartStatus dataStatisticList={dataStatisticList} />
+            )
+        }
+        return result
+    }
 
     onShowBarList = (dataStatisticList) => {
         var result = null
@@ -237,6 +248,25 @@ class Dashboard extends Component {
                             </div>
                         </div>
                     </div>
+
+                    <div className="col-md-6">
+                        <div className="card card-chart">
+                            <div>
+                                <div className="ct-chart" />
+                                {this.onShowStatusList(dataStatistics.projectByStatuses)}
+                            </div>
+                            <div className="card-body">
+                                <h4 className="card-title">Completed Tasks</h4>
+                                <p className="card-category">Last Campaign Performance</p>
+                            </div>
+                            <div className="card-footer">
+                                <div className="stats">
+                                    <i className="material-icons">access_time</i> campaign sent 2 days ago
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
             </div>
