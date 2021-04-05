@@ -2,6 +2,7 @@ import axios from "axios";
 import { Type, alertConstants } from "../constant";
 import { API_URL } from "../util/util";
 import { history } from "../helper/History";
+import { sendNotificate } from "./FirebaseAction";
 
 export const generateProject = (project) => {
     history.push('/project/create-project')
@@ -13,7 +14,6 @@ export const generateProject = (project) => {
 
 export const fetchProject = (pageIndex, search) => {
     var url = ''
-    console.log('search', search)
     if (search.length > 0)
         url = `${API_URL}/Project/paging?Keyword=${search}&PageIndex=${pageIndex}&PageSize=10`
     else
@@ -70,16 +70,15 @@ export const updateProjectSuccess = (resultObj) => {
     }
 }
 
-export const declineProject = projectID => {
+export const declineProject = (projectID, pmID) => {
     var url = `${API_URL}/Project/${projectID}`
     return (dispatch) => {
         return axios.delete(
             url,
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }).
             then(res => {
-                console.log(res.data)
                 if (res.data.isSuccessed)
-                    dispatch(declineProjectSuccess())
+                    dispatch(sendNotificate(pmID, 'declined'))
             }).catch(err => {
                 dispatch(declineProjectFail())
             })

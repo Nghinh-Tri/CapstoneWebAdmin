@@ -49,7 +49,6 @@ class Project extends Component {
 
     render() {
         var { projects } = this.props
-        console.log(projects)
         return (
             <div className="container-fluid">
                 <div className="row">
