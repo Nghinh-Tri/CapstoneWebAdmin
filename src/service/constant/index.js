@@ -61,6 +61,8 @@ export const Type = {
 
     CREATE_POSITION: "CREATE_POSITION",
     CREATE_POSITION_FAIL: "CREATE_POSITION_FAIL",
+    
+    AWAITING_STATISTICS:"AWAITING_STATISTICS",
 };
 
 export const alertConstants = {
