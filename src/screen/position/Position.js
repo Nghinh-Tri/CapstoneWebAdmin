@@ -1,3 +1,4 @@
+import confirm from 'antd/lib/modal/confirm';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Search from '../../component/search/Search';
@@ -24,8 +25,21 @@ class Position extends Component {
         history.push(`/position/update/${posID}`)
     }
 
-    onChangeStatus = (posID) => {
-        this.props.changeStatus(posID, this.props.item.pageIndex)
+    onChangeStatus = (posID, position) => {
+        var { changeStatus, item } = this.props
+        var { search } = this.state
+        confirm({
+            title: `Are you sure change ${position} status?`,
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+            onOk() {
+                changeStatus(posID, item.pageIndex, search)
+            },
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
     }
 
     onShowListPosition = (list) => {
@@ -44,7 +58,7 @@ class Position extends Component {
                         <a className="text-rigth" style={{ cursor: 'pointer' }} onClick={() => this.onUpdate(value.posID)} >Update</a>
                     </th>
                     <th className="text-primary">
-                        <a className="text-primary" style={{ cursor: 'pointer' }} onClick={() => this.onChangeStatus(value.posID)}>Change Status</a>
+                        <a className="text-primary" style={{ cursor: 'pointer' }} onClick={() => this.onChangeStatus(value.posID, value.name)}>Change Status</a>
                     </th>
                 </tr>
             )
@@ -106,6 +120,8 @@ class Position extends Component {
                                                     <th className="font-weight-bold text-center">No</th>
                                                     <th className="font-weight-bold" style={{ marginLeft: 20 }}>Position</th>
                                                     <th className="font-weight-bold text-center" style={{ marginLeft: 20 }}>Status</th>
+                                                    <th className="font-weight-bold text-center" style={{ marginLeft: 20 }}></th>
+                                                    <th className="font-weight-bold text-center" style={{ marginLeft: 20 }}></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -158,8 +174,8 @@ const mapDispatchToProps = (dispatch) => {
         fetchPosittion: (pageIndex, search) => {
             dispatch(fetchPostionListPaging(pageIndex, search))
         },
-        changeStatus: (posID, pageIndex) => {
-            dispatch(changeStatusPosition(posID, pageIndex))
+        changeStatus: (posID, pageIndex, search) => {
+            dispatch(changeStatusPosition(posID, pageIndex, search))
         }
     }
 }

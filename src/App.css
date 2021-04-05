@@ -183,7 +183,7 @@
   counter-reset: step;
   padding: 0;
   /* for demo */
-  width: 1400px;
+  width: 1200px;
   padding-bottom: 80px;
 }
 
@@ -192,7 +192,7 @@
   list-style: none;
   position: relative;
   text-align: center;
-  width: calc(100% / 4);
+  width: calc(100% / 3);
 }
 
 .progressbar li:before {

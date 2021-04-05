@@ -1,3 +1,4 @@
+import confirm from 'antd/lib/modal/confirm';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Search from '../../component/search/Search';
@@ -20,8 +21,22 @@ class Certification extends Component {
         this.props.fetchCertifications(1, this.state.search)
     }
 
-    onChangeStatus = (certificationID) => {
-        this.props.changeStatus(certificationID, this.props.certiList.pageIndex)
+    onChangeStatus = (certificationID, certificationName) => {
+        var { changeStatus, certiList } = this.props
+        var { search } = this.state
+        confirm({
+            title: `Are you sure change ${certificationName} status?`,
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+            style: { width: 'auto' },
+            onOk() {
+                changeStatus(certificationID, certiList.pageIndex, search)
+            },
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
     }
 
     onUpdate = (certificationID) => {
@@ -47,7 +62,7 @@ class Certification extends Component {
                             <a className="text-primary" style={{ cursor: 'pointer' }} onClick={() => this.onUpdate(item.certificationID)}>Update</a>
                         </th>
                         <th className="text-primary">
-                            <a className="text-primary" style={{ cursor: 'pointer' }} onClick={() => this.onChangeStatus(item.certificationID)}>Change Status</a>
+                            <a className="text-primary" style={{ cursor: 'pointer' }} onClick={() => this.onChangeStatus(item.certificationID, item.certificationName)}>Change Status</a>
                         </th>
                     </tr>
                 )
@@ -163,8 +178,8 @@ const mapDispatchToProps = (dispatch) => {
         checkSession: () => {
             dispatch(checkSession())
         },
-        changeStatus: (certificationID, pageIndex) => {
-            dispatch(changeStatus(certificationID, pageIndex))
+        changeStatus: (certificationID, pageIndex, search) => {
+            dispatch(changeStatus(certificationID, pageIndex, search))
         }
     }
 }

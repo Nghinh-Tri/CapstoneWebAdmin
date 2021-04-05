@@ -1,3 +1,4 @@
+import confirm from 'antd/lib/modal/confirm';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Search from '../../component/search/Search';
@@ -25,8 +26,21 @@ class Skill extends Component {
         history.push(`/skill/update/${skillID}`)
     }
 
-    onChangeStatus = (skillID) => {
-        this.props.changeStatus(skillID, this.props.skills.pageIndex)
+    onChangeStatus = (skillID, skill) => {
+        var { changeStatus, skills } = this.props
+        var { search } = this.state
+        confirm({
+            title: `Are you sure change ${skill} status?`,
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+            onOk() {
+                changeStatus(skillID, skills.pageIndex, search)
+            },
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
     }
 
     onShowListSkills = (items) => {
@@ -44,7 +58,7 @@ class Skill extends Component {
                             </span>
                         </th>
                         <th className="text-primary"><a className="text-primary" style={{ cursor: 'pointer' }} onClick={() => this.onUpdate(item.skillID)}>Update</a></th>
-                        <th className="text-primary"><a className="text-primary" style={{ cursor: 'pointer' }} onClick={() => this.onChangeStatus(item.skillID)}>Change Status</a></th>
+                        <th className="text-primary"><a className="text-primary" style={{ cursor: 'pointer' }} onClick={() => this.onChangeStatus(item.skillID, item.skillName)}>Change Status</a></th>
                     </tr>
                 )
             })
@@ -160,8 +174,8 @@ const mapDispatchToProps = (dispatch) => {
         checkSession: () => {
             dispatch(checkSession())
         },
-        changeStatus: (skillID, pageIndex) => {
-            dispatch(changeStatus(skillID, pageIndex))
+        changeStatus: (skillID, pageIndex, search) => {
+            dispatch(changeStatus(skillID, pageIndex, search))
         }
     }
 }
