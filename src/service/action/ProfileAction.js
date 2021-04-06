@@ -126,3 +126,8 @@ export const createProfileSuccess = profile => {
         profile
     }
 }
+
+export const pushToProfilePage = () => {
+    history.push('/profile')
+    return { type: Type.PROFILE_PAGE }
+}
