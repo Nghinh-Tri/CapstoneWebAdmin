@@ -45,8 +45,8 @@ class ConfirmPage extends Component {
 
     onConfirm = () => {
         var item = convertSuggestList(this.props.candidateList)
-        console.log(item, this.state.project.projectID, this.state.project.projectName, this.state.project.pmID)
-        this.props.onConfirm(item, this.state.project.projectID, this.state.project.projectName, this.state.project.pmID)
+        var candidates = { candidates: item, isAccept: true }
+        this.props.onConfirm(candidates, this.state.project.projectID, this.state.project.projectName, this.state.project.pmID)
     }
 
     render() {

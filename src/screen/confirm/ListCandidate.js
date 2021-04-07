@@ -33,8 +33,8 @@ class ListCandidate extends Component {
         return result
     }
 
-    selectCandidate = (candidate, posName, posID) => {
-        this.props.selectCandidate(candidate, posName.trim(), posID)
+    selectCandidate = (candidate, item) => {
+        this.props.selectCandidate(candidate, item)
     }
 
     unselectCandidate = (candidate, posName) => {
@@ -43,14 +43,24 @@ class ListCandidate extends Component {
 
     getSelectedCandidateList = (suggestCandidateItem, selecedCandidateList) => {
         for (let k = 0; k < selecedCandidateList.length; k++) {
-            if (suggestCandidateItem.position === selecedCandidateList[k].position)
+            if (suggestCandidateItem.posName === selecedCandidateList[k].posName)
                 return selecedCandidateList[k]
         }
         return null
     }
 
+    onSelectAll = (item) => {
+        console.log('selectAll', item)
+        this.props.selectAll(item)
+    }
+
+    onUnSelectAll = (position) => {
+        this.props.unSelectAll(position)
+    }
+
     render() {
         var { suggestCandidateList, selectedIndex, candidateSelectedList } = this.props
+        console.log('candidateSelectedList', suggestCandidateList)
         return (
             <div>
                 <ProgressBar step="step2" />
@@ -68,6 +78,8 @@ class ListCandidate extends Component {
                                 onSelectCandidate={this.selectCandidate}
                                 selectedItem={this.getSelectedCandidateList(suggestCandidateList[selectedIndex], candidateSelectedList)}
                                 onUnselectCandidate={this.unselectCandidate}
+                                onSelectAll={this.onSelectAll}
+                                onUnSelectAll={this.onUnSelectAll}
                             />
                             :
                             ''
@@ -97,8 +109,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        selectCandidate: (candidate, posName, posID) => {
-            dispatch(Action.selectCandidate(candidate, posName, posID))
+        onPositionSelect: index => {
+            dispatch(Action.setPositionSelect(index))
+        },
+        selectCandidate: (candidate, item) => {
+            dispatch(Action.selectCandidate(candidate, item))
         },
         unSelectCandidate: (candidate, posName) => {
             dispatch(Action.unselectCandiate(candidate, posName))
@@ -108,8 +123,13 @@ const mapDispatchToProps = (dispatch) => {
         },
         checkSession: () => {
             dispatch(checkSession())
+        },
+        selectAll: (candidateList) => {
+            dispatch(Action.selectAllCandidates(candidateList))
+        },
+        unSelectAll: (position) => {
+            dispatch(Action.unselectAllCandiates(position))
         }
-
     }
 }
 

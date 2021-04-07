@@ -3,10 +3,9 @@ import SuggestCandidateItems from './suggest-candidate-items/SuggestCandidateIte
 
 class SuggestCandidates extends Component {
 
-
     onSelect = (value, candidate) => {
         if (value) {
-            this.props.onSelectCandidate(candidate, this.props.item.posName, this.props.item.posID)
+            this.props.onSelectCandidate(candidate, this.props.item)
         }
         else {
             this.props.onUnselectCandidate(candidate, this.props.item.posName)
@@ -28,9 +27,18 @@ class SuggestCandidates extends Component {
         return result
     }
 
+    onSelectAll = (event) => {
+        var value = event.target.checked
+        if (value) {
+            console.log('item', this.props.item)
+            this.props.onSelectAll(this.props.item)
+        }
+        else
+            this.props.onUnSelectAll(this.props.item.posName)
+    }
+
     render() {
         var { item, selectedItem } = this.props
-        console.log(item)
         return (
             <div className="card">
                 <div className="card-header card-header-primary">
@@ -56,7 +64,9 @@ class SuggestCandidates extends Component {
                                                 <th className="font-weight-bold">Phone</th>
                                                 <th className="font-weight-bold">Email</th>
                                                 <th className="font-weight-bold text-center">Joined Projects</th>
-                                                <th className="font-weight-bold text-center">GET</th>
+                                                <th className="font-weight-bold text-center">
+                                                    <input type="checkbox" onClick={this.onSelectAll} checked={selectedItem === null ? false : selectedItem.selectAll} />
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>

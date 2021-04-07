@@ -11,11 +11,18 @@ export const setPositionSelect = index => {
     }
 }
 
-export const selectCandidate = (candidate, position, posId) => {
+export const selectCandidate = (candidate, candidateList) => {
     return {
         type: SUGGEST_CANDIDATE.SELECT_CANDIDATE,
-        candidate, position, posId
+        candidate, candidateList
 
+    }
+}
+
+export const selectAllCandidates = (candidateList) => {
+    return {
+        type: SUGGEST_CANDIDATE.SELECT_ALL_CANDIDATE,
+        candidateList
     }
 }
 
@@ -23,6 +30,13 @@ export const unselectCandiate = (candidate, position) => {
     return {
         type: SUGGEST_CANDIDATE.UNSELECT_CANDIDATE,
         candidate, position
+    }
+}
+
+export const unselectAllCandiates = (position) => {
+    return {
+        type: SUGGEST_CANDIDATE.UNSELECT_ALL_CANDIDATE,
+        position
     }
 }
 
@@ -55,18 +69,16 @@ export const fetchSuggestListSuccess = (list) => {
 
 export const confirmSuggestList = (suggestList, projectID, projectName, pmID) => {
     var url = `${API_URL}/Project/confirmCandidate/${projectID}`
-    var candidates = { candidates: suggestList }
-
     return (dispatch) => {
         axios.post(
             url,
-            candidates,
+            suggestList,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
         ).then(res => {
             if (res.status === 200) {
                 dispatch(confirmSuggestListSuggest())
                 dispatch(sendNotificate(pmID, projectName, 'accept'))
-                suggestList.forEach(element => {
+                suggestList.candidates.forEach(element => {
                     element.empIDs.forEach(e1 => {
                         dispatch(sendNotificate(e1, projectName, 'accept'))
                     });

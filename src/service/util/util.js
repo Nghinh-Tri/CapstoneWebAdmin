@@ -18,8 +18,10 @@ export const showStatus = status => {
         case 1:
             return "No Employee"
         case 2:
-            return "On Going"
+            return "Cofirmed"
         case 3:
+            return "On Going"
+        case 4:
             return "Finish"
         default:
             break;
@@ -29,12 +31,14 @@ export const showStatus = status => {
 export const showSpan = status => {
     switch (status) {
         case 0:
-            return "badge-warning"
-        case 1:
             return "badge-secondary"
+        case 1:
+            return "badge-dark"
         case 2:
-            return "badge-primary"
+            return "badge-warning"
         case 3:
+            return "badge-primary"
+        case 4:
             return "badge-success"
         default:
             break;
@@ -178,15 +182,18 @@ export const sortSuggestListByHardSkillMatch = list => {
     list.sort((a, b) => { return b.hardSkillMatch - a.hardSkillMatch })
 }
 
-export const convertSuggestList = list => {
-    var result = [], empID = []
+export const convertSuggestList = list => {    
+    var result = []
     if (list.length > 0) {
         list.forEach(element => {
-            var positionObj = { posID: element.posID, empIDs: [] }
-            element.candidateSelect.forEach(e => {
-                empID.push(e.empID)
-            });
-            positionObj.empIDs = empID
+            var positionObj = { posID: element.posId, empIDs: [] }
+            if (positionObj.posID === element.posId) {
+                var empID = []
+                element.candidateSelect.forEach(e => {
+                    empID.push(e.empID)
+                });
+                positionObj.empIDs = empID
+            }
             result.push(positionObj)
         });
     }
