@@ -2,22 +2,14 @@ import React, { Component } from 'react';
 import { Bar, defaults } from 'react-chartjs-2'
 
 class Barchart extends Component {
-
-
     render() {
-
         var { dataStatisticList } = this.props
         const arrLabel = [];
-        const topname = [];
         const arryDataset = [];
-        const topValues = [];
-
         dataStatisticList.map((dataItem, index) => {
             arrLabel.push(dataItem.name);
             arryDataset.push(dataItem.noe)
         })
-        console.log(dataStatisticList)
-
         return (
             <div>
                 <Bar

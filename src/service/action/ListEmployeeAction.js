@@ -12,6 +12,7 @@ export const fetchListEmployee = (projectID, page) => {
             console.log('action',res)
             if (res.status === 200) {
                 dispatch(fetchListEmployeeSuccess(res.data.resultObj))
+                console.log(res.data.resultObj)
             }
         })
     }

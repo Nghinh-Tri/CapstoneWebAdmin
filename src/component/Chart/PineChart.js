@@ -7,13 +7,14 @@ class PineChart extends Component {
   render() {
 
     var { dataStatisticList } = this.props
+    console.log(dataStatisticList.projectByTypes)
     const arrLabel = [];
     const arryDataset = [];
     dataStatisticList.map((dataItem, index) => {
       arrLabel.push(dataItem.name);
       arryDataset.push(dataItem.nop)
     })
-
+    
 
     return (
       <div>

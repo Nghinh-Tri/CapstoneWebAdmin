@@ -4,7 +4,6 @@ import RadarChart from '../../component/Chart/radarChart'
 import BarChart from '../../component/Chart/Barchart'
 import Donut from '../../component/Chart/donut'
 
-
 import { checkSession } from '../../service/action/AuthenticateAction';
 import { connect } from 'react-redux';
 import { fetchDataStatistics } from "../../service/action/StatisticAction";
@@ -12,18 +11,7 @@ import ChartStatus from '../../component/Chart/ChartStatus';
 
 
 class Dashboard extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            dataStatistics: {
-                projectByTypes: [],
-                employeebyhardskills: [],
-                employeeByPositions: [],
-                employeeByProjects: [],
-                projectByStatuses: [],
-            }
-        }
-    }
+    
 
 
     componentDidMount = () => {
