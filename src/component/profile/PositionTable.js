@@ -97,7 +97,7 @@ class PositionTable extends Component {
     }
 
     onUpdate = () => {
-        history.push(`/employee/update-position/${this.props.empID}`)
+        history.push(`/employee/update-position/${this.props.empID}`, { role: this.props.role })
     }
 
     render() {

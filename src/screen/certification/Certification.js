@@ -25,7 +25,7 @@ class Certification extends Component {
         var { changeStatus, certiList } = this.props
         var { search } = this.state
         confirm({
-            title: `Are you sure change ${certificationName} status?`,
+            title: `Are you sure you want to change ${certificationName} status?`,
             okText: 'Yes',
             okType: 'danger',
             cancelText: 'No',

@@ -29,7 +29,7 @@ class Position extends Component {
         var { changeStatus, item } = this.props
         var { search } = this.state
         confirm({
-            title: `Are you sure change ${position} status?`,
+            title: `Are you sure you want to change ${position} status?`,
             okText: 'Yes',
             okType: 'danger',
             cancelText: 'No',

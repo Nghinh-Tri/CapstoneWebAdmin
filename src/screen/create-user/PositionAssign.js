@@ -145,45 +145,46 @@ class PositionAssign extends Component {
                     </div>
                     <div className="card-body">
                         <div className="form-group">
-                            <div className="row">
-                                {/* Position */}
-                                <div className="col-1" style={{ marginLeft: 20, marginTop: 20, }}>
-                                    <label className="bmd-label  ">
-                                        <h4 className="font-weight-bold">
-                                            Position
+                            {typeof this.props.location.state.role === 'Employee' ?
+                                <div className="row">
+                                    {/* Position */}
+                                    <div className="col-1" style={{ marginLeft: 20, marginTop: 20, }}>
+                                        <label className="bmd-label  ">
+                                            <h4 className="font-weight-bold">
+                                                Position
                                 </h4>
-                                    </label>
-                                </div>
-                                {/* Select Bar */}
-                                <div className="col" style={{ marginLeft: 20, marginTop: 15 }}>
-                                    <SelectBar
-                                        name="positionID"
-                                        type='common'
-                                        placeholder="Select position"
-                                        list={listConverted}
-                                        onUpdatePositionID={this.onUpdatePositionID}
-                                        value={item.posID}
-                                    />
-                                </div>
-                                {/* Position Level */}
-                                <div className="col-auto" style={{ marginLeft: 20, marginTop: 20, }}>
-                                    <label className="bmd-label ">
-                                        <h4 className="font-weight-bold ">
-                                            Position Level
+                                        </label>
+                                    </div>
+                                    {/* Select Bar */}
+                                    <div className="col" style={{ marginLeft: 20, marginTop: 15 }}>
+                                        <SelectBar
+                                            name="positionID"
+                                            type='common'
+                                            placeholder="Select position"
+                                            list={listConverted}
+                                            onUpdatePositionID={this.onUpdatePositionID}
+                                            value={item.posID}
+                                        />
+                                    </div>
+                                    {/* Position Level */}
+                                    <div className="col-auto" style={{ marginLeft: 20, marginTop: 20, }}>
+                                        <label className="bmd-label ">
+                                            <h4 className="font-weight-bold ">
+                                                Position Level
                                     </h4>
-                                    </label>
+                                        </label>
+                                    </div>
+                                    <div className="col" style={{ marginLeft: 20, marginTop: 15 }}>
+                                        <SelectBar name="posLevel"
+                                            type='common'
+                                            placeholder="Select position level"
+                                            list={this.state.posLevel}
+                                            onUpdatePositionLevel={this.onUpdatePositionLevel}
+                                            value={item.posLevel}
+                                        />
+                                    </div>
                                 </div>
-                                <div className="col" style={{ marginLeft: 20, marginTop: 15 }}>
-                                    <SelectBar name="posLevel"
-                                        type='common'
-                                        placeholder="Select position level"
-                                        list={this.state.posLevel}
-                                        onUpdatePositionLevel={this.onUpdatePositionLevel}
-                                        value={item.posLevel}
-                                    />
-                                </div>
-                            </div>
-
+                                : ''}
                             <LanguageForm language={item.languages}
                                 onAddLanguage={this.onAddLanguage}
                                 onDeleteLanguage={this.onDeleteLanguage}

@@ -54,7 +54,6 @@ export const fetchSuggestList = (projectID) => {
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
         ).then(res => {
             if (res.status === 200) {
-                console.log('cons', res.data)
                 dispatch(fetchSuggestListSuccess(res.data.resultObj))
             }
         })

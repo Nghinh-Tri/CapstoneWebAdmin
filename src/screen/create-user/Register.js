@@ -4,6 +4,7 @@ import SelectBar from '../../component/create-position-form/select-search/Select
 import { checkSession } from '../../service/action/AuthenticateAction';
 import * as Action from '../../service/action/LoginAction'
 import { fetchProfileDetail, updateProfile } from '../../service/action/ProfileAction';
+import { showRole } from '../../service/util/util';
 class Register extends Component {
 
     constructor(props) {
@@ -22,6 +23,10 @@ class Register extends Component {
             isValidate: true,
             roleList: [
                 { label: 'Administrator', value: 'admin' },
+                { label: 'Project Manager', value: 'PM' },
+                { label: 'Employee', value: 'Employee' },
+            ],
+            roleListUpdate: [
                 { label: 'Project Manager', value: 'PM' },
                 { label: 'Employee', value: 'Employee' },
             ]
@@ -262,17 +267,25 @@ class Register extends Component {
                                         <div className="col-1" style={{ marginTop: 5 }}>
                                             <label className="bmd-label-floating">Role : </label>
                                         </div>
-                                        <div className="col">
-                                            <SelectBar name='role'
-                                                type="role"
-                                                value={role}
-                                                placeholder='Select role'
-                                                list={this.state.roleList}
-                                                onSelectRole={this.onSelectRole} />
-                                            {submitted && !role &&
-                                                <div className="error text-danger font-weight-bold" >Role is required</div>
-                                            }
-                                        </div>
+                                        {role !== 'PM' ?
+                                            <div className="col">
+                                                <SelectBar name='role'
+                                                    type="role"
+                                                    value={role}
+                                                    placeholder='Select role'
+                                                    list={role === '' ? this.state.roleList : this.state.roleListUpdate}
+                                                    onSelectRole={this.onSelectRole} />
+                                                {submitted && !role &&
+                                                    <div className="error text-danger font-weight-bold" >Role is required</div>
+                                                }
+                                            </div>
+                                            :
+                                            <div className="col" style={{marginTop:5}}>
+                                                <label className="bmd-label">
+                                                    <h5 style={{fontWeight:350,fontSize:15}}>{showRole(role)}</h5>
+                                                </label>
+                                            </div>
+                                        }
                                     </div>
 
                                     <button type="submit" className="btn btn-primary pull-right">

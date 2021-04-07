@@ -2,6 +2,7 @@ import jwtDecode from "jwt-decode"
 import moment from "moment"
 import { SESSION, Type } from "../constant"
 import { history } from "../helper/History"
+import { getRole } from "../util/util"
 
 export const checkSession = () => {
     var token = localStorage.getItem('token')
@@ -16,11 +17,11 @@ export const checkSession = () => {
     var now = moment().format("DD/MM/YYYY HH:mm:ss")
     var diff = moment(time, "DD/MM/YYYY HH:mm:ss").diff(moment(now, "DD/MM/YYYY HH:mm:ss"))
     return (dispatch) => {
-        if (diff <= 0) {
+        if (diff <= 0 || getRole() !== 'admin') {
             localStorage.clear()
             dispatch(sessionTimeOut())
             history.push('/login')
-        }else{
+        } else {
             dispatch(sessionAllow())
         }
     }

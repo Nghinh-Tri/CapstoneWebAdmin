@@ -98,7 +98,7 @@ export const register = (emp) => {
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } })
             .then(res => {
                 if (res.status === 200) {
-                    dispatch(registerSuccess(res.data.resultObj))
+                    dispatch(registerSuccess(res.data.resultObj, emp.roleName))
                 }
             })
             .catch(err => {
@@ -141,9 +141,13 @@ export const registerRequest = (user) => {
     }
 }
 
-export const registerSuccess = (userID) => {
-    history.push('/employee/position-assign', { empID: userID });
-
+export const registerSuccess = (userID, role) => {
+    if (role === 'Employee' || role === 'PM') {
+        history.push('/employee/position-assign', { empID: userID, role: role });
+    }
+    else {
+        history.push('/employee')
+    }
     return { type: Type.REGISTER_SUCCESS }
 }
 

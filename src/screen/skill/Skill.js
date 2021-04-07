@@ -30,7 +30,7 @@ class Skill extends Component {
         var { changeStatus, skills } = this.props
         var { search } = this.state
         confirm({
-            title: `Are you sure change ${skill} status?`,
+            title: `Are you sure you want to change ${skill} status?`,
             okText: 'Yes',
             okType: 'danger',
             cancelText: 'No',

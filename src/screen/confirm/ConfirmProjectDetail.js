@@ -44,7 +44,7 @@ class ProjectDetail extends Component {
     onDecline = () => {
         var { onDecline, project } = this.props
         confirm({
-            title: 'Are you sure decline this project?',
+            title: 'Are you sure you want to decline this project?',
             okText: 'Yes',
             okType: 'danger',
             cancelText: 'No',

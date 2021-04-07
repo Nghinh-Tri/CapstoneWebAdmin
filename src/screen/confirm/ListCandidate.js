@@ -66,7 +66,7 @@ class ListCandidate extends Component {
             var candidates = { candidates: item, isAccept: false }
             var { onDecline, match, location } = this.props
             confirm({
-                title: 'Are you sure decline those candidate?',
+                title: 'Are you sure you want to decline those candidate?',
                 okText: 'Yes',
                 okType: 'danger',
                 cancelText: 'No',
@@ -104,7 +104,7 @@ class ListCandidate extends Component {
                                 onUnSelectAll={this.onUnSelectAll}
                             />
                             :
-                            history.push(`/project/confirm/${this.props.match.params.id}`)
+                            history.push(`/project/detail/${this.props.match.params.id}`)
                         }
                     </div>
                 </div>
