@@ -76,21 +76,15 @@ export const updateCertificateDate = (name, value, certificateIndex, hardSkillIn
     return { type: POSITION_ASSIGN.UPDATE_CERTIFICATE_DATE, name, value, certificateIndex, hardSkillIndex }
 }
 
-export const assignPosition = (empID, positionAssign) => {
+export const assignPosition = (empID, positionAssign, role) => {
     var url = `${API_URL}/User/${empID}`
+    console.log(positionAssign.languages.length === 0)
     return (dispatch) => {
-        axios.post(
-            url,
-            positionAssign,
-            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } })
-            .then(res => {
-                if (res.status === 200) {
-                    dispatch(assignPositionSuccess())
-                }
-            })
-            .catch(err => {
+        if (positionAssign.posID === 0) {
+            if (role === 'Employee') {
+                dispatch(assignPositionFail())
                 store.addNotification({
-                    message: err.toString(),
+                    message: 'Please select position',
                     type: "danger",
                     insert: "top",
                     container: "top-center",
@@ -101,7 +95,192 @@ export const assignPosition = (empID, positionAssign) => {
                         onScreen: false
                     }
                 })
+            }
+        }
+        if (positionAssign.posLevel === 0) {
+            if (role === 'Employee') {
+                dispatch(assignPositionFail())
+                store.addNotification({
+                    message: 'Please select position level',
+                    type: "danger",
+                    insert: "top",
+                    container: "top-center",
+                    animationIn: ["animated", "fadeIn"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: {
+                        duration: 2000,
+                        onScreen: false
+                    }
+                })
+            }
+        }
+        if (positionAssign.languages.length === 0) {
+            store.addNotification({
+                message: 'Please select language',
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
             })
+            dispatch(assignPositionFail())
+
+        } else if (typeof positionAssign.languages.find(e => e.langID === 0) !== 'undefined') {
+            dispatch(assignPositionFail())
+            store.addNotification({
+                message: 'Please select language',
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
+            })
+        } else if (typeof positionAssign.languages.find(e => e.langLevel === 0) !== 'undefined') {
+            dispatch(assignPositionFail())
+            store.addNotification({
+                message: 'Please select language level',
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
+            })
+        } else if (positionAssign.softSkills.length === 0) {
+            dispatch(assignPositionFail())
+            store.addNotification({
+                message: 'Please select soft skill',
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
+            })
+        } else if (typeof positionAssign.softSkills.find(e => e === 0) !== 'undefined') {
+            dispatch(assignPositionFail())
+            store.addNotification({
+                message: 'Please select soft skill',
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
+            })
+        } else if (positionAssign.hardSkills.length === 0) {
+            dispatch(assignPositionFail())
+            store.addNotification({
+                message: 'Please select hard skill',
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
+            })
+        } else if (typeof positionAssign.hardSkills.find(e => e.skillID === 0) !== 'undefined') {
+            dispatch(assignPositionFail())
+            store.addNotification({
+                message: 'Please select hard skill',
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
+            })
+        } else if (typeof positionAssign.hardSkills.find(e => e.skillLevel === 0) !== 'undefined') {
+            dispatch(assignPositionFail())
+            store.addNotification({
+                message: 'Please select hard skill level',
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
+            })
+        } else if (typeof positionAssign.hardSkills.find(e => e.empCertifications.find(a => a.certiID === 0)) !== 'undefined') {
+            dispatch(assignPositionFail())
+            store.addNotification({
+                message: 'Please select certificate',
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
+            })
+        } else if (typeof positionAssign.hardSkills.find(e => e.empCertifications.find(a => a.dateTaken === '')) !== 'undefined') {
+            dispatch(assignPositionFail())
+            store.addNotification({
+                message: 'Please select taken date',
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
+            })
+        }
+        else {
+            axios.post(
+                url,
+                positionAssign,
+                { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } })
+                .then(res => {
+                    if (res.status === 200) {
+                        dispatch(assignPositionSuccess())
+                    }
+                })
+                .catch(err => {
+                    store.addNotification({
+                        message: err.toString(),
+                        type: "danger",
+                        insert: "top",
+                        container: "top-center",
+                        animationIn: ["animated", "fadeIn"],
+                        animationOut: ["animated", "fadeOut"],
+                        dismiss: {
+                            duration: 2000,
+                            onScreen: false
+                        }
+                    })
+                })
+        }
     }
 }
 
@@ -117,22 +296,15 @@ export const fetchPositionProfileUpdateDetail = (id) => {
     }
 }
 
-export const updatePositionDetail = (empID, positionAssign) => {
+export const updatePositionDetail = (empID, positionAssign, role) => {
     var url = `${API_URL}/User/updateEmpInfo/${empID}`
+
     return (dispatch) => {
-        axios.post(
-            url,
-            positionAssign,
-            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } })
-            .then(res => {
-                if (res.status === 200) {
-                    dispatch(updatePositionDetailSuccess(empID))
-                }
-            })
-            .catch(err => {
+        if (positionAssign.posID === 0) {
+            if (role === 'Employee') {
                 dispatch(assignPositionFail())
                 store.addNotification({
-                    message: err.toString(),
+                    message: 'Please select position',
                     type: "danger",
                     insert: "top",
                     container: "top-center",
@@ -143,7 +315,195 @@ export const updatePositionDetail = (empID, positionAssign) => {
                         onScreen: false
                     }
                 })
+            }
+        } else if (positionAssign.posLevel === 0) {
+            if (role === 'Employee') {
+                dispatch(assignPositionFail())
+                store.addNotification({
+                    message: 'Please select position level',
+                    type: "danger",
+                    insert: "top",
+                    container: "top-center",
+                    animationIn: ["animated", "fadeIn"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: {
+                        duration: 2000,
+                        onScreen: false
+                    }
+                })
+            }
+        }
+        if (positionAssign.languages.length === 0) {
+            dispatch(assignPositionFail())
+            store.addNotification({
+                message: 'Please select language',
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
             })
+        } else if (typeof positionAssign.languages.find(e => e.langID === 0) !== 'undefined') {
+            dispatch(assignPositionFail())
+            store.addNotification({
+                message: 'Please select language',
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
+            })
+        } else if (typeof positionAssign.languages.find(e => e.langLevel === 0) !== 'undefined') {
+            dispatch(assignPositionFail())
+            store.addNotification({
+                message: 'Please select language level',
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
+            })
+        } else if (positionAssign.softSkills.length === 0) {
+            dispatch(assignPositionFail())
+            store.addNotification({
+                message: 'Please select soft skill',
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
+            })
+        } else if (typeof positionAssign.softSkills.find(e => e === 0) !== 'undefined') {
+            dispatch(assignPositionFail())
+            store.addNotification({
+                message: 'Please select soft skill',
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
+            })
+        } else if (positionAssign.hardSkills.length === 0) {
+            dispatch(assignPositionFail())
+            store.addNotification({
+                message: 'Please select hard skill',
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
+            })
+        } else if (typeof positionAssign.hardSkills.find(e => e.skillID === 0) !== 'undefined') {
+            dispatch(assignPositionFail())
+            store.addNotification({
+                message: 'Please select hard skill',
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
+            })
+        } else if (typeof positionAssign.hardSkills.find(e => e.skillLevel === 0) !== 'undefined') {
+            dispatch(assignPositionFail())
+            store.addNotification({
+                message: 'Please select hard skill level',
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
+            })
+        } else if (typeof positionAssign.hardSkills.find(e => e.empCertifications.find(a => a.certiID === 0)) !== 'undefined') {
+            dispatch(assignPositionFail())
+            store.addNotification({
+                message: 'Please select certificate',
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
+            })
+        } else if (typeof positionAssign.hardSkills.find(e => e.empCertifications.find(a => a.dateTaken === '')) !== 'undefined') {
+            dispatch(assignPositionFail())
+            store.addNotification({
+                message: 'Please select taken date',
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: false
+                }
+            })
+        }
+        else {
+            console.log(url)
+
+            axios.post(
+                url,
+                positionAssign,
+                { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } })
+                .then(res => {
+                    console.log(res)
+
+                    if (res.status === 200) {
+                        dispatch(updatePositionDetailSuccess(empID))
+                    }
+                })
+                .catch(err => {
+                    dispatch(assignPositionFail())
+                    store.addNotification({
+                        message: err.toString(),
+                        type: "danger",
+                        insert: "top",
+                        container: "top-center",
+                        animationIn: ["animated", "fadeIn"],
+                        animationOut: ["animated", "fadeOut"],
+                        dismiss: {
+                            duration: 2000,
+                            onScreen: false
+                        }
+                    })
+                })
+        }
     }
 }
 

@@ -102,13 +102,14 @@ class PositionTable extends Component {
 
     render() {
         var { positionDetail } = this.props
+        console.log('aa', positionDetail)
         return (
             <div className="card">
                 <div className="card-header card-header-primary">
                     <h4 className="card-title">Position Detail</h4>
                 </div>
                 <div className="card-body">
-                    {positionDetail.posName !== null && typeof positionDetail.posName !== 'undefined' ?
+                    {positionDetail.languages !== null && typeof positionDetail.languages !== 'undefined' ?
                         <div>
                             {/* Name */}
                             {this.props.role === 'Employee' ?
@@ -120,7 +121,7 @@ class PositionTable extends Component {
                                     </div>
                                     <div className="col" style={{ marginLeft: -20 }}>
                                         <label className="bmd-label">
-                                            <h4>{positionDetail.posName.trim()}</h4>
+                                            <h4>{positionDetail.posName}</h4>
                                         </label>
                                     </div>
                                     <div className='col-auto' style={{ marginLeft: 85, fontWeight: 600 }}>

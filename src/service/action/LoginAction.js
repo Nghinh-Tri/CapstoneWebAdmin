@@ -102,34 +102,35 @@ export const register = (emp) => {
                 }
             })
             .catch(err => {
+                console.log(err.response)
                 dispatch(failure(err.toString()));
-                if (err.response.status === 500) {
-                    store.addNotification({
-                        message: "Duplicate email or username",
-                        type: "danger",
-                        insert: "top",
-                        container: "top-center",
-                        animationIn: ["animated", "fadeIn"],
-                        animationOut: ["animated", "fadeOut"],
-                        dismiss: {
-                            duration: 2000,
-                            onScreen: false
-                        }
-                    })
-                } else {
-                    store.addNotification({
-                        message: err.response.message,
-                        type: "danger",
-                        insert: "top",
-                        container: "top-center",
-                        animationIn: ["animated", "fadeIn"],
-                        animationOut: ["animated", "fadeOut"],
-                        dismiss: {
-                            duration: 2000,
-                            onScreen: false
-                        }
-                    })
-                }
+                // if (err.response.status === 500) {
+                //     store.addNotification({
+                //         message: "Duplicate email or username",
+                //         type: "danger",
+                //         insert: "top",
+                //         container: "top-center",
+                //         animationIn: ["animated", "fadeIn"],
+                //         animationOut: ["animated", "fadeOut"],
+                //         dismiss: {
+                //             duration: 2000,
+                //             onScreen: false
+                //         }
+                //     })
+                // } else {
+                //     store.addNotification({
+                //         message: err.response.message,
+                //         type: "danger",
+                //         insert: "top",
+                //         container: "top-center",
+                //         animationIn: ["animated", "fadeIn"],
+                //         animationOut: ["animated", "fadeOut"],
+                //         dismiss: {
+                //             duration: 2000,
+                //             onScreen: false
+                //         }
+                //     })
+                // }
             })
     }
 }

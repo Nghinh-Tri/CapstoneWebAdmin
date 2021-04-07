@@ -38,7 +38,7 @@ class PositionAssign extends Component {
         this.props.checkSession()
         this.props.onFetchPosition()
         var { match } = this.props
-
+        console.log(match)
         if (typeof match !== 'undefined') {
             this.props.fetchPositionDetail(match.params.id) //update
         }
@@ -127,10 +127,11 @@ class PositionAssign extends Component {
 
     onAssignPosition = (e) => {
         e.preventDefault()
-        if (typeof this.props.location.state !== 'undefined') {//create
-            this.props.onAssignPosition(this.props.location.state.empID, this.props.item)
+        console.log(this.props.location)
+        if (typeof this.props.location.state.empID !== 'undefined') {//create
+            this.props.onAssignPosition(this.props.location.state.empID, this.props.item, this.props.location.state.role)
         } else {
-            this.props.updatePosition(this.props.match.params.id, this.props.item)
+            this.props.updatePosition(this.props.match.params.id, this.props.item, this.props.location.state.role)
         }
     }
 
@@ -290,11 +291,11 @@ const mapDispatchToProps = dispatch => {
         onUpdateCertificateDate: (name, value, certificateIndex, hardSkillIndex) => {
             dispatch(Action.updateCertificateDate(name, value, certificateIndex, hardSkillIndex))
         },
-        onAssignPosition: (empID, item) => {
-            dispatch(Action.assignPosition(empID, item))
+        onAssignPosition: (empID, item, role) => {
+            dispatch(Action.assignPosition(empID, item, role))
         },
-        updatePosition: (empID, item) => {
-            dispatch(Action.updatePositionDetail(empID, item))
+        updatePosition: (empID, item, role) => {
+            dispatch(Action.updatePositionDetail(empID, item, role))
         }
     }
 }

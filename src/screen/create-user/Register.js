@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import { compose } from 'redux';
 import SelectBar from '../../component/create-position-form/select-search/SelectBar';
 import { checkSession } from '../../service/action/AuthenticateAction';
 import * as Action from '../../service/action/LoginAction'
@@ -36,7 +38,7 @@ class Register extends Component {
     componentDidMount = () => {
         this.props.checkSession()
         var { match } = this.props
-        if (typeof match !== 'undefined')
+        if (this.props.location.pathname !== '/employee/register')
             this.props.fetchEmpDetail(match.params.id)
     }
 
@@ -85,7 +87,7 @@ class Register extends Component {
         e.preventDefault();
         this.setState({ submitted: true });
         const { address, phoneNumber, userName, email, fullname, password, confirmPassword, identityNumber, role } = this.state;
-        if (typeof this.props.match === 'undefined') {
+        if (this.props.location.pathname === '/employee/register') {
             if (email && password) {
                 this.props.register(
                     {
@@ -125,7 +127,7 @@ class Register extends Component {
                         <div className="card">
                             <div className="card-header card-header-primary">
                                 <h4 className="card-title">
-                                    {typeof this.props.match !== 'undefined' ? 'Update Certificate' : 'Create Certificate'}
+                                    {this.props.location.pathname !== '/employee/register' ? 'Update Profile' : 'Create New Employee'}
                                 </h4>
                             </div>
                             <div className="card-body">
@@ -137,7 +139,7 @@ class Register extends Component {
                                         </div>
                                         <div className="col">
                                             <div className="form-group">
-                                                <label className={`bmd-label-${typeof this.props.match !== 'undefined' ? 'static' : 'floating'}`}>Full name</label>
+                                                <label className={`bmd-label-${this.props.location.pathname !== '/employee/register' ? 'static' : 'floating'}`}>Full name</label>
                                                 <input name="fullname" type="text" className="form-control" value={fullname} onChange={this.handleInputChange} />
                                                 {submitted && !fullname &&
                                                     <div className="error text-danger font-weight-bold">Full name is required</div>
@@ -153,7 +155,7 @@ class Register extends Component {
                                         </div>
                                         <div className="col">
                                             <div className="form-group">
-                                                <label className={`bmd-label-${typeof this.props.match !== 'undefined' ? 'static' : 'floating'}`}>Email</label>
+                                                <label className={`bmd-label-${this.props.location.pathname !== '/employee/register' ? 'static' : 'floating'}`}>Email</label>
                                                 <input name="email" type="email" placeholder="Email" className="form-control" value={email} onChange={this.handleInputChange} />
                                                 {submitted && !email &&
                                                     <div className="error text-danger font-weight-bold">Email is required</div>
@@ -163,7 +165,7 @@ class Register extends Component {
                                     </div>
 
                                     {/* Username */}
-                                    {typeof this.props.match === 'undefined' ?
+                                    {this.props.location.pathname === '/employee/register' ?
                                         <div className="row">
                                             <div className="col-1" style={{ marginTop: 15 }}>
                                                 <label className="bmd-label-floating">Username : </label>
@@ -185,7 +187,7 @@ class Register extends Component {
                                         : ''}
 
                                     {/* Password */}
-                                    {typeof this.props.match === 'undefined' ?
+                                    {this.props.location.pathname === '/employee/register' ?
                                         <div className="row">
                                             <div className="col-1" style={{ marginTop: 15 }}>
                                                 <label className="bmd-label-floating">Password : </label>
@@ -221,7 +223,7 @@ class Register extends Component {
                                         </div>
                                         <div className="col">
                                             <div className="form-group">
-                                                <label className={`bmd-label-${typeof this.props.match !== 'undefined' ? 'static' : 'floating'}`}>Phone Number</label>
+                                                <label className={`bmd-label-${this.props.location.pathname !== '/employee/register' ? 'static' : 'floating'}`}>Phone Number</label>
                                                 <input type="text" name="phoneNumber" value={phoneNumber} className="form-control" onChange={this.handleInputChange} />
                                                 {submitted && !phoneNumber &&
                                                     <div className="error text-danger font-weight-bold">Phone is required</div>
@@ -237,7 +239,7 @@ class Register extends Component {
                                         </div>
                                         <div className="col">
                                             <div className="form-group">
-                                                <label className={`bmd-label-${typeof this.props.match !== 'undefined' ? 'static' : 'floating'}`}>Identity Number</label>
+                                                <label className={`bmd-label-${this.props.location.pathname !== '/employee/register' ? 'static' : 'floating'}`}>Identity Number</label>
                                                 <input name="identityNumber" type="identityNumber" placeholder="" className="form-control" value={identityNumber} onChange={this.handleInputChange} />
                                                 {submitted && !identityNumber &&
                                                     <div className="error text-danger font-weight-bold">Identity Number is required</div>
@@ -253,7 +255,7 @@ class Register extends Component {
                                         </div>
                                         <div className="col">
                                             <div className="form-group">
-                                                <label className={`bmd-label-${typeof this.props.match !== 'undefined' ? 'static' : 'floating'}`}>Adress</label>
+                                                <label className={`bmd-label-${this.props.location.pathname !== '/employee/register' ? 'static' : 'floating'}`}>Adress</label>
                                                 <input type="text" name="address" className="form-control" value={address} onChange={this.handleInputChange} />
                                                 {submitted && !address &&
                                                     <div className="error text-danger font-weight-bold" >Address is required</div>
@@ -267,29 +269,43 @@ class Register extends Component {
                                         <div className="col-1" style={{ marginTop: 5 }}>
                                             <label className="bmd-label-floating">Role : </label>
                                         </div>
-                                        {role !== 'PM' ?
+                                        {console.log(this.props.location.pathname === '/employee/register')}
+                                        {this.props.location.pathname === '/employee/register' ?
                                             <div className="col">
                                                 <SelectBar name='role'
                                                     type="role"
                                                     value={role}
                                                     placeholder='Select role'
-                                                    list={role === '' ? this.state.roleList : this.state.roleListUpdate}
+                                                    list={this.state.roleList}
                                                     onSelectRole={this.onSelectRole} />
                                                 {submitted && !role &&
                                                     <div className="error text-danger font-weight-bold" >Role is required</div>
                                                 }
                                             </div>
                                             :
-                                            <div className="col" style={{marginTop:5}}>
-                                                <label className="bmd-label">
-                                                    <h5 style={{fontWeight:350,fontSize:15}}>{showRole(role)}</h5>
-                                                </label>
-                                            </div>
+                                            this.props.profile.roleName === 'PM' ?
+                                                <div className="col" style={{ marginTop: 5 }}>
+                                                    <label className="bmd-label">
+                                                        <h5 style={{ fontWeight: 350, fontSize: 15 }}>{showRole(role)}</h5>
+                                                    </label>
+                                                </div>
+                                                :
+                                                <div className="col">
+                                                    <SelectBar name='role'
+                                                        type="role"
+                                                        value={role}
+                                                        placeholder='Select role'
+                                                        list={this.state.roleListUpdate}
+                                                        onSelectRole={this.onSelectRole} />
+                                                    {submitted && !role &&
+                                                        <div className="error text-danger font-weight-bold" >Role is required</div>
+                                                    }
+                                                </div>
                                         }
                                     </div>
 
                                     <button type="submit" className="btn btn-primary pull-right">
-                                        {typeof this.props.match !== 'undefined' ? 'Update' : 'Create'}
+                                        {this.props.location.pathname !== '/employee/register' ? 'Update' : 'Create'}
                                     </button>
                                 </form>
                             </div>
@@ -325,4 +341,4 @@ const mapDispatchToProp = dispatch => {
     }
 }
 
-export default connect(mapState, mapDispatchToProp)(Register);
+export default compose(withRouter, connect(mapState, mapDispatchToProp))(Register);

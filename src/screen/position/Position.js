@@ -1,3 +1,4 @@
+import { Spin } from 'antd';
 import confirm from 'antd/lib/modal/confirm';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -12,13 +13,29 @@ class Position extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            search: ''
+            search: '',
+            isLoading: true
         }
     }
 
     componentDidMount = () => {
         this.props.checkSession()
         this.props.fetchPosittion(1, this.state.search)
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.item !== prevState.item) {
+            return { someState: nextProps.item };
+        }
+        return null;
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.item !== this.props.item) {
+            if (typeof this.props.item.items !== 'undefined') {
+                this.setState({ isLoading: false })
+            }
+        }
     }
 
     onUpdate = (posID) => {
@@ -107,11 +124,13 @@ class Position extends Component {
                     <div className="card mb-80">
                         <div className="card-body">
                             <div className="form-group">
-                                <div className="row">
-                                    <Search search="Position"
-                                        placeholder="Search position name ..."
-                                        searchPos={this.searchPos} />
-                                </div>
+                                {this.state.isLoading ? '' :
+                                    <div className="row">
+                                        <Search search="Position"
+                                            placeholder="Search position name ..."
+                                            searchPos={this.searchPos} />
+                                    </div>
+                                }
                                 <div className="row">
                                     <div className="card-body">
                                         <table className="table">
@@ -124,31 +143,40 @@ class Position extends Component {
                                                     <th className="font-weight-bold text-center" style={{ marginLeft: 20 }}></th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                {this.onShowListPosition(list)}
-                                            </tbody>
+                                            {this.state.isLoading ? '' :
+                                                <tbody>
+                                                    {this.onShowListPosition(list)}
+                                                </tbody>
+                                            }
                                         </table>
-                                        <div className="row align-items-center">
-                                            <div className="col">
-                                                <button type="button"
-                                                    style={{ fontWeight: 700, width: 120 }}
-                                                    className="btn btn-primary pull-right" onClick={this.onPrevios}>
-                                                    Previous
-                                            </button>
+                                        {this.state.isLoading ?
+                                            <div className='row justify-content-center'>
+                                                <Spin className='text-center' size="large" />
                                             </div>
-                                            <div className="col-auto">
-                                                <div className="text-center" style={{ fontSize: 20, fontWeight: 700, color: '#9c27b0' }}>
-                                                    {item.pageIndex} - {item.pageCount}
+                                            : ''}
+                                        {this.state.isLoading ? '' :
+                                            <div className="row align-items-center">
+                                                <div className="col">
+                                                    <button type="button"
+                                                        style={{ fontWeight: 700, width: 120 }}
+                                                        className="btn btn-primary pull-right" onClick={this.onPrevios}>
+                                                        Previous
+                                            </button>
+                                                </div>
+                                                <div className="col-auto">
+                                                    <div className="text-center" style={{ fontSize: 20, fontWeight: 700, color: '#9c27b0' }}>
+                                                        {item.pageIndex} - {item.pageCount}
+                                                    </div>
+                                                </div>
+                                                <div className="col">
+                                                    <button type="button"
+                                                        style={{ fontWeight: 700, width: 120 }}
+                                                        className="btn btn-primary" onClick={this.onNext}>
+                                                        Next
+                                            </button>
                                                 </div>
                                             </div>
-                                            <div className="col">
-                                                <button type="button"
-                                                    style={{ fontWeight: 700, width: 120 }}
-                                                    className="btn btn-primary" onClick={this.onNext}>
-                                                    Next
-                                            </button>
-                                            </div>
-                                        </div>
+                                        }
                                     </div>
                                 </div>
                             </div>

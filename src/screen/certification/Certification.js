@@ -1,3 +1,4 @@
+import { Spin } from 'antd';
 import confirm from 'antd/lib/modal/confirm';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -12,13 +13,29 @@ class Certification extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            search: ''
+            search: '',
+            isLoading: true
         }
     }
 
     componentDidMount = () => {
         this.props.checkSession()
         this.props.fetchCertifications(1, this.state.search)
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.certiList !== prevState.certiList) {
+            return { someState: nextProps.certiList };
+        }
+        return null;
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.certiList !== this.props.certiList) {
+            if (typeof this.props.certiList.items !== 'undefined') {
+                this.setState({ isLoading: false })
+            }
+        }
     }
 
     onChangeStatus = (certificationID, certificationName) => {
@@ -110,11 +127,13 @@ class Certification extends Component {
                     <div className="card mb-80">
                         <div className="card-body">
                             <div className="form-group">
-                                <div className="row">
-                                    <Search search="Certi"
-                                        placeholder="Search certificate name ..."
-                                        searchCert={this.searchCert} />
-                                </div>
+                                {this.state.isLoading ? '' :
+                                    <div className="row">
+                                        <Search search="Certi"
+                                            placeholder="Search certificate name ..."
+                                            searchCert={this.searchCert} />
+                                    </div>
+                                }
                                 <div className="row">
                                     <div className="card-body">
                                         <table className="table">
@@ -127,31 +146,40 @@ class Certification extends Component {
                                                     <th className="font-weight-bold text-center">Status</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                {this.onShowListCertifications(result.items)}
-                                            </tbody>
+                                            {this.state.isLoading ? '' :
+                                                <tbody>
+                                                    {this.onShowListCertifications(result.items)}
+                                                </tbody>
+                                            }
                                         </table>
-                                        <div className="row align-items-center">
-                                            <div className="col">
-                                                <button type="button"
-                                                    style={{ fontWeight: 700, width: 120 }}
-                                                    className="btn btn-primary pull-right" onClick={this.onPrevios}>
-                                                    Previous
-                                            </button>
+                                        {this.state.isLoading ?
+                                            <div className='row justify-content-center'>
+                                                <Spin className='text-center' size="large" />
                                             </div>
-                                            <div className="col-auto">
-                                                <div className="text-center" style={{ fontSize: 20, fontWeight: 700, color: '#9c27b0' }}>
-                                                    {result.pageIndex} - {result.pageCount}
+                                            : ''}
+                                        {this.state.isLoading ? '' :
+                                            <div className="row align-items-center">
+                                                <div className="col">
+                                                    <button type="button"
+                                                        style={{ fontWeight: 700, width: 120 }}
+                                                        className="btn btn-primary pull-right" onClick={this.onPrevios}>
+                                                        Previous
+                                            </button>
+                                                </div>
+                                                <div className="col-auto">
+                                                    <div className="text-center" style={{ fontSize: 20, fontWeight: 700, color: '#9c27b0' }}>
+                                                        {result.pageIndex} - {result.pageCount}
+                                                    </div>
+                                                </div>
+                                                <div className="col">
+                                                    <button type="button"
+                                                        style={{ fontWeight: 700, width: 120 }}
+                                                        className="btn btn-primary" onClick={this.onNext}>
+                                                        Next
+                                            </button>
                                                 </div>
                                             </div>
-                                            <div className="col">
-                                                <button type="button"
-                                                    style={{ fontWeight: 700, width: 120 }}
-                                                    className="btn btn-primary" onClick={this.onNext}>
-                                                    Next
-                                            </button>
-                                            </div>
-                                        </div>
+                                        }
                                     </div>
                                 </div>
                             </div>
