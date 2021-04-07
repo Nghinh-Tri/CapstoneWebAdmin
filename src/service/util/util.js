@@ -166,6 +166,20 @@ export const convertLanguageList = (list) => {
     return result;
 }
 
+export const getSuggestAgainButton = (list) => {
+    var i = 0
+    list.forEach(element => {
+        element.employees.forEach(emp => {
+            if (emp.dateIn === null) {
+                i++
+
+            }
+        });
+    });
+    console.log(i === 0)
+    return i === 0
+}
+
 export const sortSuggestListByOverallMatch = list => {
     list.sort((a, b) => { return b.overallMatch - a.overallMatch })
 }
@@ -182,7 +196,7 @@ export const sortSuggestListByHardSkillMatch = list => {
     list.sort((a, b) => { return b.hardSkillMatch - a.hardSkillMatch })
 }
 
-export const convertSuggestList = list => {    
+export const convertSuggestList = list => {
     var result = []
     if (list.length > 0) {
         list.forEach(element => {

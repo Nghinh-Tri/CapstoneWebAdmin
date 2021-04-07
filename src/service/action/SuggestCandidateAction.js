@@ -54,6 +54,7 @@ export const fetchSuggestList = (projectID) => {
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
         ).then(res => {
             if (res.status === 200) {
+                console.log('cons', res.data)
                 dispatch(fetchSuggestListSuccess(res.data.resultObj))
             }
         })
@@ -83,7 +84,12 @@ export const confirmSuggestList = (suggestList, projectID, projectName, pmID) =>
                         dispatch(sendNotificate(e1, projectName, 'accept'))
                     });
                 });
-                history.push("/project")
+                if (suggestList.isAccept) {
+                    history.push("/project")
+                }
+                else {
+                    dispatch(fetchSuggestList(projectID))
+                }
             }
         })
     }

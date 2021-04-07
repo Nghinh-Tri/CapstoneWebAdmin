@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import ProgressBar from '../../component/progress-bar/ProgressBar';
 import SuggestCandidates from '../../component/suggest-candidate/SuggestCandidatesTable'
 import * as Action from "../../service/action/SuggestCandidateAction";
 import '../../css/SuggestNav.css'
 import { checkSession } from '../../service/action/AuthenticateAction';
+import { compose } from 'redux';
+import { convertSuggestList } from '../../service/util/util';
+import { history } from '../../service/helper/History';
+import confirm from 'antd/lib/modal/confirm';
 
 class ListCandidate extends Component {
 
@@ -13,7 +17,6 @@ class ListCandidate extends Component {
         this.props.checkSession()
         var { match } = this.props
         this.props.fetchSuggestCandidateList(match.params.id)
-
     }
 
     onSelected = (index) => {
@@ -50,7 +53,6 @@ class ListCandidate extends Component {
     }
 
     onSelectAll = (item) => {
-        console.log('selectAll', item)
         this.props.selectAll(item)
     }
 
@@ -58,9 +60,29 @@ class ListCandidate extends Component {
         this.props.unSelectAll(position)
     }
 
+    onDecline = () => {
+        if (this.props.candidateSelectedList.length > 0) {
+            var item = convertSuggestList(this.props.candidateSelectedList)
+            var candidates = { candidates: item, isAccept: false }
+            var { onDecline, match, location } = this.props
+            confirm({
+                title: 'Are you sure decline those candidate?',
+                okText: 'Yes',
+                okType: 'danger',
+                cancelText: 'No',
+                onOk() {
+                    onDecline(candidates, match.params.id, location.state.projectName, location.state.pmID)
+                },
+                onCancel() {
+                    console.log('Cancel');
+                },
+            });
+        }
+    }
+
     render() {
         var { suggestCandidateList, selectedIndex, candidateSelectedList } = this.props
-        console.log('candidateSelectedList', suggestCandidateList)
+        console.log('suggestCandidateList', suggestCandidateList)
         return (
             <div>
                 <ProgressBar step="step2" />
@@ -82,12 +104,15 @@ class ListCandidate extends Component {
                                 onUnSelectAll={this.onUnSelectAll}
                             />
                             :
-                            ''
+                            history.push(`/project/confirm/${this.props.match.params.id}`)
                         }
                     </div>
                 </div>
 
                 <div className="row pull-right">
+                    <div className="col">
+                        <button type="button" className="btn btn-danger pull-right" style={{ width: 110, fontWeight: 600 }} onClick={this.onDecline} >Decline</button>
+                    </div>
                     <div className="col">
                         <NavLink to={`/project/confirm-accept/${this.props.match.params.id}`}>
                             <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }}>Next</button>
@@ -129,8 +154,11 @@ const mapDispatchToProps = (dispatch) => {
         },
         unSelectAll: (position) => {
             dispatch(Action.unselectAllCandiates(position))
+        },
+        onDecline: (candidates, projectId, projectName, pmID) => {
+            dispatch(Action.confirmSuggestList(candidates, projectId, projectName, pmID))
         }
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ListCandidate);
+export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(ListCandidate);

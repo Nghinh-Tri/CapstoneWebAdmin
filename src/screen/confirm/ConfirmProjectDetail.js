@@ -73,17 +73,17 @@ class ProjectDetail extends Component {
                         }
                         <div className="col">
                             <div className='col' >
-                             {this.state.project.status === 1 ?
+                                {this.state.project.status === 1 ?
                                     <NavLink to={`/project`} className='btn btn-primary pull-right' style={{ width: 110, fontWeight: 600 }}>Back</NavLink>
                                     :
-                                    <NavLink to={`/project/candidateList/${this.props.match.params.id}`} className='btn btn-success pull-right' style={{ width: 110, fontWeight: 600 }}>Accept</NavLink>
+                                    <NavLink to={{ pathname: `/project/candidateList/${this.props.match.params.id}`, state: { pmID: project.pmID, projectName: project.projectName } }} className='btn btn-success pull-right' style={{ width: 110, fontWeight: 600 }}>Accept</NavLink>
                                 }
                             </div>
                         </div>
                     </div>
 
                 </div>
-            </div>
+            </div >
         );
     }
 }

@@ -4,6 +4,7 @@ import ListEmployeeContent from "./ListEmployeeContent";
 import * as Action from "../../service/action/ListEmployeeAction";
 import { history } from '../../service/helper/History';
 import SelectBar from "../../component/create-position-form/select-search/SelectBar";
+import { getSuggestAgainButton } from '../../service/util/util';
 
 class ListEmployee extends Component {
 
@@ -68,11 +69,16 @@ class ListEmployee extends Component {
         this.setState({ positionSelect: value })
     }
 
+    onConfirm = () => {
+        history.push(`/project/confirm/${this.props.project.projectID}`)
+    }
+
     render() {
         var { listEmployee } = this.props
         var postList = []
         if (this.state.positionList.length > 1)
             postList = this.state.positionList
+        var notNeedConfirm = getSuggestAgainButton(listEmployee)
         return (
             <div className="card">
                 <div className="card-header card-header-primary">
@@ -93,11 +99,33 @@ class ListEmployee extends Component {
                                         onSelectPos={this.onSelectPos} />
                                 </div>
                             </div>
-                            {this.showEmployee(listEmployee)}
+                            <div className="card-body">
+                                <div className="row">
+                                    <div className="card-body confirm-table">
+                                        <table className="table">
+                                            <thead className=" text-primary">
+                                                <tr>
+                                                    <th className="font-weight-bold">Name</th>
+                                                    <th className="font-weight-bold">Position</th>
+                                                    <th className="font-weight-bold text-center">Date In</th>
+                                                </tr>
+                                            </thead>
+                                            {this.showEmployee(listEmployee)}
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                         </React.Fragment>
                         : <h4 className="text-center" style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
                     }
                 </div>
+                {!notNeedConfirm ?
+                    <div className='row pull-right'>
+                        <div className='col'>
+                            <button type="submit" className="btn btn-primary pull-right" style={{ fontWeight: 700, marginTop: -15, marginRight: 25, marginBottom: 20 }} onClick={this.onConfirm} >Confirm</button>
+                        </div>
+                    </div>
+                    : ''}
             </div>
         );
     }
