@@ -78,7 +78,7 @@ class Login extends Component {
                         </div>
                         <div className="card card2">
                             <div className="my-auto mx-md-5 px-md-5 right">
-                                <h3 className="text-white">We are more than just a company</h3> <small className="text-white">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</small>
+                                <h3 className="text-white">We are more than just a company</h3> 
                             </div>
                         </div>
                     </div>
