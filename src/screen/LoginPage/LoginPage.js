@@ -44,7 +44,7 @@ class Login extends Component {
                             <div className="row justify-content-center my-auto">
                                 <div className="col-md-8 col-10 my-5">
                                     <div className="row justify-content-center px-3 mb-3"> <img id="logo" src="https://i.imgur.com/PSXxjNY.png" /> </div>
-                                    <h3 className="mb-5 text-center heading">Hello Abcd1234$</h3>
+                                    <h3 className="mb-5 text-center heading">Hello</h3>
                                     <h6 className="msg-info">Please login to your account</h6>
 
                                     <form onSubmit={this.handleSubmit} >
