@@ -1,17 +1,17 @@
 // import Register from "./screen/create-user/Register"
-// import ProjectDetail from "./screen/project/ProjectDetail"
+import ProjectDetail from "./screen/project/ProjectDetail"
 // import ListCandidate from "./screen/confirm/ListCandidate"
 // import ConfirmPage from "./screen/confirm/ConfirmPage"
 import Dashboard from "./screen/dashboard/Dashboard"
 import Project from "./screen/project/Project"
 import Profile from "./screen/profile/Profile"
-// import Position from "./screen/position/Position"
+import Position from "./screen/position/Position"
 // import CreatePosition from "./screen/position/CreatePosition"
-// import Skill from "./screen/skill/Skill"
+import Skill from "./screen/skill/Skill"
 // import CreateSkills from "./screen/skill/CreateSkills"
-// import Certification from "./screen/certification/Certification"
+import Certification from "./screen/certification/Certification"
 // import CreateCertification from "./screen/certification/CreateCertification"
-// import EmpList from "./screen/Employees/EmpList"
+import EmpList from "./screen/Employees/EmpList"
 // import PositionAssign from "./screen/create-user/PositionAssign"
 // import ConfirmProjectDetail from "./screen/confirm/ConfirmProjectDetail"
 
@@ -27,11 +27,11 @@ const route = [
         exact: true,
         main: () => <Project />
     },
-    // {
-    //     path: '/project/detail/:id',
-    //     exact: true,
-    //     main: ({ match }) => <ProjectDetail match={match} />
-    // },
+    {
+        path: '/project/detail/:id',
+        exact: true,
+        main: ({ match }) => <ProjectDetail match={match} />
+    },
     // {
     //     path: "/project/candidateList/:id",
     //     exact: true,
@@ -47,11 +47,11 @@ const route = [
     //     exact: true,
     //     main: ({ match }) => <ConfirmPage match={match} />
     // },
-    // {
-    //     path: "/employee",
-    //     exact: true,
-    //     main: () => <EmpList />
-    // },
+    {
+        path: "/employee",
+        exact: true,
+        main: () => <EmpList />
+    },
     // {
     //     path: "/employee/profile/:id",
     //     exact: true,
@@ -77,11 +77,11 @@ const route = [
     //     exact: true,
     //     main: () => <PositionAssign />
     // },
-    // {
-    //     path: "/position",
-    //     exact: true,
-    //     main: () => <Position />
-    // },
+    {
+        path: "/position",
+        exact: true,
+        main: () => <Position />
+    },
     // {
     //     path: "/position/create",
     //     exact: true,
@@ -92,11 +92,11 @@ const route = [
     //     exact: true,
     //     main: ({ match }) => <CreatePosition match={match} />
     // },
-    // {
-    //     path: "/skill",
-    //     exact: true,
-    //     main: () => <Skill />
-    // },
+    {
+        path: "/skill",
+        exact: true,
+        main: () => <Skill />
+    },
     // {
     //     path: "/skill/create",
     //     exact: true,
@@ -107,11 +107,11 @@ const route = [
     //     exact: true,
     //     main: ({ match }) => <CreateSkills match={match} />
     // },
-    // {
-    //     path: "/certification",
-    //     exact: true,
-    //     main: () => <Certification />
-    // },
+    {
+        path: "/certification",
+        exact: true,
+        main: () => <Certification />
+    },
     // {
     //     path: "/certification/create",
     //     exact: true,

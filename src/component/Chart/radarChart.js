@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {defaults, Line } from 'react-chartjs-2'
+import {Line } from 'react-chartjs-2'
 
 class radarChart extends Component {
     render() {
