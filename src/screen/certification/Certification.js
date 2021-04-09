@@ -117,7 +117,7 @@ class Certification extends Component {
         return (
             <React.Fragment>
                 <ol class="breadcrumb mb-4 mt-3">
-                    <li class="breadcrumb-item active">Projects</li>
+                    <li class="breadcrumb-item active">Certificate</li>
                 </ol>
                 <div className="container-fluid">
 

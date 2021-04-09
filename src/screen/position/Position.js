@@ -115,7 +115,7 @@ class Position extends Component {
 
             <React.Fragment>
                 <ol class="breadcrumb mb-4 mt-3">
-                    <li class="breadcrumb-item active">Projects</li>
+                    <li class="breadcrumb-item active">Position</li>
                 </ol>
                 <div className="container-fluid">
 

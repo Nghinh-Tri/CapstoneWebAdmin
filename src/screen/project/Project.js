@@ -116,7 +116,7 @@ class Project extends Component {
                             </div>
                         </div>
                         <div className='row justify-content-center' style={{ marginBottom: 20 }} >
-                            <Pagination defaultCurrent={1} total={50}
+                            <Pagination defaultCurrent={1} total={60} 
                             
                         // defaultPageSize={5}
                         />

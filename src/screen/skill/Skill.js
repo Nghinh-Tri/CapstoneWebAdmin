@@ -115,7 +115,7 @@ class Skill extends Component {
         return (
             <React.Fragment>
                 <ol class="breadcrumb mb-4 mt-3">
-                    <li class="breadcrumb-item active">Projects</li>
+                    <li class="breadcrumb-item active">Skills</li>
                 </ol>
                 <div className="container-fluid">
 
