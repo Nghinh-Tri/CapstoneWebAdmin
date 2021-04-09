@@ -134,9 +134,9 @@ class Register extends Component {
                                 <form onSubmit={this.handleSubmit} >
                                     {/* Full name */}
                                     <div className="row">
-                                        <div className="col-1" style={{ marginTop: 15 }}>
+                                        {/* <div className="col-1" style={{ marginTop: 15 }}>
                                             <label className="bmd-label-floating">Full name : </label>
-                                        </div>
+                                        </div> */}
                                         <div className="col">
                                             <div className="form-group">
                                                 <label className={`bmd-label-${this.props.location.pathname !== '/employee/register' ? 'static' : 'floating'}`}>Full name</label>
@@ -150,9 +150,9 @@ class Register extends Component {
 
                                     {/* Email */}
                                     <div className="row">
-                                        <div className="col-1" style={{ marginTop: 15 }}>
+                                        {/* <div className="col-1" style={{ marginTop: 15 }}>
                                             <label className="bmd-label-floating">Email : </label>
-                                        </div>
+                                        </div> */}
                                         <div className="col">
                                             <div className="form-group">
                                                 <label className={`bmd-label-${this.props.location.pathname !== '/employee/register' ? 'static' : 'floating'}`}>Email</label>
@@ -167,9 +167,9 @@ class Register extends Component {
                                     {/* Username */}
                                     {this.props.location.pathname === '/employee/register' ?
                                         <div className="row">
-                                            <div className="col-1" style={{ marginTop: 15 }}>
+                                            {/* <div className="col-1" style={{ marginTop: 15 }}>
                                                 <label className="bmd-label-floating">Username : </label>
-                                            </div>
+                                            </div> */}
                                             <div className="col">
                                                 <div className="form-group">
                                                     <label className="bmd-label-floating">Username</label>
@@ -189,9 +189,9 @@ class Register extends Component {
                                     {/* Password */}
                                     {this.props.location.pathname === '/employee/register' ?
                                         <div className="row">
-                                            <div className="col-1" style={{ marginTop: 15 }}>
+                                            {/* <div className="col-1" style={{ marginTop: 15 }}>
                                                 <label className="bmd-label-floating">Password : </label>
-                                            </div>
+                                            </div> */}
                                             <div className="col-md-4" >
                                                 <div className="form-group">
                                                     <label className="bmd-label-floating">Password</label>
@@ -201,9 +201,9 @@ class Register extends Component {
                                                     }
                                                 </div>
                                             </div>
-                                            <div className="col-auto" style={{ marginTop: 15 }}>
+                                            {/* <div className="col-auto" style={{ marginTop: 15 }}>
                                                 <label className="bmd-label-floating">Confirm Password : </label>
-                                            </div>
+                                            </div> */}
                                             <div className="col-md-4">
                                                 <div className="form-group">
                                                     <label className="bmd-label-floating">Confirm password</label>
@@ -218,9 +218,9 @@ class Register extends Component {
 
                                     {/* Phone Number */}
                                     <div className="row">
-                                        <div className="col-1" style={{ marginTop: 15 }}>
+                                        {/* <div className="col-1" style={{ marginTop: 15 }}>
                                             <label className="bmd-label-floating">Phone : </label>
-                                        </div>
+                                        </div> */}
                                         <div className="col">
                                             <div className="form-group">
                                                 <label className={`bmd-label-${this.props.location.pathname !== '/employee/register' ? 'static' : 'floating'}`}>Phone Number</label>
@@ -234,9 +234,9 @@ class Register extends Component {
 
                                     {/* Identity Number */}
                                     <div className="row">
-                                        <div className="col-1" style={{ marginTop: 15 }}>
+                                        {/* <div className="col-1" style={{ marginTop: 15 }}>
                                             <label className="bmd-label-floating">ID No : </label>
-                                        </div>
+                                        </div> */}
                                         <div className="col">
                                             <div className="form-group">
                                                 <label className={`bmd-label-${this.props.location.pathname !== '/employee/register' ? 'static' : 'floating'}`}>Identity Number</label>
@@ -250,9 +250,9 @@ class Register extends Component {
 
                                     {/* Adress */}
                                     <div className="row">
-                                        <div className="col-1" style={{ marginTop: 15 }}>
+                                        {/* <div className="col-1" style={{ marginTop: 15 }}>
                                             <label className="bmd-label-floating">Address : </label>
-                                        </div>
+                                        </div> */}
                                         <div className="col">
                                             <div className="form-group">
                                                 <label className={`bmd-label-${this.props.location.pathname !== '/employee/register' ? 'static' : 'floating'}`}>Adress</label>
@@ -266,9 +266,9 @@ class Register extends Component {
 
                                     {/* Role */}
                                     <div className="row">
-                                        <div className="col-1" style={{ marginTop: 5 }}>
+                                        {/* <div className="col-1" style={{ marginTop: 5 }}>
                                             <label className="bmd-label-floating">Role : </label>
-                                        </div>
+                                        </div> */}
                                         {console.log(this.props.location.pathname === '/employee/register')}
                                         {this.props.location.pathname === '/employee/register' ?
                                             <div className="col">
@@ -304,7 +304,7 @@ class Register extends Component {
                                         }
                                     </div>
 
-                                    <button type="submit" className="btn btn-primary pull-right">
+                                    <button type="submit" className="btn btn-primary pull-right mt-3    ">
                                         {this.props.location.pathname !== '/employee/register' ? 'Update' : 'Create'}
                                     </button>
                                 </form>

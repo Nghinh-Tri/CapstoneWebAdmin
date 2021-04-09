@@ -39,7 +39,7 @@ class ProjectDetailTable extends Component {
                                     <h4 className="font-weight-bold">Project Status : </h4>
                                 </label>
                             </div>
-                            <div className="col" style={{ marginTop: 3, width: 250, fontWeight: 600, fontSize: 20, marginLeft: 5 }}>
+                            <div className="col" style={{ marginBottom: 3, width: 250, fontWeight: 600, fontSize: 20, marginLeft: 20 }}>
                                 <span className={`badge badge-pill ${showSpan(project.status)} span`}>
                                     {showStatus(project.status)}
                                 </span>

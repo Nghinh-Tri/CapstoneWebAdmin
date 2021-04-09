@@ -113,77 +113,92 @@ class Skill extends Component {
             result = skills
 
         return (
-            <div className="container-fluid">
-                <button type="button" className="btn btn-primary"
-                    style={{ fontWeight: 700, borderRadius: 5, marginLeft: 10, }}
-                    onClick={this.onHandle}
-                >
-                    <i className="material-icons mr-5">add_box</i>
-                        Create New Skill
-                </button>
-                <div className="row">
-                    <div className="card mb-80">
+            <React.Fragment>
+                <ol class="breadcrumb mb-4 mt-3">
+                    <li class="breadcrumb-item active">Projects</li>
+                </ol>
+                <div className="container-fluid">
+
+                    <button type="button" className="btn btn-primary"
+                        style={{ fontWeight: 700, borderRadius: 5, marginLeft: 10, marginBottom: 15 }}
+                        onClick={this.onHandle} >
+                        <div className='row' style={{ paddingLeft: 7, paddingRight: 7 }}>
+                            <i className="material-icons">add_box</i>Create New Skill
+                    </div>
+                    </button>
+
+
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="fas fa-table mr-1"></i>
+            List Skill
+        </div>
+
                         <div className="card-body">
-                            <div className="form-group">
-                                {this.state.isLoading ? '' :
-                                    <div className="row">
-                                        <Search search="Skill"
-                                            placeholder="Search skill name ..."
-                                            searchSkill={this.searchSkill} />
+
+                            {this.state.isLoading ? '' :
+                                <div className="row mb-3">
+                                    <Search search="Employee"
+                                        placeholder="Search employee name ..."
+                                        searchEmp={this.searchSkill} />
+                                </div>
+                            }
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead className=" text-primary">
+                                        <tr>
+                                            <th className="font-weight-bold text-center">No</th>
+                                            <th className="font-weight-bold" style={{ marginLeft: 20 }}>Skill</th>
+                                            <th className="font-weight-bold" style={{ marginLeft: 20 }}>Type</th>
+                                            <th className="font-weight-bold text-center" style={{ marginLeft: 20 }}>Status</th>
+                                            <th className="font-weight-bold "></th>
+                                            <th className="font-weight-bold "></th>
+                                        </tr>
+                                    </thead>
+                                    {this.state.isLoading ?
+                                        ''
+                                        :
+                                        <tbody>
+                                            {this.onShowListSkills(result.items)}
+                                        </tbody>
+                                    }
+                                </table>
+                            </div>
+                            {this.state.isLoading ?
+                                <div className='row justify-content-center'>
+                                    <Spin className='text-center' size="large" />
+                                </div>
+                                : ''}
+                            {this.state.isLoading ? ''
+                                :
+                                <div className="row align-items-center">
+                                    <div className="col">
+                                        <button type="button"
+                                            style={{ fontWeight: 700, width: 120 }}
+                                            className="btn btn-primary pull-right" onClick={this.onPrevios}>
+                                            Previous
+                                        </button>
                                     </div>
-                                }
-                                <div className="row">
-                                    <div className="card-body">
-                                        <table className="table">
-                                            <thead className="text-primary">
-                                                <tr>
-                                                    <th className="font-weight-bold text-center">No</th>
-                                                    <th className="font-weight-bold" style={{ marginLeft: 20 }}>Skill</th>
-                                                    <th className="font-weight-bold" style={{ marginLeft: 20 }}>Type</th>
-                                                    <th className="font-weight-bold text-center" style={{ marginLeft: 20 }}>Status</th>
-                                                </tr>
-                                            </thead>
-                                            {this.state.isLoading ? '' :
-                                                <tbody>
-                                                    {this.onShowListSkills(result.items)}
-                                                </tbody>
-                                            }
-                                        </table>
-                                        {this.state.isLoading ?
-                                            <div className='row justify-content-center'>
-                                                <Spin className='text-center' size="large" />
-                                            </div>
-                                            : ''}
-                                        {this.state.isLoading ? '' :
-                                            <div className="row align-items-center">
-                                                <div className="col">
-                                                    <button type="button"
-                                                        style={{ fontWeight: 700, width: 120 }}
-                                                        className="btn btn-primary pull-right" onClick={this.onPrevios}>
-                                                        Previous
-                                            </button>
-                                                </div>
-                                                <div className="col-auto">
-                                                    <div className="text-center" style={{ fontSize: 20, fontWeight: 700, color: '#9c27b0' }}>
-                                                        {result.pageIndex} - {result.pageCount}
-                                                    </div>
-                                                </div>
-                                                <div className="col">
-                                                    <button type="button"
-                                                        style={{ fontWeight: 700, width: 120 }}
-                                                        className="btn btn-primary" onClick={this.onNext}>
-                                                        Next
-                                            </button>
-                                                </div>
-                                            </div>
-                                        }
+                                    <div className="col-auto">
+                                        <div className="text-center" style={{ fontSize: 20, fontWeight: 700, color: '#9c27b0' }}>
+                                            {result.pageIndex} - {result.pageCount}
+                                        </div>
+                                    </div>
+                                    <div className="col">
+                                        <button type="button"
+                                            style={{ fontWeight: 700, width: 120 }}
+                                            className="btn btn-primary" onClick={this.onNext}>
+                                            Next
+                                        </button>
                                     </div>
                                 </div>
-                            </div>
+                            }
+
                         </div>
                     </div>
                 </div>
-            </div>
+            </React.Fragment >
+          
         );
     }
 }

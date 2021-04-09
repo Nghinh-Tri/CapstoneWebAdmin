@@ -55,11 +55,11 @@ class ProjectDetail extends Component {
                 <div class="card-body">
                 <div className='row'>
                     <div className='col-auto' style={{ marginTop: 30 }}>
-                        <ul className='ul'>
-                            <li className='li '>
+                        <ul className='ul '>
+                            <li className='li'>
                                 <a className={this.state.select === 1 ? 'active' : ''} onClick={() => this.onClickMenu(1)}>Project Detail</a>
                             </li>
-                            <li className='li' >
+                            <li className='li'>
                                 <a className={this.state.select === 2 ? 'active' : ''} onClick={() => this.onClickMenu(2)} >Employee List</a>
                             </li>
                         </ul>
