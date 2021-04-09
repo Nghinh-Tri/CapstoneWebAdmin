@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import Navigation from '../component/navigation/Navigation';
+import Header from '../component/header/Header';
 import NavBar from '../component/nav-bar/NavBar';
 import RouteList from '../RouterMap'
 import firebase from "../service/firebase/firebase";
@@ -44,15 +44,23 @@ class Layout extends Component {
     }
     render() {
         return (
-            <div className="wrapper ">
-                <Navigation />
-                <div className="main-panel">
+            <div>
+            <Header />
+            <div id="layoutSidenav">
+                <div id="layoutSidenav_nav">
                     <NavBar />
-                    <div className="content">
-                        {this.showContent(RouteList)}
-                    </div>
+                </div>
+                <div id="layoutSidenav_content">
+
+                    <main>
+                        <div class="container-fluid">
+                            {this.showContent(RouteList)}
+                        </div>
+                    </main>
+
                 </div>
             </div>
+        </div>
         );
     }
 }

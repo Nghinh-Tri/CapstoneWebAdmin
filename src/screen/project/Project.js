@@ -67,74 +67,80 @@ class Project extends Component {
     render() {
         var { projects } = this.props
         return (
-            <div className="container-fluid">
-                <div className="row">
-                    <div className="card mb-80">
-                        <div className="card-body">
-                            <div className="form-group">
-                                {this.state.isLoading ? '' :
-                                    <div className="row">
-                                        <Search search="project"
-                                            placeholder="Search project name ..."
-                                            searchProject={this.searchProject} />
-                                    </div>
-                                }
-                                <div className="row">
-                                    <div className="card-body">
-                                        <div className="table-responsive">
-                                            <table className="table">
-                                                <thead className="text-primary">
-                                                    <tr>
-                                                        <th className="font-weight-bold text-center">No</th>
-                                                        <th className="font-weight-bold">Project Name</th>
-                                                        <th className="font-weight-bold">Project Manager Name</th>
-                                                        <th className="font-weight-bold text-center">Created Date</th>
-                                                        <th className="font-weight-bold text-center">Status</th>
-                                                        <th className="font-weight-bold text-center"></th>
-                                                    </tr>
-                                                </thead>
-                                                {this.state.isLoading ? '' :
-                                                    <tbody>
-                                                        {this.onShowListProject(projects.items)}
-                                                    </tbody>}
+            <React.Fragment>
+                <ol class="breadcrumb mb-4 mt-3">
+                    <li class="breadcrumb-item active">Projects</li>
+                </ol>
 
-                                            </table>
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="card mb-80">
+                            <div className="card-body">
+                                <div className="form-group">
+                                    {this.state.isLoading ? '' :
+                                        <div className="row">
+                                            <Search search="project"
+                                                placeholder="Search project name ..."
+                                                searchProject={this.searchProject} />
                                         </div>
-                                        {this.state.isLoading ?
-                                            <div className='row justify-content-center'>
-                                                <Spin className='text-center' size="large" />
+                                    }
+                                    <div className="row">
+                                        <div className="card-body">
+                                            <div className="table-responsive">
+                                                <table className="table">
+                                                    <thead className="text-primary">
+                                                        <tr>
+                                                            <th className="font-weight-bold text-center">No</th>
+                                                            <th className="font-weight-bold">Project Name</th>
+                                                            <th className="font-weight-bold">Project Manager Name</th>
+                                                            <th className="font-weight-bold text-center">Created Date</th>
+                                                            <th className="font-weight-bold text-center">Status</th>
+                                                            <th className="font-weight-bold text-center"></th>
+                                                        </tr>
+                                                    </thead>
+                                                    {this.state.isLoading ? '' :
+                                                        <tbody>
+                                                            {this.onShowListProject(projects.items)}
+                                                        </tbody>}
+
+                                                </table>
                                             </div>
-                                            : ''}
-                                        {this.state.isLoading ? '' :
-                                            <div className="row align-items-center">
-                                                <div className="col">
-                                                    <button type="button"
-                                                        style={{ fontWeight: 700, width: 120 }}
-                                                        className="btn btn-primary pull-right" onClick={this.onPrevios}>
-                                                        Previous
-                                                </button>
+                                            {this.state.isLoading ?
+                                                <div className='row justify-content-center'>
+                                                    <Spin className='text-center' size="large" />
                                                 </div>
-                                                <div className="col-auto">
-                                                    <div className="text-center" style={{ fontSize: 20, fontWeight: 700, color: '#9c27b0' }}>
-                                                        {projects.pageIndex} - {projects.pageCount}
+                                                : ''}
+                                            {this.state.isLoading ? '' :
+                                                <div className="row align-items-center">
+                                                    <div className="col">
+                                                        <button type="button"
+                                                            style={{ fontWeight: 700, width: 120 }}
+                                                            className="btn btn-primary pull-right" onClick={this.onPrevios}>
+                                                            Previous
+                                                </button>
+                                                    </div>
+                                                    <div className="col-auto">
+                                                        <div className="text-center" style={{ fontSize: 20, fontWeight: 700, color: '#9c27b0' }}>
+                                                            {projects.pageIndex} - {projects.pageCount}
+                                                        </div>
+                                                    </div>
+                                                    <div className="col">
+                                                        <button type="button"
+                                                            style={{ fontWeight: 700, width: 120 }}
+                                                            className="btn btn-primary" onClick={this.onNext}>
+                                                            Next
+                                                </button>
                                                     </div>
                                                 </div>
-                                                <div className="col">
-                                                    <button type="button"
-                                                        style={{ fontWeight: 700, width: 120 }}
-                                                        className="btn btn-primary" onClick={this.onNext}>
-                                                        Next
-                                                </button>
-                                                </div>
-                                            </div>
-                                        }
+                                            }
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div >
+                        </div >
+                    </div>
                 </div>
-            </div>
+            </React.Fragment >
         );
     }
 }
