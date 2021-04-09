@@ -23,7 +23,7 @@ class ProjectDetailTable extends Component {
                         {/* Project Name */}
                         <div className="row">
                             <div className="col-2">
-                                <label className="bmd-label">
+                                <label className="badge">
                                     <h4 className="font-weight-bold">Project Name : </h4>
                                 </label>
                             </div>
@@ -35,7 +35,7 @@ class ProjectDetailTable extends Component {
                         {/* Project Status */}
                         <div className="row">
                             <div className="col-2">
-                                <label className="bmd-label">
+                                <label className="badge">
                                     <h4 className="font-weight-bold">Project Status : </h4>
                                 </label>
                             </div>
@@ -49,7 +49,7 @@ class ProjectDetailTable extends Component {
                         {/* Project Type */}
                         <div className='row'>
                             <div className="col-2">
-                                <label className="bmd-label">
+                                <label className="badge">
                                     <h4 className="font-weight-bold">Project Type : </h4>
                                 </label>
                             </div>
@@ -62,15 +62,15 @@ class ProjectDetailTable extends Component {
                         <div className="row">
                             {/* Date begin */}
                             <div className="col-2">
-                                <label className="bmd-label">
+                                <label className="badge">
                                     <h4 className="font-weight-bold">Started Date : </h4>
                                 </label>
                             </div>
                             <div className="col-auto" style={{ fontSize: 20, marginTop: 3, marginLeft: 10, fontWeight: 400 }}>
                                 {moment(result.dateBegin).format('DD-MM-YYYY')}
                             </div>
-                            <div className="col-auto" style={{ marginLeft: 70, marginTop: 10 }} >
-                                <label className="bmd-label">
+                            <div className="col-auto"  >
+                                <label className="badge">
                                     <h4 className="font-weight-bold">End Date {result.dateEnd === null ? '(Estimate)' : ''} : </h4>
                                 </label>
                             </div>
@@ -82,7 +82,7 @@ class ProjectDetailTable extends Component {
                         {/* Description*/}
                         <div className="row">
                             <div className="col-2">
-                                <label className="bmd-label">
+                                <label className="badge">
                                     <h4 className="font-weight-bold">Description : </h4>
                                 </label>
                             </div>
@@ -96,7 +96,7 @@ class ProjectDetailTable extends Component {
                         {/* Stakeholder*/}
                         <div className="row">
                             <div className="col-2">
-                                <label className="bmd-label">
+                                <label className="badge">
                                     <h4 className="font-weight-bold">Stakeholder : </h4>
                                 </label>
                             </div>

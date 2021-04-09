@@ -49,10 +49,14 @@ class ProjectDetail extends Component {
         var { project } = this.state
         return (
             <div>
+                 <ol class="breadcrumb mb-4 mt-3">
+                    <li class="breadcrumb-item active">ProjectsDetail</li>
+                </ol>
+                <div class="card-body">
                 <div className='row'>
                     <div className='col-auto' style={{ marginTop: 30 }}>
                         <ul className='ul'>
-                            <li className='li'>
+                            <li className='li '>
                                 <a className={this.state.select === 1 ? 'active' : ''} onClick={() => this.onClickMenu(1)}>Project Detail</a>
                             </li>
                             <li className='li' >
@@ -68,6 +72,7 @@ class ProjectDetail extends Component {
                             <ListEmployee project={project} />
                         }
                     </div>
+                </div>
                 </div>
                 <div className='row pull-right'>
                     <button type="submit" className="btn btn-primary " style={{ fontWeight: 700, marginTop: -15, marginRight: 25 }} onClick={this.onBack} >Back</button>

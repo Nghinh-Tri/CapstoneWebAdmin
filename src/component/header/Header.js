@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getUserName } from '../../service/util/util';
 import { logout } from "../../service/action/AuthenticateAction"
+import { NavLink, withRouter } from 'react-router-dom';
 import { pushToProfilePage } from '../../service/action/ProfileAction';
 
 class Header extends Component {
@@ -17,7 +18,7 @@ class Header extends Component {
     render() {
         return (
             <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-                <a class="navbar-brand" href="index.html">Web Service</a>
+                <a class="navbar-brand" href="">Web Service</a>
                 <ul class="navbar-nav ml-auto " >
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
