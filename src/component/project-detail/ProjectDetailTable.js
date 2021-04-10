@@ -45,6 +45,7 @@ class ProjectDetailTable extends Component {
 
     render() {
         var { project } = this.props
+        console.log(project)
         return (
             <React.Fragment>
                  {this.state.isLoad ?
@@ -63,15 +64,23 @@ class ProjectDetailTable extends Component {
 
                             
                         <Descriptions.Item span={3} label="Project Name">{project.projectName} </Descriptions.Item>
+
                         <Descriptions.Item span={3} label="Project Type">{project.typeName}</Descriptions.Item>
-                        <Descriptions.Item span={3} label="Project Field">{project.typeName}</Descriptions.Item>
+
+                        <Descriptions.Item span={3} label="Project Field">{project.fieldName}</Descriptions.Item>
+
                         <Descriptions.Item label="Start Date">{moment(project.dateBegin).format('DD-MM-YYYY')}</Descriptions.Item>
+
                         <Descriptions.Item label={project.dateEnd === null ? 'Estimated End Date' : 'Ended Date'} span={2}>
+
                             {project.dateEnd === null ? moment(project.dateEstimatedEnd).format('DD-MM-YYYY') : moment(project.dateEnd).format('DD-MM-YYYY')}
                         </Descriptions.Item>
+
                         <Descriptions.Item label="Status" span={3}>
                             <Badge status={showBadge(project.status)} text={showStatus(project.status)} />
                         </Descriptions.Item>
+
+
                         <Descriptions.Item label="Description">{project.description}</Descriptions.Item>
                     </Descriptions>
                  } 
