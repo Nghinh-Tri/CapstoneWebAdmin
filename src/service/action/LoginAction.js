@@ -102,7 +102,6 @@ export const register = (emp) => {
                 }
             })
             .catch(err => {
-                console.log(err.response)
                 dispatch(failure(err.toString()));
                 // if (err.response.status === 500) {
                 //     store.addNotification({

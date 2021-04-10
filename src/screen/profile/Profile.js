@@ -35,7 +35,7 @@ class Profile extends Component {
         else
             empID = this.props.match.params.id
 
-            console.log(profile)
+        console.log('asas', empID)
         if (select === 1)
             return <ProfileTable empID={empID} />
         if (select === 2)
@@ -44,14 +44,7 @@ class Profile extends Component {
 
 
     render() {
-        // var empID = ''
         var { select } = this.state
-        // var { profile } = this.props
-        // if (typeof this.props.empID !== 'undefined')
-        //     empID = this.props.empID
-        // else
-        //     empID = this.props.match.params.id
-
 
         return (
             <React.Fragment>

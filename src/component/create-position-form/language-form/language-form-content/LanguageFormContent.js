@@ -37,42 +37,32 @@ class LanguageFormContent extends Component {
         var { item, languageIndex, languageList } = this.props
         var listConverted = convertLanguageList(languageList)
         return (
-            <div className="row" style={{marginBottom:10}} >
-                <div className="col-auto" style={{ marginLeft: 30, marginTop:5 }}>
-                    <label className="bmd-label  ">
-                        <h5 className="font-weight-bold">Language</h5>
-                    </label>
-                </div>
-                <div className="col-auto">
-                    <SelectBar name="language"
-                        type='unique'
-                        placeholder="Select language"
-                        list={listConverted}
-                        onUpdateLanguageID={this.props.onUpdateLanguageID}
-                        languageIndex={languageIndex}
-                        value={item.langID} />
-                </div>
-                <div className="col-auto" style={{ marginLeft: 30, marginTop:5 }}>
-                    <label className="bmd-label">
-                        <h5 className="font-weight-bold">Language Level</h5>
-                    </label>
-                </div>
-                <div className="col-auto">
-                    <SelectBar
-                        name="languageLevel"
-                        type='common'
-                        placeholder="Select language level"
-                        list={this.state.level}
-                        onUpdateLanguageLevel={this.props.onUpdateLanguageLevel}
-                        languageIndex={languageIndex}
-                        value={item.langLevel} />
-                </div>
-
-                <div className="col">
-                    <span className="material-icons pull-right clear" onClick={() => this.onDeleteLanguage(languageIndex)}>clear</span>
-                </div>
-            </div>
-
+            <React.Fragment>
+                <tr>
+                    <td>
+                        <SelectBar name="language"
+                            type='unique'
+                            placeholder="Select language"
+                            list={listConverted}
+                            onUpdateLanguageID={this.props.onUpdateLanguageID}
+                            languageIndex={languageIndex}
+                            value={item.langID} />
+                    </td>
+                    <td>
+                        <SelectBar
+                            name="languageLevel"
+                            type='common'
+                            placeholder="Select language level"
+                            list={this.state.level}
+                            onUpdateLanguageLevel={this.props.onUpdateLanguageLevel}
+                            languageIndex={languageIndex}
+                            value={item.langLevel} />
+                    </td>
+                    <td>
+                        <span className="material-icons pull-right" onClick={() => this.onDeleteLanguage(languageIndex)}>clear</span>
+                    </td>
+                </tr>
+            </React.Fragment>
         );
     }
 }

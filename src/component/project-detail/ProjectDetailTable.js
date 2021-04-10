@@ -14,7 +14,8 @@ class ProjectDetailTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoad: true
+            isLoad: true,
+            project: {}
         }
     }
 
@@ -24,8 +25,9 @@ class ProjectDetailTable extends Component {
 
     componentWillReceiveProps = () => {
         var { project } = this.props
+        console.log('p', typeof project.projectID !== 'undefined')
         if (typeof project.projectID !== 'undefined')
-            this.setState({ isLoad: false })
+            this.setState({ isLoad: false, project: project })
     }
 
     onChangeStatusToFinish = () => {
@@ -44,25 +46,16 @@ class ProjectDetailTable extends Component {
     }
 
     render() {
-        var { project } = this.props
-        console.log(project)
+        var { project } = this.state
         return (
             <React.Fragment>
-                 {this.state.isLoad ?
+                {this.state.isLoad ?
                     <div className='row justify-content-center'>
                         <Spin className='text-center' size="large" />
                     </div>
-                    : 
-                    <Descriptions title="Project Info" layout='horizontal' bordered
-                        extra={<React.Fragment>
-                            {project.status !== 4 ?
-                                <NavLink to={`/project/detail/${project.projectID}/edit`} style={{ marginRight: 10 }} type="default" >Edit</NavLink>
-                                : ''}
-                            {project.status === 3 ? <Button type="primary" onClick={this.onChangeStatusToFinish}>Finish</Button> : ''}
-                        </React.Fragment>}
-                        >
+                    :
+                    <Descriptions title="Project Info" layout='horizontal' bordered>
 
-                            
                         <Descriptions.Item span={3} label="Project Name">{project.projectName} </Descriptions.Item>
 
                         <Descriptions.Item span={3} label="Project Type">{project.typeName}</Descriptions.Item>
@@ -83,7 +76,7 @@ class ProjectDetailTable extends Component {
 
                         <Descriptions.Item label="Description">{project.description}</Descriptions.Item>
                     </Descriptions>
-                 } 
+                }
             </React.Fragment>
         );
     }

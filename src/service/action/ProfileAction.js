@@ -42,14 +42,11 @@ export const fetchProfileDetail = (id) => {
 
 export const fetchPositionProfileDetail = (id) => {
     var url = `${API_URL}/User/getEmpInfo/${id}`
-
     return (dispatch) => {
         return axios.get(
             url,
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
-    console.log(res)
-
             dispatch(fetchPositionProfileDetailSuccess(res.data.resultObj))
         })
     }

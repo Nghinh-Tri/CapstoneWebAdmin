@@ -27,56 +27,50 @@ class HardSkillFormContent extends Component {
         var { hardSkillIndex, hardSkillList, hardSkillDetail } = this.props
         var listConverted = convertSkillList(hardSkillList)
         return (
-            <div className="row" style={{marginBottom:10}}>
-                {/* Skill */}
-                <div className="col-auto" style={{ marginLeft: 30, marginTop:5 }}>
-                    <label className="bmd-label">
-                        <h5 className="font-weight-bold">Skill</h5>
-                    </label>
-                </div>
-                <div className="col-auto">
-                    <SelectBar name="hardSkill"
-                        type='unique'
-                        placeholder="Select hard skill"
-                        hardSkillIndex={hardSkillIndex}
-                        list={listConverted}
-                        value={hardSkillDetail.skillID}
-                        onUpdateHardSkillID={this.props.onUpdateHardSkillID}
-                    />
-                </div>
-                {/* Level */}
-                <div className="col-auto" style={{ marginLeft: 30, marginTop:5 }}>
-                    <label className="bmd-label">
-                        <h5 className="font-weight-bold">Level</h5>
-                    </label>
-                </div>
-                <div className="col-auto">
-                    <SelectBar name="skillLevel"
-                        type='common'
-                        placeholder="Select hard skill level"
-                        hardSkillIndex={hardSkillIndex}
-                        list={this.state.skillLevel}
-                        value={hardSkillDetail.skillLevel}
-                        onUpdateHardSkillLevel={this.props.onUpdateHardSkillLevel}
-                    />
-                </div>
+            <React.Fragment>
 
-                {/* Button Delete */}
-                <div className="col">
-                    <span className="material-icons pull-right clear"
-                        onClick={() => this.onDeleteHardSkill(hardSkillIndex)}>clear</span>
-                </div>
 
-                <CertificateForm
-                    certificate={hardSkillDetail.empCertifications}
-                    hardSkillID={hardSkillDetail.skillID}
-                    hardSkillIndex={hardSkillIndex}
-                    onAddCertificate={this.props.onAddCertificate}
-                    onDeleteCertificate={this.props.onDeleteCertificate}
-                    onUpdateCertficateID={this.props.onUpdateCertficateID}
-                    onUpdateCertificateDate={this.props.onUpdateCertificateDate}
-                />
-            </div>
+                <tr>
+                    <td>
+                        <SelectBar name="hardSkill"
+                            type='unique'
+                            placeholder="Select hard skill"
+                            hardSkillIndex={hardSkillIndex}
+                            list={listConverted}
+                            value={hardSkillDetail.skillID}
+                            onUpdateHardSkillID={this.props.onUpdateHardSkillID}
+                        />
+                    </td>
+                    <td>
+                        <SelectBar name="skillLevel"
+                            type='common'
+                            placeholder="Select hard skill level"
+                            hardSkillIndex={hardSkillIndex}
+                            list={this.state.skillLevel}
+                            value={hardSkillDetail.skillLevel}
+                            onUpdateHardSkillLevel={this.props.onUpdateHardSkillLevel}
+                        />
+                    </td>
+                    {/* Button Delete */}
+                    <td>
+                        <span className="material-icons pull-right" style={{ cursor: 'pointer' }}
+                            onClick={() => this.onDeleteHardSkill(hardSkillIndex)}>clear</span>
+                    </td>
+                </tr>
+                <tr >
+                    <td colSpan={3}>
+                        <CertificateForm
+                            certificate={hardSkillDetail.empCertifications}
+                            hardSkillID={hardSkillDetail.skillID}
+                            hardSkillIndex={hardSkillIndex}
+                            onAddCertificate={this.props.onAddCertificate}
+                            onDeleteCertificate={this.props.onDeleteCertificate}
+                            onUpdateCertficateID={this.props.onUpdateCertficateID}
+                            onUpdateCertificateDate={this.props.onUpdateCertificateDate}
+                        />
+                    </td>
+                </tr>
+            </React.Fragment>            
         );
     }
 }

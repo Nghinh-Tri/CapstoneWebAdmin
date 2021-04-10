@@ -79,31 +79,57 @@ class LanguageForm extends Component {
             if (this.state.isMinimize)
                 return ""
             else {
-                return (<div className="card-body">
+                return (<>
                     {this.showItems(language)}
                     {this.props.languageList.length === language.length ?
                         '' :
-                        <span className="material-icons add"
+                        <span className="material-icons add" style={{ marginTop: 10 }}
                             onClick={() => this.onAddLanguage()}>add_box</span>
                     }
-                </div>)
+                </>)
             }
         }
         return (
-            <div className="card mb-50">
-                <div className="card-header ">
-                    <div className="row">
-                        <div className="col">
-                            <h5 className="font-weight-bold">Language</h5>
-                        </div>
-                        <div className="col pull-right">
-                            <span className="material-icons pull-right clear" onClick={this.setMinimize} > {this.state.isMinimize === false ? 'minimize' : 'crop_free'}</span>
+            <div class="card mb-4">
+                <div class="card-header">
+                    Communicate Language
+                    <span className="material-icons pull-right clear" style={{ cursor: 'pointer' }} onClick={this.setMinimize} >
+                        {!this.state.isMinimize ? 'minimize' : 'crop_free'}
+                    </span>
+                </div>
+                {!this.state.isMinimize ?
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th >Language</th>
+                                        <th >Level</th>
+                                        <th ></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {showLanguage(result)}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-
-                </div>
-                {showLanguage(result)}
+                    : ''}
             </div>
+            // <div className="card mb-50">
+            //     <div className="card-header ">
+            //         <div className="row">
+            //             <div className="col">
+            //                 <h5 className="font-weight-bold">Language</h5>
+            //             </div>
+            //             <div className="col pull-right">
+            //                 <span className="material-icons pull-right clear" onClick={this.setMinimize} > {this.state.isMinimize === false ? 'minimize' : 'crop_free'}</span>
+            //             </div>
+            //         </div>
+
+            //     </div>
+            //     {showLanguage(result)}
+            // </div>
         );
     }
 }

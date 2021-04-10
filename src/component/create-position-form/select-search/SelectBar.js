@@ -51,7 +51,51 @@ class SelectBar extends Component {
                 return this.showStatus()
             case 'role':
                 return this.showRole()
+            case 'multi':
+                return this.showMulti()
         }
+    }
+
+    showMulti = () => {
+        var { value } = this.props
+        if (value.length === 0) {
+            return (
+                <Select
+                    style={{ minWidth: 250, maxWidth: 'auto' }}
+                    mode='multiple'
+                    showArrow
+                    showSearch
+                    placeholder={this.props.placeholder}
+                    onChange={this.onSelectMulti}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showCommonOption()}
+                </Select>)
+        }
+        else {
+            return (
+                <Select value={value}
+                    style={{ minWidth: 250, maxWidth: 'auto' }}
+                    mode='multiple'
+                    showArrow
+                    showSearch
+                    placeholder={this.props.placeholder}
+                    onChange={this.onSelectMulti}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showCommonOption()}
+                </Select>)
+        }
+    }
+
+    onSelectMulti = (value) => {
+        this.props.onUpdateSoftSkillID(value)
     }
     //important
     showUnique = () => {

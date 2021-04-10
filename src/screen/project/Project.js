@@ -54,6 +54,10 @@ class Project extends Component {
         this.props.fetchProject(1, value)
     }
 
+    onSelectPage = (e) => {
+        this.props.fetchProject(e, this.state.search)
+    }
+
     render() {
         var { projects } = this.props
         return (
@@ -82,8 +86,8 @@ class Project extends Component {
                                     <thead>
 
                                         <tr>
-                                            <th className="font-weight-bold">No</th>
-                                            <th className="font-weight-bold">Project Name</th>
+                                            <th width={40} className="font-weight-bold">No</th>
+                                            <th width={200} className="font-weight-bold">Project Name</th>
                                             <th className="font-weight-bold">PM Name</th>
                                             <th className="font-weight-bold " class="text-center">Started Date</th>
                                             <th className="font-weight-bold text-center" style={{ width: 80 }}>Status</th>
@@ -107,9 +111,7 @@ class Project extends Component {
                             : ''}
                         {this.state.isLoading ? '' :
                             <div className='row justify-content-center' style={{ marginBottom: 20 }} >
-                                <Pagination defaultCurrent={projects.pageIndex} total={projects.totalRecords}
-                                    onChange={1,2}
-                               />
+                                <Pagination defaultCurrent={projects.pageIndex} total={projects.totalRecords} onChange={this.onSelectPage} />
                             </div>
                         }
                     </div>

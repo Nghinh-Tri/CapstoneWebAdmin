@@ -24,7 +24,7 @@ class Register extends Component {
             submitted: false,
             isValidate: true,
             roleList: [
-                { label: 'Administrator', value: 'admin' },
+                { label: 'Human Resources', value: 'admin' },
                 { label: 'Project Manager', value: 'PM' },
                 { label: 'Employee', value: 'Employee' },
             ],
@@ -269,7 +269,6 @@ class Register extends Component {
                                         {/* <div className="col-1" style={{ marginTop: 5 }}>
                                             <label className="bmd-label-floating">Role : </label>
                                         </div> */}
-                                        {console.log(this.props.location.pathname === '/employee/register')}
                                         {this.props.location.pathname === '/employee/register' ?
                                             <div className="col">
                                                 <SelectBar name='role'

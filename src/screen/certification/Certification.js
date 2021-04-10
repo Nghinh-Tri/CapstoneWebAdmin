@@ -1,4 +1,4 @@
-import { Spin } from 'antd';
+import { Pagination, Spin } from 'antd';
 import confirm from 'antd/lib/modal/confirm';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -108,6 +108,9 @@ class Certification extends Component {
         this.setState({ search: value })
         this.props.fetchCertifications(1, value)
     }
+    onSelectPage = (e) => {
+        this.props.fetchCertifications(e, this.state.search)
+    }
 
     render() {
         var { certiList } = this.props
@@ -140,9 +143,9 @@ class Certification extends Component {
 
                             {this.state.isLoading ? '' :
                                 <div className="row mb-3">
-                                    <Search search="Employee"
-                                        placeholder="Search employee name ..."
-                                        searchEmp={this.searchCert} />
+                                    <Search search="Certi"
+                                        placeholder="Search certificate name ..."
+                                        searchCert={this.searchCert} />
                                 </div>
                             }
                             <div class="table-responsive">
@@ -174,26 +177,8 @@ class Certification extends Component {
                                 : ''}
                             {this.state.isLoading ? ''
                                 :
-                                <div className="row align-items-center">
-                                    <div className="col">
-                                        <button type="button"
-                                            style={{ fontWeight: 700, width: 120 }}
-                                            className="btn btn-primary pull-right" onClick={this.onPrevios}>
-                                            Previous
-                                    </button>
-                                    </div>
-                                    <div className="col-auto">
-                                        <div className="text-center" style={{ fontSize: 20, fontWeight: 700, color: '#9c27b0' }}>
-                                            {result.pageIndex} - {result.pageCount}
-                                        </div>
-                                    </div>
-                                    <div className="col">
-                                        <button type="button"
-                                            style={{ fontWeight: 700, width: 120 }}
-                                            className="btn btn-primary" onClick={this.onNext}>
-                                            Next
-                                    </button>
-                                    </div>
+                                <div className='row justify-content-center' style={{ marginBottom: 20 }} >
+                                    <Pagination defaultCurrent={result.pageIndex} total={result.totalRecords} onChange={this.onSelectPage} />
                                 </div>
                             }
 

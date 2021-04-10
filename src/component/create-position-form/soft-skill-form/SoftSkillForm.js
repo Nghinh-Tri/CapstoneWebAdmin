@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchSoftSkill } from '../../../service/action/SoftSkillSelectBarAction';
-import SoftSkillFormContent from './soft-skill-form-content/SoftSkillFormContent';
+import { convertSkillList } from '../../../service/util/util';
+import SelectBar from '../select-search/SelectBar';
 
 class SoftSkillForm extends Component {
 
@@ -38,65 +39,26 @@ class SoftSkillForm extends Component {
         return listNotSelect
     }
 
-    showItems = (softSkill,) => {
-        var result = null;
-        var softSkillList = this.getSoftSkillListNotSelect(softSkill)
-        if (typeof softSkill !== 'undefined') {
-            result = softSkill.map((item, softSkillIndex) => {
-                return (
-                    <SoftSkillFormContent key={softSkillIndex}
-                        softSkillIndex={softSkillIndex}
-                        onDeleteSoftSkill={this.props.onDeleteSoftSkill}
-                        item={item}
-                        softSkillList={softSkillList}
-                        onUpdateSoftSkillID={this.props.onUpdateSoftSkillID} />
-                );
-            })
-        }
-        return result;
-    }
-
-    setMinimize = () => {
-        this.setState({
-            isMinimize: !this.state.isMinimize
-        })
-    }
-
     render() {
         var { softSkill } = this.props
         var result = []
         if (typeof softSkill !== 'undefined')
             result = softSkill
-        const showSoftSkill = (softSkill) => {
-            if (this.state.isMinimize)
-                return ""
-            else {
-                return (<div className="card-body">
-                    {this.showItems(softSkill)}
-                    {
-                        this.props.softSkillList.length === softSkill.length ?
-                            '' :
-                            <span className="material-icons add"
-                                onClick={this.onAddSoftSkill}>add_box</span>
-                    }
-                </div>)
-            }
-        }
-
+        var convertedList = convertSkillList(this.props.softSkillList)
         return (
             <div className="card mb-50">
                 <div className="card-header ">
-                    <div className="row">
-                        <div className="col">
-                            <h5 className="font-weight-bold">Soft Skill</h5>
-                        </div>
-                        <div className="col pull-right">
-                            <span className="material-icons pull-right clear" onClick={this.setMinimize} > {this.state.isMinimize === false ? 'minimize' : 'crop_free'}</span>
-                        </div>
-                    </div>
-
+                    Soft Skill
                 </div>
-                {showSoftSkill(result)}
+                <div className="card-body">
+                    <SelectBar name="softSkillID"
+                        type='multi'
+                        placeholder="Select soft skill"
+                        list={convertedList}
+                        onUpdateSoftSkillID={this.props.onUpdateSoftSkillID}
+                        value={result}
+                    />
+                </div>
             </div>
         );
     }

@@ -38,7 +38,6 @@ class PositionAssign extends Component {
         this.props.checkSession()
         this.props.onFetchPosition()
         var { match } = this.props
-        console.log(match)
         if (typeof match !== 'undefined') {
             this.props.fetchPositionDetail(match.params.id) //update
         }
@@ -89,8 +88,8 @@ class PositionAssign extends Component {
         this.props.onDeleteSoftSkill(index)
     }
 
-    onUpdateSoftSkillID = (value, softSkillIndex) => {
-        this.props.onUpdateSoftSkillID(value, softSkillIndex)
+    onUpdateSoftSkillID = (value) => {
+        this.props.onUpdateSoftSkillID(value)
     }
 
     onAddHardSkill = (hardSkill) => {
@@ -127,7 +126,6 @@ class PositionAssign extends Component {
 
     onAssignPosition = (e) => {
         e.preventDefault()
-        console.log(this.props.location)
         if (typeof this.props.location.state.empID !== 'undefined') {//create
             this.props.onAssignPosition(this.props.location.state.empID, this.props.item, this.props.location.state.role)
         } else {
@@ -136,84 +134,35 @@ class PositionAssign extends Component {
     }
 
     render() {
-        var { item, positionList } = this.props
-        var listConverted = convertPositionList(positionList)
+        var { item } = this.props
         return (
-            <div>
-                <div className="card mb-50" style={{ marginRight: 20 }}>
-                    <div className="card-header card-header-primary">
-                        <h4 className="card-title">Assign Position</h4>
-                    </div>
-                    <div className="card-body">
-                        <div className="form-group">
-                            {typeof this.props.location.state.role === 'Employee' ?
-                                <div className="row">
-                                    {/* Position */}
-                                    <div className="col-1" style={{ marginLeft: 20, marginTop: 20, }}>
-                                        <label className="bmd-label  ">
-                                            <h4 className="font-weight-bold">
-                                                Position
-                                </h4>
-                                        </label>
-                                    </div>
-                                    {/* Select Bar */}
-                                    <div className="col" style={{ marginLeft: 20, marginTop: 15 }}>
-                                        <SelectBar
-                                            name="positionID"
-                                            type='common'
-                                            placeholder="Select position"
-                                            list={listConverted}
-                                            onUpdatePositionID={this.onUpdatePositionID}
-                                            value={item.posID}
-                                        />
-                                    </div>
-                                    {/* Position Level */}
-                                    <div className="col-auto" style={{ marginLeft: 20, marginTop: 20, }}>
-                                        <label className="bmd-label ">
-                                            <h4 className="font-weight-bold ">
-                                                Position Level
-                                    </h4>
-                                        </label>
-                                    </div>
-                                    <div className="col" style={{ marginLeft: 20, marginTop: 15 }}>
-                                        <SelectBar name="posLevel"
-                                            type='common'
-                                            placeholder="Select position level"
-                                            list={this.state.posLevel}
-                                            onUpdatePositionLevel={this.onUpdatePositionLevel}
-                                            value={item.posLevel}
-                                        />
-                                    </div>
-                                </div>
-                                : ''}
-                            <LanguageForm language={item.languages}
-                                onAddLanguage={this.onAddLanguage}
-                                onDeleteLanguage={this.onDeleteLanguage}
-                                onUpdateLanguageID={this.onUpdateLanguageID}
-                                onUpdateLanguageLevel={this.onUpdateLanguageLevel} />
-
-                            <SoftSkillForm softSkill={item.softSkills}
-                                onAddSoftSkill={this.onAddSoftSkill}
-                                onDeleteSoftSkill={this.onDeleteSoftSkill}
-                                onUpdateSoftSkillID={this.onUpdateSoftSkillID} />
-
-                            <HardSkillForm hardSkill={item.hardSkills}
-                                onAddHardSkill={this.onAddHardSkill}
-                                onDeleteHardSkill={this.onDeleteHardSkill}
-                                onUpdateHardSkillID={this.onUpdateHardSkillID}
-                                onUpdateHardSkillLevel={this.onUpdateHardSkillLevel}
-
-                                //Certi
-                                onAddCertificate={this.onAddCertificate}
-                                onDeleteCertificate={this.onDeleteCertificate}
-                                onUpdateCertficateID={this.onUpdateCertficateID}
-                                onUpdateCertificateDate={this.onUpdateCertificateDate}
-                            />
-
-                        </div>
-                    </div>
+            <div class="card mb-4">
+                <div class="card-header">
                 </div>
-                <button type="submit" className="btn btn-primary pull-right" style={{ fontWeight: 700, marginTop: -25, marginRight: 25 }} onClick={this.onAssignPosition} >Assign</button>
+                <div class="card-body">
+                    <HardSkillForm hardSkill={item.hardSkills}
+                        onAddHardSkill={this.onAddHardSkill}
+                        onDeleteHardSkill={this.onDeleteHardSkill}
+                        onUpdateHardSkillID={this.onUpdateHardSkillID}
+                        onUpdateHardSkillLevel={this.onUpdateHardSkillLevel}
+
+                        //Certi
+                        onAddCertificate={this.onAddCertificate}
+                        onDeleteCertificate={this.onDeleteCertificate}
+                        onUpdateCertficateID={this.onUpdateCertficateID}
+                        onUpdateCertificateDate={this.onUpdateCertificateDate}
+                    />
+                    <LanguageForm language={item.languages}
+                        onAddLanguage={this.onAddLanguage}
+                        onDeleteLanguage={this.onDeleteLanguage}
+                        onUpdateLanguageID={this.onUpdateLanguageID}
+                        onUpdateLanguageLevel={this.onUpdateLanguageLevel} />
+
+                    <SoftSkillForm softSkill={item.softSkills}
+                        onUpdateSoftSkillID={this.onUpdateSoftSkillID} />
+                    <button type="submit" className="btn btn-primary pull-right" style={{ fontWeight: 700, marginTop: 10 }} onClick={this.onAssignPosition} >Assign</button>
+                </div>
+
             </div>
         );
     }
@@ -258,14 +207,8 @@ const mapDispatchToProps = dispatch => {
         onUpdateLangLevel: (value, languageIndex) => {
             dispatch(Action.updateLangLevel(value, languageIndex))
         },
-        onAddSoftSkill: (value) => {
-            dispatch(Action.addSoftSkill(value))
-        },
-        onDeleteSoftSkill: index => {
-            dispatch(Action.deleteSoftSkill(index))
-        },
-        onUpdateSoftSkillID: (value, softSkillIndex) => {
-            dispatch(Action.updateSoftSkillID(value, softSkillIndex))
+        onUpdateSoftSkillID: (value) => {
+            dispatch(Action.updateSoftSkillID(value))
         },
         onAddHardSkill: hardSkill => {
             dispatch(Action.addHardSkill(hardSkill))

@@ -4,7 +4,7 @@ import * as Action from "../../service/action/ProfileAction";
 import EmpTableItem from "./EmpTableItem";
 import { checkSession } from '../../service/action/AuthenticateAction';
 import Search from '../../component/search/Search';
-import { Spin } from 'antd';
+import { Pagination, Spin } from 'antd';
 
 
 class EmpList extends Component {
@@ -80,6 +80,10 @@ class EmpList extends Component {
         this.props.fetchProfile(1, value)
     }
 
+    onSelectPage = (e) => {
+        this.props.fetchProfile(e, this.state.search)
+    }
+
     render() {
         var { profiles } = this.props
         return (
@@ -93,7 +97,7 @@ class EmpList extends Component {
                         style={{ fontWeight: 700, borderRadius: 5, marginLeft: 10, marginBottom: 15 }}
                         onClick={() => this.onGenerateProfile(profiles.isCreateNew)} >
                         <div className='row' style={{ paddingLeft: 7, paddingRight: 7 }}>
-                            <i className="material-icons">add_box</i>Create New EMP
+                            <i className="material-icons">add_box</i>Create New Employee
                             </div>
                     </button>
 
@@ -117,14 +121,14 @@ class EmpList extends Component {
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead className=" text-primary">
                                         <tr>
-                                            <th className="font-weight-bold text-center">No</th>
-                                            <th className="font-weight-bold ">Name</th>
-                                            <th className="font-weight-bold ">Phone</th>
-                                            <th className="font-weight-bold ">Email</th>
-                                            <th className="font-weight-bold ">User Name</th>
-                                            <th className="font-weight-bold ">Role</th>
+                                            <th width={40} className="font-weight-bold text-center">No</th>
+                                            <th width={200} className="font-weight-bold ">Name</th>
+                                            <th width={120} className="font-weight-bold ">Phone</th>
+                                            <th width={250} className="font-weight-bold ">Email</th>
+                                            <th width={200} className="font-weight-bold ">User Name</th>
+                                            <th width={200} className="font-weight-bold ">Role</th>
                                             <th className="font-weight-bold "></th>
-                                            
+
                                         </tr>
                                     </thead>
                                     {this.state.isLoading ?
@@ -143,34 +147,14 @@ class EmpList extends Component {
                                 : ''}
                             {this.state.isLoading ? ''
                                 :
-                                <div className="row align-items-center">
-                                    <div className="col">
-                                        <button type="button"
-                                            style={{ fontWeight: 700, width: 120 }}
-                                            className="btn btn-primary pull-right" onClick={this.onPrevios}>
-                                            Previous
-                                                </button>
-                                    </div>
-                                    <div className="col-auto">
-                                        <div className="text-center" style={{ fontSize: 20, fontWeight: 700, color: '#9c27b0' }}>
-                                            {profiles.pageIndex} - {profiles.pageCount}
-                                        </div>
-                                    </div>
-                                    <div className="col">
-                                        <button type="button"
-                                            style={{ fontWeight: 700, width: 120 }}
-                                            className="btn btn-primary" onClick={this.onNext}>
-                                            Next
-                                                </button>
-                                    </div>
+                                <div className='row justify-content-center' style={{ marginBottom: 20 }} >
+                                    <Pagination current={profiles.pageIndex} total={profiles.totalRecords} onChange={this.onSelectPage} />
                                 </div>
                             }
-
                         </div>
                     </div>
                 </div>
             </React.Fragment >
-
         );
     }
 }

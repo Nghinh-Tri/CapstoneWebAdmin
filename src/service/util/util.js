@@ -88,7 +88,7 @@ export const showPositionSpan = status => {
 export const showRole = role => {
     switch (role) {
         case 'admin':
-            return "Administrator"
+            return "Human Resources"
         case 'PM':
             return "Project Manager"
         case 'Employee':

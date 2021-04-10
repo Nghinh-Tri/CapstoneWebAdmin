@@ -83,31 +83,42 @@ class HardSkillForm extends Component {
             if (this.state.isMinimize)
                 return ""
             else
-                return (<div className="card-body">
+                return (<>
                     {this.showItems(hardSkill)}
                     {this.props.hardSkillList.length === hardSkill.length ?
                         '' :
-                        <span className="material-icons add"
+                        <span className="material-icons add" style={{ marginTop: 10 }}
                             onClick={this.onAddHardSkill}>add_box</span>
                     }
-                </div>)
+                </>)
         }
 
         return (
-            <div className="card">
-                <div className="card-header ">
-                    <div className="row">
-                        <div className="col">
-                            <h5 className="font-weight-bold">Hard Skill</h5>
-                        </div>
-                        <div className="col pull-right">
-                            <span className="material-icons pull-right clear" onClick={this.setMinimize} >
-                                {this.state.isMinimize === false ? 'minimize' : 'crop_free'}
-                            </span>
+            <div class="card mb-4">
+                <div class="card-header">
+                    Hard Skills
+                    <span className="material-icons pull-right clear" style={{ cursor: 'pointer' }} onClick={this.setMinimize} >
+                        {!this.state.isMinimize ? 'minimize' : 'crop_free'}
+                    </span>
+                </div>
+                {!this.state.isMinimize ?
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th >Hard Skill</th>
+                                        <th >Skill Level</th>
+                                        <th ></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {showHardSkill(result)}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                </div>
-                {showHardSkill(result)}
+                    : ''}
             </div>
         );
     }
