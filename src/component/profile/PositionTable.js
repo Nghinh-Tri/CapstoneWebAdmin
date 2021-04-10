@@ -130,14 +130,6 @@ class PositionTable extends Component {
                                     <Descriptions.Item label="Soft Skill Name">
                                         {this.showSoftSkill(positionDetail.softSkills)}
                                     </Descriptions.Item>
-                                    <Descriptions.Item label="Certificates">
-                                        Data disk type: MongoDB
-                    <br />
-                    Data disk type: MongoDB
-                    <br />
-                    Data disk type: MongoDB
-                    <br />
-                                    </Descriptions.Item>
                                 </Descriptions>
                           
                         </div>
