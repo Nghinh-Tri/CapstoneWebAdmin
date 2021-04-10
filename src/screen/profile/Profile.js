@@ -44,20 +44,20 @@ class Profile extends Component {
 
 
     render() {
-        var empID = ''
+        // var empID = ''
         var { select } = this.state
-        var { profile } = this.props
-        if (typeof this.props.empID !== 'undefined')
-            empID = this.props.empID
-        else
-            empID = this.props.match.params.id
+        // var { profile } = this.props
+        // if (typeof this.props.empID !== 'undefined')
+        //     empID = this.props.empID
+        // else
+        //     empID = this.props.match.params.id
 
 
         return (
             <React.Fragment>
 
                 <ol class="breadcrumb mb-4 mt-3">
-                    <li class="breadcrumb-item active">Projects Detail</li>
+                    <li class="breadcrumb-item active">ProFile Detail</li>
                 </ol>
                 <div class="card mb-4">
                     <div class="card-header">
