@@ -47,18 +47,18 @@ class ProjectDetailTable extends Component {
         var { project } = this.props
         return (
             <React.Fragment>
-                {this.state.isLoad ?
+                 {this.state.isLoad ?
                     <div className='row justify-content-center'>
                         <Spin className='text-center' size="large" />
                     </div>
-                    :
+                    : 
                     <Descriptions title="Project Info" layout='horizontal' bordered
-                        // extra={<React.Fragment>
-                        //     {project.status !== 4 ?
-                        //         <NavLink to={`/project/detail/${project.projectID}/edit`} style={{ marginRight: 10 }} type="default" >Edit</NavLink>
-                        //         : ''}
-                        //     {project.status === 3 ? <Button type="primary" onClick={this.onChangeStatusToFinish}>Finish</Button> : ''}
-                        // </React.Fragment>}
+                        extra={<React.Fragment>
+                            {project.status !== 4 ?
+                                <NavLink to={`/project/detail/${project.projectID}/edit`} style={{ marginRight: 10 }} type="default" >Edit</NavLink>
+                                : ''}
+                            {project.status === 3 ? <Button type="primary" onClick={this.onChangeStatusToFinish}>Finish</Button> : ''}
+                        </React.Fragment>}
                         >
 
                             
@@ -74,7 +74,7 @@ class ProjectDetailTable extends Component {
                         </Descriptions.Item>
                         <Descriptions.Item label="Description">{project.description}</Descriptions.Item>
                     </Descriptions>
-                }
+                 } 
             </React.Fragment>
         );
     }
