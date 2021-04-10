@@ -5,6 +5,8 @@ import { checkSession } from '../../service/action/AuthenticateAction';
 import { fetchPositionProfileDetail } from '../../service/action/ProfileAction';
 import { history } from '../../service/helper/History';
 import { showHardSkillLevel, showPositionLevel } from '../../service/util/util';
+import { Button, Descriptions } from 'antd';
+
 
 class PositionTable extends Component {
 
@@ -18,11 +20,11 @@ class PositionTable extends Component {
         result = language.map((item, index) => {
             return (
                 <ul key={index}>
-                    <li style={{ fontSize: 18, marginLeft: 30, marginBottom: 20 }}>
+                    <li>
                         <div className='row'>
-                            <div className='col' style={{ fontWeight: 600 }}>{item.langName}</div>
-                            <div className='col-auto' style={{ marginLeft: 100, fontWeight: 600, }}>Level : </div>
-                            <div className='col' style={{ fontWeight: 400, marginLeft: -20 }}>{item.langLevel}</div>
+                            <div className='col' >{item.langName}</div>
+                            <div className='col-auto' >Level : </div>
+                            <div className='col' >{item.langLevel}</div>
                         </div>
                     </li>
                 </ul>
@@ -38,7 +40,7 @@ class PositionTable extends Component {
                 <ul key={index}>
                     <li style={{ fontSize: 18, marginLeft: 30, marginBottom: 20 }}>
                         <div className='row'>
-                            <div className='col' style={{ fontWeight: 600 }}>{item.skillName}</div>
+                            <div className='col'>{item.skillName}</div>
                         </div>
                     </li>
                 </ul>
@@ -52,11 +54,11 @@ class PositionTable extends Component {
         result = hardSkill.map((item, index) => {
             return (
                 <ul key={index}>
-                    <li style={{ fontSize: 18, marginLeft: 30, marginBottom: 20 }}>
+                    <li>
                         <div className='row' >
-                            <div className='col' style={{ fontWeight: 600 }}>{item.skillName}</div>
-                            <div className='col-auto' style={{ marginLeft: 100, fontWeight: 600 }}>Level : </div>
-                            <div className='col' style={{ fontWeight: 400, marginLeft: -20 }}>{showHardSkillLevel(item.skillLevel)}</div>
+                            <div className='col'>{item.skillName}</div>
+                            <div className='col-auto'>Level : </div>
+                            <div className='col'>{showHardSkillLevel(item.skillLevel)}</div>
                         </div>
                         {/* List Certi */}
                         {item.certifications.length > 0 ?
@@ -102,85 +104,46 @@ class PositionTable extends Component {
 
     render() {
         var { positionDetail } = this.props
-        console.log('aa', positionDetail)
         return (
-            <div className="card">
-                <div className="card-header card-header-primary">
-                    <h4 className="card-title">Position Detail</h4>
-                </div>
-                <div className="card-body">
-                    {positionDetail.languages !== null && typeof positionDetail.languages !== 'undefined' ?
-                        <div>
-                            {/* Name */}
-                            {this.props.role === 'Employee' ?
-                                <div className="row">
-                                    <div className="col-auto">
-                                        <label className="bmd-label">
-                                            <h4 style={{ fontWeight: 700 }}>Position : </h4>
-                                        </label>
-                                    </div>
-                                    <div className="col" style={{ marginLeft: -20 }}>
-                                        <label className="bmd-label">
-                                            <h4>{positionDetail.posName}</h4>
-                                        </label>
-                                    </div>
-                                    <div className='col-auto' style={{ marginLeft: 85, fontWeight: 600 }}>
+            <React.Fragment>
+                <div className="card">
 
-                                        <h4>Level :</h4>
-                                    </div>
-                                    <div className="col" style={{ marginLeft: -20 }} >
-                                        <label className="bmd-label">
-                                            <h4 style={{ fontWeight: 500 }}>{showPositionLevel(positionDetail.posLevel)}</h4>
-                                        </label>
-                                    </div>
-                                </div>
-                                : ''}
+                    <div className="card-body">
+                        <div className="form-group">
+                            <Descriptions title="Posotion detail" layout='horizontal' bordered extra={<Button onClick={this.onUpdate} type="primary" >Edit</Button>}>
+                            </Descriptions>
+                                <Descriptions title="Position Info" layout='horizontal'>
+                                    <Descriptions.Item span={3} label="Positon Name">{positionDetail.posName}</Descriptions.Item>
+                                    <Descriptions.Item span={3} label="Positon Level">{showPositionLevel(positionDetail.posLevel)}</Descriptions.Item>
+                                </Descriptions>
 
+                                <Descriptions title="HardSkill Info" layout='horizontal'>
+                                    <Descriptions.Item span={3} label="HardSkill Name"> {this.showHardSkill(positionDetail.hardSkills)}</Descriptions.Item>
+                                </Descriptions>
 
-                            {/* Language */}
-                            <div className="row">
-                                <div className="col-auto">
-                                    <label className="bmd-label">
-                                        <h4 style={{ fontWeight: 700 }}>Languages : </h4>
-                                    </label>
-                                </div>
-                            </div>
-                            {/* List Language */}
-                            {this.showLanguage(positionDetail.languages)}
+                                <Descriptions title="Language Info" layout='horizontal'>
+                                    <Descriptions.Item span={3}> {this.showLanguage(positionDetail.languages)}</Descriptions.Item>
 
-                            {/* Soft Skill */}
-                            <div className="row">
-                                <div className="col-auto">
-                                    <label className="bmd-label">
-                                        <h4 style={{ fontWeight: 700 }}>Soft Skills : </h4>
-                                    </label>
-                                </div>
-                            </div>
-                            {/* List Sost skills */}
-                            {this.showSoftSkill(positionDetail.softSkills)}
+                                </Descriptions>
 
-                            {/* Hard Skill */}
-                            <div className="row">
-                                <div className="col-auto">
-                                    <label className="bmd-label">
-                                        <h4 className="" style={{ fontWeight: 700 }}>Hard Skills : </h4>
-                                    </label>
-                                </div>
-                            </div>
-                            {/* List Hard Skills */}
-                            {this.showHardSkill(positionDetail.hardSkills)}
-
+                                <Descriptions title="Soft Skill Info" layout='horizontal'>
+                                    <Descriptions.Item label="Soft Skill Name">
+                                        {this.showSoftSkill(positionDetail.softSkills)}
+                                    </Descriptions.Item>
+                                    <Descriptions.Item label="Certificates">
+                                        Data disk type: MongoDB
+                    <br />
+                    Data disk type: MongoDB
+                    <br />
+                    Data disk type: MongoDB
+                    <br />
+                                    </Descriptions.Item>
+                                </Descriptions>
+                          
                         </div>
-                        :
-                        <h4 className='text-center'>No Data</h4>
-                    }
-
-                    {/* Update */}
-                    <div className="col">
-                        <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }} onClick={this.onUpdate}>Update</button>
                     </div>
                 </div>
-            </div>
+            </React.Fragment>
         );
     }
 }

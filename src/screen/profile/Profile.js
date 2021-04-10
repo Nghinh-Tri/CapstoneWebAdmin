@@ -63,7 +63,7 @@ class Profile extends Component {
                     <div class="card-header">
                         <Tabs defaultActiveKey="1" onChange={this.onClickMenu}>
                             <TabPane tab="Personal Infomation" key={1}></TabPane>
-                            <TabPane tab="Skill Information" key={2}></TabPane>
+                            <TabPane tab="Position Detail" key={2}></TabPane>
                         </Tabs>
                     </div>
                     <div class="card-body">
