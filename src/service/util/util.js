@@ -11,6 +11,24 @@ export const callAPI = (endpoint, method = 'GET', body) => {
     });
 };
 
+
+export const showBadge = status => {
+    switch (status) {
+        case 0:
+            return "error"
+        case 1:
+            return "default"
+        case 2:
+            return "warning"
+        case 3:
+            return "processing"
+        case 4:
+            return "success"
+        default:
+            break;
+    }
+}
+
 export const showStatus = status => {
     switch (status) {
         case 0:

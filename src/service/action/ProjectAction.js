@@ -65,6 +65,18 @@ export const updateProject = (project, id) => {
     }
 }
 
+export const changeStatusToFinish = projectID => {
+    var url = `${API_URL}/Project/changeStatus/${projectID}`
+    return dispatch => {
+        return axios.put(
+            url,
+            null,
+            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }).then(res => {
+                dispatch(fetchProjectDetail(projectID))
+            })
+    }
+}
+
 export const updateProjectSuccess = (resultObj) => {
     return {
         type: Type.UPDATE_PROJECT,

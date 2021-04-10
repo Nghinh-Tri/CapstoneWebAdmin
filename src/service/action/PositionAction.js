@@ -170,31 +170,36 @@ export const updateHardSkillCerti = (value, hardSkillIndex, positionFormIndex) =
     }
 }
 
-export const fetchPositionDetail = (empID) => {
-    var projectID = localStorage.getItem("projectId")
-    var position = { requiredPositions: positionItem }
-    var urlToGetListSuggest = `${API_URL}/User/candidate/${projectID}`
-    var urlToAddRequire = `${API_URL}/Project/addRequirements/${projectID} `
-    return (dispatch) => {
-        axios.post(
-            urlToAddRequire,
-            position,
-            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
-        ).then(res => {
-            if (res.status === 200) {
-                axios.post(
-                    urlToGetListSuggest,
-                    position,
-                    { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
-                ).then(res => {
-                    if (res.status === 200) {
-                        dispatch(createPositionSuccess(res.data))
-                        history.push("/project/suggest-candidate")
-                    }
-                })
-            }
-        })
-    }
+// export const fetchPositionDetail = (empID) => {
+//     var projectID = localStorage.getItem("projectId")
+//     var position = { requiredPositions: positionItem }
+//     var urlToGetListSuggest = `${API_URL}/User/candidate/${projectID}`
+//     var urlToAddRequire = `${API_URL}/Project/addRequirements/${projectID} `
+//     return (dispatch) => {
+//         axios.post(
+//             urlToAddRequire,
+//             position,
+//             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
+//         ).then(res => {
+//             if (res.status === 200) {
+//                 axios.post(
+//                     urlToGetListSuggest,
+//                     position,
+//                     { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
+//                 ).then(res => {
+//                     if (res.status === 200) {
+//                         dispatch(createPositionSuccess(res.data))
+//                         history.push("/project/suggest-candidate")
+//                     }
+//                 })
+//             }
+//         })
+//     }
+// }
+
+export const addMoreCandidate = () => {
+    history.push("/project/create-position", { isUpdate: true })
+    return { type: Type.ADD_MORE_CANDIDATE }
 }
 
 export const createPositionSuccess = (result) => {

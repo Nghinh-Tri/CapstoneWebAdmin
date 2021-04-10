@@ -104,6 +104,7 @@ class PositionTable extends Component {
 
     render() {
         var { positionDetail } = this.props
+        console.log(positionDetail)
         return (
             <React.Fragment>
                 <div className="card">

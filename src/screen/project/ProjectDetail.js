@@ -5,6 +5,9 @@ import { checkSession } from '../../service/action/AuthenticateAction';
 import { fetchProjectDetail } from '../../service/action/ProjectAction';
 import { history } from '../../service/helper/History';
 import ListEmployee from './ListEmployee';
+import { Tabs } from 'antd';
+const TabPane = Tabs.TabPane;
+
 
 class ProjectDetail extends Component {
 
@@ -37,47 +40,43 @@ class ProjectDetail extends Component {
     }
 
     onClickMenu = (value) => {
-        console.log(value)
-        this.setState({ select: value })
+        this.setState({ select: parseInt(value) })
     }
+
+    showDetail = (select) => {
+        if (select === 1)
+            return <ProjectDetailTable projectID={this.props.match.params.id} />
+        if (select === 2)
+            return <ListEmployee projectID={this.props.match.params.id} />
+        // if (select === 3)
+            // return <PositionRequire projectID={this.props.match.params.id} />
+    }
+
 
     onBack = () => {
         history.push('/project')
     }
 
     render() {
-        var { project } = this.state
+        var { project, select } = this.state
         return (
-            <div>
-                 <ol class="breadcrumb mb-4 mt-3">
-                    <li class="breadcrumb-item active">ProjectsDetail</li>
+            <React.Fragment>
+                <ol class="breadcrumb mb-4 mt-3">
+                    <li class="breadcrumb-item active">Projects Detail</li>
                 </ol>
-                <div class="card-body">
-                <div className='row'>
-                    <div className='col-auto' style={{ marginTop: 30 }}>
-                        <ul className='ul '>
-                            <li className='li'>
-                                <a className={this.state.select === 1 ? 'active' : ''} onClick={() => this.onClickMenu(1)}>Project Detail</a>
-                            </li>
-                            <li className='li'>
-                                <a className={this.state.select === 2 ? 'active' : ''} onClick={() => this.onClickMenu(2)} >Employee List</a>
-                            </li>
-                        </ul>
+                <div className='card mb-4'>
+                    <div class="card-header">
+                        <Tabs defaultActiveKey="1" onChange={this.onClickMenu}>
+                            <TabPane tab="Project Detail" key={1}></TabPane>
+                            <TabPane tab="List Employee" key={2}></TabPane>
+                            <TabPane tab="Position Suggestion" key={3}></TabPane>
+                        </Tabs>
                     </div>
-
-                    <div className='col'>
-                        {this.state.select === 1 ?
-                            <ProjectDetailTable project={project} match={this.props.match} />
-                            :
-                            <ListEmployee project={project} />
-                        }
+                    <div class="card-body">
+                        {this.showDetail(select)}
                     </div>
                 </div>
-                </div>
-                <div className='row pull-right'>
-                    <button type="submit" className="btn btn-primary " style={{ fontWeight: 700, marginTop: -15, marginRight: 25 }} onClick={this.onBack} >Back</button>
-                </div>
-            </div>
+            </React.Fragment>
         );
     }
 }

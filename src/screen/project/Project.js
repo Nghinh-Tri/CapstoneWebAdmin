@@ -49,10 +49,6 @@ class Project extends Component {
         return result
     }
 
-
-
-
-
     searchProject = (value) => {
         this.setState({ search: value })
         this.props.fetchProject(1, value)

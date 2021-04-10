@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import ListEmployeeContent from "./ListEmployeeContent";
-import * as Action from "../../service/action/ListEmployeeAction";
-import { history } from '../../service/helper/History';
-import SelectBar from "../../component/create-position-form/select-search/SelectBar";
-import { getSuggestAgainButton } from '../../service/util/util';
+import * as Action from '../../service/action/ListEmployeeAction'
+import SelectBar from "../../component/select-search/SelectBar";
+import ListEmployeeContent from './ListEmployeeContent';
+import { addMoreCandidate } from '../../service/action/PositionAction';
+
 
 class ListEmployee extends Component {
 
@@ -20,26 +20,17 @@ class ListEmployee extends Component {
     }
 
     componentDidMount = () => {
-        this.props.fetchListEmployee(this.props.project.projectID, this.state.page)
+        this.props.fetchListEmployee(this.props.projectID, 1)
     }
 
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.listEmployee !== prevState.listEmployee) {
-            return { someState: nextProps.listEmployee };
-        }
-        return null;
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (prevProps.listEmployee !== this.props.listEmployee) {
-            var { listEmployee } = this.props
-            listEmployee.forEach(element => {
-                var position = { label: element.posName, value: element.posID }
-                this.setState(prev => ({
-                    positionList: [...prev.positionList, position]
-                }))
-            });
-        }
+    componentWillReceiveProps = () => {
+        var { listEmployee } = this.props
+        listEmployee.forEach(element => {
+            var position = { label: element.posName, value: element.posID }
+            this.setState(prev => ({
+                positionList: [...prev.positionList, position]
+            }))
+        });
     }
 
     showEmployee = (list) => {
@@ -53,80 +44,69 @@ class ListEmployee extends Component {
                 }
             })
         } else {
-            return (<h4 className="text-center" style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>)
+            return (<div className='row justify-content-center'>
+                <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
+            </div>)
         }
         return result
-    }
-
-    onHandle = () => {
-        localStorage.setItem('projectId', this.props.project.projectID)
-        history.push("/project/create-position", { isUpdate: true })
-        localStorage.setItem('projectType', this.props.project.typeID)
-        this.props.pushToCreatePosition()
     }
 
     onSelectPos = (value) => {
         this.setState({ positionSelect: value })
     }
 
-    onConfirm = () => {
-        history.push(`/project/confirm/${this.props.project.projectID}`)
+    onHandle = () => {
+        localStorage.setItem('projectId', this.props.projectID)
+        this.props.pushToCreatePosition()
     }
 
     render() {
         var { listEmployee } = this.props
         var postList = []
-        if (this.state.positionList.length > 1)
+        if (this.state.positionList.length >= 1)
             postList = this.state.positionList
-        var notNeedConfirm = getSuggestAgainButton(listEmployee)
         return (
-            <div className="card">
-                <div className="card-header card-header-primary">
-                    <h4 className="card-title">Employee List</h4>
-                </div>
-                <div className="card-body">
-                    {listEmployee.length > 0 ?
-                        <React.Fragment>
-                            <div className='row' style={{ marginLeft: 10 }} >
-                                <div className='col-auto'>
-                                    <h4 className="font-weight-bold" style={{ marginTop: 5 }}>Position</h4>
-                                </div>
-                                <div className='col'>
-                                    <SelectBar type='special'
-                                        name='positionSelect'
-                                        list={postList}
-                                        value={this.state.positionSelect}
-                                        onSelectPos={this.onSelectPos} />
-                                </div>
-                            </div>
-                            <div className="card-body">
-                                <div className="row">
-                                    <div className="card-body confirm-table">
-                                        <table className="table">
-                                            <thead className=" text-primary">
-                                                <tr>
-                                                    <th className="font-weight-bold">Name</th>
-                                                    <th className="font-weight-bold">Position</th>
-                                                    <th className="font-weight-bold text-center">Date In</th>
-                                                </tr>
-                                            </thead>
-                                            {this.showEmployee(listEmployee)}
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </React.Fragment>
-                        : <h4 className="text-center" style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
-                    }
-                </div>
-                {!notNeedConfirm ?
-                    <div className='row pull-right'>
-                        <div className='col'>
-                            <button type="submit" className="btn btn-primary pull-right" style={{ fontWeight: 700, marginTop: -15, marginRight: 25, marginBottom: 20 }} onClick={this.onConfirm} >Confirm</button>
-                        </div>
-                    </div>
-                    : ''}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table mr-1"></i>
+                List Employee
             </div>
+                <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" >
+                    <div className='col-auto' style={{ marginTop: 20 }}>
+                        <SelectBar type='special'
+                            name='positionSelect'
+                            list={postList}
+                            value={this.state.positionSelect}
+                            onSelectPos={this.onSelectPos} />
+                    </div>
+
+                </form>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <th className="font-weight-bold">Name</th>
+                                <th className="font-weight-bold">Position</th>
+                                <th className="font-weight-bold">Email</th>
+                                <th className="font-weight-bold">Phone</th>
+                                <th width={120} className="font-weight-bold text-center">Date In</th>
+                            </thead>
+                            {listEmployee.length > 0 ?
+                                <tbody>
+                                    {this.showEmployee(listEmployee)}
+                                </tbody>
+                                : ''}
+                        </table>
+                    </div>
+                    {listEmployee.length > 0 ? '' : <div className='row justify-content-center' style={{ width: 'auto' }} >
+                        <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
+                    </div>}
+                    <button type="submit" className="btn btn-primary pull-right" onClick={this.onHandle} style={{ fontWeight: 700 }} >
+                        Add More Candidates
+                        </button>
+                </div>
+            </div>
+
         );
     }
 }
@@ -141,7 +121,11 @@ const mapDispatchToProp = dispatch => {
     return {
         fetchListEmployee: (projectID, page) => {
             dispatch(Action.fetchListEmployee(projectID, page))
+        },
+        pushToCreatePosition: () => {
+            dispatch(addMoreCandidate())
         }
+       
     }
 }
 
