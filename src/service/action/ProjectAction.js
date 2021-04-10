@@ -30,6 +30,26 @@ export const fetchProject = (pageIndex, search) => {
     }
 }
 
+export const fetchPositionRequire = (projectID) => {
+    var url = `${API_URL}/Project/getRequiredPositions/${projectID}`
+    return (dispatch) => {
+        return axios.get(
+            url,
+            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
+        ).then(res => {
+            console.log(res.data.resultObj)
+            dispatch(fetchPositionRequireSuccess(res.data.resultObj))
+        })
+    }
+}
+
+export const fetchPositionRequireSuccess = (resultObj) => {
+    return {
+        type: Type.FETCH_POSITION_REQUIRE,
+        resultObj
+    }
+}
+
 export const fetchProjectSuccess = (resultObj) => {
     return {
         type: Type.FETCH_PROJECT,

@@ -6,8 +6,9 @@ import { fetchProjectDetail } from '../../service/action/ProjectAction';
 import { history } from '../../service/helper/History';
 import ListEmployee from './ListEmployee';
 import { Tabs } from 'antd';
-const TabPane = Tabs.TabPane;
+import PositionRequire from "../../component/project-detail/PositionRequire";
 
+const TabPane = Tabs.TabPane;
 
 class ProjectDetail extends Component {
 
@@ -48,8 +49,8 @@ class ProjectDetail extends Component {
             return <ProjectDetailTable projectID={this.props.match.params.id} />
         if (select === 2)
             return <ListEmployee projectID={this.props.match.params.id} />
-        // if (select === 3)
-            // return <PositionRequire projectID={this.props.match.params.id} />
+        if (select === 3)
+            return <PositionRequire projectID={this.props.match.params.id} />
     }
 
 
