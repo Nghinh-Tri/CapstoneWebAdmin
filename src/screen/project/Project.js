@@ -51,17 +51,7 @@ class Project extends Component {
 
 
 
-    onNext = () => {
-        var { projects } = this.props
-        if (projects.pageIndex < projects.pageCount)
-            this.props.fetchProject(projects.pageIndex + 1, this.state.search)
-    }
 
-    onPrevios = () => {
-        var { projects } = this.props
-        if (projects.pageIndex > 1)
-            this.props.fetchProject(projects.pageIndex - 1, this.state.search)
-    }
 
     searchProject = (value) => {
         this.setState({ search: value })
@@ -70,7 +60,6 @@ class Project extends Component {
 
     render() {
         var { projects } = this.props
-
         return (
             <React.Fragment>
                 <ol class="breadcrumb mb-4 mt-3">
@@ -100,7 +89,7 @@ class Project extends Component {
                                             <th className="font-weight-bold">No</th>
                                             <th className="font-weight-bold">Project Name</th>
                                             <th className="font-weight-bold">PM Name</th>
-                                            <th className="font-weight-bold "  class="text-center">Started Date</th>
+                                            <th className="font-weight-bold " class="text-center">Started Date</th>
                                             <th className="font-weight-bold text-center" style={{ width: 80 }}>Status</th>
                                             <th className="font-weight-bold"></th>
                                         </tr>
@@ -115,12 +104,18 @@ class Project extends Component {
                                 </table>
                             </div>
                         </div>
-                        <div className='row justify-content-center' style={{ marginBottom: 20 }} >
-                            <Pagination defaultCurrent={1} total={60} 
-                            
-                        // defaultPageSize={5}
-                        />
-                        </div>
+                        {this.state.isLoading ?
+                            <div className='row justify-content-center'>
+                                <Spin className='text-center' size="large" />
+                            </div>
+                            : ''}
+                        {this.state.isLoading ? '' :
+                            <div className='row justify-content-center' style={{ marginBottom: 20 }} >
+                                <Pagination defaultCurrent={projects.pageIndex} total={projects.totalRecords}
+                                    onChange={1,2}
+                               />
+                            </div>
+                        }
                     </div>
                 </div>
 

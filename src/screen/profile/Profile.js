@@ -5,7 +5,8 @@ import PositionTable from '../../component/profile/PositionTable';
 import ProfileTable from '../../component/profile/ProfileTable';
 import { checkSession } from '../../service/action/AuthenticateAction';
 import { fetchProfileDetail } from '../../service/action/ProfileAction';
-import { getRole } from '../../service/util/util';
+import { Tabs } from 'antd';
+const TabPane = Tabs.TabPane;
 
 class Profile extends Component {
 
@@ -23,49 +24,53 @@ class Profile extends Component {
     }
 
     onClickMenu = (value) => {
-        this.setState({ select: value })
+        this.setState({ select: parseInt(value) })
     }
+
+    showDetail = (select) => {
+        var { profile } = this.props
+        var empID = ''
+        if (typeof this.props.empID !== 'undefined')
+            empID = this.props.empID
+        else
+            empID = this.props.match.params.id
+
+            console.log(profile)
+        if (select === 1)
+            return <ProfileTable empID={empID} />
+        if (select === 2)
+            return <PositionTable empID={empID} role={profile.roleName} />
+    }
+
 
     render() {
         var empID = ''
+        var { select } = this.state
         var { profile } = this.props
         if (typeof this.props.empID !== 'undefined')
             empID = this.props.empID
         else
             empID = this.props.match.params.id
+
+
         return (
-            <div>
-                <div className='row'>
-                    {typeof this.props.match === 'undefined' ? '' :
-                        <div className='col-auto' style={{ marginTop: 30 }}>
-                            <ul className='ul'>
-                                <li className='li'>
-                                    <a className={this.state.select === 1 ? 'active' : ''} onClick={() => this.onClickMenu(1)}>Profile</a>
-                                </li>
-                                <li className='li' >
-                                    <a className={this.state.select === 2 ? 'active' : ''} onClick={() => this.onClickMenu(2)} >Position</a>
-                                </li>
-                            </ul>
-                        </div>
-                    }
+            <React.Fragment>
 
-                    <div className='col'>
-                        {this.state.select === 1 ?
-                            <ProfileTable empID={empID} />
-                            :
-                            <PositionTable empID={empID} role={profile.roleName} />
-                        }
-
-                        <div className="row pull-right">
-                            <div className="col">
-                                <NavLink to="/employee">
-                                    <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }}>Back</button>
-                                </NavLink>
-                            </div>
-                        </div>
+                <ol class="breadcrumb mb-4 mt-3">
+                    <li class="breadcrumb-item active">Projects Detail</li>
+                </ol>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <Tabs defaultActiveKey="1" onChange={this.onClickMenu}>
+                            <TabPane tab="Personal Infomation" key={1}></TabPane>
+                            <TabPane tab="Skill Information" key={2}></TabPane>
+                        </Tabs>
+                    </div>
+                    <div class="card-body">
+                        {this.showDetail(select)}
                     </div>
                 </div>
-            </div>
+            </React.Fragment>
         );
     }
 }

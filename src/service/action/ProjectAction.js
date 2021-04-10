@@ -16,6 +16,7 @@ export const fetchProject = (pageIndex, search) => {
     var url = ''
     if (search.length > 0)
         url = `${API_URL}/Project/paging?Keyword=${search}&PageIndex=${pageIndex}&PageSize=10`
+    
     else
         url = `${API_URL}/Project/paging?PageIndex=${pageIndex}&PageSize=10`
     return (dispatch) => {
@@ -24,6 +25,7 @@ export const fetchProject = (pageIndex, search) => {
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
             dispatch(fetchProjectSuccess(res.data.resultObj))
+            console.log(res.data.resultObj.totalRecords)
         })
     }
 }
