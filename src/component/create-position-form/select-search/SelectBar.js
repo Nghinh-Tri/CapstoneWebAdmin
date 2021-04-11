@@ -95,7 +95,18 @@ class SelectBar extends Component {
     }
 
     onSelectMulti = (value) => {
-        this.props.onUpdateSoftSkillID(value)
+        var { name } = this.props
+        switch (name) {
+            case 'softSkillID':
+                this.props.onUpdateSoftSkillID(value)
+                break;
+            case 'position':
+                this.props.onSelectPosition(this.props.hardSkillOptionIndex, value)
+                break
+            case 'projectField':
+                this.props.onSelectProjectField(value)
+                break
+        }
     }
     //important
     showUnique = () => {
@@ -291,6 +302,9 @@ class SelectBar extends Component {
                 break
             case 'certificateID':
                 this.props.onUpdateCertficateID(value, this.props.certificateIndex, this.props.hardSkillIndex)
+                break
+            case 'projectType':
+                this.props.onSelectProjectType(this.props.hardSkillOptionIndex, value)
                 break
         }
     }

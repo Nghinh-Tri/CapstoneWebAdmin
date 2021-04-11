@@ -148,6 +148,18 @@ export const convertPositionList = (list) => {
     return result;
 }
 
+export const convertProjectTypeList = (list) => {
+    var result = []
+    list.forEach(element => {
+        result.push({
+            label: element.name,
+            value: element.id,
+            isSelect: typeof element.isSelect === 'undefined' ? false : element.isSelect
+        })
+    });
+    return result;
+}
+
 export const convertSkillList = (list) => {
     var result = []
     list.forEach(element => {

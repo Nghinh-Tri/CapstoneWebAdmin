@@ -20,6 +20,7 @@ import PositionReducer from "./PositionReducer";
 import PositionFormReducer from "./PositionFormReducer";
 import DataStatisticsReducer from "./DataStatisticsReducer";
 import PositionRequireReducer from "./PositionRequireReducer";
+import ProjectFieldTypeReducer from "./ProjectFieldTypeReducer";
 
 const MainReducer = combineReducers({
     authentication,//use
@@ -41,7 +42,8 @@ const MainReducer = combineReducers({
     PositionReducer,//use
     PositionFormReducer,//use
     DataStatisticsReducer,
-    PositionRequireReducer
+    PositionRequireReducer,
+    ProjectFieldTypeReducer
 })
 
 export default MainReducer

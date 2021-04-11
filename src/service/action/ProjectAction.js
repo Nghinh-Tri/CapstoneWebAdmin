@@ -42,6 +42,52 @@ export const fetchPositionRequire = (projectID) => {
     }
 }
 
+export const fetchProjectType = () => {
+    var url = `${API_URL}/Project/getProjectTypes`
+    return (dispatch) => {
+        axios.get(
+            url,
+            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
+        ).then(res => {
+            dispatch(fetchPostionTypeSuccess(res.data.resultObj))
+        }).catch(err => {
+            if (err.response.status === 401) {
+                history.push('/login')
+            }
+        })
+    }
+}
+
+export const fetchProjectField = () => {
+    var url = `${API_URL}/Project/getProjectFields`
+    return (dispatch) => {
+        axios.get(
+            url,
+            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
+        ).then(res => {
+            dispatch(fetchPostionTypeSuccess(res.data.resultObj))
+        }).catch(err => {
+            if (err.response.status === 401) {
+                history.push('/login')
+            }
+        })
+    }
+}
+
+export const fetchPostionTypeSuccess = (projectType) => {
+    return {
+        type: Type.FETCH_PROJECT_TYPE,
+        projectType
+    }
+}
+
+export const fetchProjectFieldSuccess = (projectField) => {
+    return {
+        type: Type.FETCH_PROJECT_FIELD,
+        projectField
+    }
+}
+
 export const fetchPositionRequireSuccess = (resultObj) => {
     return {
         type: Type.FETCH_POSITION_REQUIRE,
