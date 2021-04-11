@@ -60,30 +60,64 @@ class ProjectDetail extends Component {
     render() {
         var { project } = this.state
         return (
-            <div>
-                <div className='col'>
-                    <ProgressBar step="step1" />
-                    <ProjectDetailTable project={project} match={this.props.match} />
-                    <div className="row pull-right" style={{ marginTop: -20 }}>
-                        {project.status === 0 || project.status === 1 ?
-                            <div className="col">
-                                <button type="button" className="btn btn-danger pull-right" style={{ width: 110, fontWeight: 600, marginBottom: 15 }} onClick={this.onDecline}>Decline</button>
-                            </div>
-                            : ''
-                        }
-                        <div className="col">
-                            <div className='col' >
-                                {this.state.project.status === 1 ?
-                                    <NavLink to={`/project`} className='btn btn-primary pull-right' style={{ width: 110, fontWeight: 600 }}>Back</NavLink>
-                                    :
-                                    <NavLink to={{ pathname: `/project/candidateList/${this.props.match.params.id}`, state: { pmID: project.pmID, projectName: project.projectName } }} className='btn btn-success pull-right' style={{ width: 110, fontWeight: 600 }}>Accept</NavLink>
-                                }
-                            </div>
-                        </div>
-                    </div>
-
+          <div>
+            <ProgressBar current="0" />
+            <div class="card mb-4">
+              <div class="card-header">
+                <i class="fas fa-table mr-1"></i>
+                Project Detail
+              </div>
+              <div className="card-body">
+                <ProjectDetailTable
+                  project={project}
+                  match={this.props.match}
+                />
+              </div>
+            </div>
+            <div className="row pull-right" style={{ marginTop: -20 }}>
+              {project.status === 0 || project.status === 1 ? (
+                <div className="col">
+                  <button
+                    type="button"
+                    className="btn btn-danger pull-right"
+                    style={{ width: 110, fontWeight: 600, marginBottom: 15 }}
+                    onClick={this.onDecline}
+                  >
+                    Decline
+                  </button>
                 </div>
-            </div >
+              ) : (
+                ""
+              )}
+              <div className="col">
+                <div className="col">
+                  {this.state.project.status === 1 ? (
+                    <NavLink
+                      to={`/project`}
+                      className="btn btn-primary pull-right"
+                      style={{ width: 110, fontWeight: 600 }}
+                    >
+                      Back
+                    </NavLink>
+                  ) : (
+                    <NavLink
+                      to={{
+                        pathname: `/project/candidateList/${this.props.match.params.id}`,
+                        state: {
+                          pmID: project.pmID,
+                          projectName: project.projectName,
+                        },
+                      }}
+                      className="btn btn-success pull-right"
+                      style={{ width: 110, fontWeight: 600 }}
+                    >
+                      Accept
+                    </NavLink>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
         );
     }
 }

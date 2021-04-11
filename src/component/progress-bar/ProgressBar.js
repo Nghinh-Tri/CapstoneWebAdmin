@@ -1,50 +1,46 @@
-import React, { Component } from 'react';
-
+import { Steps } from "antd";
+import React, { Component } from "react";
+import { withRouter } from "react-router";
+const Step = Steps.Step;
 class ProgressBar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      step1: "",
+      step2: "",
+      step3: "",
+      isUpdate: false,
+    };
+  }
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            step1: "",
-            step2: "",
-            step3: "",
-        }
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.location !== prevState.location) {
+      return { someState: nextProps.location };
     }
+    return null;
+  }
 
-    componentDidMount = () => {
-        var { step } = this.props
-        if (step === "step1") {
-            this.setState({
-                step1: "active",
-                step2: "",
-                step3: "",
-            })
-        }
-        if (step === "step2") {
-            this.setState({
-                step1: "complete",
-                step2: "active",
-                step3: "",
-            })
-        }
-        if (step === "step3") {
-            this.setState({
-                step1: "complete",
-                step2: "complete",
-                step3: "active",
-            })
-        }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.location !== this.props.location) {
+      console.log(this.props.location);
+      if (typeof this.props.location.state !== "undefined")
+        this.setState({ isUpdate: this.props.location.state.isUpdate });
     }
+  }
 
-    render() {
-        return (
-            <ul className="progressbar">
-                <li className={this.state.step1} style={this.state.step1 === 'active' ? { fontWeight: 700 } : { fontWeight: 500 }}>Project Detail</li>
-                <li className={this.state.step2} style={this.state.step2 === 'active' ? { fontWeight: 700 } : { fontWeight: 500 }}>Select Employee</li>
-                <li className={this.state.step3} style={this.state.step3 === 'active' ? { fontWeight: 700 } : { fontWeight: 500 }}>Confirm</li>
-            </ul>
-        );
-    }
+  render() {
+    var { isUpdate } = this.state;
+    return (
+      <Steps
+        current={parseInt(this.props.current)}
+        style={{ marginTop: 20, marginBottom: 20 }}
+      >
+        <Step title="Project Detail" />
+        <Step title="Select Employee" />
+        <Step title="Confirm" />
+      </Steps>
+    );
+  }
 }
 
-export default ProgressBar;
+export default withRouter(ProgressBar);

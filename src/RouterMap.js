@@ -17,116 +17,116 @@ import ConfirmProjectDetail from "./screen/confirm/ConfirmProjectDetail"
 
 
 const route = [
-    {
-        path: "/",
-        exact: true,
-        main: () => <Dashboard />
-    },
-    {
-        path: "/project",
-        exact: true,
-        main: () => <Project />
-    },
-    {
-        path: '/project/detail/:id',
-        exact: true,
-        main: ({ match }) => <ProjectDetail match={match} />
-    },
-    // {
-    //     path: "/project/candidateList/:id",
-    //     exact: true,
-    //     main: ({ match }) => <ListCandidate match={match} />
-    // },
-    // {
-    //     path: "/project/confirm/:id",
-    //     exact: true,
-    //     main: ({ match }) => <ConfirmProjectDetail match={match} />
-    // },
-    // {
-    //     path: "/project/confirm-accept/:id",
-    //     exact: true,
-    //     main: ({ match }) => <ConfirmPage match={match} />
-    // },
-    {
-        path: "/employee",
-        exact: true,
-        main: () => <EmpList />
-    },
-    {
-        path: "/employee/profile/:id",
-        exact: true,
-        main: ({ match }) => <Profile match={match} />
-    },
-    {
-        path: "/employee/update-profile/:id",
-        exact: true,
-        main: ({ match }) => <Register match={match} />
-    },
-    {
-        path: "/employee/update-position/:id",
-        exact: true,
-        main: () => <PositionAssign />
-    },
-    {
-        path: "/employee/register",
-        exact: true,
-        main: () => <Register />
-    },
-    {
-        path: "/employee/position-assign",
-        exact: true,
-        main: () => <PositionAssign />
-    },
-    {
-        path: "/position",
-        exact: true,
-        main: () => <Position />
-    },
-    {
-        path: "/position/create",
-        exact: true,
-        main: () => <CreatePosition />
-    },
-    {
-        path: "/position/update/:id",
-        exact: true,
-        main: ({ match }) => <CreatePosition match={match} />
-    },
-    {
-        path: "/skill",
-        exact: true,
-        main: () => <Skill />
-    },
-    {
-        path: "/skill/create",
-        exact: true,
-        main: () => <CreateSkills />
-    },
-    {
-        path: "/skill/update/:id",
-        exact: true,
-        main: ({ match }) => <CreateSkills match={match} />
-    },
-    {
-        path: "/certification",
-        exact: true,
-        main: () => <Certification />
-    },
-    {
-        path: "/certification/create",
-        exact: true,
-        main: () => <CreateCertification />
-    },
-    {
-        path: "/certification/update/:id",
-        exact: true,
-        main: ({ match }) => <CreateCertification match={match} />
-    },
-    {
-        path: "/profile",
-        exact: true,
-        main: () => <Profile empID={JSON.parse(localStorage.getItem('EMP'))} />
-    },
-]
+  {
+    path: "/",
+    exact: true,
+    main: () => <Dashboard />,
+  },
+  {
+    path: "/project",
+    exact: true,
+    main: () => <Project />,
+  },
+  {
+    path: "/project/detail/:id",
+    exact: true,
+    main: ({ match }) => <ProjectDetail match={match} />,
+  },
+  {
+    path: "/project/confirm/:id",
+    exact: true,
+    main: ({ match }) => <ConfirmProjectDetail match={match} />,
+  },
+  {
+    path: "/project/candidateList/:id",
+    exact: true,
+    main: ({ match }) => <ListCandidate match={match} />,
+  },
+  {
+      path: "/project/confirm-accept/:id",
+      exact: true,
+      main: ({ match }) => <ConfirmPage match={match} />
+  },
+  {
+    path: "/employee",
+    exact: true,
+    main: () => <EmpList />,
+  },
+  {
+    path: "/employee/profile/:id",
+    exact: true,
+    main: ({ match }) => <Profile match={match} />,
+  },
+  {
+    path: "/employee/update-profile/:id",
+    exact: true,
+    main: ({ match }) => <Register match={match} />,
+  },
+  {
+    path: "/employee/update-position/:id",
+    exact: true,
+    main: () => <PositionAssign />,
+  },
+  {
+    path: "/employee/register",
+    exact: true,
+    main: () => <Register />,
+  },
+  {
+    path: "/employee/position-assign",
+    exact: true,
+    main: () => <PositionAssign />,
+  },
+  {
+    path: "/position",
+    exact: true,
+    main: () => <Position />,
+  },
+  {
+    path: "/position/create",
+    exact: true,
+    main: () => <CreatePosition />,
+  },
+  {
+    path: "/position/update/:id",
+    exact: true,
+    main: ({ match }) => <CreatePosition match={match} />,
+  },
+  {
+    path: "/skill",
+    exact: true,
+    main: () => <Skill />,
+  },
+  {
+    path: "/skill/create",
+    exact: true,
+    main: () => <CreateSkills />,
+  },
+  {
+    path: "/skill/update/:id",
+    exact: true,
+    main: ({ match }) => <CreateSkills match={match} />,
+  },
+  {
+    path: "/certification",
+    exact: true,
+    main: () => <Certification />,
+  },
+  {
+    path: "/certification/create",
+    exact: true,
+    main: () => <CreateCertification />,
+  },
+  {
+    path: "/certification/update/:id",
+    exact: true,
+    main: ({ match }) => <CreateCertification match={match} />,
+  },
+  {
+    path: "/profile",
+    exact: true,
+    main: () => <Profile empID={JSON.parse(localStorage.getItem("EMP"))} />,
+  },
+];
 
 export default route
