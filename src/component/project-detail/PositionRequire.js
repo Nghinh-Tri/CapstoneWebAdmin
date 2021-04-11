@@ -25,7 +25,6 @@ class PositionRequire extends Component {
 
     showPosition = (list) => {
         var result = null
-        console.log(list)
         result = list.map((value, index) => {
             return (
                 <tr key={index}>
@@ -60,9 +59,6 @@ class PositionRequire extends Component {
 
     render() {
         var { positionRequire } = this.props
-        var result = []
-        if (typeof positionRequire.posID !== 'undefined')
-            result = positionRequire
         return (
             <React.Fragment>
                 <div class="card mb-4">
@@ -84,11 +80,18 @@ class PositionRequire extends Component {
                                         <th width={100}></th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    {this.showPosition(positionRequire)}                                   
-                                </tbody>
+                                {positionRequire.length > 0 ?
+                                    <tbody>
+                                        {this.showPosition(positionRequire)}
+                                    </tbody>
+                                    : ''}
                             </table>
                         </div>
+                        {positionRequire.length > 0 ? '' :
+                            <div className='row justify-content-center' style={{ width: 'auto' }} >
+                                <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
+                            </div>
+                        }
                     </div>
                 </div>
             </React.Fragment>

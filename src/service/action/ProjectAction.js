@@ -16,7 +16,7 @@ export const fetchProject = (pageIndex, search) => {
     var url = ''
     if (search.length > 0)
         url = `${API_URL}/Project/paging?Keyword=${search}&PageIndex=${pageIndex}&PageSize=10`
-    
+
     else
         url = `${API_URL}/Project/paging?PageIndex=${pageIndex}&PageSize=10`
     return (dispatch) => {
@@ -25,20 +25,19 @@ export const fetchProject = (pageIndex, search) => {
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
             dispatch(fetchProjectSuccess(res.data.resultObj))
-            console.log(res.data.resultObj.totalRecords)
         })
     }
 }
 
 export const fetchPositionRequire = (projectID) => {
     var url = `${API_URL}/Project/getRequiredPositions/${projectID}`
+    console.log(url)
     return (dispatch) => {
         return axios.get(
             url,
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
-            console.log(res.data.resultObj)
-            dispatch(fetchPositionRequireSuccess(res.data.resultObj))
+            dispatch(fetchPositionRequireSuccess(res.data.resultObj !== null ? res.data.resultObj : []))
         })
     }
 }
