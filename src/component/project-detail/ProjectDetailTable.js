@@ -8,6 +8,7 @@ import { compose } from 'redux';
 import { checkSession } from '../../service/action/AuthenticateAction';
 import * as Action from '../../service/action/ProjectAction'
 import { showStatus, showBadge } from '../../service/util/util';
+import {history} from '../../service/helper/History'
 
 class ProjectDetailTable extends Component {
 
@@ -25,7 +26,6 @@ class ProjectDetailTable extends Component {
 
     componentWillReceiveProps = () => {
         var { project } = this.props
-        console.log('p', typeof project.projectID !== 'undefined')
         if (typeof project.projectID !== 'undefined')
             this.setState({ isLoad: false, project: project })
     }
@@ -45,8 +45,28 @@ class ProjectDetailTable extends Component {
         });
     }
 
+    onDecline = () => {
+        var { match, declineProject } = this.props
+        confirm({
+            title: 'Are you sure decline this project?',
+            okText: 'Yes',
+            cancelText: 'No',
+            onOk() {
+                declineProject(match.params.id)
+                history.push('/project')
+            },
+            onCancel() {
+                console.log('Cancel');
+            },
+
+        });
+    }
+
+
     render() {
         var { project } = this.state
+        let stat = project.status
+    
         return (
             <React.Fragment>
                 {this.state.isLoad ?
@@ -54,8 +74,13 @@ class ProjectDetailTable extends Component {
                         <Spin className='text-center' size="large" />
                     </div>
                     :
-                    <Descriptions title="Project Info" layout='horizontal' bordered>
-
+                    <Descriptions title="Project Info" layout='horizontal' bordered extra={
+                        
+                       
+                        <Button onClick={this.onDecline} type="danger" >
+                              {showStatus(stat) === 'On Going' ? '' : 'Decline'} 
+                        </Button>} >
+                   
                         <Descriptions.Item span={3} label="Project Name">{project.projectName} </Descriptions.Item>
 
                         <Descriptions.Item span={3} label="Project Type">{project.typeName}</Descriptions.Item>
@@ -95,6 +120,9 @@ const mapDispatchToProp = dispatch => {
         },
         changeStatusToFinish: projectID => {
             dispatch(Action.changeStatusToFinish(projectID))
+        },
+        declineProject: projectID => {
+            dispatch(Action.declineProject(projectID))
         },
         checkSession: () => {
             dispatch(checkSession())
