@@ -13,6 +13,7 @@ class CreateSkills extends Component {
                 { label: 'Hard Skill', value: 0 },
                 { label: 'Soft Skill', value: 1 }
             ],
+            skillType: -1
         }
     }
 
@@ -42,6 +43,7 @@ class CreateSkills extends Component {
     }
 
     onSelect = (value) => {
+        this.setState({ skillType: value })
         this.props.updateSkillType(value)
     }
 
@@ -69,25 +71,53 @@ class CreateSkills extends Component {
                 <div className="card-body">
                     <form >
                         <div className='row'>
-                            <div className="col-5">
+                            <div className="col">
                                 <fieldset className="form-group">
                                     <label className={`bmd-label-${typeof this.props.match !== 'undefined' ? 'static' : 'floating'}`} >Skill</label>
-                                    <input type="text" className="form-control" name="skillName" value={result.skillName} onChange={this.handleChange} />
+                                    <input type="text" style={{ height: 34 }} className="form-control" name="skillName" value={result.skillName} onChange={this.handleChange} />
                                 </fieldset>
                             </div>
-                            <div className='col-auto' style={{ marginLeft: 30, marginTop: 15 }}>
-                                <label className="bmd-label-floating">Skill Type</label>
-                            </div>
-                            <div className='col' style={{ marginLeft: 30, marginTop: 10 }}>
-                                <SelectBar name='skillType'
-                                    type="special"
-                                    placeholder="Select skill type"
-                                    list={this.state.type}
-                                    onSelectSkillType={this.onSelect}
-                                    value={result.skillType}
-                                />
+
+                            <div className="col">
+                                <fieldset className="form-group">
+                                    <label className="bmd-label-floating">Skill Type</label>
+                                    <SelectBar name='skillType'
+                                        type="special"
+                                        placeholder="Select skill type"
+                                        list={this.state.type}
+                                        onSelectSkillType={this.onSelect}
+                                        value={result.skillType}
+                                    />
+                                </fieldset>
                             </div>
                         </div>
+                        {this.state.skillType === -1 ? '' :
+                            this.state.skillType === 0 ?
+                                <div className='row'>
+                                    <div className="col">
+                                        <fieldset className="form-group">
+                                            <label className="bmd-label-floating">Project Type</label>
+                                            <SelectBar />
+                                        </fieldset>
+                                    </div>
+
+                                    <div className="col">
+                                        <fieldset className="form-group">
+                                            <label className="bmd-label-floating">Position</label>
+                                            <SelectBar />
+                                        </fieldset>
+                                    </div>
+                                </div>
+                                :
+                                <div className='row'>
+                                    <div className='col-auto' style={{ marginLeft: 30, marginTop: 15 }}>
+                                        <label className="bmd-label-floating">Project Field</label>
+                                    </div>
+                                    <div className='col'>
+                                        <SelectBar />
+                                    </div>
+                                </div>
+                        }
                         <button className="btn btn-primary pull-right" onClick={this.onSubmit}>
                             {typeof this.props.match !== 'undefined' ? 'Update' : 'Create'}
                         </button>
