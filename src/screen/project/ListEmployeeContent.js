@@ -6,7 +6,6 @@ import { NavLink } from 'react-router-dom';
 class ListEmployeeContent extends Component {
 
     showCandidate = (employees, posName) => {
-        console.log(employees)
         var result = null
         result = employees.map((employee, index) => {
             return (<tr key={index}>
@@ -26,8 +25,6 @@ class ListEmployeeContent extends Component {
 
     render() {
         var { item } = this.props
-        console.log(item)
-
         return (
             <React.Fragment>
                 {this.showCandidate(item.employees, item.posName)}

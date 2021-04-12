@@ -8,6 +8,7 @@ import { notification } from 'antd';
 import { connect } from 'react-redux';
 // import SuggestCandidate from '../screen/suggest-candidate/SuggestCandidate';
 import { recieveNotificate } from "../service/action/FirebaseAction";
+import { store } from 'react-notifications-component';
 
 class Layout extends Component {
 
@@ -24,11 +25,19 @@ class Layout extends Component {
     }
 
     showNotificate = (messaging) => {
-        notification.info({
-            message: messaging.title,
-            description: messaging.body,
-            placement: 'bottomRight'
-        });
+        store.addNotification({
+            title: messaging.title,
+            message: messaging.body,
+            type: "info",
+            insert: "top",
+            container: "bottom-right",
+            animationIn: ["animate__animated", "animate__fadeIn"],
+            animationOut: ["animate__animated", "animate__fadeOut"],
+            dismiss: {
+                duration: 5000,
+                onScreen: true
+            }
+        })
     }
 
     showContent = (RouteList) => {
@@ -45,22 +54,22 @@ class Layout extends Component {
     render() {
         return (
             <div>
-            <Header />
-            <div id="layoutSidenav">
-                <div id="layoutSidenav_nav">
-                    <NavBar />
-                </div>
-                <div id="layoutSidenav_content">
+                <Header />
+                <div id="layoutSidenav">
+                    <div id="layoutSidenav_nav">
+                        <NavBar />
+                    </div>
+                    <div id="layoutSidenav_content">
 
-                    <main>
-                        <div class="container-fluid">
-                            {this.showContent(RouteList)}
-                        </div>
-                    </main>
+                        <main>
+                            <div class="container-fluid">
+                                {this.showContent(RouteList)}
+                            </div>
+                        </main>
 
+                    </div>
                 </div>
             </div>
-        </div>
         );
     }
 }

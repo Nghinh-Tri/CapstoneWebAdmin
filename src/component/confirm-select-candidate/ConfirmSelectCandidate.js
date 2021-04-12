@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import CandidateTable from '../../component/confirm-candidate/CandidateTable';
+import CandidateTable from './CandidateTable';
 import './ConfirmPage.css'
 
 class ConfirmSelectCandidate extends Component {
@@ -14,7 +14,6 @@ class ConfirmSelectCandidate extends Component {
 
     render() {
         var { candidateList } = this.props
-        console.log(candidateList)
         return (
             <div className='card mb-80'>
                 <div className="card-body">

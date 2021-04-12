@@ -3,11 +3,11 @@ import { FIREBASE } from "../constant"
 import { API_URL, getUserName } from "../util/util"
 import { fetchProject } from "./ProjectAction"
 
-export const sendNotificate = (pmID, projectName, type) => {
-    var url = `${API_URL}/Notification?topic=${pmID}`
+export const sendNotificate = (pmID, body) => {
+    var url = `${API_URL}/Notification?topic=pm${pmID}`
     var message = {
         title: `Human Resources ${getUserName()} send you a notification`,
-        body: `Project ${projectName} has been ${type === 'accept' ? 'accepted' : 'declined'}`
+        body: body
     }
     return (dispatch) => {
         axios.post(

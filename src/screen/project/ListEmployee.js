@@ -4,6 +4,7 @@ import * as Action from '../../service/action/ListEmployeeAction'
 import SelectBar from "../../component/select-search/SelectBar";
 import ListEmployeeContent from './ListEmployeeContent';
 import { addMoreCandidate } from '../../service/action/PositionAction';
+import { history } from '../../service/helper/History';
 
 
 class ListEmployee extends Component {
@@ -12,10 +13,9 @@ class ListEmployee extends Component {
         super(props);
         this.state = {
             page: 1,
-            positionList: [
-                { label: 'All', value: 0 }
-            ],
-            positionSelect: 0
+            positionList: [],
+            positionSelect: 0,
+            count: 0
         }
     }
 
@@ -25,12 +25,17 @@ class ListEmployee extends Component {
 
     componentWillReceiveProps = () => {
         var { listEmployee } = this.props
+        var { positionSelect, count } = this.state
+        var temp = []
         listEmployee.forEach(element => {
             var position = { label: element.posName, value: element.posID }
-            this.setState(prev => ({
-                positionList: [...prev.positionList, position]
-            }))
+            if (count === 0) {
+                count++
+                positionSelect = element.posID
+            }
+            temp.push(position)
         });
+        this.setState({ positionList: temp, positionSelect: positionSelect, count: count })
     }
 
     showEmployee = (list) => {
@@ -56,8 +61,7 @@ class ListEmployee extends Component {
     }
 
     onHandle = () => {
-        localStorage.setItem('projectId', this.props.projectID)
-        this.props.pushToCreatePosition()
+        history.push(`/project/confirm-candidate/${this.props.projectID}`)
     }
 
     render() {
@@ -101,9 +105,14 @@ class ListEmployee extends Component {
                     {listEmployee.length > 0 ? '' : <div className='row justify-content-center' style={{ width: 'auto' }} >
                         <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
                     </div>}
-                    <button type="submit" className="btn btn-primary pull-right" onClick={this.onHandle} style={{ fontWeight: 700 }} >
-                        Add More Candidates
+                    {listEmployee.length > 0 ?
+                        typeof listEmployee.find(i => i.employees.find(k => k.dateIn === null)) !== 'undefined' ?
+                            <button type="submit" className="btn btn-primary pull-right" onClick={this.onHandle} style={{ fontWeight: 700 }} >
+                                Confirm Candidates
                         </button>
+                            : ''
+                        : ''
+                    }
                 </div>
             </div>
 
@@ -125,7 +134,6 @@ const mapDispatchToProp = dispatch => {
         pushToCreatePosition: () => {
             dispatch(addMoreCandidate())
         }
-       
     }
 }
 
