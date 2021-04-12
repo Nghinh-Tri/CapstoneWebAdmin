@@ -8,7 +8,7 @@ import { compose } from 'redux';
 import { checkSession } from '../../service/action/AuthenticateAction';
 import * as Action from '../../service/action/ProjectAction'
 import { showStatus, showBadge } from '../../service/util/util';
-import {history} from '../../service/helper/History'
+import { history } from '../../service/helper/History'
 
 class ProjectDetailTable extends Component {
 
@@ -24,10 +24,12 @@ class ProjectDetailTable extends Component {
         this.props.fetchProjectDetail(this.props.projectID)
     }
 
-    componentWillReceiveProps = () => {
-        var { project } = this.props
-        if (typeof project.projectID !== 'undefined')
-            this.setState({ isLoad: false, project: project })
+    componentDidUpdate = (prevProp) => {
+        if (prevProp.project !== this.props.project) {
+            var { project } = this.props
+            if (typeof project.projectID !== 'undefined')
+                this.setState({ isLoad: false, project: project })
+        }
     }
 
     onChangeStatusToFinish = () => {
@@ -66,7 +68,7 @@ class ProjectDetailTable extends Component {
     render() {
         var { project } = this.state
         let stat = project.status
-    
+
         return (
             <React.Fragment>
                 {this.state.isLoad ?
@@ -75,12 +77,12 @@ class ProjectDetailTable extends Component {
                     </div>
                     :
                     <Descriptions title="Project Info" layout='horizontal' bordered extra={
-                        
-                       
+
+
                         <Button onClick={this.onDecline} type="danger" >
-                              {showStatus(stat) === 'On Going' ? '' : 'Decline'} 
+                            {showStatus(stat) === 'On Going' ? '' : 'Decline'}
                         </Button>} >
-                   
+
                         <Descriptions.Item span={3} label="Project Name">{project.projectName} </Descriptions.Item>
 
                         <Descriptions.Item span={3} label="Project Type">{project.typeName}</Descriptions.Item>
@@ -109,7 +111,7 @@ class ProjectDetailTable extends Component {
 
 const mapStateToProp = state => {
     return {
-        project: state.ProjectFetchReducer
+        project: state.ProjectDetailFetchReducer
     }
 }
 

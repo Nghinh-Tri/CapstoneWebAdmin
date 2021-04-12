@@ -16,35 +16,18 @@ class ProjectDetail extends Component {
         super(props);
         this.state = {
             select: 1,
-            project: {}
         }
     }
 
     componentDidMount = () => {
         this.props.checkSession()
-        var { match } = this.props
-        this.props.fetchProjectDetail(match.params.id)
-    }
-
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.project !== prevState.project) {
-            return { someState: nextProps.project };
-        }
-        return null;
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (prevProps.project !== this.props.project) {
-            if (typeof this.props.project.pageIndex === 'undefined')
-                this.setState({ project: this.props.project })
-        }
     }
 
     onClickMenu = (value) => {
         this.setState({ select: parseInt(value) })
     }
 
-    showDetail = (select) => {
+    showDetail = (select) => {        
         if (select === 1)
             return <ProjectDetailTable projectID={this.props.match.params.id} />
         if (select === 2)
@@ -53,13 +36,12 @@ class ProjectDetail extends Component {
             return <PositionRequire projectID={this.props.match.params.id} />
     }
 
-
     onBack = () => {
         history.push('/project')
     }
 
     render() {
-        var { project, select } = this.state
+        var { select } = this.state
         return (
             <React.Fragment>
                 <ol class="breadcrumb mb-4 mt-3">
@@ -81,20 +63,13 @@ class ProjectDetail extends Component {
         );
     }
 }
-const mapStateToProp = state => {
-    return {
-        project: state.ProjectFetchReducer
-    }
-}
+
 
 const mapDispatchToProp = (dispatch) => {
     return {
-        fetchProjectDetail: (projectID) => {
-            dispatch(fetchProjectDetail(projectID))
-        },
         checkSession: () => {
             dispatch(checkSession())
         }
     }
 }
-export default connect(mapStateToProp, mapDispatchToProp)(ProjectDetail);
+export default connect(null, mapDispatchToProp)(ProjectDetail);
