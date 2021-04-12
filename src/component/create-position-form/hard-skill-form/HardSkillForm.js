@@ -107,9 +107,9 @@ class HardSkillForm extends Component {
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th >Hard Skill</th>
-                                        <th >Skill Level</th>
-                                        <th ></th>
+                                        <th width={250} >Hard Skill</th>
+                                        <th width={250}>Skill Level</th>
+                                        <th width={50}></th>
                                     </tr>
                                 </thead>
                                 <tbody>

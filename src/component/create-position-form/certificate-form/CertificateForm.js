@@ -107,10 +107,10 @@ class CertificateForm extends Component {
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th>Certificate</th>
-                                        <th>Taken Date</th>
-                                        <th>Expired Date</th>
-                                        <th></th>
+                                        <th width={250}>Certificate</th>
+                                        <th width={250}>Taken Date</th>
+                                        <th width={250}>Expired Date</th>
+                                        <th width={50}></th>
                                     </tr>
                                 </thead>
                                 <tbody>
