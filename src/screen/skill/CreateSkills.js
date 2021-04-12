@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SelectBar from '../../component/create-position-form/select-search/SelectBar';
 import { checkSession } from '../../service/action/AuthenticateAction';
-import { createSkill, fetchSkillDetail, generateSkill, updateSkill, updateSkillName, updateSkillType } from '../../service/action/SkillAction';
+import { fetchProjectField } from '../../service/action/ProjectAction';
+import { addHardSkillOption, createSkill, deleteHardSkillOption, fetchSkillDetail, generateSkill, selectPosition, selectProjectField, selectProjectType, updateSkill, updateSkillName, updateSkillType } from '../../service/action/SkillAction';
+import { convertProjectTypeList } from '../../service/util/util';
+import HardSkillOption from './HardSkillOption';
 
 class CreateSkills extends Component {
 
@@ -13,11 +16,13 @@ class CreateSkills extends Component {
                 { label: 'Hard Skill', value: 0 },
                 { label: 'Soft Skill', value: 1 }
             ],
+            skillType: -1
         }
     }
 
     componentDidMount = () => {
         this.props.checkSession()
+        this.props.fetchProjectField()
         var { match } = this.props
         if (typeof match !== 'undefined') {
             this.props.fetchSkillDetail(match.params.id)
@@ -34,6 +39,8 @@ class CreateSkills extends Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.skill !== this.props.skill) {
+            if (this.props.skill.skillType !== -1)
+                this.setState({ skillType: this.props.skill.skillType })
         }
     }
 
@@ -42,6 +49,7 @@ class CreateSkills extends Component {
     }
 
     onSelect = (value) => {
+        this.setState({ skillType: value })
         this.props.updateSkillType(value)
     }
 
@@ -51,14 +59,36 @@ class CreateSkills extends Component {
             this.props.createSkill(this.props.skill)
         else
             this.props.updateSkill(this.props.skill)
+    }
 
+    onAddHardSkillOption = () => {
+        this.props.addHardSkillOption()
+    }
+
+    onDeleteHardSkillOption = (index) => {
+        this.props.deleteHardSkillOption(index)
+    }
+
+    onSelectProjectType = (index, value) => {
+        this.props.selectProjectType(index, value)
+    }
+
+    onSelectPosition = (index, value) => {
+        this.props.selectPosition(index, value)
+    }
+
+    onSelectProjectField = (value) => {
+        this.props.selectProjectField(value)
     }
 
     render() {
-        var { skill } = this.props
+        var { skill, projectField } = this.props
+        var projectFieldConverted = convertProjectTypeList(projectField)
         var result = null
         if (typeof skill !== 'undefined' || skill !== null)
             result = skill
+        console.log(this.state.skillType === -1 || result.skillType === -1)
+
         return (
             <div className="card">
                 <div className="card-header card-header-primary">
@@ -69,25 +99,48 @@ class CreateSkills extends Component {
                 <div className="card-body">
                     <form >
                         <div className='row'>
-                            <div className="col-5">
+                            <div className="col">
                                 <fieldset className="form-group">
                                     <label className={`bmd-label-${typeof this.props.match !== 'undefined' ? 'static' : 'floating'}`} >Skill</label>
-                                    <input type="text" className="form-control" name="skillName" value={result.skillName} onChange={this.handleChange} />
+                                    <input type="text" style={{ height: 34 }} className="form-control" name="skillName" value={result.skillName} onChange={this.handleChange} />
                                 </fieldset>
                             </div>
-                            <div className='col-auto' style={{ marginLeft: 30, marginTop: 15 }}>
-                                <label className="bmd-label-floating">Skill Type</label>
-                            </div>
-                            <div className='col' style={{ marginLeft: 30, marginTop: 10 }}>
-                                <SelectBar name='skillType'
-                                    type="special"
-                                    placeholder="Select skill type"
-                                    list={this.state.type}
-                                    onSelectSkillType={this.onSelect}
-                                    value={result.skillType}
-                                />
+
+                            <div className="col">
+                                <fieldset className="form-group">
+                                    <label className="bmd-label-floating">Skill Type</label>
+                                    <SelectBar name='skillType'
+                                        type="special"
+                                        placeholder="Select skill type"
+                                        list={this.state.type}
+                                        onSelectSkillType={this.onSelect}
+                                        value={result.skillType}
+                                    />
+                                </fieldset>
                             </div>
                         </div>
+                        {this.state.skillType === -1 ? '' :
+                            this.state.skillType === 0 ?
+                                <HardSkillOption hardSkill={result.hardSkillOption}
+                                    onAddHardSkillOption={this.onAddHardSkillOption}
+                                    onDeleteHardSkillOption={this.onDeleteHardSkillOption}
+                                    onSelectProjectType={this.onSelectProjectType}
+                                    onSelectPosition={this.onSelectPosition}
+                                />
+                                :
+                                <div className='row'>
+                                    <div className="col">
+                                        <fieldset className="form-group">
+                                            <label className="bmd-label-floating">Project Field</label>
+                                            <SelectBar name='projectField'
+                                                type='multi'
+                                                list={projectFieldConverted}
+                                                value={result.softSkillOption}
+                                                onSelectProjectField={this.onSelectProjectField} />
+                                        </fieldset>
+                                    </div>
+                                </div>
+                        }
                         <button className="btn btn-primary pull-right" onClick={this.onSubmit}>
                             {typeof this.props.match !== 'undefined' ? 'Update' : 'Create'}
                         </button>
@@ -100,7 +153,8 @@ class CreateSkills extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        skill: state.SkillReducer
+        skill: state.SkillReducer,
+        projectField: state.ProjectFieldReducer
     }
 }
 
@@ -118,6 +172,18 @@ const mapDispatchToProps = (dispatch) => {
         updateSkillType: (skillType) => {
             dispatch(updateSkillType(skillType))
         },
+        addHardSkillOption: () => {
+            dispatch(addHardSkillOption())
+        },
+        deleteHardSkillOption: (index) => {
+            dispatch(deleteHardSkillOption(index))
+        },
+        selectProjectType: (index, projectType) => {
+            dispatch(selectProjectType(index, projectType))
+        },
+        selectPosition: (index, position) => {
+            dispatch(selectPosition(index, position))
+        },
         checkSession: () => {
             dispatch(checkSession())
         },
@@ -126,6 +192,12 @@ const mapDispatchToProps = (dispatch) => {
         },
         updateSkill: (skill) => {
             dispatch(updateSkill(skill))
+        },
+        fetchProjectField: () => {
+            dispatch(fetchProjectField())
+        },
+        selectProjectField: (value) => {
+            dispatch(selectProjectField(value))
         }
     }
 }

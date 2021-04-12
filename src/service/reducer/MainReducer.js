@@ -19,6 +19,9 @@ import ListEmployeeReducer from "./ListEmployeeReducer";
 import PositionReducer from "./PositionReducer";
 import PositionFormReducer from "./PositionFormReducer";
 import DataStatisticsReducer from "./DataStatisticsReducer";
+import PositionRequireReducer from "./PositionRequireReducer";
+import ProjectFieldReducer from "./ProjectFieldReducer";
+import ProjectTypeReducer from "./ProjectTypeReducer";
 
 const MainReducer = combineReducers({
     authentication,//use
@@ -39,8 +42,10 @@ const MainReducer = combineReducers({
     ListEmployeeReducer,//use
     PositionReducer,//use
     PositionFormReducer,//use
-    DataStatisticsReducer
-
+    DataStatisticsReducer,
+    PositionRequireReducer,
+    ProjectFieldReducer,
+    ProjectTypeReducer
 })
 
 export default MainReducer

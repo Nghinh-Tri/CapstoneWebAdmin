@@ -32,16 +32,8 @@ export const updateLangLevel = (value, languageIndex) => {
     return { type: POSITION_ASSIGN.UPDATE_LANGUAGE_LEVEL, value, languageIndex }
 }
 
-export const addSoftSkill = (value) => {
-    return { type: POSITION_ASSIGN.ADD_SOFT_SKILL, value }
-}
-
-export const deleteSoftSkill = (index) => {
-    return { type: POSITION_ASSIGN.DELETE_SOFT_SKILL, index }
-}
-
-export const updateSoftSkillID = (value, softSkillIndex) => {
-    return { type: POSITION_ASSIGN.UPDATE_SOFT_SKILL_ID, value, softSkillIndex }
+export const updateSoftSkillID = (value, ) => {
+    return { type: POSITION_ASSIGN.UPDATE_SOFT_SKILL_ID, value }
 }
 
 export const addHardSkill = (hardSkill) => {
@@ -78,7 +70,6 @@ export const updateCertificateDate = (name, value, certificateIndex, hardSkillIn
 
 export const assignPosition = (empID, positionAssign, role) => {
     var url = `${API_URL}/User/${empID}`
-    console.log(positionAssign.languages.length === 0)
     return (dispatch) => {
         if (positionAssign.posID === 0) {
             if (role === 'Employee') {
@@ -298,7 +289,6 @@ export const fetchPositionProfileUpdateDetail = (id) => {
 
 export const updatePositionDetail = (empID, positionAssign, role) => {
     var url = `${API_URL}/User/updateEmpInfo/${empID}`
-
     return (dispatch) => {
         if (positionAssign.posID === 0) {
             if (role === 'Employee') {
@@ -475,15 +465,11 @@ export const updatePositionDetail = (empID, positionAssign, role) => {
             })
         }
         else {
-            console.log(url)
-
             axios.post(
                 url,
                 positionAssign,
                 { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } })
                 .then(res => {
-                    console.log(res)
-
                     if (res.status === 200) {
                         dispatch(updatePositionDetailSuccess(empID))
                     }

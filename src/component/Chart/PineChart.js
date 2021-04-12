@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Pie, defaults } from 'react-chartjs-2'
+import { Pie } from 'react-chartjs-2'
 
 class PineChart extends Component {
 
@@ -7,7 +7,6 @@ class PineChart extends Component {
   render() {
 
     var { dataStatisticList } = this.props
-    console.log(dataStatisticList.projectByTypes)
     const arrLabel = [];
     const arryDataset = [];
     dataStatisticList.map((dataItem, index) => {

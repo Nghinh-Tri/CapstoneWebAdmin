@@ -13,7 +13,6 @@ class SuggestCandidates extends Component {
     }
 
     showCandidate = (candidateList, selectedItem) => {
-        console.log(candidateList)
         var result = null
         result = candidateList.map((candidate, index) => {
             return (<SuggestCandidateItems key={index}
@@ -30,7 +29,6 @@ class SuggestCandidates extends Component {
     onSelectAll = (event) => {
         var value = event.target.checked
         if (value) {
-            console.log('item', this.props.item)
             this.props.onSelectAll(this.props.item)
         }
         else
@@ -39,6 +37,8 @@ class SuggestCandidates extends Component {
 
     render() {
         var { item, selectedItem } = this.props
+        console.log('item', item)
+
         return (
             <div className="card">
                 <div className="card-header card-header-primary">
@@ -74,6 +74,11 @@ class SuggestCandidates extends Component {
                                         </tbody>
                                     </table>
                                 </div>
+                                {item.employees.length === 0 ?
+                                    <div className='row justify-content-center' style={{ width: 'auto' }} >
+                                        <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
+                                    </div>
+                                    : ''}
                             </div>
                         </div>
                     </div>

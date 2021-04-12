@@ -50,22 +50,8 @@ const PositionAssignReducer = (state = initState, action) => {
             state.languages.splice(action.languageIndex, 1, clone)
             return state
 
-        case POSITION_ASSIGN.ADD_SOFT_SKILL:
-            clone = { ...state }
-            clone.softSkills.push(action.value)
-            state = clone
-            return state
-
-        case POSITION_ASSIGN.DELETE_SOFT_SKILL:
-            clone = { ...state }
-            clone.softSkills.splice(action.index, 1)
-            state = clone
-            return state
-
         case POSITION_ASSIGN.UPDATE_SOFT_SKILL_ID:
-            clone = { ...state.softSkills[action.softSkillIndex] }
-            clone = action.value
-            state.softSkills.splice(action.softSkillIndex, 1, clone)
+            state.softSkills = action.value
             return state
 
         case POSITION_ASSIGN.ADD_HARD_SKILL:

@@ -10,112 +10,141 @@ import { compose } from 'redux';
 import { convertSuggestList } from '../../service/util/util';
 import { history } from '../../service/helper/History';
 import confirm from 'antd/lib/modal/confirm';
+import SelectBar from "../../component/select-search/SelectBar";
 
 class ListCandidate extends Component {
-
     componentDidMount = () => {
-        this.props.checkSession()
-        var { match } = this.props
-        this.props.fetchSuggestCandidateList(match.params.id)
-    }
+        this.props.checkSession();
+        var { match } = this.props;
+        this.props.fetchSuggestCandidateList(match.params.id);
+    };
 
     onSelected = (index) => {
-        this.props.onPositionSelect(index)
-    }
+        this.props.onPositionSelect(index);
+    };
+
 
     showPosition = () => {
-        var { suggestCandidateList, selectedIndex } = this.props
+        var { suggestCandidateList, selectedIndex } = this.props;
         var result = null;
-        result = suggestCandidateList.map((item, index) => {
-            return (
-                <li className='li' key={index}>
-                    <a className={selectedIndex === index ? 'active' : ''} onClick={() => this.onSelected(index)}>{item.posName}</a>
-                </li>
-            )
-        })
-        return result
-    }
+        var convertArrayIntoSelectBarList = [];
+        suggestCandidateList.map((item, index) => {
+            var x = { label: item.posName, value: index };
+            convertArrayIntoSelectBarList.push(x);
+        });
+        return (
+            <>
+                {/* <li className="li" key={index}>
+            <a
+              className={selectedIndex === index ? "active" : ""}
+              onClick={() => this.onSelected(index)}
+            >
+              {item.posName}
+            </a>
+          </li> */}
+                <SelectBar
+                    type="special"
+                    name="positionSelect"
+                    list={convertArrayIntoSelectBarList}
+                    value={selectedIndex}
+                    onSelectPos={this.onSelected}
+                />
+            </>
+        );
+    };
 
     selectCandidate = (candidate, item) => {
-        this.props.selectCandidate(candidate, item)
-    }
+        this.props.selectCandidate(candidate, item);
+    };
 
     unselectCandidate = (candidate, posName) => {
-        this.props.unSelectCandidate(candidate, posName.trim())
-    }
+        this.props.unSelectCandidate(candidate, posName.trim());
+    };
 
     getSelectedCandidateList = (suggestCandidateItem, selecedCandidateList) => {
         for (let k = 0; k < selecedCandidateList.length; k++) {
             if (suggestCandidateItem.posName === selecedCandidateList[k].posName)
-                return selecedCandidateList[k]
+                return selecedCandidateList[k];
         }
-        return null
-    }
+        return null;
+    };
 
     onSelectAll = (item) => {
-        this.props.selectAll(item)
-    }
+        this.props.selectAll(item);
+    };
 
     onUnSelectAll = (position) => {
-        this.props.unSelectAll(position)
-    }
+        this.props.unSelectAll(position);
+    };
 
     onDecline = () => {
         if (this.props.candidateSelectedList.length > 0) {
-            var item = convertSuggestList(this.props.candidateSelectedList)
-            var candidates = { candidates: item, isAccept: false }
-            var { onDecline, match, location } = this.props
+            var item = convertSuggestList(this.props.candidateSelectedList);
+            var candidates = { candidates: item, isAccept: false };
+            var { onDecline, match, location } = this.props;
             confirm({
-                title: 'Are you sure you want to decline those candidate?',
-                okText: 'Yes',
-                okType: 'danger',
-                cancelText: 'No',
+                title: "Are you sure you want to decline those candidate?",
+                okText: "Yes",
+                okType: "danger",
+                cancelText: "No",
                 onOk() {
-                    onDecline(candidates, match.params.id, location.state.projectName, location.state.pmID)
+                    onDecline(
+                        candidates,
+                        match.params.id,
+                        location.state.projectName,
+                        location.state.pmID
+                    );
                 },
                 onCancel() {
-                    console.log('Cancel');
+                    console.log("Cancel");
                 },
             });
         }
-    }
+    };
 
     render() {
-        var { suggestCandidateList, selectedIndex, candidateSelectedList } = this.props
-        console.log('suggestCandidateList', suggestCandidateList)
+        var { suggestCandidateList, selectedIndex, candidateSelectedList } = this.props;
         return (
             <div>
-                <ProgressBar step="step2" />
-                <div className="row">
-                    <div className='col-2'>
-                        <ul className='ul'>
-                            {this.showPosition()}
-                        </ul>
+                <ProgressBar current="1" />
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table mr-1"></i>List Employee
                     </div>
-                    <div className='col'>
-                        {suggestCandidateList.length > 0
-                            ?
+                    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+                        <div className="col-auto" style={{ marginTop: 20 }}>
+                            {this.showPosition()}
+                        </div>
+                    </form>
+                    <div className="card-body">
+                        {suggestCandidateList.length > 0 ? (
                             <SuggestCandidates
                                 item={suggestCandidateList[selectedIndex]}
                                 onSelectCandidate={this.selectCandidate}
-                                selectedItem={this.getSelectedCandidateList(suggestCandidateList[selectedIndex], candidateSelectedList)}
+                                selectedItem={this.getSelectedCandidateList(
+                                    suggestCandidateList[selectedIndex],
+                                    candidateSelectedList
+                                )}
                                 onUnselectCandidate={this.unselectCandidate}
                                 onSelectAll={this.onSelectAll}
                                 onUnSelectAll={this.onUnSelectAll}
                             />
-                            :
-                            history.push(`/project/detail/${this.props.match.params.id}`)
-                        }
+                        ) : (
+                            ""
+                        )}
                     </div>
                 </div>
-
                 <div className="row pull-right">
+                    {/* <div className="col">
+                        <button type="button" className="btn btn-danger pull-right" style={{ width: 110, fontWeight: 600 }} onClick={this.onDecline}>
+                            Decline
+                        </button>
+                    </div> */}
                     <div className="col">
-                        <button type="button" className="btn btn-danger pull-right" style={{ width: 110, fontWeight: 600 }} onClick={this.onDecline} >Decline</button>
-                    </div>
-                    <div className="col">
-                        <NavLink to={`/project/confirm-accept/${this.props.match.params.id}`}>
-                            <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }}>Next</button>
+                        <NavLink to={`/project/confirm-accept-candidate/${this.props.match.params.id}`}>
+                            <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }} >
+                                Next
+                            </button>
                         </NavLink>
                     </div>
                 </div>

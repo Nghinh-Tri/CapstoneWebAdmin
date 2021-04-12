@@ -11,6 +11,24 @@ export const callAPI = (endpoint, method = 'GET', body) => {
     });
 };
 
+
+export const showBadge = status => {
+    switch (status) {
+        case 0:
+            return "error"
+        case 1:
+            return "default"
+        case 2:
+            return "warning"
+        case 3:
+            return "processing"
+        case 4:
+            return "success"
+        default:
+            break;
+    }
+}
+
 export const showStatus = status => {
     switch (status) {
         case 0:
@@ -70,7 +88,7 @@ export const showPositionSpan = status => {
 export const showRole = role => {
     switch (role) {
         case 'admin':
-            return "Administrator"
+            return "Human Resources"
         case 'PM':
             return "Project Manager"
         case 'Employee':
@@ -125,6 +143,18 @@ export const convertPositionList = (list) => {
         result.push({
             label: element.name,
             value: element.posID,
+        })
+    });
+    return result;
+}
+
+export const convertProjectTypeList = (list) => {
+    var result = []
+    list.forEach(element => {
+        result.push({
+            label: element.name,
+            value: element.id,
+            isSelect: typeof element.isSelect === 'undefined' ? false : element.isSelect
         })
     });
     return result;

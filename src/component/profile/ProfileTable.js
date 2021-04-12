@@ -5,6 +5,7 @@ import { checkSession } from '../../service/action/AuthenticateAction';
 import { fetchProfileDetail } from '../../service/action/ProfileAction';
 import { history } from '../../service/helper/History';
 import { showRole } from '../../service/util/util';
+import { Button, Descriptions } from 'antd';
 
 class ProfileTable extends Component {
 
@@ -19,112 +20,44 @@ class ProfileTable extends Component {
 
     render() {
         var { profile } = this.props
-        // console.log(profile)
         return (
-            <div className="card">
-                <div className="card-header card-header-primary">
-                    <h4 className="card-title">Employee Detail</h4>
-                </div>
-                <div className="card-body">
-                    <div className="form-group">
+            <React.Fragment>
+                <div className="card">
 
-                        {/* Name */}
-                        <div className="row">
-                            <div className="col-auto">
-                                <label className="bmd-label">
-                                    <h4 className="font-weight-bold">Name : </h4>
-                                </label>
-                            </div>
-                            <div className="col" style={{ marginLeft: 100, marginTop: -15, width: 250 }}>
-                                <Input className="form-group" value={profile.name} disabled="true"
-                                    style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
-                            </div>
-                        </div>
+                    <div className="card-body">
+                        <div className="form-group">
+                            <Descriptions title="Profile Info" layout='horizontal' bordered extra={<Button onClick={this.onUpdate} type="primary" >Edit</Button>}>
 
-                        {/* Address */}
-                        <div className="row">
-                            <div className="col-auto">
-                                <label className="bmd-label">
-                                    <h4 className="font-weight-bold">Address : </h4>
-                                </label>
-                            </div>
-                            <div className="col" style={{ marginLeft: 80, marginTop: -15, width: 250 }}>
-                                <Input className="form-group" value={profile.address} disabled="true"
-                                    style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
-                            </div>
-                        </div>
+                                <Descriptions.Item span={3} label="Name">
+                                    <Input className="form-group" value={profile.name} disabled="true"
+                                        style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} /></Descriptions.Item>
 
-                        {/* Phone */}
-                        <div className="row">
-                            <div className="col-auto">
-                                <label className="bmd-label">
-                                    <h4 className="font-weight-bold">Phone : </h4>
-                                </label>
-                            </div>
-                            <div className="col" style={{ marginLeft: 95, marginTop: -15, width: 250 }}>
-                                <Input className="form-group" value={profile.phoneNumber} disabled="true"
-                                    style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
-                            </div>
-                        </div>
+                                <Descriptions.Item span={3} label="Address">
+                                    <Input className="form-group" value={profile.address} disabled="true"
+                                        style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
+                                </Descriptions.Item>
+                                <Descriptions.Item span={3} label="Identity Number">
+                                    <Input className="form-group" value={profile.identityNumber} disabled="true"
+                                        style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
+                                </Descriptions.Item>
 
-                        {/* Email */}
-                        <div className="row">
-                            <div className="col-auto">
-                                <label className="bmd-label">
-                                    <h4 className="font-weight-bold">Email : </h4>
-                                </label>
-                            </div>
-                            <div className="col" style={{ marginLeft: 100, marginTop: -15, width: 250 }}>
-                                <Input className="form-group" value={profile.email} disabled="true"
-                                    style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
-                            </div>
-                        </div>
+                                <Descriptions.Item span={3} label="Email">
+                                    <Input className="form-group" value={profile.email} disabled="true"
+                                        style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
+                                </Descriptions.Item>
 
-                        {/* Username */}
-                        <div className="row">
-                            <div className="col-auto">
-                                <label className="bmd-label">
-                                    <h4 className="font-weight-bold">Username : </h4>
-                                </label>
-                            </div>
-                            <div className="col" style={{ marginLeft: 62, marginTop: -15, width: 250 }}>
-                                <Input className="form-group" value={profile.userName} disabled="true"
-                                    style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
-                            </div>
-                        </div>
+                                <Descriptions.Item span={3} label="Phone">
+                                    <Input className="form-group" value={profile.phoneNumber} disabled="true"
+                                        style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
+                                </Descriptions.Item>
 
-                        {/* CMND */}
-                        <div className="row">
-                            <div className="col-auto">
-                                <label className="bmd-label">
-                                    <h4 className="font-weight-bold">Indentity Number : </h4>
-                                </label>
-                            </div>
-                            <div className="col" style={{ marginLeft: 5, marginTop: -15, width: 250 }}>
-                                <Input className="form-group" value={profile.identityNumber} disabled="true"
-                                    style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
-                            </div>
-                        </div>
-
-                        {/* Role */}
-                        <div className="row">
-                            <div className="col-auto">
-                                <label className="bmd-label">
-                                    <h4 className="font-weight-bold">Role : </h4>
-                                </label>
-                            </div>
-                            <div className="col" style={{ marginLeft: 109, marginTop: -15, width: 250 }}>
-                                <Input className="form-group" value={showRole(profile.roleName)} disabled="true"
-                                    style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} />
-                            </div>
-                        </div>
-                        {/* Update */}
-                        <div className="col">
-                            <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }} onClick={this.onUpdate}>Update</button>
+                                <Descriptions.Item span={3} label="Role">  <Input className="form-group" value={showRole(profile.roleName)} disabled="true"
+                                    style={{ color: "black", cursor: 'default', fontWeight: 400, fontSize: 18, border: 'none', backgroundColor: 'white' }} /></Descriptions.Item>
+                            </Descriptions>
                         </div>
                     </div>
                 </div>
-            </div>
+            </React.Fragment>
         );
     }
 }

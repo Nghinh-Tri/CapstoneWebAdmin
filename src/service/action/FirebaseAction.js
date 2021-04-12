@@ -1,43 +1,34 @@
 import axios from "axios"
-import { alertConstants, FIREBASE } from "../constant"
+import { FIREBASE } from "../constant"
 import { API_URL, getUserName } from "../util/util"
 import { fetchProject } from "./ProjectAction"
 
-export const sendNotificate = (pmID, projectName, type) => {
-    var url = `${API_URL}/Notification?topic=${pmID}`
+export const sendNotificate = (pmID, body) => {
+    var url = `${API_URL}/Notification?topic=pm${pmID}`
     var message = {
         title: `Human Resources ${getUserName()} send you a notification`,
-        body: `Project ${projectName} has been ${type === 'accept' ? 'accepted' : 'declined'}`
+        body: body
     }
     return (dispatch) => {
-        if (localStorage.getItem('token') !== null) {
-            axios.post(
-                url,
-                message,
-                { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
-            ).then(res => {
-                dispatch(sendNotificateSuccess())
-            })
-        }
-        else {
-            dispatch(recieveNotificateFail())
-        }
+        axios.post(
+            url,
+            message,
+            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
+        ).then(res => {
+            dispatch(sendNotificateSuccess())
+        })
     }
 }
 
 export const recieveNotificate = (token) => {
     var url = `${API_URL}/Notification/subscription?token=${token}&topic=news`
     return (dispatch) => {
-        if (localStorage.getItem('token') !== null) {
-            axios.post(
-                url,
-                { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
-            ).then(res => {
-                dispatch(fetchProject(1, ''))
-            })
-        } else {
-            dispatch(recieveNotificateFail())
-        }
+        axios.post(
+            url,
+            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
+        ).then(res => {
+            dispatch(fetchProject(1, ''))
+        })
     }
 }
 
@@ -47,8 +38,4 @@ export const recieveNotificateSuccess = () => {
 
 export const sendNotificateSuccess = () => {
     return { type: FIREBASE.RECIEVE_MESSAGE }
-}
-
-export const recieveNotificateFail = () => {
-    return { type: alertConstants.ERROR }
 }

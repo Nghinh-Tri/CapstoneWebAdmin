@@ -77,10 +77,10 @@ export const confirmSuggestList = (suggestList, projectID, projectName, pmID) =>
         ).then(res => {
             if (res.status === 200) {
                 dispatch(confirmSuggestListSuggest())
-                dispatch(sendNotificate(pmID, projectName, 'accept'))
+                dispatch(sendNotificate(pmID, `Employee for project '${projectName}' has been confirmed `))
                 suggestList.candidates.forEach(element => {
                     element.empIDs.forEach(e1 => {
-                        dispatch(sendNotificate(e1, projectName, 'accept'))
+                        dispatch(sendNotificate(e1, `You has been confirm to join project '${projectName}'`))
                     });
                 });
                 if (suggestList.isAccept) {

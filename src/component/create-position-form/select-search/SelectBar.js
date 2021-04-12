@@ -51,6 +51,61 @@ class SelectBar extends Component {
                 return this.showStatus()
             case 'role':
                 return this.showRole()
+            case 'multi':
+                return this.showMulti()
+        }
+    }
+
+    showMulti = () => {
+        var { value } = this.props
+        if (value.length === 0) {
+            return (
+                <Select
+                    style={{ minWidth: 250, maxWidth: 'auto' }}
+                    mode='multiple'
+                    showArrow
+                    showSearch
+                    placeholder={this.props.placeholder}
+                    onChange={this.onSelectMulti}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showCommonOption()}
+                </Select>)
+        }
+        else {
+            return (
+                <Select value={value}
+                    style={{ minWidth: 250, maxWidth: 'auto' }}
+                    mode='multiple'
+                    showArrow
+                    showSearch
+                    placeholder={this.props.placeholder}
+                    onChange={this.onSelectMulti}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showCommonOption()}
+                </Select>)
+        }
+    }
+
+    onSelectMulti = (value) => {
+        var { name } = this.props
+        switch (name) {
+            case 'softSkillID':
+                this.props.onUpdateSoftSkillID(value)
+                break;
+            case 'position':
+                this.props.onSelectPosition(this.props.hardSkillOptionIndex, value)
+                break
+            case 'projectField':
+                this.props.onSelectProjectField(value)
+                break
         }
     }
     //important
@@ -247,6 +302,9 @@ class SelectBar extends Component {
                 break
             case 'certificateID':
                 this.props.onUpdateCertficateID(value, this.props.certificateIndex, this.props.hardSkillIndex)
+                break
+            case 'projectType':
+                this.props.onSelectProjectType(this.props.hardSkillOptionIndex, value)
                 break
         }
     }

@@ -4,7 +4,7 @@ import * as Action from "../../service/action/ProfileAction";
 import EmpTableItem from "./EmpTableItem";
 import { checkSession } from '../../service/action/AuthenticateAction';
 import Search from '../../component/search/Search';
-import { Spin } from 'antd';
+import { Pagination, Spin } from 'antd';
 
 
 class EmpList extends Component {
@@ -80,89 +80,81 @@ class EmpList extends Component {
         this.props.fetchProfile(1, value)
     }
 
+    onSelectPage = (e) => {
+        this.props.fetchProfile(e, this.state.search)
+    }
+
     render() {
         var { profiles } = this.props
         return (
-            <div className="container-fluid">
+            <React.Fragment>
+                <ol class="breadcrumb mb-4 mt-3">
+                    <li class="breadcrumb-item active">Employee</li>
+                </ol>
+                <div className="container-fluid">
 
-                <button type="button" className="btn btn-primary"
-                    style={{ fontWeight: 700, borderRadius: 5, marginLeft: 10, }}
-                    onClick={() => this.onGenerateProfile(profiles.isCreateNew)} >
-                    <i className="material-icons mr-5">add_box</i>
-                        Create New User
-                </button>
-
-                <div className="row">
-                    <div className="card mb-80">
-                        <div className="card-body">
-                            <div className="form-group">
-                                {this.state.isLoading ? '' :
-                                    <div className="row">
-                                        <Search search="Employee"
-                                            placeholder="Search employee name ..."
-                                            searchEmp={this.searchEmp} />
-                                    </div>
-                                }
-                                <div className="row">
-                                    <div className="card-body">
-                                        <div className="table-responsive">
-                                            <table className="table">
-                                                <thead className=" text-primary">
-                                                    <tr>
-                                                        <th className="font-weight-bold text-center">No</th>
-                                                        <th className="font-weight-bold ">Name</th>
-                                                        <th className="font-weight-bold ">Phone</th>
-                                                        <th className="font-weight-bold ">Email</th>
-                                                        <th className="font-weight-bold ">User Name</th>
-                                                        <th className="font-weight-bold ">Role</th>
-                                                        <th className="font-weight-bold "></th>
-                                                    </tr>
-                                                </thead>
-                                                {this.state.isLoading ?
-                                                    ''
-                                                    :
-                                                    <tbody>
-                                                        {this.onShowListProfile(profiles.items)}
-                                                    </tbody>
-                                                }
-                                            </table>
-                                        </div>
-                                        {this.state.isLoading ?
-                                            <div className='row justify-content-center'>
-                                                <Spin className='text-center' size="large" />
-                                            </div>
-                                            : ''}
-                                        {this.state.isLoading ? ''
-                                            :
-                                            <div className="row align-items-center">
-                                                <div className="col">
-                                                    <button type="button"
-                                                        style={{ fontWeight: 700, width: 120 }}
-                                                        className="btn btn-primary pull-right" onClick={this.onPrevios}>
-                                                        Previous
-                                                </button>
-                                                </div>
-                                                <div className="col-auto">
-                                                    <div className="text-center" style={{ fontSize: 20, fontWeight: 700, color: '#9c27b0' }}>
-                                                        {profiles.pageIndex} - {profiles.pageCount}
-                                                    </div>
-                                                </div>
-                                                <div className="col">
-                                                    <button type="button"
-                                                        style={{ fontWeight: 700, width: 120 }}
-                                                        className="btn btn-primary" onClick={this.onNext}>
-                                                        Next
-                                                </button>
-                                                </div>
-                                            </div>
-                                        }
-                                    </div>
-                                </div>
+                    <button type="button" className="btn btn-primary"
+                        style={{ fontWeight: 700, borderRadius: 5, marginLeft: 10, marginBottom: 15 }}
+                        onClick={() => this.onGenerateProfile(profiles.isCreateNew)} >
+                        <div className='row' style={{ paddingLeft: 7, paddingRight: 7 }}>
+                            <i className="material-icons">add_box</i>Create New Employee
                             </div>
-                        </div>
-                    </div >
+                    </button>
+
+
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="fas fa-table mr-1"></i>
+                    List Emp
                 </div>
-            </div>
+
+                        <div className="card-body">
+
+                            {this.state.isLoading ? '' :
+                                <div className="row mb-3">
+                                    <Search search="Employee"
+                                        placeholder="Search employee name ..."
+                                        searchEmp={this.searchEmp} />
+                                </div>
+                            }
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead className=" text-primary">
+                                        <tr>
+                                            <th width={40} className="font-weight-bold text-center">No</th>
+                                            <th width={200} className="font-weight-bold ">Name</th>
+                                            <th width={120} className="font-weight-bold ">Phone</th>
+                                            <th width={250} className="font-weight-bold ">Email</th>
+                                            <th width={200} className="font-weight-bold ">User Name</th>
+                                            <th width={200} className="font-weight-bold ">Role</th>
+                                            <th className="font-weight-bold "></th>
+
+                                        </tr>
+                                    </thead>
+                                    {this.state.isLoading ?
+                                        ''
+                                        :
+                                        <tbody>
+                                            {this.onShowListProfile(profiles.items)}
+                                        </tbody>
+                                    }
+                                </table>
+                            </div>
+                            {this.state.isLoading ?
+                                <div className='row justify-content-center'>
+                                    <Spin className='text-center' size="large" />
+                                </div>
+                                : ''}
+                            {this.state.isLoading ? ''
+                                :
+                                <div className='row justify-content-center' style={{ marginBottom: 20 }} >
+                                    <Pagination current={profiles.pageIndex} total={profiles.totalRecords} onChange={this.onSelectPage} />
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </React.Fragment >
         );
     }
 }

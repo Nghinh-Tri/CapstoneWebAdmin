@@ -4,7 +4,9 @@ import * as Action from "../../service/action/ProjectAction";
 import ProjectTableItem from "../../component/project-table-item/ProjectTableItem";
 import { checkSession } from '../../service/action/AuthenticateAction';
 import Search from '../../component/search/Search';
-import { Spin } from 'antd';
+import { Pagination, Spin } from 'antd';
+
+
 
 class Project extends Component {
 
@@ -47,94 +49,76 @@ class Project extends Component {
         return result
     }
 
-    onNext = () => {
-        var { projects } = this.props
-        if (projects.pageIndex < projects.pageCount)
-            this.props.fetchProject(projects.pageIndex + 1, this.state.search)
-    }
-
-    onPrevios = () => {
-        var { projects } = this.props
-        if (projects.pageIndex > 1)
-            this.props.fetchProject(projects.pageIndex - 1, this.state.search)
-    }
-
     searchProject = (value) => {
         this.setState({ search: value })
         this.props.fetchProject(1, value)
     }
 
+    onSelectPage = (e) => {
+        this.props.fetchProject(e, this.state.search)
+    }
+
     render() {
         var { projects } = this.props
         return (
-            <div className="container-fluid">
-                <div className="row">
-                    <div className="card mb-80">
-                        <div className="card-body">
-                            <div className="form-group">
-                                {this.state.isLoading ? '' :
-                                    <div className="row">
-                                        <Search search="project"
-                                            placeholder="Search project name ..."
-                                            searchProject={this.searchProject} />
-                                    </div>
-                                }
-                                <div className="row">
-                                    <div className="card-body">
-                                        <div className="table-responsive">
-                                            <table className="table">
-                                                <thead className="text-primary">
-                                                    <tr>
-                                                        <th className="font-weight-bold text-center">No</th>
-                                                        <th className="font-weight-bold">Project Name</th>
-                                                        <th className="font-weight-bold">Project Manager Name</th>
-                                                        <th className="font-weight-bold text-center">Created Date</th>
-                                                        <th className="font-weight-bold text-center">Status</th>
-                                                        <th className="font-weight-bold text-center"></th>
-                                                    </tr>
-                                                </thead>
-                                                {this.state.isLoading ? '' :
-                                                    <tbody>
-                                                        {this.onShowListProject(projects.items)}
-                                                    </tbody>}
+            <React.Fragment>
+                <ol class="breadcrumb mb-4 mt-3">
+                    <li class="breadcrumb-item active">Projects</li>
+                </ol>
+                <div className="container-fluid">
 
-                                            </table>
-                                        </div>
-                                        {this.state.isLoading ?
-                                            <div className='row justify-content-center'>
-                                                <Spin className='text-center' size="large" />
-                                            </div>
-                                            : ''}
-                                        {this.state.isLoading ? '' :
-                                            <div className="row align-items-center">
-                                                <div className="col">
-                                                    <button type="button"
-                                                        style={{ fontWeight: 700, width: 120 }}
-                                                        className="btn btn-primary pull-right" onClick={this.onPrevios}>
-                                                        Previous
-                                                </button>
-                                                </div>
-                                                <div className="col-auto">
-                                                    <div className="text-center" style={{ fontSize: 20, fontWeight: 700, color: '#9c27b0' }}>
-                                                        {projects.pageIndex} - {projects.pageCount}
-                                                    </div>
-                                                </div>
-                                                <div className="col">
-                                                    <button type="button"
-                                                        style={{ fontWeight: 700, width: 120 }}
-                                                        className="btn btn-primary" onClick={this.onNext}>
-                                                        Next
-                                                </button>
-                                                </div>
-                                            </div>
-                                        }
-                                    </div>
+
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="fas fa-table mr-1"></i>
+                    Projects
+                </div>
+                        <div class="card-body">
+                            {this.state.isLoading ? '' :
+                                <div className="row mb-3">
+                                    <Search search="project"
+                                        placeholder="Search project name ..."
+                                        searchProject={this.searchProject} />
                                 </div>
+                            }
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+
+                                        <tr>
+                                            <th width={40} className="font-weight-bold">No</th>
+                                            <th width={200} className="font-weight-bold">Project Name</th>
+                                            <th className="font-weight-bold">PM Name</th>
+                                            <th className="font-weight-bold " class="text-center">Started Date</th>
+                                            <th className="font-weight-bold text-center" style={{ width: 80 }}>Status</th>
+                                            <th className="font-weight-bold"></th>
+                                        </tr>
+
+
+                                    </thead>
+                                    {this.state.isLoading ? '' :
+                                        <tbody>
+                                            {this.onShowListProject(projects.items)}
+                                        </tbody>
+                                    }
+                                </table>
                             </div>
                         </div>
-                    </div >
+                        {this.state.isLoading ?
+                            <div className='row justify-content-center'>
+                                <Spin className='text-center' size="large" />
+                            </div>
+                            : ''}
+                        {this.state.isLoading ? '' :
+                            <div className='row justify-content-center' style={{ marginBottom: 20 }} >
+                                <Pagination defaultCurrent={projects.pageIndex} total={projects.totalRecords} onChange={this.onSelectPage} />
+                            </div>
+                        }
+                    </div>
                 </div>
-            </div>
+
+
+            </React.Fragment >
         );
     }
 }

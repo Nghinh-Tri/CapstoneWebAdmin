@@ -37,16 +37,13 @@ export const fetchSkillDetail = (skillID) => {
                 dispatch(fetchSkillDetailSuccess(res.data.resultObj))
             }
         }).catch(err => {
-            // if (err.response.status === 401) {
-            //     history.push('/login')
-            // }
         })
     }
 }
 
 export const updateSkill = (skill) => {
     var url = `${API_URL}/Skill/${skill.skillID}`
-    var item = { skillName: skill.skillName, skillType: skill.skillType }
+    var item = { skillName: skill.skillName, skillType: skill.skillType, hardSkillOption: skill.hardSkillOption, softSkillOption: skill.softSkillOption }
     return (dispatch) => {
         axios.put(
             url,
@@ -57,9 +54,6 @@ export const updateSkill = (skill) => {
                 dispatch(updateSkillSuccess())
             }
         }).catch(err => {
-            // if (err.response.status === 401) {
-            //     history.push('/login')
-            // }
         })
     }
 }
@@ -76,9 +70,6 @@ export const changeStatus = (skillID, pageIndex, search) => {
                 dispatch(fetchSkill(pageIndex, search))
             }
         }).catch(err => {
-            // if (err.response.status === 401) {
-            //     history.push('/login')
-            // }
         })
     }
 }
@@ -97,13 +88,12 @@ export const fetchSkillDetailSuccess = (skill) => {
     }
 }
 
-
 export const fetchSkillFail = () => {
     return { type: SKILL.FETCH_ALL_SKILL_FAIL }
 }
 
 export const generateSkill = () => {
-    var skill = { skillName: "", skillType: -1 }
+    var skill = { skillName: "", skillType: -1, hardSkillOption: [{ projectType: 0, position: [] }], softSkillOption: [] }
     return { type: SKILL.GENERATE_SKILL, skill }
 }
 
@@ -112,6 +102,27 @@ export const updateSkillName = (skill) => {
 }
 export const updateSkillType = (skillType) => {
     return { type: SKILL.UPDATE_SKILL_TYPE, skillType }
+}
+
+export const addHardSkillOption = () => {
+    var option = { projectType: 0, position: [] }
+    return { type: SKILL.ADD_HARD_SKILL_OPTION, option }
+}
+
+export const deleteHardSkillOption = (index) => {
+    return { type: SKILL.DELETE_HARD_SKILL_OPTION, index }
+}
+
+export const selectProjectType = (index, projectType) => {
+    return { type: SKILL.SELECT_PROJECT_TYPE, index, projectType }
+}
+
+export const selectPosition = (index, position) => {
+    return { type: SKILL.SELECT_POSITION, index, position }
+}
+
+export const selectProjectField = (projectField) => {
+    return { type: SKILL.SELECT_PROJECT_FIELD, projectField }
 }
 
 export const createSkill = (skill) => {

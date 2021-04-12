@@ -1,5 +1,7 @@
 import moment from 'moment';
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
+
 
 class ListEmployeeContent extends Component {
 
@@ -7,8 +9,12 @@ class ListEmployeeContent extends Component {
         var result = null
         result = employees.map((employee, index) => {
             return (<tr key={index}>
-                <th className="">{employee.name}</th>
+                <th >
+                    <NavLink className="text-primary" to={`/employee/profile/${employee.empID}`}>{employee.name}</NavLink>
+                </th>
                 <th className="">{posName}</th>
+                <th className="">{employee.phoneNumber}</th>
+                <th className="">{employee.email}</th>
                 <th className="text-center">
                     {employee.dateIn === null ? "-" : moment(employee.dateIn).format('DD-MM-YYYY')}
                 </th>
@@ -20,9 +26,9 @@ class ListEmployeeContent extends Component {
     render() {
         var { item } = this.props
         return (
-            <tbody>
+            <React.Fragment>
                 {this.showCandidate(item.employees, item.posName)}
-            </tbody>
+            </React.Fragment>
         );
     }
 }

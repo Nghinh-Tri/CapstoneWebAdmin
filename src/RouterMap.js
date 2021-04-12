@@ -13,120 +13,114 @@ import Certification from "./screen/certification/Certification"
 import CreateCertification from "./screen/certification/CreateCertification"
 import EmpList from "./screen/Employees/EmpList"
 import PositionAssign from "./screen/create-user/PositionAssign"
-import ConfirmProjectDetail from "./screen/confirm/ConfirmProjectDetail"
 
 
 const route = [
     {
         path: "/",
         exact: true,
-        main: () => <Dashboard />
+        main: () => <Dashboard />,
     },
     {
         path: "/project",
         exact: true,
-        main: () => <Project />
+        main: () => <Project />,
     },
     {
-        path: '/project/detail/:id',
+        path: "/project/detail/:id",
         exact: true,
-        main: ({ match }) => <ProjectDetail match={match} />
+        main: ({ match }) => <ProjectDetail match={match} />,
     },
     {
-        path: "/project/candidateList/:id",
+        path: "/project/confirm-candidate/:id",
         exact: true,
-        main: ({ match }) => <ListCandidate match={match} />
-    },
+        main: ({ match }) => <ListCandidate match={match} />,
+    },   
     {
-        path: "/project/confirm/:id",
-        exact: true,
-        main: ({ match }) => <ConfirmProjectDetail match={match} />
-    },
-    {
-        path: "/project/confirm-accept/:id",
+        path: "/project/confirm-accept-candidate/:id",
         exact: true,
         main: ({ match }) => <ConfirmPage match={match} />
     },
     {
         path: "/employee",
         exact: true,
-        main: () => <EmpList />
+        main: () => <EmpList />,
     },
     {
         path: "/employee/profile/:id",
         exact: true,
-        main: ({ match }) => <Profile match={match} />
+        main: ({ match }) => <Profile match={match} />,
     },
     {
         path: "/employee/update-profile/:id",
         exact: true,
-        main: ({ match }) => <Register match={match} />
+        main: ({ match }) => <Register match={match} />,
     },
     {
         path: "/employee/update-position/:id",
         exact: true,
-        main: () => <PositionAssign />
+        main: () => <PositionAssign />,
     },
     {
         path: "/employee/register",
         exact: true,
-        main: () => <Register />
+        main: () => <Register />,
     },
     {
         path: "/employee/position-assign",
         exact: true,
-        main: () => <PositionAssign />
+        main: () => <PositionAssign />,
     },
     {
         path: "/position",
         exact: true,
-        main: () => <Position />
+        main: () => <Position />,
     },
     {
         path: "/position/create",
         exact: true,
-        main: () => <CreatePosition />
+        main: () => <CreatePosition />,
     },
     {
         path: "/position/update/:id",
         exact: true,
-        main: ({ match }) => <CreatePosition match={match} />
+        main: ({ match }) => <CreatePosition match={match} />,
     },
     {
         path: "/skill",
         exact: true,
-        main: () => <Skill />
+        main: () => <Skill />,
     },
     {
         path: "/skill/create",
         exact: true,
-        main: () => <CreateSkills />
+        main: () => <CreateSkills />,
     },
     {
         path: "/skill/update/:id",
         exact: true,
-        main: ({ match }) => <CreateSkills match={match} />
+        main: ({ match }) => <CreateSkills match={match} />,
     },
     {
         path: "/certification",
         exact: true,
-        main: () => <Certification />
+        main: () => <Certification />,
     },
     {
         path: "/certification/create",
         exact: true,
-        main: () => <CreateCertification />
+        main: () => <CreateCertification />,
     },
     {
         path: "/certification/update/:id",
         exact: true,
-        main: ({ match }) => <CreateCertification match={match} />
+        main: ({ match }) => <CreateCertification match={match} />,
     },
     {
         path: "/profile",
         exact: true,
-        main: () => <Profile empID={JSON.parse(localStorage.getItem('EMP'))} />
+        main: () => <Profile empID={JSON.parse(localStorage.getItem("EMP"))} />,
     },
-]
+];
 
 export default route

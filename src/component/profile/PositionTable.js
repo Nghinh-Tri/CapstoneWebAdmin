@@ -1,205 +1,121 @@
-import moment from 'moment';
+import { Button, Descriptions } from "antd";
+import moment from "moment";
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { checkSession } from '../../service/action/AuthenticateAction';
-import { fetchPositionProfileDetail } from '../../service/action/ProfileAction';
-import { history } from '../../service/helper/History';
-import { showHardSkillLevel, showPositionLevel } from '../../service/util/util';
+import { showHardSkillLevel } from "../../service/util/util";
+import { checkSession } from "../../service/action/AuthenticateAction";
+import { fetchPositionProfileDetail } from "../../service/action/ProfileAction";
+import { connect } from "react-redux";
+import { history } from "../../service/helper/History";
 
-class PositionTable extends Component {
+class SkillProfile extends Component {
 
     componentDidMount = () => {
-        this.props.checkSession()
-        this.props.fetchPositionProfileDetai(this.props.empID)
-    }
+        this.props.checkSession();
+        this.props.fetchPositionProfileDetai(this.props.empID);
+    };
 
-    showLanguage = (language) => {
-        var result = null
-        result = language.map((item, index) => {
-            return (
-                <ul key={index}>
-                    <li style={{ fontSize: 18, marginLeft: 30, marginBottom: 20 }}>
-                        <div className='row'>
-                            <div className='col' style={{ fontWeight: 600 }}>{item.langName}</div>
-                            <div className='col-auto' style={{ marginLeft: 100, fontWeight: 600, }}>Level : </div>
-                            <div className='col' style={{ fontWeight: 400, marginLeft: -20 }}>{item.langLevel}</div>
-                        </div>
-                    </li>
-                </ul>
-            )
-        })
-        return result
-    }
+    onShowHardSkill = (hardSkills) => {
+        var result = null;
+        if (typeof hardSkills !== "undefined") {
+            result = (hardSkills || []).map((skill, index) => {
+                return (
+                    <>
+                        <Descriptions.Item span={3} label={skill.skillName}>
+                            {showHardSkillLevel(skill.skillLevel)}
+                        </Descriptions.Item>
+                        {skill.certifications?.map((certification, innerIndex) => {
+                            return (
+                                <>
+                                    <Descriptions.Item label={certification.certiName} />
+                                    <Descriptions.Item label="Taken Date">
+                                        {certification?.dateTaken
+                                            ? moment(certification.dateTaken).format("DD-MM-YYYY")
+                                            : ""}
+                                    </Descriptions.Item>
+                                    <Descriptions.Item label="Expire Date">
+                                        {certification?.dateEnd
+                                            ? moment(certification.dateEnd).format("DD-MM-YYYY")
+                                            : ""}
+                                    </Descriptions.Item>
+                                </>
+                            );
+                        })}
+                    </>
+                );
+            });
+        }
+        return result;
+    };
 
-    showSoftSkill = (softSkill) => {
-        var result = null
-        result = softSkill.map((item, index) => {
-            return (
-                <ul key={index}>
-                    <li style={{ fontSize: 18, marginLeft: 30, marginBottom: 20 }}>
-                        <div className='row'>
-                            <div className='col' style={{ fontWeight: 600 }}>{item.skillName}</div>
-                        </div>
-                    </li>
-                </ul>
-            )
-        })
-        return result
-    }
+    onShowSoftSkill = (softSkills) => {
+        var result = null;
+        if (typeof softSkills !== "undefined") {
+            result = (softSkills || []).map((skill, index) => {
+                return (
+                    <>
+                        <Descriptions.Item span={3}>{skill.skillName}</Descriptions.Item>
+                    </>
+                );
+            });
+        }
+        return result;
+    };
 
-    showHardSkill = (hardSkill) => {
-        var result = null
-        result = hardSkill.map((item, index) => {
-            return (
-                <ul key={index}>
-                    <li style={{ fontSize: 18, marginLeft: 30, marginBottom: 20 }}>
-                        <div className='row' >
-                            <div className='col' style={{ fontWeight: 600 }}>{item.skillName}</div>
-                            <div className='col-auto' style={{ marginLeft: 100, fontWeight: 600 }}>Level : </div>
-                            <div className='col' style={{ fontWeight: 400, marginLeft: -20 }}>{showHardSkillLevel(item.skillLevel)}</div>
-                        </div>
-                        {/* List Certi */}
-                        {item.certifications.length > 0 ?
-                            <div className='row' >
-                                <div className='col' style={{ fontSize: 16, marginBottom: 20, marginTop: 20 }}>
-                                    {this.showCertificate(item.certifications)}
-                                </div>
-                            </div> : ''
-                        }
+    onShowLanguage = (languages) => {
+        var result = null;
+        if (typeof languages !== "undefined") {
+            result = (languages || []).map((language, index) => {
+                return (
+                    <>
+                        <Descriptions.Item span={3} label={language.langName}>
+                            Level {language.langLevel}
+                        </Descriptions.Item>
+                    </>
+                );
+            });
+        }
+        return result;
+    };
 
-                    </li>
-                </ul>
-            )
-        })
-        return result
-    }
-
-    showCertificate = (certificate) => {
-        var result = null
-        result = certificate.map((item, index) => {
-            return (
-                <ul key={index} style={{ marginTop: 5 }} >
-                    <li >
-                        <div className='row'>
-                            <div className='col-3' style={{ fontWeight: 400 }} >{item.certiName}</div>
-                            <div className='col-auto' style={{ marginLeft: 30, fontWeight: 400 }}>Level : </div>
-                            <div className='col-auto' style={{ marginLeft: -20, fontWeight: 350 }}>{item.certiLevel}</div>
-                            <div className='col-auto' style={{ marginLeft: 30, fontWeight: 400 }}>Taken Date : </div>
-                            <div className='col-auto' style={{ marginLeft: -20, fontWeight: 350 }}>{moment(item.dateTaken).format('DD-MM-YYYY')}</div>
-                            <div className='col-auto' style={{ marginLeft: 30, fontWeight: 400 }}>Expired Date : </div>
-                            <div className='col' style={{ fontWeight: 350 }}>{moment(item.dateEnd).format('DD-MM-YYYY')}</div>
-                        </div>
-                    </li>
-                </ul>
-            )
-        })
-        return result
-    }
-
-    onUpdate = () => {
+    onEdit = () => {
         history.push(`/employee/update-position/${this.props.empID}`, { role: this.props.role })
     }
 
     render() {
-        var { positionDetail } = this.props
-        console.log('aa', positionDetail)
+        var { positionDetail } = this.props;
         return (
-            <div className="card">
-                <div className="card-header card-header-primary">
-                    <h4 className="card-title">Position Detail</h4>
-                </div>
-                <div className="card-body">
-                    {positionDetail.languages !== null && typeof positionDetail.languages !== 'undefined' ?
-                        <div>
-                            {/* Name */}
-                            {this.props.role === 'Employee' ?
-                                <div className="row">
-                                    <div className="col-auto">
-                                        <label className="bmd-label">
-                                            <h4 style={{ fontWeight: 700 }}>Position : </h4>
-                                        </label>
-                                    </div>
-                                    <div className="col" style={{ marginLeft: -20 }}>
-                                        <label className="bmd-label">
-                                            <h4>{positionDetail.posName}</h4>
-                                        </label>
-                                    </div>
-                                    <div className='col-auto' style={{ marginLeft: 85, fontWeight: 600 }}>
+            <React.Fragment>
+                <Descriptions title="Hard Skill Info" layout="horizontal" bordered extra={<Button type="primary" onClick={this.onEdit}>Edit</Button>}                >
+                    {this.onShowHardSkill((positionDetail || {}).hardSkills)}
+                </Descriptions>
 
-                                        <h4>Level :</h4>
-                                    </div>
-                                    <div className="col" style={{ marginLeft: -20 }} >
-                                        <label className="bmd-label">
-                                            <h4 style={{ fontWeight: 500 }}>{showPositionLevel(positionDetail.posLevel)}</h4>
-                                        </label>
-                                    </div>
-                                </div>
-                                : ''}
+                <Descriptions title="Language Info" layout="horizontal" bordered >
+                    {this.onShowLanguage((positionDetail || {}).languages)}
+                </Descriptions>
 
-
-                            {/* Language */}
-                            <div className="row">
-                                <div className="col-auto">
-                                    <label className="bmd-label">
-                                        <h4 style={{ fontWeight: 700 }}>Languages : </h4>
-                                    </label>
-                                </div>
-                            </div>
-                            {/* List Language */}
-                            {this.showLanguage(positionDetail.languages)}
-
-                            {/* Soft Skill */}
-                            <div className="row">
-                                <div className="col-auto">
-                                    <label className="bmd-label">
-                                        <h4 style={{ fontWeight: 700 }}>Soft Skills : </h4>
-                                    </label>
-                                </div>
-                            </div>
-                            {/* List Sost skills */}
-                            {this.showSoftSkill(positionDetail.softSkills)}
-
-                            {/* Hard Skill */}
-                            <div className="row">
-                                <div className="col-auto">
-                                    <label className="bmd-label">
-                                        <h4 className="" style={{ fontWeight: 700 }}>Hard Skills : </h4>
-                                    </label>
-                                </div>
-                            </div>
-                            {/* List Hard Skills */}
-                            {this.showHardSkill(positionDetail.hardSkills)}
-
-                        </div>
-                        :
-                        <h4 className='text-center'>No Data</h4>
-                    }
-
-                    {/* Update */}
-                    <div className="col">
-                        <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }} onClick={this.onUpdate}>Update</button>
-                    </div>
-                </div>
-            </div>
+                <Descriptions title="Soft Skill Info" layout="horizontal" bordered >
+                    {this.onShowSoftSkill((positionDetail || {}).softSkills)}
+                </Descriptions>
+            </React.Fragment>
         );
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        positionDetail: state.PositionReducer
-    }
-}
+        positionDetail: state.PositionReducer,
+    };
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchPositionProfileDetai: (empID) => {
-            dispatch(fetchPositionProfileDetail(empID))
+            dispatch(fetchPositionProfileDetail(empID));
         },
         checkSession: () => {
-            dispatch(checkSession())
-        }
-    }
-}
+            dispatch(checkSession());
+        },
+    };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(PositionTable);
+export default connect(mapStateToProps, mapDispatchToProps)(SkillProfile);
