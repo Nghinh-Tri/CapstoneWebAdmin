@@ -39,6 +39,8 @@ class CreateSkills extends Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.skill !== this.props.skill) {
+            if (this.props.skill.skillType !== -1)
+                this.setState({ skillType: this.props.skill.skillType })
         }
     }
 
@@ -85,7 +87,7 @@ class CreateSkills extends Component {
         var result = null
         if (typeof skill !== 'undefined' || skill !== null)
             result = skill
-        console.log(result)
+        console.log(this.state.skillType === -1 || result.skillType === -1)
 
         return (
             <div className="card">
@@ -152,7 +154,7 @@ class CreateSkills extends Component {
 const mapStateToProps = (state) => {
     return {
         skill: state.SkillReducer,
-        projectField: state.ProjectFieldTypeReducer
+        projectField: state.ProjectFieldReducer
     }
 }
 

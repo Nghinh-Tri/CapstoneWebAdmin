@@ -43,7 +43,7 @@ export const fetchSkillDetail = (skillID) => {
 
 export const updateSkill = (skill) => {
     var url = `${API_URL}/Skill/${skill.skillID}`
-    var item = { skillName: skill.skillName, skillType: skill.skillType }
+    var item = { skillName: skill.skillName, skillType: skill.skillType, hardSkillOption: skill.hardSkillOption, softSkillOption: skill.softSkillOption }
     return (dispatch) => {
         axios.put(
             url,

@@ -97,7 +97,7 @@ class HardSkillOption extends Component {
 const mapStateToProps = (state) => {
     return {
         positionList: state.PositionSelectBarReducer,
-        projectType: state.ProjectFieldTypeReducer
+        projectType: state.ProjectTypeReducer
     }
 }
 

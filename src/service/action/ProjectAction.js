@@ -49,6 +49,7 @@ export const fetchProjectType = () => {
             url,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
         ).then(res => {
+            console.log(res.data.resultObj)
             dispatch(fetchPostionTypeSuccess(res.data.resultObj))
         }).catch(err => {
             if (err.response.status === 401) {
@@ -65,7 +66,7 @@ export const fetchProjectField = () => {
             url,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
         ).then(res => {
-            dispatch(fetchPostionTypeSuccess(res.data.resultObj))
+            dispatch(fetchProjectFieldSuccess(res.data.resultObj))
         }).catch(err => {
             if (err.response.status === 401) {
                 history.push('/login')
