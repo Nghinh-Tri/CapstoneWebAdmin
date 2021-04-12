@@ -13,13 +13,15 @@ class CertificateForm extends Component {
                 dateTaken: "",
                 dateEnd: ""
             },
-            isMinimize: false
+            isMinimize: false,
+            hardSkillID: 0,
+            hardSkillIndex: 0
         }
     }
 
-    componentDidMount = () => {
-        this.props.fetchCertificateList(this.props.hardSkillID)
-    }
+    // componentDidMount = () => {
+    //     this.props.fetchCertificateList(this.props.hardSkillID)
+    // }
 
     static getDerivedStateFromProps(nextProps, prevState) {
         if (nextProps.hardSkillID !== prevState.hardSkillID) {
@@ -30,7 +32,11 @@ class CertificateForm extends Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.hardSkillID !== this.props.hardSkillID) {
-            this.props.fetchCertificateList(this.props.hardSkillID)
+            console.log(this.props.hardSkillID,this.props.hardSkillIndex,this.props.certificateList)
+            if (this.state.hardSkillID !== this.props.hardSkillID) {
+                this.props.fetchCertificateList(this.props.hardSkillID)
+                this.setState({ hardSkillID: this.props.hardSkillID })
+            }
         }
     }
 
@@ -90,11 +96,11 @@ class CertificateForm extends Component {
                 return (
                     <>
                         {this.showItems(certificate, hardSkillIndex)}
-                        {this.props.certificateList.length === this.props.certificate.length ?
-                            '' :
+                        {/* {this.props.certificateList.length === this.props.certificate.length ?
+                            '' : */}
                             <span className="material-icons add" style={{ marginTop: 10 }}
                                 onClick={() => this.onAddCertificate(hardSkillIndex)}>add_box</span>
-                        }
+                        {/* } */}
                     </>
                 )
         }

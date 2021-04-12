@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { checkSession } from '../../service/action/AuthenticateAction';
 import { fetchPositionRequire } from '../../service/action/ProjectAction';
 import PositionRequireDetail from './PositionRequireDetail';
+import moment from 'moment';
+import { showRequestStatus } from '../../service/util/util';
 
 class PositionRequire extends Component {
 
@@ -31,9 +33,12 @@ class PositionRequire extends Component {
                     <td className='text-center'>{index + 1} </td>
                     <td>{value.posName}</td>
                     <td className='text-center'>{value.candidateNeeded}</td>
+                    <td className='text-center'>{value.missingEmployee}</td>
                     <td className='text-center'>{value.hardSkills.length}</td>
                     <td className='text-center'>{value.language.length}</td>
                     <td className='text-center'>{value.softSkillIDs.length}</td>
+                    <td className='text-center'>{moment(value.dateCreated).format('DD-MM-YYYY')}</td>
+                    <td className='text-center'>{showRequestStatus(value.status)}</td>
                     <td className='text-center'>
                         <a style={{ color: 'blue' }} onClick={this.onShowRequireDetail} >Detail</a>
                         <Modal width={1050} title={value.posName} visible={this.state.visible} onOk={this.handleOk} onCancel={this.handleCancel}>
@@ -73,10 +78,13 @@ class PositionRequire extends Component {
                                     <tr>
                                         <th width={50} className='text-center'>No</th>
                                         <th>Position</th>
-                                        <th width={145}>Candidates Needs</th>
+                                        <th width={180}>Candidates Needs</th>
+                                        <th width={145}>Employee Miss</th>
                                         <th width={190} className='text-center'>Hard Skill Requirements</th>
                                         <th width={190} className='text-center'>Language Requirements</th>
                                         <th width={190} className='text-center'>Soft Skill Requirements</th>
+                                        <th width={120} className='text-center'>Date Create</th>
+                                        <th width={100} className='text-center'>Status</th>
                                         <th width={100}></th>
                                     </tr>
                                 </thead>

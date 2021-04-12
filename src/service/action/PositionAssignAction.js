@@ -70,41 +70,7 @@ export const updateCertificateDate = (name, value, certificateIndex, hardSkillIn
 
 export const assignPosition = (empID, positionAssign, role) => {
     var url = `${API_URL}/User/${empID}`
-    return (dispatch) => {
-        if (positionAssign.posID === 0) {
-            if (role === 'Employee') {
-                dispatch(assignPositionFail())
-                store.addNotification({
-                    message: 'Please select position',
-                    type: "danger",
-                    insert: "top",
-                    container: "top-center",
-                    animationIn: ["animated", "fadeIn"],
-                    animationOut: ["animated", "fadeOut"],
-                    dismiss: {
-                        duration: 2000,
-                        onScreen: false
-                    }
-                })
-            }
-        }
-        if (positionAssign.posLevel === 0) {
-            if (role === 'Employee') {
-                dispatch(assignPositionFail())
-                store.addNotification({
-                    message: 'Please select position level',
-                    type: "danger",
-                    insert: "top",
-                    container: "top-center",
-                    animationIn: ["animated", "fadeIn"],
-                    animationOut: ["animated", "fadeOut"],
-                    dismiss: {
-                        duration: 2000,
-                        onScreen: false
-                    }
-                })
-            }
-        }
+    return (dispatch) => {       
         if (positionAssign.languages.length === 0) {
             store.addNotification({
                 message: 'Please select language',
