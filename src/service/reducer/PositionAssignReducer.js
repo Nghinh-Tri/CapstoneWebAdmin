@@ -69,6 +69,7 @@ const PositionAssignReducer = (state = initState, action) => {
         case POSITION_ASSIGN.UPDATE_HARD_SKILL_ID:
             clone = { ...state.hardSkills[action.hardSkillIndex] }
             clone.skillID = action.value
+            clone.certiList = action.certiList
             state.hardSkills.splice(action.hardSkillIndex, 1, clone)
             return state
 

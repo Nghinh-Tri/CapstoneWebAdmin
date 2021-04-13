@@ -119,30 +119,6 @@ export const fetchProjectDetailSuccess = (resultObj) => {
     }
 }
 
-export const updateProject = (project, id) => {
-    var url = `${API_URL}/Project/${id}`
-    return (dispatch) => {
-        return axios.put(
-            url,
-            project,
-            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }).then(res => {
-                dispatch(updateProjectSuccess(res.data.resultObj))
-            })
-    }
-}
-
-export const changeStatusToFinish = projectID => {
-    var url = `${API_URL}/Project/changeStatus/${projectID}`
-    return dispatch => {
-        return axios.put(
-            url,
-            null,
-            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }).then(res => {
-                dispatch(fetchProjectDetail(projectID))
-            })
-    }
-}
-
 export const updateProjectSuccess = (resultObj) => {
     return {
         type: Type.UPDATE_PROJECT,
@@ -150,7 +126,7 @@ export const updateProjectSuccess = (resultObj) => {
     }
 }
 
-export const declineProject = (projectID, pmID) => {
+export const declineProject = (projectID, projectName, pmID) => {
     var url = `${API_URL}/Project/${projectID}`
     return (dispatch) => {
         return axios.delete(
@@ -158,7 +134,7 @@ export const declineProject = (projectID, pmID) => {
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }).
             then(res => {
                 if (res.data.isSuccessed)
-                    dispatch(sendNotificate(pmID, 'declined'))
+                    dispatch(sendNotificate(pmID, `Project ${projectName} has been declined`))
             }).catch(err => {
                 dispatch(declineProjectFail())
             })

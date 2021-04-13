@@ -32,29 +32,14 @@ class ProjectDetailTable extends Component {
         }
     }
 
-    onChangeStatusToFinish = () => {
-        var { match, changeStatusToFinish } = this.props
-        confirm({
-            title: 'Are you sure finish this project?',
-            okText: 'Yes',
-            cancelText: 'No',
-            onOk() {
-                changeStatusToFinish(match.params.id)
-            },
-            onCancel() {
-                console.log('Cancel');
-            },
-        });
-    }
-
     onDecline = () => {
-        var { match, declineProject } = this.props
+        var { declineProject,project } = this.props
         confirm({
             title: 'Are you sure decline this project?',
             okText: 'Yes',
             cancelText: 'No',
             onOk() {
-                declineProject(match.params.id)
+                declineProject(project.projectID, project.projectName, project.pmID)
                 history.push('/project')
             },
             onCancel() {
@@ -120,11 +105,8 @@ const mapDispatchToProp = dispatch => {
         fetchProjectDetail: projectID => {
             dispatch(Action.fetchProjectDetail(projectID))
         },
-        changeStatusToFinish: projectID => {
-            dispatch(Action.changeStatusToFinish(projectID))
-        },
-        declineProject: projectID => {
-            dispatch(Action.declineProject(projectID))
+        declineProject: (projectID, projectName, pmID) => {
+            dispatch(Action.declineProject(projectID, projectName, pmID))
         },
         checkSession: () => {
             dispatch(checkSession())

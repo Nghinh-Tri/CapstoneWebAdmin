@@ -13,24 +13,9 @@ class CertificateForm extends Component {
                 dateTaken: "",
                 dateEnd: ""
             },
-            isMinimize: false
-        }
-    }
-
-    componentDidMount = () => {
-        this.props.fetchCertificateList(this.props.hardSkillID)
-    }
-
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.hardSkillID !== prevState.hardSkillID) {
-            return { someState: nextProps.hardSkillID };
-        }
-        return null;
-    }
-
-    componentDidUpdate(prevProps) {
-        if (prevProps.hardSkillID !== this.props.hardSkillID) {
-            this.props.fetchCertificateList(this.props.hardSkillID)
+            isMinimize: false,
+            hardSkillID: 0,
+            hardSkillIndex: 0
         }
     }
 
@@ -42,13 +27,18 @@ class CertificateForm extends Component {
 
     getCertificateListNotSelect = () => {
         var { certificateList, certificate } = this.props
-        var listNotSelect = certificateList.slice(0, certificateList.length)
-        for (let i = 0; i < listNotSelect.length; i++) {
-            for (let k = 0; k < certificate.length; k++) {
-                if (listNotSelect[i].certificationID === certificate[k].certiID) {
-                    var clone = { ...listNotSelect[i] }
-                    clone.isSelect = true
-                    listNotSelect[i] = clone
+        var listNotSelect = []
+        if (typeof certificateList !== 'undefined') {
+            if (certificateList.length > 0) {
+                listNotSelect = certificateList.slice(0, certificateList.length)
+                for (let i = 0; i < listNotSelect.length; i++) {
+                    for (let k = 0; k < certificate.length; k++) {
+                        if (listNotSelect[i].certificationID === certificate[k].certiID) {
+                            var clone = { ...listNotSelect[i] }
+                            clone.isSelect = true
+                            listNotSelect[i] = clone
+                        }
+                    }
                 }
             }
         }
@@ -90,11 +80,12 @@ class CertificateForm extends Component {
                 return (
                     <>
                         {this.showItems(certificate, hardSkillIndex)}
-                        {this.props.certificateList.length === this.props.certificate.length ?
-                            '' :
-                            <span className="material-icons add" style={{ marginTop: 10 }}
-                                onClick={() => this.onAddCertificate(hardSkillIndex)}>add_box</span>
-                        }
+                        {typeof this.props.certificateList !== 'undefined' ?
+                            this.props.certificateList.length === this.props.certificate.length ?
+                                '' :
+                                <span className="material-icons add" style={{ marginTop: 10, cursor: 'pointer' }}
+                                    onClick={() => this.onAddCertificate(hardSkillIndex)}>add_box</span>
+                            : ''}
                     </>
                 )
         }
@@ -107,10 +98,10 @@ class CertificateForm extends Component {
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th>Certificate</th>
-                                        <th>Taken Date</th>
-                                        <th>Expired Date</th>
-                                        <th></th>
+                                        <th width={250}>Certificate</th>
+                                        <th width={250}>Taken Date</th>
+                                        <th width={250}>Expired Date</th>
+                                        <th width={50}></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -140,18 +131,4 @@ class CertificateForm extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        certificateList: state.CertificationSelectBarReducer
-    }
-}
-
-const mapDispatchToProp = (dispatch) => {
-    return {
-        fetchCertificateList: (hardSkillID) => {
-            dispatch(fetchCertification(hardSkillID))
-        }
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProp)(CertificateForm);
+export default CertificateForm;

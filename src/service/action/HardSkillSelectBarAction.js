@@ -3,7 +3,7 @@ import axios from "axios";
 import { API_URL } from "../util/util";
 
 export const fetchHardSkill = () => {
-    var url = `${API_URL}/Skill/type/0`
+    var url = `${API_URL}/Skill/getSkills/0`
     return (dispatch) => {
         axios.get(
             url,

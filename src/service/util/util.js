@@ -270,3 +270,15 @@ export const getRole = () => {
     return result
 }
 
+export const showRequestStatus = status => {
+    switch (status) {
+        case 0:
+            return "Waiting"
+        case 1:
+            return "Suggest Again"
+        case 2:
+            return "Finish"
+        default:
+            break;
+    }
+}

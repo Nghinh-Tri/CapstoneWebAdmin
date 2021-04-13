@@ -32,7 +32,7 @@ export const updateLangLevel = (value, languageIndex) => {
     return { type: POSITION_ASSIGN.UPDATE_LANGUAGE_LEVEL, value, languageIndex }
 }
 
-export const updateSoftSkillID = (value, ) => {
+export const updateSoftSkillID = (value,) => {
     return { type: POSITION_ASSIGN.UPDATE_SOFT_SKILL_ID, value }
 }
 
@@ -45,7 +45,20 @@ export const deleteHardSkill = (index) => {
 }
 
 export const updateHardSkillID = (value, hardSkillIndex) => {
-    return { type: POSITION_ASSIGN.UPDATE_HARD_SKILL_ID, value, hardSkillIndex }
+    var url = `${API_URL}/Certification/getCertifications/${value}`
+    return (dispatch) => {
+        axios.get(
+            url,
+            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
+        ).then(res => {
+            dispatch(updateHardSkillIDSuccess(value, hardSkillIndex, res.data.resultObj))
+        })
+    }
+}
+
+export const updateHardSkillIDSuccess = (value, hardSkillIndex, certiList) => {
+    return { type: POSITION_ASSIGN.UPDATE_HARD_SKILL_ID, value, hardSkillIndex, certiList }
+
 }
 
 export const updateHardSkillLevel = (value, hardSkillIndex) => {
@@ -71,40 +84,6 @@ export const updateCertificateDate = (name, value, certificateIndex, hardSkillIn
 export const assignPosition = (empID, positionAssign, role) => {
     var url = `${API_URL}/User/${empID}`
     return (dispatch) => {
-        if (positionAssign.posID === 0) {
-            if (role === 'Employee') {
-                dispatch(assignPositionFail())
-                store.addNotification({
-                    message: 'Please select position',
-                    type: "danger",
-                    insert: "top",
-                    container: "top-center",
-                    animationIn: ["animated", "fadeIn"],
-                    animationOut: ["animated", "fadeOut"],
-                    dismiss: {
-                        duration: 2000,
-                        onScreen: false
-                    }
-                })
-            }
-        }
-        if (positionAssign.posLevel === 0) {
-            if (role === 'Employee') {
-                dispatch(assignPositionFail())
-                store.addNotification({
-                    message: 'Please select position level',
-                    type: "danger",
-                    insert: "top",
-                    container: "top-center",
-                    animationIn: ["animated", "fadeIn"],
-                    animationOut: ["animated", "fadeOut"],
-                    dismiss: {
-                        duration: 2000,
-                        onScreen: false
-                    }
-                })
-            }
-        }
         if (positionAssign.languages.length === 0) {
             store.addNotification({
                 message: 'Please select language',
@@ -282,7 +261,25 @@ export const fetchPositionProfileUpdateDetail = (id) => {
             url,
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
-            dispatch(fetchPositionProfileUpdateDetailSuccess(res.data.resultObj))
+            var skillDetail = res.data.resultObj
+            if (skillDetail !== null) {
+                if (skillDetail.hardSkills.length > 0) {
+                    skillDetail.hardSkills.forEach(element => {
+                        element.certiList = []
+                        var url = `${API_URL}/Certification/getCertifications/${element.skillID}`
+                        axios.get(
+                            url,
+                            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
+                        ).then(res1 => {
+                            var listCerti = res1.data.resultObj
+                            element.certiList = listCerti
+                        })
+                    });
+                }
+                console.log('skillDetail',skillDetail)
+                dispatch(fetchPositionProfileUpdateDetailSuccess(skillDetail))
+            }
+            // dispatch(fetchPositionProfileUpdateDetailSuccess(res.data.resultObj))
         })
     }
 }
