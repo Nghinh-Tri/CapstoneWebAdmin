@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ProjectDetailTable from '../../component/project-detail/ProjectDetailTable';
 import { checkSession } from '../../service/action/AuthenticateAction';
-import { fetchProjectDetail } from '../../service/action/ProjectAction';
 import { history } from '../../service/helper/History';
 import ListEmployee from './ListEmployee';
 import { Tabs } from 'antd';
@@ -27,7 +26,7 @@ class ProjectDetail extends Component {
         this.setState({ select: parseInt(value) })
     }
 
-    showDetail = (select) => {        
+    showDetail = (select) => {
         if (select === 1)
             return <ProjectDetailTable projectID={this.props.match.params.id} />
         if (select === 2)

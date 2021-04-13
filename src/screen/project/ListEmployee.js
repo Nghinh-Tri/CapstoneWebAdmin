@@ -5,6 +5,7 @@ import SelectBar from "../../component/select-search/SelectBar";
 import ListEmployeeContent from './ListEmployeeContent';
 import { addMoreCandidate } from '../../service/action/PositionAction';
 import { history } from '../../service/helper/History';
+import { Spin } from 'antd';
 
 
 class ListEmployee extends Component {
@@ -15,7 +16,8 @@ class ListEmployee extends Component {
             page: 1,
             positionList: [],
             positionSelect: 0,
-            count: 0
+            count: 0,
+            isLoading: true
         }
     }
 
@@ -23,19 +25,21 @@ class ListEmployee extends Component {
         this.props.fetchListEmployee(this.props.projectID, 1)
     }
 
-    componentWillReceiveProps = () => {
-        var { listEmployee } = this.props
-        var { positionSelect, count } = this.state
-        var temp = []
-        listEmployee.forEach(element => {
-            var position = { label: element.posName, value: element.posID }
-            if (count === 0) {
-                count++
-                positionSelect = element.posID
-            }
-            temp.push(position)
-        });
-        this.setState({ positionList: temp, positionSelect: positionSelect, count: count })
+    componentDidUpdate = (prevProp) => {
+        if (prevProp.listEmployee !== this.props.listEmployee) {
+            var { listEmployee } = this.props
+            var { positionSelect, count } = this.state
+            var temp = []
+            listEmployee.forEach(element => {
+                var position = { label: element.posName, value: element.posID }
+                if (count === 0) {
+                    count++
+                    positionSelect = element.posID
+                }
+                temp.push(position)
+            });
+            this.setState({ positionList: temp, positionSelect: positionSelect, count: count, isLoading: false })
+        }
     }
 
     showEmployee = (list) => {
@@ -75,45 +79,51 @@ class ListEmployee extends Component {
                     <i class="fas fa-table mr-1"></i>
                 List Employee
             </div>
-                <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" >
-                    <div className='col-auto' style={{ marginTop: 20 }}>
-                        <SelectBar type='special'
-                            name='positionSelect'
-                            list={postList}
-                            value={this.state.positionSelect}
-                            onSelectPos={this.onSelectPos} />
-                    </div>
+                {this.state.isLoading ?
+                    <div className='row justify-content-center'>
+                        <Spin className='text-center' size="large" />
+                    </div> :
+                    <>
+                        <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" >
+                            <div className='col-auto' style={{ marginTop: 20 }}>
+                                <SelectBar type='special'
+                                    name='positionSelect'
+                                    list={postList}
+                                    value={this.state.positionSelect}
+                                    onSelectPos={this.onSelectPos} />
+                            </div>
 
-                </form>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                            <thead>
-                                <th className="font-weight-bold">Name</th>
-                                <th className="font-weight-bold">Position</th>
-                                <th className="font-weight-bold">Email</th>
-                                <th className="font-weight-bold">Phone</th>
-                                <th width={120} className="font-weight-bold text-center">Date In</th>
-                            </thead>
+                        </form>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <th className="font-weight-bold">Name</th>
+                                        <th className="font-weight-bold">Position</th>
+                                        <th className="font-weight-bold">Email</th>
+                                        <th className="font-weight-bold">Phone</th>
+                                        <th width={120} className="font-weight-bold text-center">Date In</th>
+                                    </thead>
+                                    {listEmployee.length > 0 ?
+                                        <tbody>
+                                            {this.showEmployee(listEmployee)}
+                                        </tbody>
+                                        : ''}
+                                </table>
+                            </div>
+                            {listEmployee.length > 0 ? '' : <div className='row justify-content-center' style={{ width: 'auto' }} >
+                                <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
+                            </div>}
                             {listEmployee.length > 0 ?
-                                <tbody>
-                                    {this.showEmployee(listEmployee)}
-                                </tbody>
-                                : ''}
-                        </table>
-                    </div>
-                    {listEmployee.length > 0 ? '' : <div className='row justify-content-center' style={{ width: 'auto' }} >
-                        <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
-                    </div>}
-                    {listEmployee.length > 0 ?
-                        typeof listEmployee.find(i => i.employees.find(k => k.dateIn === null)) !== 'undefined' ?
-                            <button type="submit" className="btn btn-primary pull-right" onClick={this.onHandle} style={{ fontWeight: 700 }} >
-                                Confirm Candidates
+                                typeof listEmployee.find(i => i.employees.find(k => k.dateIn === null)) !== 'undefined' ?
+                                    <button type="submit" className="btn btn-primary pull-right" onClick={this.onHandle} style={{ fontWeight: 700 }} >
+                                        Confirm Candidates
                         </button>
-                            : ''
-                        : ''
-                    }
-                </div>
+                                    : ''
+                                : ''
+                            }
+                        </div>
+                    </>}
             </div>
 
         );

@@ -126,10 +126,14 @@ class PositionAssign extends Component {
 
     onAssignPosition = (e) => {
         e.preventDefault()
+        var result = { ...this.props.item }
+        result.hardSkills.forEach(element => {
+            delete element.certiList
+        });
         if (typeof this.props.location.state.empID !== 'undefined') {//create
-            this.props.onAssignPosition(this.props.location.state.empID, this.props.item, this.props.location.state.role)
+            this.props.onAssignPosition(this.props.location.state.empID, result, this.props.location.state.role)
         } else {
-            this.props.updatePosition(this.props.match.params.id, this.props.item, this.props.location.state.role)
+            this.props.updatePosition(this.props.match.params.id, result, this.props.location.state.role)
         }
     }
 

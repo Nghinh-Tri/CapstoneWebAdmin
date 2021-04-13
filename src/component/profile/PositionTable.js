@@ -114,7 +114,7 @@ const mapDispatchToProps = (dispatch) => {
         },
         checkSession: () => {
             dispatch(checkSession());
-        },
+        }
     };
 };
 

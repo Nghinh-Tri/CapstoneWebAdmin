@@ -6,6 +6,7 @@ import { fetchPositionRequire } from '../../service/action/ProjectAction';
 import PositionRequireDetail from './PositionRequireDetail';
 import moment from 'moment';
 import { showRequestStatus } from '../../service/util/util';
+import { Spin } from 'antd';
 
 class PositionRequire extends Component {
 
@@ -13,12 +14,19 @@ class PositionRequire extends Component {
         super(props);
         this.state = {
             visible: false,
-            positionRequire: []
+            positionRequire: [],
+            isLoading: true
         }
     }
 
     componentDidMount = () => {
         this.props.fetchPositionRequire(this.props.projectID)
+    }
+
+    componentDidUpdate = (prevProp) => {
+        if (prevProp.positionRequire !== this.props.positionRequire) {
+            this.setState({ isLoading: false })
+        }
     }
 
     onShowRequireDetail = () => {
@@ -69,38 +77,44 @@ class PositionRequire extends Component {
                 <div class="card mb-4">
                     <div class="card-header">
                         <i class="fas fa-table mr-1"></i>
-                    Position
+                    Position Requirements
                 </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th width={50} className='text-center'>No</th>
-                                        <th>Position</th>
-                                        <th width={180}>Candidates Needs</th>
-                                        <th width={145}>Employee Miss</th>
-                                        <th width={190} className='text-center'>Hard Skill Requirements</th>
-                                        <th width={190} className='text-center'>Language Requirements</th>
-                                        <th width={190} className='text-center'>Soft Skill Requirements</th>
-                                        <th width={120} className='text-center'>Date Create</th>
-                                        <th width={100} className='text-center'>Status</th>
-                                        <th width={100}></th>
-                                    </tr>
-                                </thead>
-                                {positionRequire.length > 0 ?
-                                    <tbody>
-                                        {this.showPosition(positionRequire)}
-                                    </tbody>
-                                    : ''}
-                            </table>
-                        </div>
-                        {positionRequire.length > 0 ? '' :
-                            <div className='row justify-content-center' style={{ width: 'auto' }} >
-                                <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
+                    {this.state.isLoading ?
+                        <div className='row justify-content-center'>
+                            <Spin className='text-center' size="large" />
+                        </div> :
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th width={50} className='text-center'>No</th>
+                                            <th>Position</th>
+                                            <th width={180}>Candidates Needs</th>
+                                            <th width={145}>Employee Miss</th>
+                                            <th width={190} className='text-center'>Hard Skill Requirements</th>
+                                            <th width={190} className='text-center'>Language Requirements</th>
+                                            <th width={190} className='text-center'>Soft Skill Requirements</th>
+                                            <th width={120} className='text-center'>Date Create</th>
+                                            <th width={100} className='text-center'>Status</th>
+                                            <th width={100}></th>
+                                        </tr>
+                                    </thead>
+                                    {positionRequire.length > 0 ?
+                                        <tbody>
+                                            {this.showPosition(positionRequire)}
+                                        </tbody>
+                                        : ''}
+                                </table>
                             </div>
-                        }
-                    </div>
+                            {positionRequire.length > 0 ? '' :
+                                <div className='row justify-content-center' style={{ width: 'auto' }} >
+                                    <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
+                                </div>
+                            }
+                        </div>
+                    }
+
                 </div>
             </React.Fragment>
         );
