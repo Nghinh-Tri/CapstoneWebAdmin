@@ -41,7 +41,7 @@ class SuggestCandidates extends Component {
 
         return (
             <div className="card">
-                <div className="card-header card-header-primary">
+                {/* <div className="card-header card-header-primary">
                     <div className="row">
                         <div className="col-9">
                             <h4 className="font-weight-bold" style={{ color: 'whitesmoke' }}>{item.posName}</h4>
@@ -50,7 +50,7 @@ class SuggestCandidates extends Component {
                             <h4 className="font-weight-bold pull-right" style={{ color: 'whitesmoke' }}>Select - {selectedItem === null ? 0 : selectedItem.candidateSelect.length}</h4>
                         </div>
                     </div>
-                </div>
+                </div> */}
                 <div className="card-body">
                     <div className="form-group">
                         <div className="row">
