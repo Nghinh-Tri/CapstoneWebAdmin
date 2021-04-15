@@ -5,7 +5,9 @@ import SelectBar from "../../component/select-search/SelectBar";
 import ListEmployeeContent from './ListEmployeeContent';
 import { addMoreCandidate } from '../../service/action/PositionAction';
 import { history } from '../../service/helper/History';
+import { Tabs } from "antd";
 
+const TabPane = Tabs.TabPane;
 
 class ListEmployee extends Component {
 
@@ -42,9 +44,9 @@ class ListEmployee extends Component {
         var result = null
         if (list.length > 0) {
             result = list.map((item, index) => {
-                if (this.state.positionSelect === 0) {
+                if (this.state.positionSelect == 0) {
                     return (<ListEmployeeContent key={index} item={item} />)
-                } else if (this.state.positionSelect === item.posID) {
+                } else if (this.state.positionSelect == item.posID) {
                     return (<ListEmployeeContent key={index} item={item} />)
                 }
             })
@@ -55,6 +57,17 @@ class ListEmployee extends Component {
         }
         return result
     }
+    getTabName = () => {
+        var postList = []
+        if (this.state.positionList.length >= 1)
+            postList = this.state.positionList
+        var result =  postList.map((item, index)=>
+        <>
+            <TabPane tab={(item || {}).label} key={(item || {}).value}></TabPane>
+        </>
+        );
+        return result;
+    };
 
     onSelectPos = (value) => {
         this.setState({ positionSelect: value })
@@ -72,10 +85,11 @@ class ListEmployee extends Component {
         return (
             <div class="card mb-4">
                 <div class="card-header">
-                    <i class="fas fa-table mr-1"></i>
-                List Employee
+                    <Tabs defaultActiveKey={this.state.positionSelect} onChange={this.onSelectPos}>
+                        {this.getTabName()}
+                    </Tabs>
             </div>
-                <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" >
+                {/* <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" >
                     <div className='col-auto' style={{ marginTop: 20 }}>
                         <SelectBar type='special'
                             name='positionSelect'
@@ -84,7 +98,7 @@ class ListEmployee extends Component {
                             onSelectPos={this.onSelectPos} />
                     </div>
 
-                </form>
+                </form> */}
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
