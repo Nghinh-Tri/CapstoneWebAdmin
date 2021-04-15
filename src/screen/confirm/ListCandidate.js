@@ -7,10 +7,6 @@ import * as Action from "../../service/action/SuggestCandidateAction";
 import '../../css/SuggestNav.css'
 import { checkSession } from '../../service/action/AuthenticateAction';
 import { compose } from 'redux';
-import { convertSuggestList } from '../../service/util/util';
-import { history } from '../../service/helper/History';
-import confirm from 'antd/lib/modal/confirm';
-import SelectBar from "../../component/select-search/SelectBar";
 import { Tabs } from "antd";
 
 const TabPane = Tabs.TabPane;
@@ -19,7 +15,8 @@ class ListCandidate extends Component {
     componentDidMount = () => {
         this.props.checkSession();
         var { match } = this.props;
-        this.props.fetchSuggestCandidateList(match.params.id);
+        if (this.props.candidateSelectedList.length === 0)
+            this.props.fetchSuggestCandidateList(match.params.id);
     };
 
     componentDidUpdate = (prevProp) => {
@@ -86,7 +83,7 @@ class ListCandidate extends Component {
                         )}
                     </div>
                 </div>
-                <div className="row pull-right">
+                <div className="row pull-right" style={{marginTop:-10,marginBottom:10}}>
                     <div className="col">
                         <NavLink to={`/project/confirm-accept-candidate/${this.props.match.params.id}`}>
                             <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }}>

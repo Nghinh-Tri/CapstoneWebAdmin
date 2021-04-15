@@ -2,19 +2,8 @@ import React, { Component } from 'react';
 
 class SuggestCandidateItems extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            readOnly: false
-        }
-    }
-
     onSelect = (event) => {
         var check = event.target.checked
-        if (check)
-            this.setState({ readOnly: true })
-        else
-            this.setState({ readOnly: false })
         this.props.onSelect(check, this.props.candidate, this.props.posID)
     }
 
@@ -37,7 +26,7 @@ class SuggestCandidateItems extends Component {
                 <th className="text-center">
                     <div className="form-group" style={{ marginBottom: '0 !important' }}>
                         <input type="input" className="form-control" value={typeof candidate.check === 'undefined' || !candidate.check ? candidate.note : ''}
-                            readOnly={this.state.readOnly} style={{ height: 30 }} placeholder="Rejecting Reason"
+                            readOnly={typeof candidate.check === 'undefined' ? false : candidate.check} style={{ height: 30 }} placeholder="Rejecting Reason"
                             onChange={this.onHandle} />
                     </div>
                 </th>

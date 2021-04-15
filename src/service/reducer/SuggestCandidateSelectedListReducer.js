@@ -38,7 +38,6 @@ const SuggestCandidateSelectedList = (state = initState, action) => {
 
         case SUGGEST_CANDIDATE.FETCH_SUGGEST_LIST:
             state = action.list
-            console.log('state', state)
             return [...state]
 
         case SUGGEST_CANDIDATE.SELECT_CANDIDATE:
@@ -76,21 +75,21 @@ const SuggestCandidateSelectedList = (state = initState, action) => {
             });
             positionClone.selectAll = action.check
             positionClone.employees = employeesClone
-            console.log('positionClone',positionClone)
             state.splice(positionIndex, 1, positionClone)
-            return [...state]
-
-        case SUGGEST_CANDIDATE.UNSELECT_ALL_CANDIDATE:
-            // var index = getPositionIndex(state, action.position)
-            // state.splice(index, 1)
             return [...state]
 
         case SUGGEST_CANDIDATE.FETCH_SELECTED_LIST:
             if (state.length > 0) {
                 state.forEach(element => {
-                    var clone = [...element.candidateSelect]
-                    sortSuggestListByOverallMatch(clone)
-                    element.candidateSelect = clone
+                    var clone = [...element.employees]
+                    // var temp = []
+                    // clone.forEach(e => {
+                    //     if (e.check)
+                    //         temp.push(e)
+                    // });
+                    if (clone.length > 0)
+                        sortSuggestListByOverallMatch(clone)
+                    element.employees = clone
                 });
             }
             return [...state]

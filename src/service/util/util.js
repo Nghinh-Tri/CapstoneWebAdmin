@@ -230,14 +230,16 @@ export const convertSuggestList = list => {
     var result = []
     if (list.length > 0) {
         list.forEach(element => {
-            var positionObj = { posID: element.posId, empIDs: [] }
-            if (positionObj.posID === element.posId) {
-                var empID = []
-                element.candidateSelect.forEach(e => {
-                    empID.push(e.empID)
-                });
-                positionObj.empIDs = empID
-            }
+            var positionObj = { requiredPosID: element.posID, empIDs: [] }
+            element.employees.forEach(e => {
+                var note = ''
+                if (!e.check) {
+                    if (typeof e.note === 'undefined')
+                        note = ''
+                } 
+                var obj = { empID: e.empID, isAccept: e.check, note: note }
+                positionObj.empIDs.push(obj)
+            });
             result.push(positionObj)
         });
     }

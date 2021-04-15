@@ -29,7 +29,6 @@ class SuggestCandidates extends Component {
 
     onSelectAll = (event) => {
         var value = event.target.checked
-        console.log('value',value)
         this.props.onSelectAll(value, this.props.item.posID)
     }
 

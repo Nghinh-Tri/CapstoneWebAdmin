@@ -24,6 +24,7 @@ class ConfirmPage extends Component {
     componentDidMount = () => {
         this.props.checkSession();
         var { match } = this.props;
+        this.props.fetchSelectCandidate()
         this.props.fetchProjectDetail(match.params.id);
     };
 
@@ -43,20 +44,14 @@ class ConfirmPage extends Component {
 
     onConfirm = () => {
         var item = convertSuggestList(this.props.candidateList);
-        var candidates = { candidates: item, isAccept: true };
-        this.props.onConfirm(
-            candidates,
-            this.state.project.projectID,
-            this.state.project.projectName,
-            this.state.project.pmID
-        );
+        console.log('item', item)
+        var candidates = { candidates: item };
+        this.props.onConfirm(candidates, this.state.project.projectID, this.state.project.projectName, this.state.project.pmID);
     };
 
     onClickMenu = (value) => {
         this.setState({ select: parseInt(value) });
     };
-
-
 
     render() {
         var { project } = this.state;
@@ -67,7 +62,7 @@ class ConfirmPage extends Component {
                     <ConfirmSelectCandidate candidateList={this.props.candidateList} />
                 </div>
 
-                <div className="row pull-right">
+                <div className="row pull-right" style={{ marginBottom: 15, marginTop: -10 }}>
                     <div className="col">
                         <NavLink to={`/project/confirm-candidate/${project.projectID}`}>
                             <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }}>
