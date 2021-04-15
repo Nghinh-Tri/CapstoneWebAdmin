@@ -24,7 +24,7 @@ class ListCandidate extends Component {
 
     componentDidUpdate = (prevProp) => {
         if (prevProp.candidateSelectedList !== this.props.candidateSelectedList) {
-            console.log('candidateSelectedList', this.props.candidateSelectedList)
+            // console.log('candidateSelectedList', this.props.candidateSelectedList)
         }
     }
 
@@ -33,7 +33,6 @@ class ListCandidate extends Component {
     };
 
     selectCandidate = (check, candidate, posID) => {
-        console.log(check, candidate, posID)
         this.props.selectCandidate(check, candidate, posID);
     };
 
@@ -59,37 +58,8 @@ class ListCandidate extends Component {
         return result;
     };
 
-    onSelectAll = (item) => {
-        this.props.selectAll(item);
-    };
-
-    onUnSelectAll = (position) => {
-        this.props.unSelectAll(position);
-    };
-
-    onDecline = () => {
-        if (this.props.candidateSelectedList.length > 0) {
-            var item = convertSuggestList(this.props.candidateSelectedList);
-            var candidates = { candidates: item, isAccept: false };
-            var { onDecline, match, location } = this.props;
-            confirm({
-                title: "Are you sure you want to decline those candidate?",
-                okText: "Yes",
-                okType: "danger",
-                cancelText: "No",
-                onOk() {
-                    onDecline(
-                        candidates,
-                        match.params.id,
-                        location.state.projectName,
-                        location.state.pmID
-                    );
-                },
-                onCancel() {
-                    console.log("Cancel");
-                },
-            });
-        }
+    onSelectAll = (value, posID) => {
+        this.props.selectAll(value, posID);
     };
 
     render() {
@@ -109,13 +79,7 @@ class ListCandidate extends Component {
                                 item={candidateSelectedList[selectedIndex]}
                                 onSelectCandidate={this.selectCandidate}
                                 onNoteRejectingReason={this.onNoteRejectingReason}
-                                // selectedItem={this.getSelectedCandidateList(
-                                //     suggestCandidateList[selectedIndex],
-                                //     candidateSelectedList
-                                // )}
-                                onUnselectCandidate={this.unselectCandidate}
                                 onSelectAll={this.onSelectAll}
-                                onUnSelectAll={this.onUnSelectAll}
                             />
                         ) : (
                             ""
@@ -123,11 +87,6 @@ class ListCandidate extends Component {
                     </div>
                 </div>
                 <div className="row pull-right">
-                    {/* <div className="col">
-                        <button type="button" className="btn btn-danger pull-right" style={{ width: 110, fontWeight: 600 }} onClick={this.onDecline}>
-                            Decline
-                        </button>
-                    </div> */}
                     <div className="col">
                         <NavLink to={`/project/confirm-accept-candidate/${this.props.match.params.id}`}>
                             <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }}>
@@ -166,14 +125,8 @@ const mapDispatchToProps = (dispatch) => {
         checkSession: () => {
             dispatch(checkSession())
         },
-        selectAll: (candidateList) => {
-            dispatch(Action.selectAllCandidates(candidateList))
-        },
-        unSelectAll: (position) => {
-            dispatch(Action.unselectAllCandiates(position))
-        },
-        onDecline: (candidates, projectId, projectName, pmID) => {
-            dispatch(Action.confirmSuggestList(candidates, projectId, projectName, pmID))
+        selectAll: (check, posID) => {
+            dispatch(Action.selectAllCandidates(check, posID))
         }
     }
 }

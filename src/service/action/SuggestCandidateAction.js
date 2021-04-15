@@ -25,17 +25,10 @@ export const noteRejectingReason = (value, candidate, posID) => {
     }
 }
 
-export const selectAllCandidates = (candidateList) => {
+export const selectAllCandidates = (check, posID) => {
     return {
         type: SUGGEST_CANDIDATE.SELECT_ALL_CANDIDATE,
-        candidateList
-    }
-}
-
-export const unselectAllCandiates = (position) => {
-    return {
-        type: SUGGEST_CANDIDATE.UNSELECT_ALL_CANDIDATE,
-        position
+        check, posID
     }
 }
 

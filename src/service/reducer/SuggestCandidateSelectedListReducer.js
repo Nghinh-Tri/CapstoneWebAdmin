@@ -22,6 +22,16 @@ const getCandidateIndex = (listCandidate, empID) => {
     return result
 }
 
+const isSelectAllEmployee = (listCandidate) => {
+    var count = 0
+    for (let i = 0; i < listCandidate.length; i++) {
+        if (typeof listCandidate[i].check !== 'undefined')
+            if (listCandidate[i].check)
+                count++
+    }
+    return count === listCandidate.length
+}
+
 const SuggestCandidateSelectedList = (state = initState, action) => {
     var positionIndex, positionClone, employeesClone, employeeIndex, empClone = null
     switch (action.type) {
@@ -39,6 +49,7 @@ const SuggestCandidateSelectedList = (state = initState, action) => {
             empClone = { ...employeesClone[employeeIndex] }
             empClone.check = action.check
             employeesClone.splice(employeeIndex, 1, empClone)
+            positionClone.selectAll = isSelectAllEmployee(employeesClone)
             positionClone.employees = employeesClone
             state.splice(positionIndex, 1, positionClone)
             return [...state];
@@ -57,24 +68,16 @@ const SuggestCandidateSelectedList = (state = initState, action) => {
             return [...state];
 
         case SUGGEST_CANDIDATE.SELECT_ALL_CANDIDATE:
-            // if (action.candidateList.employees.length > 0) {
-            //     if (state.length > 0) {
-            //         var index = getPositionIndex(state, action.candidateList.posName)
-            //         console.log('index', index)
-
-            //         if (index !== -1) {
-            //             positionObjClone = { ...state[index] }
-            //             positionObjClone.candidateSelect = [...action.candidateList.employees]
-            //             state.splice(index, 1, positionObjClone)
-            //         } else {
-            //             positionItem = { posName: action.candidateList.posName, posId: action.candidateList.posID, candidateSelect: [...action.candidateList.employees], selectAll: true }
-            //             state.push(positionItem)
-            //         }
-            //     } else {
-            //         positionItem = { posName: action.candidateList.posName, posId: action.candidateList.posID, candidateSelect: [...action.candidateList.employees], selectAll: true }
-            //         state.push(positionItem)
-            //     }
-            // }
+            positionIndex = getPositionIndex(state, action.posID)
+            positionClone = { ...state[positionIndex] }
+            employeesClone = [...positionClone.employees]
+            employeesClone.forEach(element => {
+                element.check = action.check
+            });
+            positionClone.selectAll = action.check
+            positionClone.employees = employeesClone
+            console.log('positionClone',positionClone)
+            state.splice(positionIndex, 1, positionClone)
             return [...state]
 
         case SUGGEST_CANDIDATE.UNSELECT_ALL_CANDIDATE:

@@ -29,16 +29,12 @@ class SuggestCandidates extends Component {
 
     onSelectAll = (event) => {
         var value = event.target.checked
-        if (value) {
-            this.props.onSelectAll(this.props.item)
-        }
-        else
-            this.props.onUnSelectAll(this.props.item.posName)
+        console.log('value',value)
+        this.props.onSelectAll(value, this.props.item.posID)
     }
 
     render() {
-        var { item, selectedItem } = this.props
-        // console.log('item', item)
+        var { item } = this.props
         return (
             <div className="card">
                 <div className="card-body">
