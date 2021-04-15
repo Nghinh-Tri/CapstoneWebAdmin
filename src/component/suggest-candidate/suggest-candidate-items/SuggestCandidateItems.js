@@ -2,19 +2,24 @@ import React, { Component } from 'react';
 
 class SuggestCandidateItems extends Component {
 
-    onSelect = (event) => {
-        this.props.onSelect(event.target.checked, this.props.candidate)
+    constructor(props) {
+        super(props);
+        this.state = {
+            readOnly: false
+        }
     }
 
-    checkSelectCandidate = (empID) => {
-        var { candidateSelectedList } = this.props
-        if (candidateSelectedList !== null) {
-            for (let index = 0; index < candidateSelectedList.length; index++) {
-                if (candidateSelectedList[index].empID === empID)
-                    return true
-            }
-        }
-        return false
+    onSelect = (event) => {
+        var check = event.target.checked
+        if (check)
+            this.setState({ readOnly: true })
+        else
+            this.setState({ readOnly: false })
+        this.props.onSelect(check, this.props.candidate, this.props.posID)
+    }
+
+    onHandle = (e) => {
+        this.props.onNoteRejectingReason(e.target.value, this.props.candidate, this.props.posID)
     }
 
     render() {
@@ -27,7 +32,14 @@ class SuggestCandidateItems extends Component {
                 <th className="">{candidate.email}</th>
                 <th className="text-center">{candidate.numberOfProject}</th>
                 <th className="text-center">
-                    <input type="checkbox" onClick={this.onSelect} checked={this.checkSelectCandidate(candidate.empID)} />
+                    <input type="checkbox" onClick={this.onSelect} checked={typeof candidate.check === 'undefined' ? false : candidate.check} />
+                </th>
+                <th className="text-center">
+                    <div className="form-group" style={{ marginBottom: '0 !important' }}>
+                        <input type="input" className="form-control" value={typeof candidate.check === 'undefined' || !candidate.check ? candidate.note : ''}
+                            readOnly={this.state.readOnly} style={{ height: 30 }} placeholder="Rejecting Reason"
+                            onChange={this.onHandle} />
+                    </div>
                 </th>
             </tr>
         );

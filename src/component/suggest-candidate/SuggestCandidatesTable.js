@@ -12,14 +12,15 @@ class SuggestCandidates extends Component {
         }
     }
 
-    showCandidate = (candidateList, selectedItem) => {
+    showCandidate = (candidateList, posID) => {
         var result = null
         result = candidateList.map((candidate, index) => {
             return (<SuggestCandidateItems key={index}
-                onSelect={this.onSelect}
+                onSelect={this.props.onSelectCandidate}
                 candidate={candidate}
                 index={index}
-                candidateSelectedList={selectedItem === null ? null : selectedItem.candidateSelect}
+                posID={posID}
+                onNoteRejectingReason={this.props.onNoteRejectingReason}
             />)
         })
 
@@ -37,20 +38,9 @@ class SuggestCandidates extends Component {
 
     render() {
         var { item, selectedItem } = this.props
-        console.log('item', item)
-
+        // console.log('item', item)
         return (
             <div className="card">
-                {/* <div className="card-header card-header-primary">
-                    <div className="row">
-                        <div className="col-9">
-                            <h4 className="font-weight-bold" style={{ color: 'whitesmoke' }}>{item.posName}</h4>
-                        </div>
-                        <div className="col">
-                            <h4 className="font-weight-bold pull-right" style={{ color: 'whitesmoke' }}>Select - {selectedItem === null ? 0 : selectedItem.candidateSelect.length}</h4>
-                        </div>
-                    </div>
-                </div> */}
                 <div className="card-body">
                     <div className="form-group">
                         <div className="row">
@@ -65,20 +55,23 @@ class SuggestCandidates extends Component {
                                                 <th className="font-weight-bold">Email</th>
                                                 <th className="font-weight-bold text-center">Joined Projects</th>
                                                 <th className="font-weight-bold text-center">
-                                                    <input type="checkbox" onClick={this.onSelectAll} checked={selectedItem === null ? false : selectedItem.selectAll} />
+                                                    <input type="checkbox" onClick={this.onSelectAll} checked={typeof item.selectAll === 'undefined' ? false : item.selectAll} /> Get All
+                                                </th>
+                                                <th className="font-weight-bold text-center">
+                                                    Rejecting Reason
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {this.showCandidate(item.employees, selectedItem)}
+                                            {this.showCandidate(item.employees, item.posID)}
                                         </tbody>
                                     </table>
                                 </div>
-                                {item.employees.length === 0 ?
+                                {/* {item.employees.length === 0 ?
                                     <div className='row justify-content-center' style={{ width: 'auto' }} >
                                         <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
                                     </div>
-                                    : ''}
+                                    : ''} */}
                             </div>
                         </div>
                     </div>

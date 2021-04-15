@@ -109,7 +109,7 @@ class Project extends Component {
                                 <Spin className='text-center' size="large" />
                             </div>
                             : ''}
-                        {this.state.isLoading ? '' :
+                        {this.state.isLoading || projects.pageCount === 1 ? '' :
                             <div className='row justify-content-center' style={{ marginBottom: 20 }} >
                                 <Pagination defaultCurrent={projects.pageIndex} total={projects.totalRecords} onChange={this.onSelectPage} />
                             </div>

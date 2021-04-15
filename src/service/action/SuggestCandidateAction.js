@@ -11,11 +11,17 @@ export const setPositionSelect = index => {
     }
 }
 
-export const selectCandidate = (candidate, candidateList) => {
+export const selectCandidate = (check, candidate, posID) => {
     return {
         type: SUGGEST_CANDIDATE.SELECT_CANDIDATE,
-        candidate, candidateList
+        check, candidate, posID
+    }
+}
 
+export const noteRejectingReason = (value, candidate, posID) => {
+    return {
+        type: SUGGEST_CANDIDATE.NOTE_REJECTING_REASON,
+        value, candidate, posID
     }
 }
 
@@ -23,13 +29,6 @@ export const selectAllCandidates = (candidateList) => {
     return {
         type: SUGGEST_CANDIDATE.SELECT_ALL_CANDIDATE,
         candidateList
-    }
-}
-
-export const unselectCandiate = (candidate, position) => {
-    return {
-        type: SUGGEST_CANDIDATE.UNSELECT_CANDIDATE,
-        candidate, position
     }
 }
 
