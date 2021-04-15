@@ -62,7 +62,7 @@ class ConfirmPage extends Component {
         var { project } = this.state;
         return (
             <div>
-                <ProgressBar current="1" />
+                <ProgressBar current="2" />
                 <div className="card mb-4">
                     <ConfirmSelectCandidate candidateList={this.props.candidateList} />
                 </div>

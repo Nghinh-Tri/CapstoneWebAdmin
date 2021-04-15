@@ -123,7 +123,7 @@ class ListCandidate extends Component {
     } = this.props;
     return (
       <div>
-        <ProgressBar current="0" />
+        <ProgressBar current="1" />
         <div class="card mb-4">
           <div class="card-header">
             <Tabs defaultActiveKey="0" onChange={this.onSelected}>
