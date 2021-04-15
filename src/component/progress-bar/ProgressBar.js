@@ -8,7 +8,7 @@ class ProgressBar extends Component {
     this.state = {
       step1: "",
       step2: "",
-      step3: "",
+      // step3: "",
       isUpdate: false,
     };
   }
@@ -35,7 +35,7 @@ class ProgressBar extends Component {
         current={parseInt(this.props.current)}
         style={{ marginTop: 20, marginBottom: 20 }}
       >
-        <Step title="Project Detail" />
+        {/* <Step title="Project Detail" /> */}
         <Step title="Select Employee" />
         <Step title="Confirm" />
       </Steps>
