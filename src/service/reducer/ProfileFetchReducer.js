@@ -9,7 +9,7 @@ const profileFormReducer = (state = initState, action) => {
             return state
         case Type.FETCH_PROFILE_DETAIL:
             state = action.resultObj
-            return state       
+            return state
         default:
             return state;
     }

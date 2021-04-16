@@ -5,8 +5,9 @@ import SelectBar from "../../component/select-search/SelectBar";
 import ListEmployeeContent from './ListEmployeeContent';
 import { addMoreCandidate } from '../../service/action/PositionAction';
 import { history } from '../../service/helper/History';
-import { Spin } from 'antd';
+import { Tabs } from "antd";
 
+const TabPane = Tabs.TabPane;
 
 class ListEmployee extends Component {
 
@@ -16,56 +17,51 @@ class ListEmployee extends Component {
             page: 1,
             positionList: [],
             positionSelect: 0,
-            count: 0,
-            isLoading: true
+            count: 0
         }
     }
 
     componentDidMount = () => {
-        this.props.fetchListEmployee(this.props.projectID, 1)
+        this.props.fetchListEmployee(this.props.project.projectID, 1)
     }
 
-    componentDidUpdate = (prevProp) => {
-        if (prevProp.listEmployee !== this.props.listEmployee) {
-            var { listEmployee } = this.props
-            var { positionSelect, count } = this.state
-            var temp = []
-            listEmployee.forEach(element => {
-                var position = { label: element.posName, value: element.posID }
-                if (count === 0) {
-                    count++
-                    positionSelect = element.posID
-                }
-                temp.push(position)
-            });
-            this.setState({ positionList: temp, positionSelect: positionSelect, count: count, isLoading: false })
-        }
+    componentWillReceiveProps = () => {
+        var { listEmployee } = this.props
+        var temp = []
+        listEmployee.forEach(element => {
+            var position = { label: element.posName, value: element.posID }
+            temp.push(position)
+        });
+        this.setState({ positionList: temp })
     }
 
     showEmployee = (list) => {
-        var result = null
         if (list.length > 0) {
-            result = list.map((item, index) => {
-                if (this.state.positionSelect === 0) {
-                    return (<ListEmployeeContent key={index} item={item} />)
-                } else if (this.state.positionSelect === item.posID) {
-                    return (<ListEmployeeContent key={index} item={item} />)
-                }
-            })
+            return (<ListEmployeeContent item={list[this.state.positionSelect]} project={this.props.project} />)
         } else {
             return (<div className='row justify-content-center'>
                 <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
             </div>)
         }
-        return result
     }
+    getTabName = () => {
+        var postList = []
+        if (this.state.positionList.length >= 1)
+            postList = this.state.positionList
+        var result = postList.map((item, index) =>
+            <>
+                <TabPane tab={(item || {}).label} key={index}></TabPane>
+            </>
+        );
+        return result;
+    };
 
     onSelectPos = (value) => {
-        this.setState({ positionSelect: value })
+        this.setState({ positionSelect: parseInt(value) })
     }
 
     onHandle = () => {
-        history.push(`/project/confirm-candidate/${this.props.projectID}`)
+        history.push(`/project/confirm-candidate/${this.props.project.projectID}`)
     }
 
     render() {
@@ -76,54 +72,27 @@ class ListEmployee extends Component {
         return (
             <div class="card mb-4">
                 <div class="card-header">
-                    <i class="fas fa-table mr-1"></i>
-                List Employee
-            </div>
-                {this.state.isLoading ?
-                    <div className='row justify-content-center'>
-                        <Spin className='text-center' size="large" />
-                    </div> :
-                    <>
-                        <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" >
-                            <div className='col-auto' style={{ marginTop: 20 }}>
-                                <SelectBar type='special'
-                                    name='positionSelect'
-                                    list={postList}
-                                    value={this.state.positionSelect}
-                                    onSelectPos={this.onSelectPos} />
-                            </div>
+                    <Tabs defaultActiveKey={this.state.positionSelect} onChange={this.onSelectPos}>
+                        {this.getTabName()}
+                    </Tabs>
+                </div>
+                <div class="card-body">
 
-                        </form>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <th className="font-weight-bold">Name</th>
-                                        <th className="font-weight-bold">Position</th>
-                                        <th className="font-weight-bold">Email</th>
-                                        <th className="font-weight-bold">Phone</th>
-                                        <th width={120} className="font-weight-bold text-center">Date In</th>
-                                    </thead>
-                                    {listEmployee.length > 0 ?
-                                        <tbody>
-                                            {this.showEmployee(listEmployee)}
-                                        </tbody>
-                                        : ''}
-                                </table>
-                            </div>
-                            {listEmployee.length > 0 ? '' : <div className='row justify-content-center' style={{ width: 'auto' }} >
-                                <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
-                            </div>}
-                            {listEmployee.length > 0 ?
-                                typeof listEmployee.find(i => i.employees.find(k => k.dateIn === null)) !== 'undefined' ?
-                                    <button type="submit" className="btn btn-primary pull-right" onClick={this.onHandle} style={{ fontWeight: 700 }} >
-                                        Confirm Candidates
+                    {this.showEmployee(listEmployee)}
+
+                    {listEmployee.length > 0 ? '' : <div className='row justify-content-center' style={{ width: 'auto' }} >
+                        <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
+                    </div>}
+
+                    {listEmployee.length > 0 ?
+                        typeof listEmployee.find(i => i.employees.find(k => k.dateIn === null)) !== 'undefined' ?
+                            <button type="submit" className="btn btn-primary pull-right" onClick={this.onHandle} style={{ fontWeight: 700 }} >
+                                Confirm Candidates
                         </button>
-                                    : ''
-                                : ''
-                            }
-                        </div>
-                    </>}
+                            : ''
+                        : ''
+                    }
+                </div>
             </div>
 
         );

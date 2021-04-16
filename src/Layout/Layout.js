@@ -16,8 +16,10 @@ class Layout extends Component {
         const messaging = firebase.messaging()
         messaging.getToken({ vapidKey: 'BCzV0OJHq4w2DQyltsiIxhhiM7Ce4yLOujK-1QRgWkmjUloUxEPRkvp2PgtvuRQ0nj8rVe1OTIcA2eKTIbEZE2w' })
             .then(token => {
-                if (token)
+                if (token) {
+                    localStorage.setItem('FirebaseToken', JSON.stringify(token))
                     this.props.recievedNoti(token)
+                }
             })
         messaging.onMessage((payload) => {
             this.showNotificate(payload.notification)
@@ -25,19 +27,12 @@ class Layout extends Component {
     }
 
     showNotificate = (messaging) => {
-        store.addNotification({
-            title: messaging.title,
-            message: messaging.body,
-            type: "info",
-            insert: "top",
-            container: "bottom-right",
-            animationIn: ["animate__animated", "animate__fadeIn"],
-            animationOut: ["animate__animated", "animate__fadeOut"],
-            dismiss: {
-                duration: 5000,
-                onScreen: true
-            }
-        })
+        notification.open({
+            message: messaging.title,
+            description: messaging.body,
+            duration: 0,
+            placement: 'bottomRight'
+        });
     }
 
     showContent = (RouteList) => {

@@ -24,28 +24,26 @@ class ProjectDetailTable extends Component {
         this.props.fetchProjectDetail(this.props.projectID)
     }
 
-    componentDidUpdate = (prevProp) => {
-        if (prevProp.project !== this.props.project) {
-            var { project } = this.props
-            if (typeof project.projectID !== 'undefined')
-                this.setState({ isLoad: false, project: project })
-        }
+    componentWillReceiveProps = () => {
+        var { project } = this.props
+        if (typeof project.projectID !== 'undefined')
+            this.setState({ isLoad: false, project: project })
     }
 
     onDecline = () => {
-        var { declineProject,project } = this.props
+        var { match, declineProject, project } = this.props
+        console.log(project)
         confirm({
             title: 'Are you sure decline this project?',
             okText: 'Yes',
             cancelText: 'No',
             onOk() {
-                declineProject(project.projectID, project.projectName, project.pmID)
+                declineProject(match.params.id, project.projectName, project.pmID)
                 history.push('/project')
             },
             onCancel() {
                 console.log('Cancel');
             },
-
         });
     }
 
@@ -62,8 +60,6 @@ class ProjectDetailTable extends Component {
                     </div>
                     :
                     <Descriptions title="Project Info" layout='horizontal' bordered extra={
-
-
                         <Button onClick={this.onDecline} type="danger" >
                             {showStatus(stat) === 'On Going' ? '' : 'Decline'}
                         </Button>} >
@@ -104,6 +100,9 @@ const mapDispatchToProp = dispatch => {
     return {
         fetchProjectDetail: projectID => {
             dispatch(Action.fetchProjectDetail(projectID))
+        },
+        changeStatusToFinish: projectID => {
+            dispatch(Action.changeStatusToFinish(projectID))
         },
         declineProject: (projectID, projectName, pmID) => {
             dispatch(Action.declineProject(projectID, projectName, pmID))

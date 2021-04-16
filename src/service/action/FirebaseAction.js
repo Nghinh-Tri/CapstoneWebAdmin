@@ -5,18 +5,27 @@ import { fetchProject } from "./ProjectAction"
 
 export const sendNotificate = (pmID, body) => {
     var url = `${API_URL}/Notification?topic=pm${pmID}`
+    var token = JSON.parse(localStorage.getItem('FirebaseToken'))
     var message = {
         title: `Human Resources ${getUserName()} send you a notification`,
         body: body
     }
     return (dispatch) => {
-        axios.post(
-            url,
-            message,
-            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
-        ).then(res => {
-            dispatch(sendNotificateSuccess())
-        })
+        if (localStorage.getItem('token') !== null && token !== null) {
+            var unsubcriptUrl = `${API_URL}/Notification/unsubscription?token=${token}&topic=pm${pmID}`
+            axios.post(
+                unsubcriptUrl,
+                { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
+            ).then(
+                axios.post(
+                    url,
+                    message,
+                    { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
+                ).then(res => {
+                    dispatch(sendNotificateSuccess())
+                })
+            )
+        }
     }
 }
 

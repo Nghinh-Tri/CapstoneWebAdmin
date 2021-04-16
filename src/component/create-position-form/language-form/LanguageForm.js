@@ -103,9 +103,9 @@ class LanguageForm extends Component {
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th width={250}>Language</th>
-                                        <th width={250}>Level</th>
-                                        <th width={50}></th>
+                                        <th >Language</th>
+                                        <th >Level</th>
+                                        <th ></th>
                                     </tr>
                                 </thead>
                                 <tbody>

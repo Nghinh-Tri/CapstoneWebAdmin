@@ -7,59 +7,35 @@ import * as Action from "../../service/action/SuggestCandidateAction";
 import '../../css/SuggestNav.css'
 import { checkSession } from '../../service/action/AuthenticateAction';
 import { compose } from 'redux';
-import { convertSuggestList } from '../../service/util/util';
-import { history } from '../../service/helper/History';
-import confirm from 'antd/lib/modal/confirm';
-import SelectBar from "../../component/select-search/SelectBar";
+import { Tabs } from "antd";
+
+const TabPane = Tabs.TabPane;
 
 class ListCandidate extends Component {
     componentDidMount = () => {
         this.props.checkSession();
         var { match } = this.props;
-        this.props.fetchSuggestCandidateList(match.params.id);
+        if (this.props.candidateSelectedList.length === 0)
+            this.props.fetchSuggestCandidateList(match.params.id);
     };
+
+    componentDidUpdate = (prevProp) => {
+        if (prevProp.candidateSelectedList !== this.props.candidateSelectedList) {
+            // console.log('candidateSelectedList', this.props.candidateSelectedList)
+        }
+    }
 
     onSelected = (index) => {
         this.props.onPositionSelect(index);
     };
 
-
-    showPosition = () => {
-        var { suggestCandidateList, selectedIndex } = this.props;
-        var result = null;
-        var convertArrayIntoSelectBarList = [];
-        suggestCandidateList.map((item, index) => {
-            var x = { label: item.posName, value: index };
-            convertArrayIntoSelectBarList.push(x);
-        });
-        return (
-            <>
-                {/* <li className="li" key={index}>
-            <a
-              className={selectedIndex === index ? "active" : ""}
-              onClick={() => this.onSelected(index)}
-            >
-              {item.posName}
-            </a>
-          </li> */}
-                <SelectBar
-                    type="special"
-                    name="positionSelect"
-                    list={convertArrayIntoSelectBarList}
-                    value={selectedIndex}
-                    onSelectPos={this.onSelected}
-                />
-            </>
-        );
+    selectCandidate = (check, candidate, posID) => {
+        this.props.selectCandidate(check, candidate, posID);
     };
 
-    selectCandidate = (candidate, item) => {
-        this.props.selectCandidate(candidate, item);
-    };
-
-    unselectCandidate = (candidate, posName) => {
-        this.props.unSelectCandidate(candidate, posName.trim());
-    };
+    onNoteRejectingReason = (value, candidate, posID) => {
+        this.props.noteRejectingReason(value, candidate, posID)
+    }
 
     getSelectedCandidateList = (suggestCandidateItem, selecedCandidateList) => {
         for (let k = 0; k < selecedCandidateList.length; k++) {
@@ -69,80 +45,48 @@ class ListCandidate extends Component {
         return null;
     };
 
-    onSelectAll = (item) => {
-        this.props.selectAll(item);
+    getTabName = () => {
+        var { candidateSelectedList } = this.props;
+        var result = candidateSelectedList.map((item, index) =>
+            <>
+                <TabPane tab={(item || {}).posName} key={index}></TabPane>
+            </>
+        );
+        return result;
     };
 
-    onUnSelectAll = (position) => {
-        this.props.unSelectAll(position);
-    };
-
-    onDecline = () => {
-        if (this.props.candidateSelectedList.length > 0) {
-            var item = convertSuggestList(this.props.candidateSelectedList);
-            var candidates = { candidates: item, isAccept: false };
-            var { onDecline, match, location } = this.props;
-            confirm({
-                title: "Are you sure you want to decline those candidate?",
-                okText: "Yes",
-                okType: "danger",
-                cancelText: "No",
-                onOk() {
-                    onDecline(
-                        candidates,
-                        match.params.id,
-                        location.state.projectName,
-                        location.state.pmID
-                    );
-                },
-                onCancel() {
-                    console.log("Cancel");
-                },
-            });
-        }
+    onSelectAll = (value, posID) => {
+        this.props.selectAll(value, posID);
     };
 
     render() {
-        var { suggestCandidateList, selectedIndex, candidateSelectedList } = this.props;
+        var { suggestCandidateList, selectedIndex, candidateSelectedList, } = this.props;
         return (
             <div>
-                <ProgressBar current="1" />
+                <ProgressBar current="0" />
                 <div class="card mb-4">
                     <div class="card-header">
-                        <i class="fas fa-table mr-1"></i>List Employee
+                        <Tabs defaultActiveKey="0" onChange={this.onSelected}>
+                            {this.getTabName()}
+                        </Tabs>
                     </div>
-                    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-                        <div className="col-auto" style={{ marginTop: 20 }}>
-                            {this.showPosition()}
-                        </div>
-                    </form>
                     <div className="card-body">
                         {suggestCandidateList.length > 0 ? (
                             <SuggestCandidates
-                                item={suggestCandidateList[selectedIndex]}
+                                item={candidateSelectedList[selectedIndex]}
                                 onSelectCandidate={this.selectCandidate}
-                                selectedItem={this.getSelectedCandidateList(
-                                    suggestCandidateList[selectedIndex],
-                                    candidateSelectedList
-                                )}
-                                onUnselectCandidate={this.unselectCandidate}
+                                onNoteRejectingReason={this.onNoteRejectingReason}
                                 onSelectAll={this.onSelectAll}
-                                onUnSelectAll={this.onUnSelectAll}
                             />
                         ) : (
                             ""
                         )}
                     </div>
                 </div>
-                <div className="row pull-right">
-                    {/* <div className="col">
-                        <button type="button" className="btn btn-danger pull-right" style={{ width: 110, fontWeight: 600 }} onClick={this.onDecline}>
-                            Decline
-                        </button>
-                    </div> */}
+                <div className="row pull-right" style={{marginTop:-10,marginBottom:10}}>
                     <div className="col">
                         <NavLink to={`/project/confirm-accept-candidate/${this.props.match.params.id}`}>
-                            <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }} >
+                            <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }}>
                                 Next
                             </button>
                         </NavLink>
@@ -166,11 +110,11 @@ const mapDispatchToProps = (dispatch) => {
         onPositionSelect: index => {
             dispatch(Action.setPositionSelect(index))
         },
-        selectCandidate: (candidate, item) => {
-            dispatch(Action.selectCandidate(candidate, item))
+        selectCandidate: (check, candidate, posID) => {
+            dispatch(Action.selectCandidate(check, candidate, posID))
         },
-        unSelectCandidate: (candidate, posName) => {
-            dispatch(Action.unselectCandiate(candidate, posName))
+        noteRejectingReason: (value, candidate, posID) => {
+            dispatch(Action.noteRejectingReason(value, candidate, posID))
         },
         fetchSuggestCandidateList: (projectID) => {
             dispatch(Action.fetchSuggestList(projectID))
@@ -178,14 +122,8 @@ const mapDispatchToProps = (dispatch) => {
         checkSession: () => {
             dispatch(checkSession())
         },
-        selectAll: (candidateList) => {
-            dispatch(Action.selectAllCandidates(candidateList))
-        },
-        unSelectAll: (position) => {
-            dispatch(Action.unselectAllCandiates(position))
-        },
-        onDecline: (candidates, projectId, projectName, pmID) => {
-            dispatch(Action.confirmSuggestList(candidates, projectId, projectName, pmID))
+        selectAll: (check, posID) => {
+            dispatch(Action.selectAllCandidates(check, posID))
         }
     }
 }

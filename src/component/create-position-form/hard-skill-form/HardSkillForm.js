@@ -11,8 +11,7 @@ class HardSkillForm extends Component {
             hardSkills: {
                 skillID: 0,
                 skillLevel: 0,
-                empCertifications: [],
-                certiList: []
+                empCertifications: []
             },
             isMinimize: false
         }
@@ -88,7 +87,7 @@ class HardSkillForm extends Component {
                     {this.showItems(hardSkill)}
                     {this.props.hardSkillList.length === hardSkill.length ?
                         '' :
-                        <span className="material-icons add" style={{ marginTop: 10, cursor: 'pointer' }}
+                        <span className="material-icons add" style={{ marginTop: 10 }}
                             onClick={this.onAddHardSkill}>add_box</span>
                     }
                 </>)
@@ -108,9 +107,9 @@ class HardSkillForm extends Component {
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th width={250} >Hard Skill</th>
-                                        <th width={250}>Skill Level</th>
-                                        <th width={50}></th>
+                                        <th >Hard Skill</th>
+                                        <th >Skill Level</th>
+                                        <th ></th>
                                     </tr>
                                 </thead>
                                 <tbody>

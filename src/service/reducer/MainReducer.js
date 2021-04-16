@@ -22,8 +22,11 @@ import DataStatisticsReducer from "./DataStatisticsReducer";
 import PositionRequireReducer from "./PositionRequireReducer";
 import ProjectFieldReducer from "./ProjectFieldReducer";
 import ProjectTypeReducer from "./ProjectTypeReducer";
+import PreviosRequrieReducer from "./PreviosRequrieReducer";
+import SuggestCandidateAgainSelectedListReducer from "./SuggestCandidateAgainSelectedListReducer";
 import ProjectDetailFetchReducer from "./ProjectDetailFetchReducer";
-
+import SuggestCandidateAgainSelect from "./SuggestCandidateAgainSelect";
+import SuggestCandidateAgainList from "./SuggestCandidateAgainList ";
 const MainReducer = combineReducers({
     authentication,//use
     ProjectFetchReducer,//use
@@ -47,7 +50,11 @@ const MainReducer = combineReducers({
     PositionRequireReducer,
     ProjectFieldReducer,
     ProjectTypeReducer,
-    ProjectDetailFetchReducer
+    PreviosRequrieReducer,
+    SuggestCandidateAgainSelectedListReducer,
+    ProjectDetailFetchReducer,
+    SuggestCandidateAgainSelect,
+    SuggestCandidateAgainList
 })
 
 export default MainReducer

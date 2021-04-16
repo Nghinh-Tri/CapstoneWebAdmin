@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ProjectDetailTable from '../../component/project-detail/ProjectDetailTable';
 import { checkSession } from '../../service/action/AuthenticateAction';
+import { fetchProjectDetail } from '../../service/action/ProjectAction';
 import { history } from '../../service/helper/History';
 import ListEmployee from './ListEmployee';
 import { Tabs } from 'antd';
@@ -15,11 +16,27 @@ class ProjectDetail extends Component {
         super(props);
         this.state = {
             select: 1,
+            project: {}
         }
     }
 
     componentDidMount = () => {
         this.props.checkSession()
+        var { match } = this.props
+        this.props.fetchProjectDetail(match.params.id)
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.project !== prevState.project) {
+            return { someState: nextProps.project };
+        }
+        return null;
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.project !== this.props.project) {
+            this.setState({ project: this.props.project })
+        }
     }
 
     onClickMenu = (value) => {
@@ -30,17 +47,18 @@ class ProjectDetail extends Component {
         if (select === 1)
             return <ProjectDetailTable projectID={this.props.match.params.id} />
         if (select === 2)
-            return <ListEmployee projectID={this.props.match.params.id} />
+            return <ListEmployee project={this.props.project} />
         if (select === 3)
             return <PositionRequire projectID={this.props.match.params.id} />
     }
+
 
     onBack = () => {
         history.push('/project')
     }
 
     render() {
-        var { select } = this.state
+        var { project, select } = this.state
         return (
             <React.Fragment>
                 <ol class="breadcrumb mb-4 mt-3">
@@ -62,13 +80,20 @@ class ProjectDetail extends Component {
         );
     }
 }
-
+const mapStateToProp = state => {
+    return {
+        project: state.ProjectDetailFetchReducer
+    }
+}
 
 const mapDispatchToProp = (dispatch) => {
     return {
+        fetchProjectDetail: (projectID) => {
+            dispatch(fetchProjectDetail(projectID))
+        },
         checkSession: () => {
             dispatch(checkSession())
         }
     }
 }
-export default connect(null, mapDispatchToProp)(ProjectDetail);
+export default connect(mapStateToProp, mapDispatchToProp)(ProjectDetail);

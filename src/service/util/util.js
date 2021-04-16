@@ -40,7 +40,7 @@ export const showStatus = status => {
         case 3:
             return "On Going"
         case 4:
-            return "Finish"
+            return "Finished"
         default:
             break;
     }
@@ -227,20 +227,42 @@ export const sortSuggestListByHardSkillMatch = list => {
 }
 
 export const convertSuggestList = list => {
+    console.log(list)
     var result = []
     if (list.length > 0) {
         list.forEach(element => {
-            var positionObj = { posID: element.posId, empIDs: [] }
-            if (positionObj.posID === element.posId) {
-                var empID = []
-                element.candidateSelect.forEach(e => {
-                    empID.push(e.empID)
-                });
-                positionObj.empIDs = empID
-            }
+            var positionObj = { requiredPosID: element.requiredPosID, posID: element.posID, empIDs: [] }
+            element.employees.forEach(e => {
+                var note = ''
+                if (!e.check) {
+                    if (typeof e.note === 'undefined')
+                        note = ''
+                    else
+                        note = e.note
+                }
+                var obj = { empID: e.empID, isAccept: e.check, note: note }
+                positionObj.empIDs.push(obj)
+            });
             result.push(positionObj)
         });
     }
+    return result
+}
+
+export const convertAddEmployeeList = list => {
+    var result = []
+    var require = JSON.parse(localStorage.getItem('positionRequire'))
+    require = require[0]
+    var obj = { requiredPosID: require.requiredPosID, posID: require.posID, empIDs: [] }
+    list.forEach(element => {
+        if (element.posId === obj.posID) {
+            element.candidateSelect.forEach(e => {
+                var temp = { empID: e.empID, isAccept: true, note: '' }
+                obj.empIDs.push(temp)
+            })
+        }
+    });
+    result.push(obj)
     return result
 }
 
