@@ -35,8 +35,7 @@ class ProjectDetail extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.project !== this.props.project) {
-            if (typeof this.props.project.pageIndex === 'undefined')
-                this.setState({ project: this.props.project })
+            this.setState({ project: this.props.project })
         }
     }
 
@@ -48,7 +47,7 @@ class ProjectDetail extends Component {
         if (select === 1)
             return <ProjectDetailTable projectID={this.props.match.params.id} />
         if (select === 2)
-            return <ListEmployee projectID={this.props.match.params.id} />
+            return <ListEmployee project={this.props.project} />
         if (select === 3)
             return <PositionRequire projectID={this.props.match.params.id} />
     }
@@ -83,7 +82,7 @@ class ProjectDetail extends Component {
 }
 const mapStateToProp = state => {
     return {
-        project: state.ProjectFetchReducer
+        project: state.ProjectDetailFetchReducer
     }
 }
 

@@ -8,7 +8,7 @@ import { compose } from 'redux';
 import { checkSession } from '../../service/action/AuthenticateAction';
 import * as Action from '../../service/action/ProjectAction'
 import { showStatus, showBadge } from '../../service/util/util';
-import {history} from '../../service/helper/History'
+import { history } from '../../service/helper/History'
 
 class ProjectDetailTable extends Component {
 
@@ -30,35 +30,20 @@ class ProjectDetailTable extends Component {
             this.setState({ isLoad: false, project: project })
     }
 
-    onChangeStatusToFinish = () => {
-        var { match, changeStatusToFinish } = this.props
-        confirm({
-            title: 'Are you sure finish this project?',
-            okText: 'Yes',
-            cancelText: 'No',
-            onOk() {
-                changeStatusToFinish(match.params.id)
-            },
-            onCancel() {
-                console.log('Cancel');
-            },
-        });
-    }
-
     onDecline = () => {
-        var { match, declineProject } = this.props
+        var { match, declineProject, project } = this.props
+        console.log(project)
         confirm({
             title: 'Are you sure decline this project?',
             okText: 'Yes',
             cancelText: 'No',
             onOk() {
-                declineProject(match.params.id)
+                declineProject(match.params.id, project.projectName, project.pmID)
                 history.push('/project')
             },
             onCancel() {
                 console.log('Cancel');
             },
-
         });
     }
 
@@ -66,7 +51,7 @@ class ProjectDetailTable extends Component {
     render() {
         var { project } = this.state
         let stat = project.status
-    
+
         return (
             <React.Fragment>
                 {this.state.isLoad ?
@@ -75,12 +60,10 @@ class ProjectDetailTable extends Component {
                     </div>
                     :
                     <Descriptions title="Project Info" layout='horizontal' bordered extra={
-                        
-                       
                         <Button onClick={this.onDecline} type="danger" >
-                              {showStatus(stat) === 'On Going' ? '' : 'Decline'} 
+                            {showStatus(stat) === 'On Going' ? '' : 'Decline'}
                         </Button>} >
-                   
+
                         <Descriptions.Item span={3} label="Project Name">{project.projectName} </Descriptions.Item>
 
                         <Descriptions.Item span={3} label="Project Type">{project.typeName}</Descriptions.Item>
@@ -109,7 +92,7 @@ class ProjectDetailTable extends Component {
 
 const mapStateToProp = state => {
     return {
-        project: state.ProjectFetchReducer
+        project: state.ProjectDetailFetchReducer
     }
 }
 
@@ -121,8 +104,8 @@ const mapDispatchToProp = dispatch => {
         changeStatusToFinish: projectID => {
             dispatch(Action.changeStatusToFinish(projectID))
         },
-        declineProject: projectID => {
-            dispatch(Action.declineProject(projectID))
+        declineProject: (projectID, projectName, pmID) => {
+            dispatch(Action.declineProject(projectID, projectName, pmID))
         },
         checkSession: () => {
             dispatch(checkSession())

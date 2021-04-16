@@ -13,6 +13,8 @@ import Certification from "./screen/certification/Certification"
 import CreateCertification from "./screen/certification/CreateCertification"
 import EmpList from "./screen/Employees/EmpList"
 import PositionAssign from "./screen/create-user/PositionAssign"
+import AddEmployee from "./screen/add-employee/AddEmployee"
+import ConfirmAddEmployee from "./screen/confirm-add-employee/ConfirmAddEmployee"
 
 
 const route = [
@@ -32,10 +34,20 @@ const route = [
         main: ({ match }) => <ProjectDetail match={match} />,
     },
     {
+        path: "/project/add-employees/:id",
+        exact: true,
+        main: ({ match }) => < AddEmployee match={match} />,
+    },
+    {
+        path: "/project/confirm-add-employees/:id",
+        exact: true,
+        main: ({ match }) => < ConfirmAddEmployee match={match} />,
+    },
+    {
         path: "/project/confirm-candidate/:id",
         exact: true,
         main: ({ match }) => <ListCandidate match={match} />,
-    },   
+    },
     {
         path: "/project/confirm-accept-candidate/:id",
         exact: true,

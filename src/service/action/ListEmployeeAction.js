@@ -9,7 +9,6 @@ export const fetchListEmployee = (projectID, page) => {
             url,
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
-            console.log('action',res)
             if (res.status === 200) {
                 dispatch(fetchListEmployeeSuccess(res.data.resultObj))
             }

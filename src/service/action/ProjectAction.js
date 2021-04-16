@@ -150,7 +150,7 @@ export const updateProjectSuccess = (resultObj) => {
     }
 }
 
-export const declineProject = (projectID, pmID) => {
+export const declineProject = (projectID, projectName, pmID) => {
     var url = `${API_URL}/Project/${projectID}`
     return (dispatch) => {
         return axios.delete(
@@ -158,7 +158,7 @@ export const declineProject = (projectID, pmID) => {
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }).
             then(res => {
                 if (res.data.isSuccessed)
-                    dispatch(sendNotificate(pmID, 'declined'))
+                    dispatch(sendNotificate(pmID, `Project ${projectName} has been declined`))
             }).catch(err => {
                 dispatch(declineProjectFail())
             })

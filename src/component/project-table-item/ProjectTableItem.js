@@ -26,7 +26,9 @@ class ProjectTableItem extends Component {
                 <th className="">{project.projectName}</th>
                 <th className="">{project.name}</th>
                 <th className="text-center">{moment(project.dateCreated).format("DD-MM-YYYY")}</th>
-                <th className="text-center" style={{ width: 250 }} >
+                <th className="text-center">{moment(project.dateBegin).format("DD-MM-YYYY")}</th>
+                <th className="text-center">{moment(project.dateEstimatedEnd).format("DD-MM-YYYY")}</th>
+                <th className="text-center" style={{ width: 50 }} >
                     <span className={`badge badge-pill ${showSpan(project.status)} span`}>
                         {showStatus(project.status)}
                     </span>

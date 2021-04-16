@@ -204,3 +204,26 @@ export const createPositionSuccess = (result) => {
         result
     }
 }
+
+export const getPrevRequire = (projectId, posID) => {
+    var url = `${API_URL}/Project/getRequiredPosByID/${projectId}&&${posID}`
+    return (dispatch) => {
+        return axios.get(
+            url,
+            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
+        ).then(res => {
+            if (res.data.isSuccessed)
+                dispatch(getPrevRequireSuccess(res.data.resultObj))
+            else
+                dispatch(getPrevRequireFailed())
+        })
+    }
+}
+
+export const getPrevRequireSuccess = prevRequire => {
+    return { type: Type.GET_PREV_REQUIRE, prevRequire }
+}
+
+export const getPrevRequireFailed = () => {
+    return { type: Type.GET_PREV_REQUIRE }
+}
