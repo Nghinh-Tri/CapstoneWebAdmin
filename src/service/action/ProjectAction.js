@@ -31,7 +31,6 @@ export const fetchProject = (pageIndex, search) => {
 
 export const fetchPositionRequire = (projectID) => {
     var url = `${API_URL}/Project/getRequiredPositions/${projectID}`
-    console.log(url)
     return (dispatch) => {
         return axios.get(
             url,
@@ -49,7 +48,6 @@ export const fetchProjectType = () => {
             url,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
         ).then(res => {
-            console.log(res.data.resultObj)
             dispatch(fetchPostionTypeSuccess(res.data.resultObj))
         }).catch(err => {
             if (err.response.status === 401) {

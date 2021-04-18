@@ -5,6 +5,8 @@ import { fetchProject } from "./ProjectAction"
 
 export const sendNotificate = (pmID, body) => {
     var url = `${API_URL}/Notification?topic=pm${pmID}`
+    console.log(url)
+
     var token = JSON.parse(localStorage.getItem('FirebaseToken'))
     var message = {
         title: `Human Resources ${getUserName()} send you a notification`,

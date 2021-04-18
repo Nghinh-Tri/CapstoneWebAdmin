@@ -130,6 +130,15 @@ class SuggestCandidate extends Component {
         });
         return result;
     };
+    onCancelAddEmployee = () => {
+        localStorage.removeItem('projectId')
+        localStorage.removeItem('projectType')
+        localStorage.removeItem('projectField')
+        localStorage.removeItem('projectName')
+        localStorage.removeItem('positionRequire')
+        localStorage.removeItem('pmID')
+        history.goBack()
+    }
 
     render() {
         var { candidateSelectedList, suggestCandidateList, selectedIndex } = this.props
@@ -161,10 +170,19 @@ class SuggestCandidate extends Component {
                     }
                 </div>
                 {this.state.isLoading ? '' :
-                    <div className="col">
-                        <button type="submit" onClick={this.onHandle} className="btn btn-primary pull-right pt" style={{ marginBottom: 20, marginRight: 20, marginTop: 0 }}>Next</button>
-                    </div>
-                }
+                    <>
+                        <div className="col">
+                            <button type="submit" onClick={this.onHandle} className="btn btn-primary pull-right pt"
+                                style={{ marginBottom: 20, marginRight: 20, marginTop: 0, width: 100 }}>Next</button>
+                        </div>
+                        {typeof this.props.location.state.type !== 'undefined' ?
+                            this.props.location.state.type === 'AddEmployee' ?
+                                <div className="col">
+                                    <button type="submit" onClick={this.onCancelAddEmployee} className="btn btn-primary pull-right pt"
+                                        style={{ marginBottom: 20, marginRight: 20, marginTop: 0, width: 100 }}>Cancel</button>
+                                </div> : '' : ''
+                        }
+                    </>}
             </React.Fragment >
         );
     }

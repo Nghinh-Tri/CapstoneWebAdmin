@@ -109,9 +109,6 @@ const mapDispatchToProp = dispatch => {
     return {
         fetchListEmployee: (projectID, page) => {
             dispatch(Action.fetchListEmployee(projectID, page))
-        },
-        pushToCreatePosition: () => {
-            dispatch(addMoreCandidate())
         }
     }
 }

@@ -7,7 +7,7 @@ import { checkSession } from '../../service/action/AuthenticateAction';
 import { NavLink } from 'react-router-dom';
 import ProgressBar from '../../component/progress-bar/ProgressBar';
 import { confirmSuggestList, fetchSelectedList } from '../../service/action/SuggestCandidateAction';
-import { convertSuggestList } from '../../service/util/util';
+import { API_URL, convertSuggestList } from '../../service/util/util';
 import { Tabs } from "antd";
 
 const TabPane = Tabs.TabPane;
@@ -46,7 +46,14 @@ class ConfirmPage extends Component {
         var item = convertSuggestList(this.props.candidateList);
         console.log('item', item)
         var candidates = { candidates: item };
-        this.props.onConfirm(candidates, this.state.project.projectID, this.state.project.projectName, this.state.project.pmID);
+        var projectName = this.state.project.projectName
+        var pmID = this.state.project.pmID.toString()
+        // pmID = pmID.toString().replace(/"/g, "")
+        // pmID = JSON.stringify(pmID)
+        // var url = `${API_URL}/Notification?topic=pm${pmID}`
+
+        // console.log( url)
+        this.props.onConfirm(candidates, this.state.project.projectID, projectName, pmID);
     };
 
     onClickMenu = (value) => {
@@ -83,7 +90,7 @@ class ConfirmPage extends Component {
 
 const mapStateToProp = state => {
     return {
-        project: state.ProjectFetchReducer,
+        project: state.ProjectDetailFetchReducer,
         candidateList: state.SuggestCandidateSelectedList
     }
 }

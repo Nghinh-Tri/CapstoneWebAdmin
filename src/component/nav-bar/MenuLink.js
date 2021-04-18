@@ -10,7 +10,7 @@ class MenuLink extends Component {
                     <li className="nav-item">
                         <NavLink to={this.props.to} >
                             <div class="sb-sidenav-menu-heading"></div>
-                            <a class={`nav-link ${active}`}>{this.props.label}</a>                          
+                            <a class={`nav-link ${active}`} style={{fontSize:17}} >{this.props.label}</a>                          
                         </NavLink>
                     </li>
                 );

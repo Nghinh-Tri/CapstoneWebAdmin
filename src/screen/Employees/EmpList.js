@@ -107,9 +107,7 @@ class EmpList extends Component {
                             <i class="fas fa-table mr-1"></i>
                     List Emp
                 </div>
-
                         <div className="card-body">
-
                             {this.state.isLoading ? '' :
                                 <div className="row mb-3">
                                     <Search search="Employee"

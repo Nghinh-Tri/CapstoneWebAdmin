@@ -206,7 +206,6 @@ export const getSuggestAgainButton = (list) => {
             }
         });
     });
-    console.log(i === 0)
     return i === 0
 }
 
@@ -295,11 +294,11 @@ export const getRole = () => {
 export const showRequestStatus = status => {
     switch (status) {
         case 0:
-            return "Waiting"
+            return "New"
         case 1:
-            return "Suggest Again"
+            return "Waiting"
         case 2:
-            return "Finish"
+            return "Finished"
         default:
             break;
     }

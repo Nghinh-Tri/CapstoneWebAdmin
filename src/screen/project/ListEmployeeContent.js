@@ -52,7 +52,7 @@ class ListEmployeeContent extends Component {
 
     handleOk = () => {
         var { prevRequire } = this.props
-        if (prevRequire.status === 2 && prevRequire.missingEmployee > 0) {
+        if (prevRequire.status === 2 | prevRequire.status === 0) {
             var obj = {
                 requiredPosID: prevRequire.requiredPosID,
                 posID: prevRequire.posID,
@@ -80,10 +80,10 @@ class ListEmployeeContent extends Component {
             localStorage.setItem('projectField', JSON.stringify(this.props.project.fieldID))
             localStorage.setItem('projectName', JSON.stringify(this.props.project.projectName))
             localStorage.setItem('positionRequire', JSON.stringify(array))
-            history.push(`/project/add-employees/${this.props.project.projectID}`)
+            history.push(`/project/add-employees/${this.props.project.projectID}`, { type: 'AddEmployee' })
         } else if (prevRequire.status === 1) {
             notification.open({
-                message: 'Require is being confirm',
+                message: 'Require is waiting to confirm',
             });
         }
     }
@@ -149,7 +149,6 @@ class ListEmployeeContent extends Component {
 
     render() {
         var { item, prevRequire } = this.props
-        // console.log('prevRequire', item)
         return (
             <React.Fragment>
                 <div className='row pull-right' style={{ width: 'auto' }} >
@@ -170,7 +169,7 @@ class ListEmployeeContent extends Component {
                     </table>
                 </div>
                 {typeof prevRequire.requiredPosID !== 'undefined' ?
-                    prevRequire.status === 2 && prevRequire.missingEmployee > 0 ?
+                    item.noe !== item.candidateNeeded && prevRequire.status !== 1 ?
                         <>
                             <button type="submit" className="btn btn-primary pull-right" onClick={this.onHandle} style={{ fontWeight: 700 }} onClick={this.onClickAddEmployees} >
                                 Add Employees

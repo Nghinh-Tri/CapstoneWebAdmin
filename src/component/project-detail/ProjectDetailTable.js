@@ -32,7 +32,6 @@ class ProjectDetailTable extends Component {
 
     onDecline = () => {
         var { match, declineProject, project } = this.props
-        console.log(project)
         confirm({
             title: 'Are you sure decline this project?',
             okText: 'Yes',

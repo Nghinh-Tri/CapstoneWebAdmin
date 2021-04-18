@@ -50,13 +50,13 @@ class Profile extends Component {
             <React.Fragment>
 
                 <ol class="breadcrumb mb-4 mt-3">
-                    <li class="breadcrumb-item active">ProFile Detail</li>
+                    <li class="breadcrumb-item active">Profile Detail</li>
                 </ol>
                 <div class="card mb-4">
                     <div class="card-header">
                         <Tabs defaultActiveKey="1" onChange={this.onClickMenu}>
                             <TabPane tab="Personal Infomation" key={1}></TabPane>
-                            <TabPane tab="Position Detail" key={2}></TabPane>
+                            <TabPane tab="Skill Details" key={2}></TabPane>
                         </Tabs>
                     </div>
                     <div class="card-body">
