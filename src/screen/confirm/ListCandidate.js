@@ -8,6 +8,8 @@ import '../../css/SuggestNav.css'
 import { checkSession } from '../../service/action/AuthenticateAction';
 import { compose } from 'redux';
 import { Tabs } from "antd";
+import { history } from '../../service/helper/History';
+import { store } from 'react-notifications-component';
 
 const TabPane = Tabs.TabPane;
 
@@ -59,6 +61,28 @@ class ListCandidate extends Component {
         this.props.selectAll(value, posID);
     };
 
+    onMoveToConfirmPage = () => {
+        if (typeof this.props.candidateSelectedList.find(obj =>
+            obj.employees.find(emp =>
+                (typeof emp.check === 'undefined' && typeof emp.note === 'undefined') || (emp.check === false && emp.note === '')))
+            !== 'undefined')
+            store.addNotification({
+                message: "Please type rejecting reason for the candidate you not check",
+                type: "danger",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 6000,
+                    onScreen: false
+                }
+            })
+        else {
+            history.push(`/project/confirm-accept-candidate/${this.props.match.params.id}`)
+        }
+    }
+
     render() {
         var { suggestCandidateList, selectedIndex, candidateSelectedList, } = this.props;
         return (
@@ -83,13 +107,11 @@ class ListCandidate extends Component {
                         )}
                     </div>
                 </div>
-                <div className="row pull-right" style={{marginTop:-10,marginBottom:10}}>
+                <div className="row pull-right" style={{ marginTop: -10, marginBottom: 10 }}>
                     <div className="col">
-                        <NavLink to={`/project/confirm-accept-candidate/${this.props.match.params.id}`}>
-                            <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }}>
-                                Next
-                            </button>
-                        </NavLink>
+                        <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }} onClick={this.onMoveToConfirmPage} >
+                            Next
+                        </button>
                     </div>
                 </div>
             </div>

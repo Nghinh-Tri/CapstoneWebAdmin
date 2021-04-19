@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import SelectBar from '../../component/create-position-form/select-search/SelectBar';
 import * as Action from "../../service/action/PositionAssignAction";
-import { fetchPositionProfileDetail } from '../../service/action/ProfileAction';
 import { fetchPostionList } from '../../service/action/PositionSelectBarAction';
 import { checkSession } from '../../service/action/AuthenticateAction';
-import { convertPositionList } from '../../service/util/util';
 import LanguageForm from "../../component/create-position-form/language-form/LanguageForm";
 import SoftSkillForm from "../../component/create-position-form/soft-skill-form/SoftSkillForm";
 import HardSkillForm from "../../component/create-position-form/hard-skill-form/HardSkillForm";
