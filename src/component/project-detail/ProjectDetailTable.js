@@ -50,7 +50,7 @@ class ProjectDetailTable extends Component {
     render() {
         var { project } = this.state
         let stat = project.status
-
+        console.log('project', project)
         return (
             <React.Fragment>
                 {this.state.isLoad ?

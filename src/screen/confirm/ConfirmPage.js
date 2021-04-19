@@ -44,7 +44,6 @@ class ConfirmPage extends Component {
 
     onConfirm = () => {
         var item = convertSuggestList(this.props.candidateList);
-        console.log('item', item)
         var candidates = { candidates: item };
         var projectName = this.state.project.projectName
         var pmID = this.state.project.pmID.toString()
