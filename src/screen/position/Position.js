@@ -116,73 +116,120 @@ class Position extends Component {
         if (typeof item.items !== 'undefined')
             list = item.items
         return (
-
-            <React.Fragment>
-                <ol class="breadcrumb mb-4 mt-3">
-                    <li class="breadcrumb-item active">Position</li>
-                </ol>
-                <div className="container-fluid">
-
-                    <button type="button" className="btn btn-primary"
-                        style={{ fontWeight: 700, borderRadius: 5, marginLeft: 10, marginBottom: 15 }}
-                        onClick={this.onHandle} >
-                        <div className='row' style={{ paddingLeft: 7, paddingRight: 7 }}>
-                            <i className="material-icons">add_box</i>Create New Pos
-                        </div>
-                    </button>
-
-
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <i class="fas fa-table mr-1"></i>
-                List Position
-            </div>
-
-                        <div className="card-body">
-
-                            {this.state.isLoading ? '' :
-                                <div className="row mb-3">
-                                    <Search search="Position"
-                                        placeholder="Search position name ..."
-                                        searchPos={this.searchPos} />
-                                </div>
-                            }
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead className=" text-primary">
-                                        <tr>
-                                            <th className="font-weight-bold text-center">No</th>
-                                            <th className="font-weight-bold" style={{ marginLeft: 20 }}>Position</th>
-                                            <th className="font-weight-bold text-center" style={{ marginLeft: 20 }}>Status</th>
-                                            <th className="font-weight-bold text-center" style={{ marginLeft: 20 }}></th>
-                                            <th className="font-weight-bold text-center" style={{ marginLeft: 20 }}></th>
-                                        </tr>
-                                    </thead>
-                                    {this.state.isLoading ?
-                                        ''
-                                        :
-                                        <tbody>
-                                            {this.onShowListPosition(list)}
-                                        </tbody>
-                                    }
-                                </table>
-                            </div>
-                            {this.state.isLoading ?
-                                <div className='row justify-content-center'>
-                                    <Spin className='text-center' size="large" />
-                                </div>
-                                : ''}
-                            {this.state.isLoading ? ''
-                                :
-                                <div className='row justify-content-center' style={{ marginBottom: 20 }} >
-                                    <Pagination defaultCurrent={item.pageIndex} total={item.totalRecords} onChange={this.onSelectPage} />
-                                </div>
-                            }
-
-                        </div>
-                    </div>
+          <React.Fragment>
+            <ol class="breadcrumb mb-4 mt-3">
+              <li class="breadcrumb-item active">Position</li>
+            </ol>
+            <div className="container-fluid">
+              <div class="card mb-4">
+                <div class="card-header">
+                  <i class="fas fa-table mr-1"></i>
+                  List Position
                 </div>
-            </React.Fragment >
+
+                <div className="card-body">
+                  {this.state.isLoading ? (
+                    ""
+                  ) : (
+                    <div className="row mb-3">
+                      <button
+                        type="button"
+                        className="btn btn-primary"
+                        style={{
+                          fontWeight: 700,
+                          borderRadius: 5,
+                          marginLeft: 20,
+                          marginTop: 10,
+                        }}
+                        onClick={this.onHandle}
+                      >
+                        <div
+                          className="row"
+                          style={{ paddingLeft: 7, paddingRight: 7 }}
+                        >
+                          <i className="material-icons">add_box</i>Create New
+                          Pos
+                        </div>
+                      </button>
+
+                      <Search
+                        search="Position"
+                        placeholder="Search position name ..."
+                        searchPos={this.searchPos}
+                      />
+                    </div>
+                  )}
+                  <div class="table-responsive">
+                    <table
+                      class="table table-bordered"
+                      id="dataTable"
+                      width="100%"
+                      cellspacing="0"
+                    >
+                      <thead className=" text-primary">
+                        <tr>
+                          <th className="font-weight-bold text-center">No</th>
+                          <th
+                            className="font-weight-bold"
+                            style={{ marginLeft: 20 }}
+                          >
+                            Position
+                          </th>
+                          <th
+                            className="font-weight-bold text-center"
+                            style={{ marginLeft: 20 }}
+                          >
+                            Status
+                          </th>
+                          <th
+                            className="font-weight-bold text-center"
+                            style={{ marginLeft: 20 }}
+                          ></th>
+                          <th
+                            className="font-weight-bold text-center"
+                            style={{ marginLeft: 20 }}
+                          ></th>
+                        </tr>
+                      </thead>
+                      {this.state.isLoading ? (
+                        ""
+                      ) : (
+                        <tbody>{this.onShowListPosition(list)}</tbody>
+                      )}
+                    </table>
+                  </div>
+                  {this.state.isLoading ? (
+                    <div className="row justify-content-center">
+                      <Spin className="text-center" size="large" />
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                  {this.state.isLoading ? (
+                    ""
+                  ) : (
+                    <div
+                      className="row justify-content-center"
+                      style={{ marginBottom: 20 }}
+                    >
+                      <Pagination
+                        defaultCurrent={item.pageIndex}
+                        total={item.totalRecords}
+                        onChange={this.onSelectPage}
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+            <style jsx global>
+              {`
+                .ant-select-selector {
+                  visibility: hidden;
+                }
+              `}
+            </style>
+          </React.Fragment>
         );
     }
 }

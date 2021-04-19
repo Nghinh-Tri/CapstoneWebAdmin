@@ -87,72 +87,122 @@ class EmpList extends Component {
     render() {
         var { profiles } = this.props
         return (
-            <React.Fragment>
-                <ol class="breadcrumb mb-4 mt-3">
-                    <li class="breadcrumb-item active">Employee</li>
-                </ol>
-                <div className="container-fluid">
-
-                    <button type="button" className="btn btn-primary"
-                        style={{ fontWeight: 700, borderRadius: 5, marginLeft: 10, marginBottom: 15 }}
-                        onClick={() => this.onGenerateProfile(profiles.isCreateNew)} >
-                        <div className='row' style={{ paddingLeft: 7, paddingRight: 7 }}>
-                            <i className="material-icons">add_box</i>Create New Employee
-                            </div>
-                    </button>
-
-
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <i class="fas fa-table mr-1"></i>
-                    List Emp
+          <React.Fragment>
+            <ol class="breadcrumb mb-4 mt-3">
+              <li class="breadcrumb-item active">Employee</li>
+            </ol>
+            <div className="container-fluid">
+              <div class="card mb-4">
+                <div class="card-header">
+                  <i class="fas fa-table mr-1"></i>
+                  List Emp
                 </div>
-                        <div className="card-body">
-                            {this.state.isLoading ? '' :
-                                <div className="row mb-3">
-                                    <Search search="Employee"
-                                        placeholder="Search employee name ..."
-                                        searchEmp={this.searchEmp} />
-                                </div>
-                            }
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead className=" text-primary">
-                                        <tr>
-                                            <th width={40} className="font-weight-bold text-center">No</th>
-                                            <th width={200} className="font-weight-bold ">Name</th>
-                                            <th width={120} className="font-weight-bold ">Phone</th>
-                                            <th width={250} className="font-weight-bold ">Email</th>
-                                            <th width={200} className="font-weight-bold ">User Name</th>
-                                            <th width={200} className="font-weight-bold ">Role</th>
-                                            <th className="font-weight-bold "></th>
 
-                                        </tr>
-                                    </thead>
-                                    {this.state.isLoading ?
-                                        ''
-                                        :
-                                        <tbody>
-                                            {this.onShowListProfile(profiles.items)}
-                                        </tbody>
-                                    }
-                                </table>
-                            </div>
-                            {this.state.isLoading ?
-                                <div className='row justify-content-center'>
-                                    <Spin className='text-center' size="large" />
-                                </div>
-                                : ''}
-                            {this.state.isLoading ? ''
-                                :
-                                <div className='row justify-content-center' style={{ marginBottom: 20 }} >
-                                    <Pagination current={profiles.pageIndex} total={profiles.totalRecords} onChange={this.onSelectPage} />
-                                </div>
-                            }
+                <div className="card-body">
+                  {this.state.isLoading ? (
+                    ""
+                  ) : (
+                    <div className="row mb-3">
+                      <button
+                        type="button"
+                        className="btn btn-primary"
+                        style={{
+                          fontWeight: 700,
+                          borderRadius: 5,
+                          marginLeft: 20,
+                          marginTop: 10,
+                        }}
+                        onClick={() =>
+                          this.onGenerateProfile(profiles.isCreateNew)
+                        }
+                      >
+                        <div
+                          className="row"
+                          style={{ paddingLeft: 7, paddingRight: 7 }}
+                        >
+                          <i className="material-icons">add_box</i>Create New
+                          Employee
                         </div>
+                      </button>
+                      <Search
+                        search="Employee"
+                        placeholder="Search employee name ..."
+                        searchEmp={this.searchEmp}
+                      />
                     </div>
+                  )}
+                  <div class="table-responsive">
+                    <table
+                      class="table table-bordered"
+                      id="dataTable"
+                      width="100%"
+                      cellspacing="0"
+                    >
+                      <thead className=" text-primary">
+                        <tr>
+                          <th
+                            width={40}
+                            className="font-weight-bold text-center"
+                          >
+                            No
+                          </th>
+                          <th width={200} className="font-weight-bold ">
+                            Name
+                          </th>
+                          <th width={120} className="font-weight-bold ">
+                            Phone
+                          </th>
+                          <th width={250} className="font-weight-bold ">
+                            Email
+                          </th>
+                          <th width={200} className="font-weight-bold ">
+                            User Name
+                          </th>
+                          <th width={200} className="font-weight-bold ">
+                            Role
+                          </th>
+                          <th width={120} className="font-weight-bold "></th>
+                        </tr>
+                      </thead>
+                      {this.state.isLoading ? (
+                        ""
+                      ) : (
+                        <tbody>{this.onShowListProfile(profiles.items)}</tbody>
+                      )}
+                    </table>
+                  </div>
+                  {this.state.isLoading ? (
+                    <div className="row justify-content-center">
+                      <Spin className="text-center" size="large" />
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                  {this.state.isLoading ? (
+                    ""
+                  ) : (
+                    <div
+                      className="row justify-content-center"
+                      style={{ marginBottom: 20 }}
+                    >
+                      <Pagination
+                        current={profiles.pageIndex}
+                        total={profiles.totalRecords}
+                        onChange={this.onSelectPage}
+                      />
+                    </div>
+                  )}
                 </div>
-            </React.Fragment >
+              </div>
+            </div>
+            <style jsx global>
+              {`
+                .ant-select-selector {
+                  visibility: hidden;
+                }
+              `}
+            </style>
+          </React.Fragment>
         );
     }
 }

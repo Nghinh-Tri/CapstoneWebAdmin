@@ -117,67 +117,117 @@ class Skill extends Component {
             result = skills
 
         return (
-            <React.Fragment>
-                <ol class="breadcrumb mb-4 mt-3">
-                    <li class="breadcrumb-item active">Skills</li>
-                </ol>
-                <div className="container-fluid">
-                    <button type="button" className="btn btn-primary"
-                        style={{ fontWeight: 700, borderRadius: 5, marginLeft: 10, marginBottom: 15 }}
-                        onClick={this.onHandle} >
-                        <div className='row' style={{ paddingLeft: 7, paddingRight: 7 }}>
-                            <i className="material-icons">add_box</i>Create New Skill
-                    </div>
-                    </button>
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <i class="fas fa-table mr-1"></i>List Skill
-                        </div>
-                        <div className="card-body">
-                            {this.state.isLoading ? '' :
-                                <div className="row mb-3">
-                                    <Search search="Skill"
-                                        placeholder="Search skill name ..."
-                                        searchSkill={this.searchSkill} />
-                                </div>
-                            }
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead className=" text-primary">
-                                        <tr>
-                                            <th className="font-weight-bold text-center">No</th>
-                                            <th className="font-weight-bold" style={{ marginLeft: 20 }}>Skill</th>
-                                            <th className="font-weight-bold" style={{ marginLeft: 20 }}>Type</th>
-                                            <th className="font-weight-bold text-center" style={{ marginLeft: 20 }}>Status</th>
-                                            <th className="font-weight-bold "></th>
-                                            <th className="font-weight-bold "></th>
-                                        </tr>
-                                    </thead>
-                                    {this.state.isLoading ?
-                                        ''
-                                        :
-                                        <tbody>
-                                            {this.onShowListSkills(result.items)}
-                                        </tbody>
-                                    }
-                                </table>
-                            </div>
-                            {this.state.isLoading ?
-                                <div className='row justify-content-center'>
-                                    <Spin className='text-center' size="large" />
-                                </div>
-                                : ''}
-                            {this.state.isLoading ? ''
-                                :
-                                <div className='row justify-content-center' style={{ marginBottom: 20 }} >
-                                    <Pagination defaultCurrent={result.pageIndex} total={result.totalRecords} onChange={this.onSelectPage} />
-                                </div>
-                            }
-                        </div>
-                    </div>
+          <React.Fragment>
+            <ol class="breadcrumb mb-4 mt-3">
+              <li class="breadcrumb-item active">Skills</li>
+            </ol>
+            <div className="container-fluid">
+              <div class="card mb-4">
+                <div class="card-header">
+                  <i class="fas fa-table mr-1"></i>List Skill
                 </div>
-            </React.Fragment >
-
+                <div className="card-body">
+                  {this.state.isLoading ? (
+                    ""
+                  ) : (
+                    <div className="row mb-3">
+                      <button
+                        type="button"
+                        className="btn btn-primary"
+                        style={{
+                          fontWeight: 700,
+                          borderRadius: 5,
+                          marginLeft: 20,
+                          marginTop:10
+                        }}
+                        onClick={this.onHandle}
+                      >
+                        <div
+                          className="row"
+                          style={{ paddingLeft: 7, paddingRight: 7 }}
+                        >
+                          <i className="material-icons">add_box</i>Create New
+                          Skill
+                        </div>
+                      </button>
+                      <Search
+                        search="Skill"
+                        placeholder="Search skill name ..."
+                        searchSkill={this.searchSkill}
+                      />
+                    </div>
+                  )}
+                  <div class="table-responsive">
+                    <table
+                      class="table table-bordered"
+                      id="dataTable"
+                      width="100%"
+                      cellspacing="0"
+                    >
+                      <thead className=" text-primary">
+                        <tr>
+                          <th className="font-weight-bold text-center">No</th>
+                          <th
+                            className="font-weight-bold"
+                            style={{ marginLeft: 20 }}
+                          >
+                            Skill
+                          </th>
+                          <th
+                            className="font-weight-bold"
+                            style={{ marginLeft: 20 }}
+                          >
+                            Type
+                          </th>
+                          <th
+                            className="font-weight-bold text-center"
+                            style={{ marginLeft: 20 }}
+                          >
+                            Status
+                          </th>
+                          <th className="font-weight-bold "></th>
+                          <th className="font-weight-bold "></th>
+                        </tr>
+                      </thead>
+                      {this.state.isLoading ? (
+                        ""
+                      ) : (
+                        <tbody>{this.onShowListSkills(result.items)}</tbody>
+                      )}
+                    </table>
+                  </div>
+                  {this.state.isLoading ? (
+                    <div className="row justify-content-center">
+                      <Spin className="text-center" size="large" />
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                  {this.state.isLoading ? (
+                    ""
+                  ) : (
+                    <div
+                      className="row justify-content-center"
+                      style={{ marginBottom: 20 }}
+                    >
+                      <Pagination
+                        defaultCurrent={result.pageIndex}
+                        total={result.totalRecords}
+                        onChange={this.onSelectPage}
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+            <style jsx global>
+              {`
+                .ant-select-selector {
+                  visibility: hidden;
+                }
+              `}
+            </style>
+          </React.Fragment>
         );
     }
 }
