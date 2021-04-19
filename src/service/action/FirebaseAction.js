@@ -4,9 +4,10 @@ import { API_URL, getUserName } from "../util/util"
 import { fetchProject } from "./ProjectAction"
 
 export const sendNotificate = (pmID, body) => {
-    var url = `${API_URL}/Notification?topic=pm${pmID}`
-    console.log(url)
-
+    var pm = ''
+    if (typeof pmID === 'string')
+        pm = pmID
+    var url = `${API_URL}/Notification?topic=pm${pm}`
     var token = JSON.parse(localStorage.getItem('FirebaseToken'))
     var message = {
         title: `Human Resources ${getUserName()} send you a notification`,
@@ -14,7 +15,7 @@ export const sendNotificate = (pmID, body) => {
     }
     return (dispatch) => {
         if (localStorage.getItem('token') !== null && token !== null) {
-            var unsubcriptUrl = `${API_URL}/Notification/unsubscription?token=${token}&topic=pm${pmID}`
+            var unsubcriptUrl = `${API_URL}/Notification/unsubscription?token=${token}&topic=pm${pm}`
             axios.post(
                 unsubcriptUrl,
                 { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
@@ -24,7 +25,12 @@ export const sendNotificate = (pmID, body) => {
                     message,
                     { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
                 ).then(res => {
-                    dispatch(sendNotificateSuccess())
+                    axios.post(
+                        unsubcriptUrl,
+                        { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
+                    ).then(
+                        dispatch(sendNotificateSuccess())
+                    )
                 })
             )
         }

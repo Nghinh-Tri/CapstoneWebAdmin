@@ -1,3 +1,4 @@
+import { Tooltip } from 'antd';
 import React, { Component } from 'react';
 
 class SuggestCandidateItems extends Component {
@@ -21,7 +22,9 @@ class SuggestCandidateItems extends Component {
                 <th className="">{candidate.email}</th>
                 <th className="text-center">{candidate.numberOfProject}</th>
                 <th className="text-center">
-                    <input type="checkbox" onClick={this.onSelect} checked={typeof candidate.check === 'undefined' ? false : candidate.check} />
+                    <Tooltip title='Check to apply all candidates' placement='right'>
+                        <input type="checkbox" onClick={this.onSelect} checked={typeof candidate.check === 'undefined' ? false : candidate.check} />
+                    </Tooltip>
                 </th>
                 <th className="text-center">
                     <div className="form-group" style={{ marginBottom: '0 !important' }}>

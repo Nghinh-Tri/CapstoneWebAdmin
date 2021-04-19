@@ -62,7 +62,7 @@ export const fetchSuggestListSuccess = (list) => {
 
 export const confirmSuggestList = (suggestList, projectID, projectName, pmID) => {
     var url = `${API_URL}/Project/confirmCandidate/${projectID}`
-    console.log(suggestList)
+    var pm = pmID
     return (dispatch) => {
         if (typeof suggestList.candidates.find(e => e.empIDs.find(k => !k.isAccept && k.note.length === 0)) !== 'undefined')
             store.addNotification({
@@ -84,13 +84,13 @@ export const confirmSuggestList = (suggestList, projectID, projectName, pmID) =>
                 { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
             ).then(res => {
                 if (res.status === 200) {
-                    dispatch(confirmSuggestListSuggest())
-                    dispatch(sendNotificate(pmID, `Employee for project '${projectName}' has been confirmed `))
+                    dispatch(sendNotificate(pm, `Employee for project '${projectName}' has been confirmed `))
                     suggestList.candidates.forEach(element => {
                         element.empIDs.forEach(e1 => {
                             dispatch(sendNotificate(e1, `You has been confirm to join project '${projectName}'`))
                         });
                     });
+                    dispatch(confirmSuggestListSuggest())
                     if (suggestList.isAccept) {
                         history.push("/project")
                     }
