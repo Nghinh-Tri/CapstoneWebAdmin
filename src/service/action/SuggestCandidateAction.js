@@ -98,6 +98,8 @@ export const confirmSuggestList = (suggestList, projectID, projectName, pmID) =>
                         dispatch(fetchSuggestList(projectID))
                     }
                 }
+            }).catch(err => {
+                console.log(err.response)
             })
     }
 }
