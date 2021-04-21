@@ -60,24 +60,6 @@ class PineChart extends Component {
                 },
               ],
             },
-            legend: {
-              labels: {
-                fontSize: 25,
-              },
-            },
-            tooltips: {
-              mode: 'index',
-              callbacks: {
-                afterLabel: function (tooltipItem, data) {
-                  var sum = data.datasets.reduce((sum, dataset) => {
-                    return sum + dataset.data[tooltipItem.index];
-                  }, 0);
-                  var percent = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] / sum * 100;
-                  percent = percent.toFixed(2); // make a nice string
-                  return data.datasets[tooltipItem.datasetIndex].label + ': ' + percent + '%';
-                }
-              }
-            }
           }}
         />
 
