@@ -52,7 +52,9 @@ class SuggestCandidates extends Component {
                                                 <th className="font-weight-bold text-center">Joined Projects</th>
                                                 <Tooltip title='Check to apply all candidates' placement='right'>
                                                     <th className="font-weight-bold text-center">
-                                                        <input type="checkbox" onClick={this.onSelectAll} checked={typeof item.selectAll === 'undefined' ? false : item.selectAll} /> Get All
+                                                        <input type="checkbox" onClick={this.onSelectAll} checked={
+                                                            typeof item === 'undefined' ? false :
+                                                                typeof item.selectAll === 'undefined' ? false : item.selectAll} /> Get All
                                                     </th>
                                                 </Tooltip>
                                                 <th className="font-weight-bold text-center">

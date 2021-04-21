@@ -38,7 +38,6 @@ class ProjectDetailTable extends Component {
             cancelText: 'No',
             onOk() {
                 declineProject(match.params.id, project.projectName, project.pmID)
-                history.push('/project')
             },
             onCancel() {
                 console.log('Cancel');
@@ -59,9 +58,11 @@ class ProjectDetailTable extends Component {
                     </div>
                     :
                     <Descriptions title="Project Info" layout='horizontal' bordered extra={
-                        <Button onClick={this.onDecline} type="danger" >
-                            {showStatus(stat) === 'On Going' ? '' : 'Decline'}
-                        </Button>} >
+                        project.status === 1 || project.status === 0 && project.noe === 0 ?
+                            <Button onClick={this.onDecline} type="danger" >
+                                Decline
+                        </Button>
+                            : ''}>
 
                         <Descriptions.Item span={3} label="Project Name">{project.projectName} </Descriptions.Item>
 

@@ -226,7 +226,6 @@ export const sortSuggestListByHardSkillMatch = list => {
 }
 
 export const convertSuggestList = list => {
-    console.log(list)
     var result = []
     if (list.length > 0) {
         list.forEach(element => {

@@ -5,7 +5,8 @@ import { confirmSuggestList } from '../../../service/action/SuggestCandidateActi
 
 class SuitableProjectDetail extends Component {
 
-    addEmployee = (posID, requireID, empID, projectID, projectName) => {
+    addEmployee = (posID, requireID, empID, projectID, projectName, pmID) => {
+        var { addEmployee } = this.props
         confirm({
             title: `Add this employee to this position in the project.`,
             okText: 'Yes',
@@ -23,7 +24,7 @@ class SuitableProjectDetail extends Component {
                         }
                     ]
                 }
-                this.props.addEmployee(resutl, projectID, projectName)
+                addEmployee(resutl, projectID, projectName, pmID, empID)
             },
             onCancel() {
                 console.log('Cancel');
@@ -34,7 +35,6 @@ class SuitableProjectDetail extends Component {
     showContent = (items, projectInfo) => {
         var result = null
         result = items.map((item, index) => {
-            console.log(projectInfo)
             return (
                 <tr key={index}>
                     <td>{index + 1}</td>
@@ -46,7 +46,7 @@ class SuitableProjectDetail extends Component {
                     <td className='text-center text-primary'>
                         <a onClick={() =>
                             this.addEmployee(item.posId, projectInfo.requiredPositions[index].requiredPosID,
-                                this.props.empID, projectInfo.projectID, projectInfo.projectName)}>Add</a>
+                                this.props.empID, projectInfo.projectID, projectInfo.projectName, projectInfo.projectManagerID)}>Add</a>
                     </td>
                 </tr>
             )
@@ -87,8 +87,8 @@ class SuitableProjectDetail extends Component {
 
 const mapDispatchToProp = (dispatch) => {
     return {
-        addEmployee: (item, projectID, projectName, pmID) => {
-            dispatch(confirmSuggestList(item, projectID, projectName, pmID))
+        addEmployee: (item, projectID, projectName, pmID, empID) => {
+            dispatch(confirmSuggestList(item, projectID, projectName, pmID, empID))
         }
     }
 }

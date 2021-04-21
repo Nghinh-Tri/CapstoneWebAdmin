@@ -60,7 +60,7 @@ export const fetchSuggestListSuccess = (list) => {
     }
 }
 
-export const confirmSuggestList = (suggestList, projectID, projectName, pmID) => {
+export const confirmSuggestList = (suggestList, projectID, projectName, pmID, optionType) => {
     var url = `${API_URL}/Project/confirmCandidate/${projectID}`
     var pm = pmID
     return (dispatch) => {
@@ -91,12 +91,17 @@ export const confirmSuggestList = (suggestList, projectID, projectName, pmID) =>
                         });
                     });
                     dispatch(confirmSuggestListSuggest())
-                    if (suggestList.isAccept) {
+                    if (typeof optionType !== 'undefined') {
+                        history.push(`employee/profile/${optionType}`)
+                    }else{
                         history.push("/project")
                     }
-                    else {
-                        dispatch(fetchSuggestList(projectID))
-                    }
+                    // if (suggestList.isAccept) {
+                    //     history.push("/project")
+                    // }
+                    // else {
+                    //     dispatch(fetchSuggestList(projectID))
+                    // }
                 }
             }).catch(err => {
                 console.log(err.response)

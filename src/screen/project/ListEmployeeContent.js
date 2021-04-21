@@ -65,8 +65,8 @@ class ListEmployeeContent extends Component {
                 var language = { langID: element.langID, priority: element.priority }
                 obj.language.push(language)
             });
-            prevRequire.softSkillIDs.forEach(element => {
-                var hardSkill = { hardSkillID: element.langID, skillLevel: element.skillLevel, certificationLevel: element.certificationLevel, priority: element.priority }
+            prevRequire.hardSkills.forEach(element => {
+                var hardSkill = { hardSkillID: element.hardSkillID, skillLevel: element.skillLevel, certificationLevel: element.certificationLevel, priority: element.priority }
                 obj.hardSkills.push(hardSkill)
             });
             prevRequire.softSkillIDs.forEach(element => {
@@ -149,6 +149,10 @@ class ListEmployeeContent extends Component {
 
     render() {
         var { item, prevRequire } = this.props
+        var temp = {}
+        if (prevRequire.status === 2) {
+            temp = prevRequire
+        }
         return (
             <React.Fragment>
                 <div className='row pull-right' style={{ width: 'auto' }} >
@@ -168,8 +172,9 @@ class ListEmployeeContent extends Component {
                         </tbody>
                     </table>
                 </div>
+                {/* {console.log(item.noe !== item.candidateNeeded, temp.status)} */}
                 {typeof prevRequire.requiredPosID !== 'undefined' ?
-                    item.noe !== item.candidateNeeded && prevRequire.status !== 1 ?
+                    item.noe !== item.candidateNeeded && temp.status === 2 ?
                         <>
                             <button type="submit" className="btn btn-primary pull-right" onClick={this.onHandle} style={{ fontWeight: 700 }} onClick={this.onClickAddEmployees} >
                                 Add Employees
