@@ -28,8 +28,8 @@ class SuitableProject extends Component {
         var { suitableList } = this.props
         var result = null
         result = suitableList.map((item, index) => {
-            if (item.matchInEachPos.length > 0)
-                return (<TabPane key={index} tab={item.projectInfo.projectName} ></TabPane>)
+            // if (item.matchInEachPos.length > 0)
+            return (<TabPane key={index} tab={item.projectInfo.projectName} ></TabPane>)
         })
         return result
     }
@@ -42,7 +42,7 @@ class SuitableProject extends Component {
         var { selectIndex } = this.state
         var { suitableList } = this.props
         if (suitableList.length > 0) {
-            return (<SuitableProjectDetail item={suitableList[selectIndex]} />)
+            return (<SuitableProjectDetail item={suitableList[selectIndex]} empID={this.props.empID} />)
         }
     }
 
@@ -57,7 +57,11 @@ class SuitableProject extends Component {
                         </Tabs>
                     </div>
                     <div class="card-body">
-                        {this.showSuitableProjectDetail()}
+                        {suitableList.length > 0 ?
+                            this.showSuitableProjectDetail()
+                            :
+                            <h4 style={{ fontStyle: 'italic', color: 'gray' }} >There is no suitable projects for this employee</h4>
+                        }
                     </div>
                 </div>
             </React.Fragment >

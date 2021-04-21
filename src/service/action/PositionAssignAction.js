@@ -32,7 +32,7 @@ export const updateLangLevel = (value, languageIndex) => {
     return { type: POSITION_ASSIGN.UPDATE_LANGUAGE_LEVEL, value, languageIndex }
 }
 
-export const updateSoftSkillID = (value, ) => {
+export const updateSoftSkillID = (value,) => {
     return { type: POSITION_ASSIGN.UPDATE_SOFT_SKILL_ID, value }
 }
 
@@ -45,7 +45,19 @@ export const deleteHardSkill = (index) => {
 }
 
 export const updateHardSkillID = (value, hardSkillIndex) => {
-    return { type: POSITION_ASSIGN.UPDATE_HARD_SKILL_ID, value, hardSkillIndex }
+    var url = `${API_URL}/Certification/getCertifications/${value}`
+    return (dispatch) => {
+        axios.get(
+            url,
+            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
+        ).then(res => {
+            dispatch(updateHardSkillIDSuccess(value, hardSkillIndex, res.data.resultObj))
+        })
+    }
+}
+
+export const updateHardSkillIDSuccess = (value, hardSkillIndex, certiList) => {
+    return { type: POSITION_ASSIGN.UPDATE_HARD_SKILL_ID, value, hardSkillIndex, certiList }
 }
 
 export const updateHardSkillLevel = (value, hardSkillIndex) => {

@@ -11,7 +11,8 @@ class HardSkillForm extends Component {
             hardSkills: {
                 skillID: 0,
                 skillLevel: 0,
-                empCertifications: []
+                empCertifications: [],
+                certiList: []
             },
             isMinimize: false
         }

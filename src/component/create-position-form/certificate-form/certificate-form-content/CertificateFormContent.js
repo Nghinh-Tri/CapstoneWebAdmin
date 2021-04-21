@@ -18,8 +18,8 @@ class CertificateFormContent extends Component {
         var listConverted = convertCertificationList(certificateList)
         return (
             <React.Fragment>
-                <tr>
-                    <td>
+                <tr >
+                    <td style={{ border: '0px' }}>
                         <SelectBar name="certificateID"
                             type='unique'
                             placeholder="Select certificate"
@@ -30,28 +30,28 @@ class CertificateFormContent extends Component {
                             onUpdateCertficateID={this.props.onUpdateCertficateID}
                         />
                     </td>
-                    <td>
+                    <td style={{ border: '0px' }}>
                         <input type="date" name="dateTake" className="form-control" value={certificateDetail.dateTaken} onChange={this.handleInputChange} />
                     </td>
-                    <td>
+                    <td style={{ border: '0px' }}>
                         <input type="date" name="dateEnd" className="form-control" value={certificateDetail.dateEnd} onChange={this.handleInputChange} />
                     </td>
-                    <td>
+                    <td style={{ border: '0px' }}>
                         <span className="material-icons pull-right"
-                        onClick={() => this.onDeleteCertificate(certificateIndex, hardSkillIndex)}
-                    >clear</span>
+                            onClick={() => this.onDeleteCertificate(certificateIndex, hardSkillIndex)}
+                        >clear</span>
                     </td>
                 </tr>
             </React.Fragment>
             // <div className="row" style={{ marginBottom: 10 }}>
-                    //     {/* Skill */}
+            //     {/* Skill */}
             //     <div className="col-auto" style={{ marginLeft: 30, marginTop: 5 }}>
-                        //         <label className="bmd-label">
-                            //             <h5 className="font-weight-bold">Certificate</h5>
+            //         <label className="bmd-label">
+            //             <h5 className="font-weight-bold">Certificate</h5>
             //         </label>
             //     </div>
             //     <div className="col-auto">
-                        //         <SelectBar name="certificateID"
+            //         <SelectBar name="certificateID"
             //             type='unique'
             //             placeholder="Select certificate"
             //             hardSkillIndex={hardSkillIndex}

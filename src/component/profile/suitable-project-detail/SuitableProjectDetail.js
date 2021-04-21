@@ -1,14 +1,40 @@
+import confirm from 'antd/lib/modal/confirm';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { confirmSuggestList } from '../../../service/action/SuggestCandidateAction';
 
 class SuitableProjectDetail extends Component {
 
-    addEmployee = (posID, projectID, requireID) => {
-        console.log(posID, projectID, requireID)
+    addEmployee = (posID, requireID, empID, projectID, projectName) => {
+        confirm({
+            title: `Add this employee to this position in the project.`,
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+            onOk() {
+                var resutl = {
+                    candidates: [
+                        {
+                            requiredPosID: requireID,
+                            posID: posID,
+                            empIDs: [
+                                { empID: empID, isAccept: true, note: "" }
+                            ]
+                        }
+                    ]
+                }
+                this.props.addEmployee(resutl, projectID, projectName)
+            },
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
     }
 
     showContent = (items, projectInfo) => {
         var result = null
         result = items.map((item, index) => {
+            console.log(projectInfo)
             return (
                 <tr key={index}>
                     <td>{index + 1}</td>
@@ -18,7 +44,9 @@ class SuitableProjectDetail extends Component {
                     <td className='text-center' >{item.hardSkillMatch.toFixed(2)} / 10</td>
                     <td className='text-center' >{item.overallMatch.toFixed(2)} / 10</td>
                     <td className='text-center text-primary'>
-                        <a onClick={() => this.addEmployee(item.posId, projectInfo.projectID, projectInfo.requiredPositions[index].requiredPosID)}>Add</a>
+                        <a onClick={() =>
+                            this.addEmployee(item.posId, projectInfo.requiredPositions[index].requiredPosID,
+                                this.props.empID, projectInfo.projectID, projectInfo.projectName)}>Add</a>
                     </td>
                 </tr>
             )
@@ -49,10 +77,21 @@ class SuitableProjectDetail extends Component {
                             </tbody>
                         </table>
                     </div>
-                    : ''}
+                    :
+                    <h4 style={{ fontStyle: 'italic', color: 'gray' }} >There is no suitable position for this employee</h4>
+                }
             </React.Fragment>
         );
     }
 }
 
-export default SuitableProjectDetail;
+const mapDispatchToProp = (dispatch) => {
+    return {
+        addEmployee: (item, projectID, projectName, pmID) => {
+            dispatch(confirmSuggestList(item, projectID, projectName, pmID))
+        }
+    }
+}
+
+
+export default connect(null, mapDispatchToProp)(SuitableProjectDetail);

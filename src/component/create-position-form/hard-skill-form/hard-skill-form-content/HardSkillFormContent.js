@@ -26,10 +26,9 @@ class HardSkillFormContent extends Component {
     render() {
         var { hardSkillIndex, hardSkillList, hardSkillDetail } = this.props
         var listConverted = convertSkillList(hardSkillList)
+        console.log('empCertifications', hardSkillDetail.certiList)
         return (
             <React.Fragment>
-
-
                 <tr>
                     <td>
                         <SelectBar name="hardSkill"
@@ -61,6 +60,7 @@ class HardSkillFormContent extends Component {
                     <td colSpan={3}>
                         <CertificateForm
                             certificate={hardSkillDetail.empCertifications}
+                            certiList={hardSkillDetail.certiList}
                             hardSkillID={hardSkillDetail.skillID}
                             hardSkillIndex={hardSkillIndex}
                             onAddCertificate={this.props.onAddCertificate}
@@ -70,7 +70,7 @@ class HardSkillFormContent extends Component {
                         />
                     </td>
                 </tr>
-            </React.Fragment>            
+            </React.Fragment>
         );
     }
 }
