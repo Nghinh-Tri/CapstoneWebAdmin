@@ -41,8 +41,8 @@ class CertificateForm extends Component {
     }
 
     getCertificateListNotSelect = () => {
-        var { certificateList, certificate } = this.props
-        var listNotSelect = certificateList.slice(0, certificateList.length)
+        var { certiList, certificate } = this.props
+        var listNotSelect = certiList.slice(0, certiList.length)
         for (let i = 0; i < listNotSelect.length; i++) {
             for (let k = 0; k < certificate.length; k++) {
                 if (listNotSelect[i].certificationID === certificate[k].certiID) {
@@ -90,7 +90,7 @@ class CertificateForm extends Component {
                 return (
                     <>
                         {this.showItems(certificate, hardSkillIndex)}
-                        {this.props.certificateList.length === this.props.certificate.length ?
+                        {this.props.certiList.length === this.props.certificate.length ?
                             '' :
                             <span className="material-icons add" style={{ marginTop: 10 }}
                                 onClick={() => this.onAddCertificate(hardSkillIndex)}>add_box</span>
@@ -103,21 +103,22 @@ class CertificateForm extends Component {
             <div>
                 {!this.state.isMinimize ?
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th>Certificate</th>
-                                        <th>Taken Date</th>
-                                        <th>Expired Date</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {showCerti(certificate)}
-                                </tbody>
-                            </table>
-                        </div>
+                        {/* <div class="table-responsive"> */}
+                        {/* <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style={{ border: 0 }} > */}
+                        {/* <table  width="100%" cellspacing="0" style={{ border: '0 !important' }} > */}
+                        <table width="100%" style={{ borderCollapse: 'collapse' }} >
+                            <thead >
+                                <tr>
+                                    <th>Certificate</th>
+                                    <th>Taken Date</th>
+                                    <th>Expired Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {showCerti(certificate)}
+                            </tbody>
+                        </table>
+                        {/* </div> */}
                     </div>
                     : ''}
             </div>

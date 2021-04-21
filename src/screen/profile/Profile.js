@@ -6,6 +6,7 @@ import ProfileTable from '../../component/profile/ProfileTable';
 import { checkSession } from '../../service/action/AuthenticateAction';
 import { fetchProfileDetail } from '../../service/action/ProfileAction';
 import { Tabs } from 'antd';
+import SuitableProject from '../../component/profile/SuitableProject';
 const TabPane = Tabs.TabPane;
 
 class Profile extends Component {
@@ -35,11 +36,12 @@ class Profile extends Component {
         else
             empID = this.props.match.params.id
 
-        console.log('asas', empID)
         if (select === 1)
             return <ProfileTable empID={empID} />
         if (select === 2)
             return <PositionTable empID={empID} role={profile.roleName} />
+        if (select === 3)
+            return <SuitableProject empID={empID} />
     }
 
 
@@ -57,6 +59,11 @@ class Profile extends Component {
                         <Tabs defaultActiveKey="1" onChange={this.onClickMenu}>
                             <TabPane tab="Personal Infomation" key={1}></TabPane>
                             <TabPane tab="Skill Details" key={2}></TabPane>
+                            {
+                                typeof this.props.match !== 'undefined' ?
+                                    <TabPane tab="Suitable Projects" key={3}></TabPane>
+                                    : ''
+                            }
                         </Tabs>
                     </div>
                     <div class="card-body">

@@ -26,7 +26,7 @@ class SkillProfile extends Component {
                         {skill.certifications?.map((certification, innerIndex) => {
                             return (
                                 <>
-                                    <Descriptions.Item label={certification.certiName} />
+                                    <Descriptions.Item label={`+ ${certification.certiName}`} />
                                     <Descriptions.Item label="Taken Date">
                                         {certification?.dateTaken
                                             ? moment(certification.dateTaken).format("DD-MM-YYYY")
@@ -39,7 +39,8 @@ class SkillProfile extends Component {
                                     </Descriptions.Item>
                                 </>
                             );
-                        })}
+                        })
+                        }
                     </>
                 );
             });
@@ -53,7 +54,7 @@ class SkillProfile extends Component {
             result = (softSkills || []).map((skill, index) => {
                 return (
                     <>
-                        <Descriptions.Item span={3}>{skill.skillName}</Descriptions.Item>
+                        <Descriptions.Item span={0}>{skill.skillName}</Descriptions.Item>
                     </>
                 );
             });
