@@ -1,7 +1,6 @@
 import axios from "axios"
 import { FIREBASE } from "../constant"
 import { API_URL, getUserName } from "../util/util"
-import { fetchProject } from "./ProjectAction"
 
 export const sendNotificate = (pmID, body) => {
     var pm = ''
@@ -17,22 +16,23 @@ export const sendNotificate = (pmID, body) => {
         if (localStorage.getItem('token') !== null && token !== null) {
             var unsubcriptUrl = `${API_URL}/Notification/unsubscription?token=${token}&topic=pm${pm}`
             axios.post(
-                unsubcriptUrl,
+                url,
+                message,
                 { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
-            ).then(
-                axios.post(
-                    url,
-                    message,
-                    { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
-                ).then(res => {
+            ).then(res => {
+                if (res.data === 204)
                     axios.post(
                         unsubcriptUrl,
                         { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
-                    ).then(
-                        dispatch(sendNotificateSuccess())
-                    )
-                })
-            )
+                    ).then(res => {
+
+                    }).catch(err => {
+                        console.log(err)
+                    })
+            })
+
+        } else {
+            dispatch(recieveNotificateFailed())
         }
     }
 }
@@ -44,12 +44,18 @@ export const recieveNotificate = (token) => {
             url,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
         ).then(res => {
-            dispatch(fetchProject(1, ''))
+            console.log('recieveNotificate ok')
+        }).catch(err => {
+            console.log(err)
         })
     }
 }
 
 export const recieveNotificateSuccess = () => {
+    return { type: FIREBASE.RECIEVE_MESSAGE }
+}
+
+export const recieveNotificateFailed = () => {
     return { type: FIREBASE.RECIEVE_MESSAGE }
 }
 

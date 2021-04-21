@@ -54,7 +54,7 @@ class SuggestCandidateItems extends Component {
                 <th className="text-center">{candidate.languageMatch.toFixed(2)} / 10</th>
                 <th className="text-center">{candidate.softSkillMatch.toFixed(2)} / 10</th>
                 <th className="text-center">{candidate.hardSkillMatch.toFixed(2)} /10 </th>
-                <th className="text-center">{candidate.overallMatch.toFixed(2)} / 100</th>
+                <th className="text-center">{candidate.overallMatch.toFixed(2)} / 50</th>
                 <Tooltip placement='left' title={this.state.disable ? 'This employee has been selected for another position in the project' : ''}  >
                     <th className="text-center">
                         <input type="checkbox" onClick={this.onSelect} checked={this.checkSelectCandidate(candidate.empID)} disabled={this.state.disable} />
