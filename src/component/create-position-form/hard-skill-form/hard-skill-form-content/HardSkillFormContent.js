@@ -26,7 +26,6 @@ class HardSkillFormContent extends Component {
     render() {
         var { hardSkillIndex, hardSkillList, hardSkillDetail } = this.props
         var listConverted = convertSkillList(hardSkillList)
-        console.log('empCertifications', hardSkillDetail.certiList)
         return (
             <React.Fragment>
                 <tr>
