@@ -16,7 +16,7 @@ class Barchart extends Component {
                     data={{
                         labels: arrLabel,
                         datasets: [{
-                            label: 'NOE ',
+                            label: 'Number of employee',
                             data: arryDataset,
                             backgroundColor: [
                                 'rgba(255, 99, 132, 0.2)',
