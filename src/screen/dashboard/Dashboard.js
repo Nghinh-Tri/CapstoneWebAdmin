@@ -40,15 +40,15 @@ class Dashboard extends Component {
         return result
     }
 
-    onShowDonutList = (dataStatisticList) => {
-        var result = null
-        if (typeof dataStatisticList !== 'undefined') {
-            return (
-                <Donut dataStatisticList={dataStatisticList} />
-            )
-        }
-        return result
-    }
+    // onShowDonutList = (dataStatisticList) => {
+    //     var result = null
+    //     if (typeof dataStatisticList !== 'undefined') {
+    //         return (
+    //             <Donut dataStatisticList={dataStatisticList} />
+    //         )
+    //     }
+    //     return result
+    // }
 
 
     onShowStatusList = (dataStatisticList) => {
@@ -75,6 +75,7 @@ class Dashboard extends Component {
 
     render() {
         var { dataStatistics } = this.props
+        console.log(dataStatistics)
         return (
             <React.Fragment>
                 <ol class="breadcrumb mb-4 mt-3">
@@ -90,14 +91,7 @@ class Dashboard extends Component {
                                     </div>
                                 </div>
                                 <div className="card-body">
-                                    <h4 className="card-title">Daily Sales</h4>
-                                    <p className="card-category">
-                                        <span className="text-success"><i className="fa fa-long-arrow-up" /> 55% </span> increase in today sales.</p>
-                                </div>
-                                <div className="card-footer">
-                                    <div className="stats">
-                                        <i className="material-icons">access_time</i> updated 4 minutes ago
-                                </div>
+                                    <h4 className="card-title">projectByTypes</h4>
                                 </div>
                             </div>
                         </div>
@@ -110,13 +104,7 @@ class Dashboard extends Component {
                                     {this.onShowRadarList(dataStatistics.employeeByProjects)}
                                 </div>
                                 <div className="card-body">
-                                    <h4 className="card-title">Email Subscriptions</h4>
-                                    <p className="card-category">Last Campaign Performance</p>
-                                </div>
-                                <div className="card-footer">
-                                    <div className="stats">
-                                        <i className="material-icons">access_time</i> campaign sent 2 days ago
-                                </div>
+                                    <h4 className="card-title">employeeByProjects</h4>
                                 </div>
                             </div>
                         </div>
@@ -130,32 +118,7 @@ class Dashboard extends Component {
                                     {this.onShowBarList(dataStatistics.employeeByHardSkills)}
                                 </div>
                                 <div className="card-body">
-                                    <h4 className="card-title">Completed Tasks</h4>
-                                    <p className="card-category">Last Campaign Performance</p>
-                                </div>
-                                <div className="card-footer">
-                                    <div className="stats">
-                                        <i className="material-icons">access_time</i> campaign sent 2 days ago
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div className="col-md-6">
-                            <div className="card card-chart">
-                                <div>
-                                    <div className="ct-chart" />
-                                    {this.onShowDonutList(dataStatistics.employeeByPositions)}
-                                </div>
-                                <div className="card-body">
-                                    <h4 className="card-title">Completed Tasks</h4>
-                                    <p className="card-category">Last Campaign Performance</p>
-                                </div>
-                                <div className="card-footer">
-                                    <div className="stats">
-                                        <i className="material-icons">access_time</i> campaign sent 2 days ago
-                                </div>
+                                    <h4 className="card-title">employeeByHardSkills</h4>
                                 </div>
                             </div>
                         </div>
@@ -167,19 +130,11 @@ class Dashboard extends Component {
                                     {this.onShowStatusList(dataStatistics.projectByStatuses)}
                                 </div>
                                 <div className="card-body">
-                                    <h4 className="card-title">Completed Tasks</h4>
-                                    <p className="card-category">Last Campaign Performance</p>
-                                </div>
-                                <div className="card-footer">
-                                    <div className="stats">
-                                        <i className="material-icons">access_time</i> campaign sent 2 days ago
-                                </div>
+                                    <h4 className="card-title">projectByStatuse</h4>
                                 </div>
                             </div>
                         </div>
-
                     </div>
-
                 </div>
             </React.Fragment >
 
