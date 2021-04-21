@@ -88,7 +88,7 @@ class Dashboard extends Component {
                                 <div>
                                     <div className="ct-chart">
                                         {this.onShowPieList(dataStatistics.projectByTypes)}
-                                    </div>
+                           s         </div>
                                 </div>
                                 <div className="card-body">
                                     <h4 className="card-title">Type of Project</h4>
