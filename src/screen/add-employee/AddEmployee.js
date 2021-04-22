@@ -137,7 +137,7 @@ class SuggestCandidate extends Component {
         localStorage.removeItem('projectName')
         localStorage.removeItem('positionRequire')
         localStorage.removeItem('pmID')
-        history.push(`project/detail/${this.props.match.params.id}`)
+        history.push(`/project/detail/${this.props.match.params.id}`)
     }
 
     render() {
@@ -171,10 +171,13 @@ class SuggestCandidate extends Component {
                 </div>
                 {this.state.isLoading ? '' :
                     <>
-                        <div className="col">
-                            <button onClick={this.onHandle} className="btn btn-primary pull-right pt"
-                                style={{ marginBottom: 20, marginRight: 20, marginTop: 0, width: 100 }}>Next</button>
-                        </div>
+                        {suggestCandidateList.length === 1 && suggestCandidateList[0].matchDetail.length === 0 ?
+                            '' :
+                            <div className="col">
+                                <button onClick={this.onHandle} className="btn btn-primary pull-right pt"
+                                    style={{ marginBottom: 20, marginRight: 20, marginTop: 0, width: 100 }}>Next</button>
+                            </div>
+                        }
                         <div className="col">
                             <button type="submit" onClick={this.onCancelAddEmployee} className="btn btn-primary pull-right pt"
                                 style={{ marginBottom: 20, marginRight: 20, marginTop: 0, width: 100 }}>Cancel</button>

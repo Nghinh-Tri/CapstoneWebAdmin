@@ -16,21 +16,21 @@ export const sendNotificate = (pmID, body) => {
         if (localStorage.getItem('token') !== null && token !== null) {
             var unsubcriptUrl = `${API_URL}/Notification/unsubscription?token=${token}&topic=pm${pm}`
             axios.post(
-                url,
-                message,
+                unsubcriptUrl,
                 { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
             ).then(res => {
-                if (res.data === 204)
-                    axios.post(
-                        unsubcriptUrl,
-                        { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
-                    ).then(res => {
-
-                    }).catch(err => {
-                        console.log(err)
-                    })
+                axios.post(
+                    url,
+                    message,
+                    { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
+                ).then(res => {
+                    console.log(res)
+                }).catch(err => {
+                    console.log(err)
+                })
+            }).catch(err => {
+                console.log(err)
             })
-
         } else {
             dispatch(recieveNotificateFailed())
         }
