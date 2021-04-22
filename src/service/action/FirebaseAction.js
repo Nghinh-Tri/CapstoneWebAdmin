@@ -1,7 +1,6 @@
 import axios from "axios"
 import { FIREBASE } from "../constant"
 import { API_URL, getUserName } from "../util/util"
-import { fetchProject } from "./ProjectAction"
 
 export const sendNotificate = (pmID, body) => {
     var pm = ''
@@ -19,20 +18,21 @@ export const sendNotificate = (pmID, body) => {
             axios.post(
                 unsubcriptUrl,
                 { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
-            ).then(
+            ).then(res => {
                 axios.post(
                     url,
                     message,
                     { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
                 ).then(res => {
-                    axios.post(
-                        unsubcriptUrl,
-                        { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
-                    ).then(
-                        dispatch(sendNotificateSuccess())
-                    )
+                    console.log(res)
+                }).catch(err => {
+                    console.log(err)
                 })
-            )
+            }).catch(err => {
+                console.log(err)
+            })
+        } else {
+            dispatch(recieveNotificateFailed())
         }
     }
 }
@@ -44,12 +44,18 @@ export const recieveNotificate = (token) => {
             url,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
         ).then(res => {
-            dispatch(fetchProject(1, ''))
+            console.log('recieveNotificate ok')
+        }).catch(err => {
+            console.log(err)
         })
     }
 }
 
 export const recieveNotificateSuccess = () => {
+    return { type: FIREBASE.RECIEVE_MESSAGE }
+}
+
+export const recieveNotificateFailed = () => {
     return { type: FIREBASE.RECIEVE_MESSAGE }
 }
 

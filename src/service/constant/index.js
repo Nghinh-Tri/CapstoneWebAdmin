@@ -183,3 +183,8 @@ export const FIREBASE = {
 export const SUITABLE_PROJECT = {
     FETCH_SUITABLE_LIST: 'FETCH_SUITABLE_LIST'
 }
+
+export const ERROR = {
+    LOGIN_ERROR: 'LOGIN_ERROR',
+    REGISTER_ERROR: 'REGISTER_ERROR'
+}

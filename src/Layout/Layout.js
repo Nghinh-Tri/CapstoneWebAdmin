@@ -7,6 +7,7 @@ import firebase from "../service/firebase/firebase";
 import { notification } from 'antd';
 import { connect } from 'react-redux';
 import { recieveNotificate, sendNotificate } from "../service/action/FirebaseAction";
+import { fetchProject } from '../service/action/ProjectAction';
 
 class Layout extends Component {
 
@@ -19,17 +20,35 @@ class Layout extends Component {
                     this.props.recievedNoti(token)
                 }
             })
-
-    }
-
-    componentDidUpdate = (prev) => {
-        const messaging = firebase.messaging()
-
         messaging.onMessage((payload) => {
-            console.log('mes')
-            this.showNotificate(payload.notification)
+            console.log('componentDidMount');
+            this.props.fetchProject();
+            this.showNotificate(payload.notification);
         });
+        // setInterval(() => {
+        //     messaging.onMessage((payload) => {
+        //         console.log('setInterval')
+        //         this.props.fetchProject()
+        //         this.showNotificate(payload.notification)
+        //     });
+        // }, 1000);
     }
+
+    // componentDidUpdate = (prev) => {
+    //     const messaging = firebase.messaging()
+    //     messaging.getToken({ vapidKey: 'BCzV0OJHq4w2DQyltsiIxhhiM7Ce4yLOujK-1QRgWkmjUloUxEPRkvp2PgtvuRQ0nj8rVe1OTIcA2eKTIbEZE2w' })
+    //         .then(token => {
+    //             if (token) {
+    //                 localStorage.setItem('FirebaseToken', JSON.stringify(token))
+    //                 this.props.recievedNoti(token)
+    //             }
+    //         })
+    //     messaging.onMessage((payload) => {
+    //         console.log('componentDidUpdate')
+
+    //         this.showNotificate(payload.notification)
+    //     });
+    // }
 
     showNotificate = (messaging) => {
         notification.open({
@@ -64,6 +83,7 @@ class Layout extends Component {
                         <NavBar />
                     </div>
                     <div id="layoutSidenav_content">
+                        {/* <button onClick={this.send}>Send</button> */}
                         <main>
                             <div class="container-fluid">
                                 {this.showContent(RouteList)}
@@ -83,6 +103,9 @@ const map = (dispatch) => {
         },
         sendNoti: (pm, body) => {
             dispatch(sendNotificate(pm, body))
+        },
+        fetchProject: () => {
+            dispatch(fetchProject(1, ''))
         }
     }
 }

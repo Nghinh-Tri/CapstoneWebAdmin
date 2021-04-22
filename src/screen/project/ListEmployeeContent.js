@@ -150,13 +150,14 @@ class ListEmployeeContent extends Component {
     render() {
         var { item, prevRequire } = this.props
         var temp = {}
-        if (prevRequire.status === 2) {
+        if (typeof prevRequire.requiredPosID !== 'undefined') {
             temp = prevRequire
         }
+        console.log('prevRequire', prevRequire)
         return (
             <React.Fragment>
                 <div className='row pull-right' style={{ width: 'auto' }} >
-                    <h5 style={{ marginRight: 14 }} >{item.noe} / {item.candidateNeeded} Candidate Needs </h5>
+                    <h5 style={{ marginRight: 14 }} >{item.noe} / {item.candidateNeeded} Employees </h5>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -173,8 +174,9 @@ class ListEmployeeContent extends Component {
                     </table>
                 </div>
                 {/* {console.log(item.noe !== item.candidateNeeded, temp.status)} */}
+                {console.log('item', temp.status, item.noe !== item.candidateNeeded && (temp.status === 2 || temp.status === 0))}
                 {typeof prevRequire.requiredPosID !== 'undefined' ?
-                    item.noe !== item.candidateNeeded && temp.status === 2 ?
+                    item.noe !== item.candidateNeeded && (temp.status === 2 || temp.status === 0) ?
                         <>
                             <button type="submit" className="btn btn-primary pull-right" onClick={this.onHandle} style={{ fontWeight: 700 }} onClick={this.onClickAddEmployees} >
                                 Add Employees

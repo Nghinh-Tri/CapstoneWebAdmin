@@ -238,7 +238,7 @@ export const convertSuggestList = list => {
                     else
                         note = e.note
                 }
-                var obj = { empID: e.empID, isAccept: e.check, note: note }
+                var obj = { empID: e.empID, isAccept: typeof e.check === 'undefined' ? false : e.check, note: note }
                 positionObj.empIDs.push(obj)
             });
             result.push(positionObj)

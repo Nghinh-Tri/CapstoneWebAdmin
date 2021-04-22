@@ -1,5 +1,5 @@
 import axios from "axios"
-import { Type } from "../constant/index"
+import { ERROR, Type } from "../constant/index"
 import { history } from "../helper/History"
 import { API_URL, getRole } from "../util/util"
 import { store } from 'react-notifications-component';
@@ -33,25 +33,28 @@ export const login = (username, password) => {
                     })
                 }
             }
-        })
-            .catch(err => {
-                dispatch(failure(err.toString()));
-                if (err.response.status === 500) {
-                    store.addNotification({
-                        message: "Duplicate email or username",
-                        type: "danger",
-                        insert: "top",
-                        container: "top-center",
-                        animationIn: ["animated", "fadeIn"],
-                        animationOut: ["animated", "fadeOut"],
-                        dismiss: {
-                            duration: 2000,
-                            onScreen: false
-                        }
-                    })
+        }).catch(err => {
+            if (err.response.status === 500) {
+                store.addNotification({
+                    message: "Duplicate email or username",
+                    type: "danger",
+                    insert: "top",
+                    container: "top-center",
+                    animationIn: ["animated", "fadeIn"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: {
+                        duration: 2000,
+                        onScreen: false
+                    }
+                })
+            } else {
+                var error = err.response.data
+                if (typeof error.errors !== 'undefined') {
+                    dispatch(loginFailure(error.errors))
                 } else {
+                    dispatch(loginFailure({}))
                     store.addNotification({
-                        message: err.toString(),
+                        message: error.message,
                         type: "danger",
                         insert: "top",
                         container: "top-center",
@@ -63,8 +66,8 @@ export const login = (username, password) => {
                         }
                     })
                 }
-
-            })
+            }
+        })
     }
 }
 
@@ -98,38 +101,14 @@ export const register = (emp) => {
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } })
             .then(res => {
                 if (res.status === 200) {
+                    dispatch(registerFailure({}))
                     dispatch(registerSuccess(res.data.resultObj, emp.roleName))
                 }
             })
             .catch(err => {
-                dispatch(failure(err.toString()));
-                // if (err.response.status === 500) {
-                //     store.addNotification({
-                //         message: "Duplicate email or username",
-                //         type: "danger",
-                //         insert: "top",
-                //         container: "top-center",
-                //         animationIn: ["animated", "fadeIn"],
-                //         animationOut: ["animated", "fadeOut"],
-                //         dismiss: {
-                //             duration: 2000,
-                //             onScreen: false
-                //         }
-                //     })
-                // } else {
-                //     store.addNotification({
-                //         message: err.response.message,
-                //         type: "danger",
-                //         insert: "top",
-                //         container: "top-center",
-                //         animationIn: ["animated", "fadeIn"],
-                //         animationOut: ["animated", "fadeOut"],
-                //         dismiss: {
-                //             duration: 2000,
-                //             onScreen: false
-                //         }
-                //     })
-                // }
+                if (err.response.status === 400) {
+                    dispatch(registerFailure(err.response.data.errors))
+                }
             })
     }
 }
@@ -151,10 +130,10 @@ export const registerSuccess = (userID, role) => {
     return { type: Type.REGISTER_SUCCESS }
 }
 
-export const registerFailure = (user) => {
-    return {
-        type: Type.REGISTER_FAILURE,
-        user
-    }
+export const registerFailure = (error) => {
+    return { type: ERROR.REGISTER_ERROR, error }
+}
 
+export const loginFailure = (error) => {
+    return { type: ERROR.LOGIN_ERROR, error }
 }

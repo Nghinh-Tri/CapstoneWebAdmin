@@ -47,11 +47,6 @@ class ConfirmPage extends Component {
         var candidates = { candidates: item };
         var projectName = this.state.project.projectName
         var pmID = this.state.project.pmID.toString()
-        // pmID = pmID.toString().replace(/"/g, "")
-        // pmID = JSON.stringify(pmID)
-        // var url = `${API_URL}/Notification?topic=pm${pmID}`
-
-        // console.log( url)
         this.props.onConfirm(candidates, this.state.project.projectID, projectName, pmID);
     };
 

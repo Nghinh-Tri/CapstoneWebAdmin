@@ -5,13 +5,15 @@ const initState = []
 const SuggestCandidateAgainList = (state = initState, action) => {
     switch (action.type) {
         case ADD_MORE_CANDIDATES.FETCH_SUGGEST_LIST:
-            state = action.list
-            if (state.length > 0) {
-                state.forEach(element => {
-                    var clone = [...element.matchDetail]
-                    sortSuggestListByOverallMatch(clone)
-                    element.matchDetail = clone
-                });
+            if (Array.isArray(action.list)) {
+                state = action.list
+                if (state.length > 0) {
+                    state.forEach(element => {
+                        var clone = [...element.matchDetail]
+                        sortSuggestListByOverallMatch(clone)
+                        element.matchDetail = clone
+                    });
+                }
             }
             return [...state]
         case ADD_MORE_CANDIDATES.SORT_LIST:

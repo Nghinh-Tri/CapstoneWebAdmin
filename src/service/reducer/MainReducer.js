@@ -28,7 +28,7 @@ import ProjectDetailFetchReducer from "./ProjectDetailFetchReducer";
 import SuggestCandidateAgainSelect from "./SuggestCandidateAgainSelect";
 import SuggestCandidateAgainList from "./SuggestCandidateAgainList ";
 import SuitableProjectReducer from "./SuitableProjectReducer";
-
+import ErrorReducer from "./ErrorReducer";
 const MainReducer = combineReducers({
     authentication,//use
     ProjectFetchReducer,//use
@@ -57,7 +57,8 @@ const MainReducer = combineReducers({
     ProjectDetailFetchReducer,
     SuggestCandidateAgainSelect,
     SuggestCandidateAgainList,
-    SuitableProjectReducer
+    SuitableProjectReducer,
+    ErrorReducer
 })
 
 export default MainReducer

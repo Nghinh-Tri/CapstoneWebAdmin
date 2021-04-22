@@ -4,7 +4,8 @@ const initState = []
 const SuggestCandidateList = (state = initState, action) => {
     switch (action.type) {
         case SUGGEST_CANDIDATE.FETCH_SUGGEST_LIST:
-            state = action.list
+            if (Array.isArray(action.list))
+                state = action.list
             return [...state]
         default:
             return [...state]

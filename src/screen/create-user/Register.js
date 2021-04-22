@@ -88,21 +88,19 @@ class Register extends Component {
         this.setState({ submitted: true });
         const { address, phoneNumber, userName, email, fullname, password, confirmPassword, identityNumber, role } = this.state;
         if (this.props.location.pathname === '/employee/register') {
-            if (email && password) {
-                this.props.register(
-                    {
-                        name: fullname,
-                        identityNumber: identityNumber,
-                        address: address,
-                        email: email,
-                        phoneNumber: phoneNumber,
-                        userName: userName,
-                        password: password,
-                        confirmPassword: confirmPassword,
-                        roleName: role
-                    }
-                );
-            }
+            this.props.register(
+                {
+                    name: fullname,
+                    identityNumber: identityNumber,
+                    address: address,
+                    email: email,
+                    phoneNumber: phoneNumber,
+                    userName: userName,
+                    password: password,
+                    confirmPassword: confirmPassword,
+                    roleName: role
+                }
+            );
         } else {
             var { profile } = this.props
             this.props.updateProfile(profile.id,
@@ -119,177 +117,183 @@ class Register extends Component {
 
     render() {
         const { address, phoneNumber, userName, fullname, email, password, confirmPassword, identityNumber, submitted, role } = this.state;
-
+        var { error } = this.props
         return (
             <div className="content">
                 <div className="container-fluid">
-                        <div className="card">
-                            <div className="card-header card-header-primary">
-                                <h4 className="card-title">
-                                    {this.props.location.pathname !== '/employee/register' ? 'Update Profile' : 'Create New Employee'}
-                                </h4>
-                            </div>
-                            <div className="card-body">
-                                <form onSubmit={this.handleSubmit} >
-                                    {/* Full name */}
+                    <div className="card">
+                        <div className="card-header card-header-primary">
+                            <h4 className="card-title">
+                                {this.props.location.pathname !== '/employee/register' ? 'Update Profile' : 'Create New Employee'}
+                            </h4>
+                        </div>
+                        <div className="card-body">
+                            <form onSubmit={this.handleSubmit} >
+                                {/* Full name */}
+                                <div className="row">
+                                    <div className="col">
+                                        <div className="form-group">
+                                            <label className={`bmd-label-${this.props.location.pathname !== '/employee/register' ? 'static' : 'floating'}`}>Full name</label>
+                                            <input name="fullname" type="text" className="form-control" value={fullname} onChange={this.handleInputChange} />
+                                            {console.log('error', error)}
+                                            {typeof error.Name !== 'undefined' ?
+                                                error.Name.map((element, index) => {
+                                                    return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
+                                                })
+                                                : ''}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Email */}
+                                <div className="row">
+                                    <div className="col">
+                                        <div className="form-group">
+                                            <label className={`bmd-label-${this.props.location.pathname !== '/employee/register' ? 'static' : 'floating'}`}>Email</label>
+                                            <input name="email" type="email" placeholder="Email" className="form-control" value={email} onChange={this.handleInputChange} />
+                                            {typeof error.Email !== 'undefined' ?
+                                                error.Email.map((element, index) => {
+                                                    return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
+                                                })
+                                                : ''}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Username */}
+                                {this.props.location.pathname === '/employee/register' ?
                                     <div className="row">
-                                     
                                         <div className="col">
                                             <div className="form-group">
-                                                <label className={`bmd-label-${this.props.location.pathname !== '/employee/register' ? 'static' : 'floating'}`}>Full name</label>
-                                                <input name="fullname" type="text" className="form-control" value={fullname} onChange={this.handleInputChange} />
-                                                {submitted && !fullname &&
-                                                    <div className="error text-danger font-weight-bold">Full name is required</div>
-                                                }
+                                                <label className="bmd-label-floating">Username</label>
+                                                <input name="userName" type="text" className="form-control" value={userName} onChange={this.handleInputChange} />
+                                                {typeof error.UserName !== 'undefined' ?
+                                                    error.UserName.map((element, index) => {
+                                                        return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
+                                                    })
+                                                    : ''}
                                             </div>
                                         </div>
                                     </div>
+                                    : ''}
 
-                                    {/* Email */}
+                                {/* Password */}
+                                {this.props.location.pathname === '/employee/register' ?
                                     <div className="row">
-                                     
-                                        <div className="col">
+                                        <div className="col-md-4" >
                                             <div className="form-group">
-                                                <label className={`bmd-label-${this.props.location.pathname !== '/employee/register' ? 'static' : 'floating'}`}>Email</label>
-                                                <input name="email" type="email" placeholder="Email" className="form-control" value={email} onChange={this.handleInputChange} />
-                                                {submitted && !email &&
-                                                    <div className="error text-danger font-weight-bold">Email is required</div>
-                                                }
+                                                <label className="bmd-label-floating">Password</label>
+                                                <input name="password" type="password" className="form-control" value={password} onChange={this.handleInputChange} />
+                                                {typeof error.Password !== 'undefined' ?
+                                                    error.Password.map((element, index) => {
+                                                        return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
+                                                    })
+                                                    : ''}
+                                            </div>
+                                        </div>
+
+                                        <div className="col-md-4">
+                                            <div className="form-group">
+                                                <label className="bmd-label-floating">Confirm password</label>
+                                                <input name="confirmPassword" type="password" value={confirmPassword} className="form-control" onChange={this.handleInputChange} />
+                                                {typeof error.ConfirmPassword !== 'undefined' ?
+                                                    error.ConfirmPassword.map((element, index) => {
+                                                        return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
+                                                    })
+                                                    : ''}
                                             </div>
                                         </div>
                                     </div>
+                                    : ''}
 
-                                    {/* Username */}
+                                {/* Phone Number */}
+                                <div className="row">
+                                    <div className="col">
+                                        <div className="form-group">
+                                            <label className={`bmd-label-${this.props.location.pathname !== '/employee/register' ? 'static' : 'floating'}`}>Phone Number</label>
+                                            <input type="text" name="phoneNumber" value={phoneNumber} className="form-control" onChange={this.handleInputChange} />
+                                            {typeof error.PhoneNumber !== 'undefined' ?
+                                                error.PhoneNumber.map((element, index) => {
+                                                    return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
+                                                })
+                                                : ''}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Identity Number */}
+                                <div className="row">
+                                    <div className="col">
+                                        <div className="form-group">
+                                            <label className={`bmd-label-${this.props.location.pathname !== '/employee/register' ? 'static' : 'floating'}`}>Identity Number</label>
+                                            <input name="identityNumber" type="identityNumber" placeholder="" className="form-control" value={identityNumber} onChange={this.handleInputChange} />
+                                            {typeof error.IdentityNumber !== 'undefined' ?
+                                                error.IdentityNumber.map((element, index) => {
+                                                    return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
+                                                })
+                                                : ''}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Adress */}
+                                <div className="row">
+                                    <div className="col">
+                                        <div className="form-group">
+                                            <label className={`bmd-label-${this.props.location.pathname !== '/employee/register' ? 'static' : 'floating'}`}>Adress</label>
+                                            <input type="text" name="address" className="form-control" value={address} onChange={this.handleInputChange} />
+                                            {typeof error.Address !== 'undefined' ?
+                                                error.Address.map((element, index) => {
+                                                    return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
+                                                })
+                                                : ''}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Role */}
+                                <div className="row">
                                     {this.props.location.pathname === '/employee/register' ?
-                                        <div className="row">
-                                          
-                                            <div className="col">
-                                                <div className="form-group">
-                                                    <label className="bmd-label-floating">Username</label>
-                                                    <input name="userName" type="text" className="form-control" value={userName} onChange={this.handleInputChange} />
-                                                    {submitted && !userName &&
-                                                        <div className="error text-danger font-weight-bold">Username is required</div>
-                                                    }
-                                                    {
-                                                        !this.state.isValidate ?
-                                                            <div className="error text-danger font-weight-bold">Username must not have space</div> : ''
-                                                    }
-                                                </div>
-                                            </div>
-                                        </div>
-                                        : ''}
-
-                                    {/* Password */}
-                                    {this.props.location.pathname === '/employee/register' ?
-                                        <div className="row">
-                                         
-                                            <div className="col-md-4" >
-                                                <div className="form-group">
-                                                    <label className="bmd-label-floating">Password</label>
-                                                    <input name="password" type="password" className="form-control" value={password} onChange={this.handleInputChange} />
-                                                    {submitted && !password &&
-                                                        <div className="error text-danger font-weight-bold">Password is required</div>
-                                                    }
-                                                </div>
-                                            </div>
-                                           
-                                            <div className="col-md-4">
-                                                <div className="form-group">
-                                                    <label className="bmd-label-floating">Confirm password</label>
-                                                    <input name="confirmPassword" type="password" value={confirmPassword} className="form-control" onChange={this.handleInputChange} />
-                                                    {submitted && !confirmPassword &&
-                                                        <div className="error text-danger font-weight-bold">Confirm password is required</div>
-                                                    }
-                                                </div>
-                                            </div>
-                                        </div>
-                                        : ''}
-
-                                    {/* Phone Number */}
-                                    <div className="row">
-                                       
                                         <div className="col">
-                                            <div className="form-group">
-                                                <label className={`bmd-label-${this.props.location.pathname !== '/employee/register' ? 'static' : 'floating'}`}>Phone Number</label>
-                                                <input type="text" name="phoneNumber" value={phoneNumber} className="form-control" onChange={this.handleInputChange} />
-                                                {submitted && !phoneNumber &&
-                                                    <div className="error text-danger font-weight-bold">Phone is required</div>
-                                                }
-                                            </div>
+                                            <SelectBar name='role'
+                                                type="role"
+                                                value={role}
+                                                placeholder='Select role'
+                                                list={this.state.roleList}
+                                                onSelectRole={this.onSelectRole} />
+                                            {submitted && !role &&
+                                                <div className="error text-danger font-weight-bold" >Role is required</div>
+                                            }
                                         </div>
-                                    </div>
-
-                                    {/* Identity Number */}
-                                    <div className="row">
-                                    
-                                        <div className="col">
-                                            <div className="form-group">
-                                                <label className={`bmd-label-${this.props.location.pathname !== '/employee/register' ? 'static' : 'floating'}`}>Identity Number</label>
-                                                <input name="identityNumber" type="identityNumber" placeholder="" className="form-control" value={identityNumber} onChange={this.handleInputChange} />
-                                                {submitted && !identityNumber &&
-                                                    <div className="error text-danger font-weight-bold">Identity Number is required</div>
-                                                }
+                                        :
+                                        this.props.profile.roleName === 'PM' ?
+                                            <div className="col" style={{ marginTop: 5 }}>
+                                                <label className="bmd-label">
+                                                    <h5 style={{ fontWeight: 350, fontSize: 15 }}>{showRole(role)}</h5>
+                                                </label>
                                             </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Adress */}
-                                    <div className="row">
-                                     
-                                        <div className="col">
-                                            <div className="form-group">
-                                                <label className={`bmd-label-${this.props.location.pathname !== '/employee/register' ? 'static' : 'floating'}`}>Adress</label>
-                                                <input type="text" name="address" className="form-control" value={address} onChange={this.handleInputChange} />
-                                                {submitted && !address &&
-                                                    <div className="error text-danger font-weight-bold" >Address is required</div>
-                                                }
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Role */}
-                                    <div className="row">
-                                        {this.props.location.pathname === '/employee/register' ?
+                                            :
                                             <div className="col">
                                                 <SelectBar name='role'
                                                     type="role"
                                                     value={role}
                                                     placeholder='Select role'
-                                                    list={this.state.roleList}
+                                                    list={this.state.roleListUpdate}
                                                     onSelectRole={this.onSelectRole} />
                                                 {submitted && !role &&
                                                     <div className="error text-danger font-weight-bold" >Role is required</div>
                                                 }
                                             </div>
-                                            :
-                                            this.props.profile.roleName === 'PM' ?
-                                                <div className="col" style={{ marginTop: 5 }}>
-                                                    <label className="bmd-label">
-                                                        <h5 style={{ fontWeight: 350, fontSize: 15 }}>{showRole(role)}</h5>
-                                                    </label>
-                                                </div>
-                                                :
-                                                <div className="col">
-                                                    <SelectBar name='role'
-                                                        type="role"
-                                                        value={role}
-                                                        placeholder='Select role'
-                                                        list={this.state.roleListUpdate}
-                                                        onSelectRole={this.onSelectRole} />
-                                                    {submitted && !role &&
-                                                        <div className="error text-danger font-weight-bold" >Role is required</div>
-                                                    }
-                                                </div>
-                                        }
-                                    </div>
+                                    }
+                                </div>
 
-                                    <button type="submit" className="btn btn-primary pull-right mt-3    ">
-                                        {this.props.location.pathname !== '/employee/register' ? 'Update' : 'Create'}
-                                    </button>
-                                </form>
-                            </div>
+                                <button type="submit" className="btn btn-primary pull-right mt-3    ">
+                                    {this.props.location.pathname !== '/employee/register' ? 'Update' : 'Create'}
+                                </button>
+                            </form>
                         </div>
                     </div>
+                </div>
             </div>
         );
     }
@@ -298,7 +302,8 @@ class Register extends Component {
 const mapState = (state) => {
     return {
         registering: state.authentication,
-        profile: state.ProfileFetchReducer
+        profile: state.ProfileFetchReducer,
+        error: state.ErrorReducer
     };
 }
 
