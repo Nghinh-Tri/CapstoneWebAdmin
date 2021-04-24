@@ -44,7 +44,7 @@ export const recieveNotificate = (token) => {
             url,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
         ).then(res => {
-            console.log('recieveNotificate ok')
+            console.log('recieveNotificate ok', res.status)
         }).catch(err => {
             console.log(err)
         })

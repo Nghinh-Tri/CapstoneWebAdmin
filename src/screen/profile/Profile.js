@@ -47,15 +47,22 @@ class Profile extends Component {
 
     render() {
         var { select } = this.state
-
+        var { profile } = this.props
         return (
             <React.Fragment>
-
-                <ol class="breadcrumb mb-4 mt-3">
-                    <li class="breadcrumb-item active">Profile Detail</li>
-                </ol>
-                <div class="card mb-4">
-                    <div class="card-header">
+                <div className="row breadcrumb mb-4 mt-3 ml-1 mr-1">
+                    <div className='col'>
+                        <li className="breadcrumb-item active">{profile.name}</li>
+                    </div>
+                    <div className='col'>
+                        <li className="breadcrumb-item active">Phone: {profile.phoneNumber}</li>
+                    </div>
+                    <div className='col'>
+                        <li className="breadcrumb-item active">Email: {profile.email}</li>
+                    </div>
+                </div>
+                <div className="card mb-4">
+                    <div className="card-header">
                         <Tabs defaultActiveKey="1" onChange={this.onClickMenu}>
                             <TabPane tab="Personal Infomation" key={1}></TabPane>
                             <TabPane tab="Skill Details" key={2}></TabPane>
@@ -66,7 +73,7 @@ class Profile extends Component {
                             }
                         </Tabs>
                     </div>
-                    <div class="card-body">
+                    <div className="card-body">
                         {this.showDetail(select)}
                     </div>
                 </div>

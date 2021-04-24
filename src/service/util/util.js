@@ -36,7 +36,7 @@ export const showStatus = status => {
         case 1:
             return "No Employee"
         case 2:
-            return "Cofirmed"
+            return "Confirmed"
         case 3:
             return "On Going"
         case 4:

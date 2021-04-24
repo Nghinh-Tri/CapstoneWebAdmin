@@ -42,7 +42,7 @@ class SuitableProjectDetail extends Component {
                     <td className='text-center' >{item.languageMatch.toFixed(2)} / 10</td>
                     <td className='text-center' >{item.softSkillMatch.toFixed(2)} / 10</td>
                     <td className='text-center' >{item.hardSkillMatch.toFixed(2)} / 10</td>
-                    <td className='text-center' >{item.overallMatch.toFixed(2)} / 10</td>
+                    <td className='text-center' >{item.overallMatch.toFixed(2)} / 50</td>
                     <td className='text-center text-primary'>
                         <a onClick={() =>
                             this.addEmployee(item.posId, projectInfo.requiredPositions[index].requiredPosID,

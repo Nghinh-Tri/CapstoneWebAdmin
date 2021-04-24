@@ -7,6 +7,8 @@ import { history } from '../../service/helper/History';
 import ListEmployee from './ListEmployee';
 import { Tabs } from 'antd';
 import PositionRequire from "../../component/project-detail/PositionRequire";
+import { showSpan, showStatus } from '../../service/util/util';
+import moment from 'moment';
 
 const TabPane = Tabs.TabPane;
 
@@ -61,9 +63,32 @@ class ProjectDetail extends Component {
         var { project, select } = this.state
         return (
             <React.Fragment>
-                <ol class="breadcrumb mb-4 mt-3">
-                    <li class="breadcrumb-item active">Projects Detail</li>
-                </ol>
+                <div class="row breadcrumb mb-4 mt-3 ml-1 mr-1">
+                    <div class="col-auto mr-auto">
+                        <li class="breadcrumb-item active">
+                            {project.projectName}
+                        </li>
+                    </div>
+                    <div class="col-auto">
+                        <li class="breadcrumb-item active">
+                            {moment(project.dateBegin).format('DD-MM-YYYY')}
+                        </li>
+                    </div>
+                    <div class="col-auto">
+                        -
+                    </div>
+                    <div class="col-auto">
+                        <li class="breadcrumb-item active">
+                            {project.dateEnd === null ? moment(project.dateEstimatedEnd).format('DD-MM-YYYY') : moment(project.dateEnd).format('DD-MM-YYYY')}   
+                        </li>
+                    </div>
+                    <div class="col-auto">
+                        <span className={`badge badge-pill ${showSpan(project.status)} span`}>
+                            {showStatus(project.status)}
+                        </span>
+                    </div>
+                </div>
+
                 <div className='card mb-4'>
                     <div class="card-header">
                         <Tabs defaultActiveKey="1" onChange={this.onClickMenu}>

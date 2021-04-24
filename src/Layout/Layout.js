@@ -16,6 +16,7 @@ class Layout extends Component {
         messaging.getToken({ vapidKey: 'BCzV0OJHq4w2DQyltsiIxhhiM7Ce4yLOujK-1QRgWkmjUloUxEPRkvp2PgtvuRQ0nj8rVe1OTIcA2eKTIbEZE2w' })
             .then(token => {
                 if (token) {
+                    console.log('aaa')
                     localStorage.setItem('FirebaseToken', JSON.stringify(token))
                     this.props.recievedNoti(token)
                 }

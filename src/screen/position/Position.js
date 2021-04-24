@@ -147,8 +147,7 @@ class Position extends Component {
                           className="row"
                           style={{ paddingLeft: 7, paddingRight: 7 }}
                         >
-                          <i className="material-icons">add_box</i>Create New
-                          Pos
+                          <i className="material-icons">add_box</i>Create New Position
                         </div>
                       </button>
 

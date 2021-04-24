@@ -28,6 +28,7 @@ class SuitableProject extends Component {
         var { suitableList } = this.props
         var result = null
         result = suitableList.map((item, index) => {
+            console.log(item)
             // if (item.matchInEachPos.length > 0)
             return (<TabPane key={index} tab={item.projectInfo.projectName} ></TabPane>)
         })
@@ -57,11 +58,9 @@ class SuitableProject extends Component {
                         </Tabs>
                     </div>
                     <div class="card-body">
-                        {suitableList.length > 0 ?
-                            this.showSuitableProjectDetail()
-                            :
-                            <h4 style={{ fontStyle: 'italic', color: 'gray' }} >There is no suitable projects for this employee</h4>
-                        }
+                    { this.showSuitableProjectDetail()}
+
+                        
                     </div>
                 </div>
             </React.Fragment >
