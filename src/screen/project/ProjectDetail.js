@@ -63,24 +63,16 @@ class ProjectDetail extends Component {
         var { project, select } = this.state
         return (
             <React.Fragment>
-                <div class="row breadcrumb mb-4 mt-3 ml-1 mr-1">
+                <div class="row breadcrumb mb-4 mt-3">
                     <div class="col-auto mr-auto">
                         <li class="breadcrumb-item active">
                             {project.projectName}
                         </li>
                     </div>
                     <div class="col-auto">
-                        <li class="breadcrumb-item active">
-                            {moment(project.dateBegin).format('DD-MM-YYYY')}
-                        </li>
-                    </div>
-                    <div class="col-auto">
-                        -
-                    </div>
-                    <div class="col-auto">
-                        <li class="breadcrumb-item active">
-                            {project.dateEnd === null ? moment(project.dateEstimatedEnd).format('DD-MM-YYYY') : moment(project.dateEnd).format('DD-MM-YYYY')}   
-                        </li>
+                        <p style={{ wordSpacing: 'normal' }} class="breadcrumb-item active">
+                            {moment(project.dateBegin).format('DD-MM-YYYY')} - {project.dateEnd === null ? moment(project.dateEstimatedEnd).format('DD-MM-YYYY') : moment(project.dateEnd).format('DD-MM-YYYY')}
+                        </p>
                     </div>
                     <div class="col-auto">
                         <span className={`badge badge-pill ${showSpan(project.status)} span`}>

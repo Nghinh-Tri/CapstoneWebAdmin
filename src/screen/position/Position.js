@@ -118,13 +118,13 @@ class Position extends Component {
         return (
           <React.Fragment>
             <ol class="breadcrumb mb-4 mt-3">
-              <li class="breadcrumb-item active">Position</li>
+              <li class="breadcrumb-item active">Positions</li>
             </ol>
             <div className="container-fluid">
               <div class="card mb-4">
                 <div class="card-header">
                   <i class="fas fa-table mr-1"></i>
-                  List Position
+                  Positions
                 </div>
 
                 <div className="card-body">

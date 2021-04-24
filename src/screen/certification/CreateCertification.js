@@ -76,7 +76,7 @@ class CreateCertification extends Component {
             <div className="card">
                 <div className="card-header card-header-primary">
                     <h4 className="card-title">
-                        {typeof this.props.match !== 'undefined' ? 'Update Certificate' : 'Create Certificate'}
+                        {typeof this.props.match !== 'undefined' ? 'Update Certificate' : 'Create New Certificate'}
                     </h4>
                 </div>
                 <div className="card-body">
@@ -84,7 +84,7 @@ class CreateCertification extends Component {
                         <div className='row'>
                             <div className='col'>
                                 <fieldset className="form-group">
-                                    <label className={`bmd-label-${typeof this.props.match !== 'undefined' ? 'static' : 'floating'}`}>Certification</label>
+                                    <label className={`bmd-label-${typeof this.props.match !== 'undefined' ? 'static' : 'floating'}`}>Certificate</label>
                                     <input type="text"
                                         id="certificationName" name="certificationName"
                                         className="form-control"

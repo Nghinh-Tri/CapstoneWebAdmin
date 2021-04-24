@@ -124,7 +124,7 @@ class Skill extends Component {
             <div className="container-fluid">
               <div class="card mb-4">
                 <div class="card-header">
-                  <i class="fas fa-table mr-1"></i>List Skill
+                  <i class="fas fa-table mr-1"></i>Skills
                 </div>
                 <div className="card-body">
                   {this.state.isLoading ? (

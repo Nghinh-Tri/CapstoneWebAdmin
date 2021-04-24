@@ -50,7 +50,7 @@ class Profile extends Component {
         var { profile } = this.props
         return (
             <React.Fragment>
-                <div className="row breadcrumb mb-4 mt-3 ml-1 mr-1">
+                <div className="row breadcrumb mb-4 mt-3">
                     <div className='col'>
                         <li className="breadcrumb-item active">{profile.name}</li>
                     </div>
