@@ -121,11 +121,7 @@ class Register extends Component {
         return (
             <div className="content">
                 <div className="container-fluid">
-                    <div className="card"
-                        style={{
-                            marginTop:"50px"
-                        }}
-                    >
+                    <div className="card">
                         <div className="card-header card-header-primary">
                             <h4 className="card-title">
                                 {this.props.location.pathname !== '/employee/register' ? 'Update Profile' : 'Create New Employee'}

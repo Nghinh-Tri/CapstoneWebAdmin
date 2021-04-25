@@ -74,117 +74,72 @@ class CreateCertification extends Component {
         var { certi } = this.props
         var listConverted = convertSkillList(this.props.hardSkillList)
         return (
-          <div
-            className="card"
-            style={{
-              marginTop: "50px",
-            }}
-          >
-            <div className="card-header card-header-primary">
-              <h4 className="card-title">
-                {typeof this.props.match !== "undefined"
-                  ? "Update Certificate"
-                  : "Create New Certificate"}
-              </h4>
+            <div className="card">
+                <div className="card-header card-header-primary">
+                    <h4 className="card-title">
+                        {typeof this.props.match !== 'undefined' ? 'Update Certificate' : 'Create New Certificate'}
+                    </h4>
+                </div>
+                <div className="card-body">
+                    <form onSubmit={this.handleSubmit} >
+                        <div className='row'>
+                            <div className='col'>
+                                <fieldset className="form-group">
+                                    <label className={`bmd-label-${typeof this.props.match !== 'undefined' ? 'static' : 'floating'}`}>Certificate</label>
+                                    <input type="text"
+                                        id="certificationName" name="certificationName"
+                                        className="form-control"
+                                        value={certi.certificationName}
+                                        onChange={this.handleChange} />
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div className='row'>
+                            <div className='col-auto' style={{ marginTop: 15 }}>
+                                <label className="bmd-label-floating">Skill</label>
+                            </div>
+                            <div className='col-auto' style={{ marginLeft: 30, marginTop: 10 }}>
+                                <SelectBar name='hardSkillList'
+                                    type="common"
+                                    placeholder='Select skill'
+                                    list={listConverted}
+                                    value={certi.skillID}
+                                    onSelectSkill={this.onSelectSkill}
+                                />
+                            </div>
+                            <div className='col-auto' style={{ marginLeft: 30, marginTop: 15 }}>
+                                <label className="bmd-label-floating">Level</label>
+                            </div>
+                            <div className='col-auto' style={{ marginLeft: 30, marginTop: 10 }}>
+                                <SelectBar name='certiLevel'
+                                    type="common"
+                                    placeholder='Select level'
+                                    list={this.state.level}
+                                    onUpdateCerti={this.onSelectLevel}
+                                    value={certi.certiLevel}
+                                />
+                            </div>
+                        </div>
+                        <div className="row" style={{ marginTop: 10 }}>
+                            <div className='col'>
+                                <fieldset className="form-group">
+                                    <label className={`bmd-label-${typeof this.props.match !== 'undefined' ? 'static' : 'floating'}`}>Description</label>
+                                    <TextArea  type="textarea" elastic 
+                                        id="description" name="description"
+                                        value={certi.description}
+                                        className="form-control"
+                                        autoSize={{minRows:3, maxRows:20}}
+                                        onChange={this.handleChange} />
+                                </fieldset>
+                            </div>
+                        </div>
+                        <button className="btn btn-primary pull-right" onClick={this.onSubmit}>
+                            {typeof this.props.match !== 'undefined' ? 'Update' : 'Create'}
+                        </button>
+                    </form>
+                </div>
             </div>
-            <div className="card-body">
-              <form onSubmit={this.handleSubmit}>
-                <div className="row">
-                  <div className="col">
-                    <fieldset className="form-group">
-                      <label
-                        className={`bmd-label-${
-                          typeof this.props.match !== "undefined"
-                            ? "static"
-                            : "floating"
-                        }`}
-                      >
-                        Certificate
-                      </label>
-                      <input
-                        type="text"
-                        id="certificationName"
-                        name="certificationName"
-                        className="form-control"
-                        value={certi.certificationName}
-                        onChange={this.handleChange}
-                      />
-                    </fieldset>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-auto" style={{ marginTop: 15 }}>
-                    <label className="bmd-label-floating">Skill</label>
-                  </div>
-                  <div
-                    className="col-auto"
-                    style={{ marginLeft: 30, marginTop: 10 }}
-                  >
-                    <SelectBar
-                      name="hardSkillList"
-                      type="common"
-                      placeholder="Select skill"
-                      list={listConverted}
-                      value={certi.skillID}
-                      onSelectSkill={this.onSelectSkill}
-                    />
-                  </div>
-                  <div
-                    className="col-auto"
-                    style={{ marginLeft: 30, marginTop: 15 }}
-                  >
-                    <label className="bmd-label-floating">Level</label>
-                  </div>
-                  <div
-                    className="col-auto"
-                    style={{ marginLeft: 30, marginTop: 10 }}
-                  >
-                    <SelectBar
-                      name="certiLevel"
-                      type="common"
-                      placeholder="Select level"
-                      list={this.state.level}
-                      onUpdateCerti={this.onSelectLevel}
-                      value={certi.certiLevel}
-                    />
-                  </div>
-                </div>
-                <div className="row" style={{ marginTop: 10 }}>
-                  <div className="col">
-                    <fieldset className="form-group">
-                      <label
-                        className={`bmd-label-${
-                          typeof this.props.match !== "undefined"
-                            ? "static"
-                            : "floating"
-                        }`}
-                      >
-                        Description
-                      </label>
-                      <TextArea
-                        type="textarea"
-                        elastic
-                        id="description"
-                        name="description"
-                        value={certi.description}
-                        className="form-control"
-                        autoSize={{ minRows: 3, maxRows: 20 }}
-                        onChange={this.handleChange}
-                      />
-                    </fieldset>
-                  </div>
-                </div>
-                <button
-                  className="btn btn-primary pull-right"
-                  onClick={this.onSubmit}
-                >
-                  {typeof this.props.match !== "undefined"
-                    ? "Update"
-                    : "Create"}
-                </button>
-              </form>
-            </div>
-          </div>
+
         );
     }
 }
