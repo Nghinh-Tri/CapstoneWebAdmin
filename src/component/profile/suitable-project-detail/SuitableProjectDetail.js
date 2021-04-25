@@ -56,7 +56,7 @@ class SuitableProjectDetail extends Component {
 
     render() {
         var { item } = this.props
-        // console.log(item)
+        console.log(item)
         return (
             <React.Fragment>
                 {item.matchInEachPos.length > 0 ?

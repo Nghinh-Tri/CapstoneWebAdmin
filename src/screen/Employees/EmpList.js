@@ -86,6 +86,7 @@ class EmpList extends Component {
 
     render() {
         var { profiles } = this.props
+        console.log('profiles',profiles.items)
         return (
           <React.Fragment>
             <ol class="breadcrumb mb-4 mt-3">
