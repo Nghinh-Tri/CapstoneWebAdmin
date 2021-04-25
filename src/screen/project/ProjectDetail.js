@@ -85,8 +85,8 @@ class ProjectDetail extends Component {
                     <div class="card-header">
                         <Tabs defaultActiveKey="1" onChange={this.onClickMenu}>
                             <TabPane tab="Project Detail" key={1}></TabPane>
-                            <TabPane tab="List Employee" key={2}></TabPane>
-                            <TabPane tab="Position Suggestion" key={3}></TabPane>
+                            <TabPane tab="Employee List" key={2}></TabPane>
+                            <TabPane tab="Position Requirements" key={3}></TabPane>
                         </Tabs>
                     </div>
                     <div class="card-body">

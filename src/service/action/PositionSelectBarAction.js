@@ -85,18 +85,19 @@ export const createPosition = (position) => {
                 if (res.status === 200)
                     dispatch(createPositionSuccess())
             }).catch(err => {
-                store.addNotification({
-                    message: err.response.data.message,
-                    type: "danger",
-                    insert: "top",
-                    container: "top-center",
-                    animationIn: ["animated", "fadeIn"],
-                    animationOut: ["animated", "fadeOut"],
-                    dismiss: {
-                        duration: 2000,
-                        onScreen: false
-                    }
-                })
+                console.log(err)
+                // store.addNotification({
+                //     message: err.response,
+                //     type: "danger",
+                //     insert: "top",
+                //     container: "top-center",
+                //     animationIn: ["animated", "fadeIn"],
+                //     animationOut: ["animated", "fadeOut"],
+                //     dismiss: {
+                //         duration: 2000,
+                //         onScreen: false
+                //     }
+                // })
             })
         }
 

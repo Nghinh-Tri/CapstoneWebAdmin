@@ -1,3 +1,4 @@
+import TextArea from 'antd/lib/input/TextArea';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SelectBar from '../../component/create-position-form/select-search/SelectBar';
@@ -123,11 +124,11 @@ class CreateCertification extends Component {
                             <div className='col'>
                                 <fieldset className="form-group">
                                     <label className={`bmd-label-${typeof this.props.match !== 'undefined' ? 'static' : 'floating'}`}>Description</label>
-                                    <textarea type="textarea"
+                                    <TextArea  type="textarea" elastic 
                                         id="description" name="description"
                                         value={certi.description}
                                         className="form-control"
-                                        row="10"
+                                        autoSize={{minRows:3, maxRows:20}}
                                         onChange={this.handleChange} />
                                 </fieldset>
                             </div>

@@ -20,7 +20,7 @@ class SkillProfile extends Component {
             result = (hardSkills || []).map((skill, index) => {
                 return (
                     <>
-                        <Descriptions.Item span={3} label={skill.skillName}>
+                        <Descriptions.Item style={{backgroundColor:'#E8E8E8'}}  span={3} label={skill.skillName}>
                             {showHardSkillLevel(skill.skillLevel)}
                         </Descriptions.Item>
                         {skill.certifications?.map((certification, innerIndex) => {
