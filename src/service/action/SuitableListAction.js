@@ -9,7 +9,6 @@ export const fetchSuitableList = (empID) => {
             url,
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
-            console.log(res.data)
             dispatch(fetchSuitableListSuccess(res.data.resultObj))
         }).catch(err => {
             // dispatch(fetchSuitableList([]))

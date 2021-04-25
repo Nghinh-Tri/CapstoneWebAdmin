@@ -16,7 +16,6 @@ class Layout extends Component {
         messaging.getToken({ vapidKey: 'BCzV0OJHq4w2DQyltsiIxhhiM7Ce4yLOujK-1QRgWkmjUloUxEPRkvp2PgtvuRQ0nj8rVe1OTIcA2eKTIbEZE2w' })
             .then(token => {
                 if (token) {
-                    console.log('aaa')
                     localStorage.setItem('FirebaseToken', JSON.stringify(token))
                     this.props.recievedNoti(token)
                 }
@@ -26,30 +25,7 @@ class Layout extends Component {
             this.props.fetchProject();
             this.showNotificate(payload.notification);
         });
-        // setInterval(() => {
-        //     messaging.onMessage((payload) => {
-        //         console.log('setInterval')
-        //         this.props.fetchProject()
-        //         this.showNotificate(payload.notification)
-        //     });
-        // }, 1000);
     }
-
-    // componentDidUpdate = (prev) => {
-    //     const messaging = firebase.messaging()
-    //     messaging.getToken({ vapidKey: 'BCzV0OJHq4w2DQyltsiIxhhiM7Ce4yLOujK-1QRgWkmjUloUxEPRkvp2PgtvuRQ0nj8rVe1OTIcA2eKTIbEZE2w' })
-    //         .then(token => {
-    //             if (token) {
-    //                 localStorage.setItem('FirebaseToken', JSON.stringify(token))
-    //                 this.props.recievedNoti(token)
-    //             }
-    //         })
-    //     messaging.onMessage((payload) => {
-    //         console.log('componentDidUpdate')
-
-    //         this.showNotificate(payload.notification)
-    //     });
-    // }
 
     showNotificate = (messaging) => {
         notification.open({
