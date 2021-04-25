@@ -7,6 +7,8 @@ import { history } from '../../service/helper/History';
 import ListEmployee from './ListEmployee';
 import { Tabs } from 'antd';
 import PositionRequire from "../../component/project-detail/PositionRequire";
+import { showSpan, showStatus } from '../../service/util/util';
+import moment from 'moment';
 
 const TabPane = Tabs.TabPane;
 
@@ -61,15 +63,30 @@ class ProjectDetail extends Component {
         var { project, select } = this.state
         return (
             <React.Fragment>
-                <ol class="breadcrumb mb-4 mt-3">
-                    <li class="breadcrumb-item active">Projects Detail</li>
-                </ol>
+                <div class="row breadcrumb mb-4 mt-3">
+                    <div class="col-auto mr-auto">
+                        <li class="breadcrumb-item active">
+                            {project.projectName}
+                        </li>
+                    </div>
+                    <div class="col-auto">
+                        <p style={{ wordSpacing: 'normal' }} class="breadcrumb-item active">
+                            {moment(project.dateBegin).format('DD-MM-YYYY')} - {project.dateEnd === null ? moment(project.dateEstimatedEnd).format('DD-MM-YYYY') : moment(project.dateEnd).format('DD-MM-YYYY')}
+                        </p>
+                    </div>
+                    <div class="col-auto">
+                        <span className={`badge badge-pill ${showSpan(project.status)} span`}>
+                            {showStatus(project.status)}
+                        </span>
+                    </div>
+                </div>
+
                 <div className='card mb-4'>
                     <div class="card-header">
                         <Tabs defaultActiveKey="1" onChange={this.onClickMenu}>
                             <TabPane tab="Project Detail" key={1}></TabPane>
-                            <TabPane tab="List Employee" key={2}></TabPane>
-                            <TabPane tab="Position Suggestion" key={3}></TabPane>
+                            <TabPane tab="Employee List" key={2}></TabPane>
+                            <TabPane tab="Position Requirements" key={3}></TabPane>
                         </Tabs>
                     </div>
                     <div class="card-body">

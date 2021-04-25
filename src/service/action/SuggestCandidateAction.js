@@ -84,7 +84,7 @@ export const confirmSuggestList = (suggestList, projectID, projectName, pmID, op
                 { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
             ).then(res => {
                 if (res.status === 200) {
-                    dispatch(sendNotificate(pm, `Employee for project '${projectName}' has been confirmed `))
+                    dispatch(sendNotificate("" + pm, `Employee for project '${projectName}' has been confirmed `))
                     suggestList.candidates.forEach(element => {
                         element.empIDs.forEach(e1 => {
                             dispatch(sendNotificate(e1, `You has been confirm to join project '${projectName}'`))
@@ -104,19 +104,19 @@ export const confirmSuggestList = (suggestList, projectID, projectName, pmID, op
                     // }
                 }
             }).catch(err => {
-                store.addNotification({
-                    message: err.response.data.message,
-                    type: "danger",
-                    insert: "top",
-                    container: "top-center",
-                    animationIn: ["animated", "fadeIn"],
-                    animationOut: ["animated", "fadeOut"],
-                    dismiss: {
-                        duration: 2000,
-                        onScreen: false
-                    }
-                })
-                console.log(err.response.data.message)
+                // store.addNotification({
+                //     message: err.response.data.message,
+                //     type: "danger",
+                //     insert: "top",
+                //     container: "top-center",
+                //     animationIn: ["animated", "fadeIn"],
+                //     animationOut: ["animated", "fadeOut"],
+                //     dismiss: {
+                //         duration: 2000,
+                //         onScreen: false
+                //     }
+                // })
+                // console.log(err.response.data.message)
             })
     }
 }

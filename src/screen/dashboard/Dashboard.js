@@ -88,10 +88,10 @@ class Dashboard extends Component {
                                 <div>
                                     <div className="ct-chart">
                                         {this.onShowPieList(dataStatistics.projectByTypes)}
-                           s         </div>
+                                    </div>
                                 </div>
                                 <div className="card-body">
-                                    <h4 className="card-title">Type of Project</h4>
+                                    <h4 className="card-title">Type of project</h4>
                                 </div>
                             </div>
                         </div>
@@ -104,7 +104,7 @@ class Dashboard extends Component {
                                     {this.onShowRadarList(dataStatistics.employeeByProjects)}
                                 </div>
                                 <div className="card-body">
-                                    <h4 className="card-title">Employee In Project</h4>
+                                    <h4 className="card-title">Employee in project</h4>
                                 </div>
                             </div>
                         </div>
@@ -118,7 +118,7 @@ class Dashboard extends Component {
                                     {this.onShowBarList(dataStatistics.employeeByHardSkills)}
                                 </div>
                                 <div className="card-body">
-                                    <h4 className="card-title">HardSkill of Employee In application</h4>
+                                    <h4 className="card-title">Hard skill of employee in application</h4>
                                 </div>
                             </div>
                         </div>
@@ -130,7 +130,7 @@ class Dashboard extends Component {
                                     {this.onShowStatusList(dataStatistics.projectByStatuses)}
                                 </div>
                                 <div className="card-body">
-                                    <h4 className="card-title">Status of Project</h4>
+                                    <h4 className="card-title">Status of project</h4>
                                 </div>
                             </div>
                         </div>

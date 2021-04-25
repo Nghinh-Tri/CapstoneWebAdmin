@@ -89,13 +89,13 @@ class EmpList extends Component {
         return (
           <React.Fragment>
             <ol class="breadcrumb mb-4 mt-3">
-              <li class="breadcrumb-item active">Employee</li>
+              <li class="breadcrumb-item active">Employees</li>
             </ol>
             <div className="container-fluid">
               <div class="card mb-4">
                 <div class="card-header">
                   <i class="fas fa-table mr-1"></i>
-                  List Emp
+                  Employees
                 </div>
 
                 <div className="card-body">

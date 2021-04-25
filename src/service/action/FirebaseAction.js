@@ -40,14 +40,15 @@ export const sendNotificate = (pmID, body) => {
 export const recieveNotificate = (token) => {
     var url = `${API_URL}/Notification/subscription?token=${token}&topic=news`
     return (dispatch) => {
-        axios.post(
-            url,
-            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
-        ).then(res => {
-            console.log('recieveNotificate ok')
-        }).catch(err => {
-            console.log(err)
-        })
+        if (localStorage.getItem('token') !== null && token !== null)
+            axios.post(
+                url,
+                { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
+            ).then(res => {
+                console.log('recieveNotificate ok', res.status)
+            }).catch(err => {
+                console.log(err)
+            })
     }
 }
 

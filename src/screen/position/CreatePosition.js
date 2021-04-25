@@ -1,3 +1,4 @@
+import TextArea from 'antd/lib/input/TextArea';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { checkSession } from '../../service/action/AuthenticateAction';
@@ -49,8 +50,9 @@ class CreatePosition extends Component {
 
     onSubmit = (e) => {
         e.preventDefault()
+        console.log(this.state.position, this.state.description)
         if (typeof this.props.match === 'undefined')
-            this.props.createPosition({ name: this.state.position, description: this.state.description })
+            this.props.onCreatePosition({ name: this.state.position, description: this.state.description })
         else
             this.props.updatePosition(this.state.posID, { name: this.state.position, description: this.state.description })
     }
@@ -85,10 +87,11 @@ class CreatePosition extends Component {
                             <div className='col'>
                                 <fieldset className="form-group">
                                     <label className={`bmd-label-${typeof this.props.match !== 'undefined' ? 'static' : 'floating'}`}>Description</label>
-                                    <textarea row='5' type="textarea"
+                                    <TextArea row='5' type="textarea"
                                         id="description" name="description"
                                         className="form-control"
                                         defaultValue={description}
+                                        autoSize={{ minRows: 3, maxRows: 20 }}
                                         onChange={this.handleChange} />
                                 </fieldset>
                             </div>
@@ -114,7 +117,7 @@ const mapDispatchToProps = (dispatch) => {
         checkSession: () => {
             dispatch(checkSession())
         },
-        createPosition: (position) => {
+        onCreatePosition: (position) => {
             dispatch(createPosition(position))
         },
         fetchPositionDetail: posID => {

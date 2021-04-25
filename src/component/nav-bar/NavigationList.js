@@ -6,31 +6,31 @@ const navigation = [
         exact: true
     },
     {
-        name: 'Project',
+        name: 'Projects',
         icon: 'content_paste',
         path: '/project',
         exact: false
     },
     {
-        name: 'Employee',
+        name: 'Employees',
         icon: 'content_paste',
         path: '/employee',
         exact: false
     },
     {
-        name: 'Position',
+        name: 'Positions',
         icon: 'content_paste',
         path: '/position',
         exact: false
     },
     {
-        name: 'Skill',
+        name: 'Skills',
         icon: 'content_paste',
         path: '/skill',
         exact: false
     },
     {
-        name: 'Certification',
+        name: 'Certificates',
         icon: 'content_paste',
         path: '/certification',
         exact: false
