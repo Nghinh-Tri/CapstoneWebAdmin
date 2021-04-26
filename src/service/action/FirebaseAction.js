@@ -3,6 +3,7 @@ import { FIREBASE } from "../constant"
 import { API_URL, getUserName } from "../util/util"
 
 export const sendNotificate = (pmID, body) => {
+    console.log('sendNotificate', pmID)
     var pm = ''
     if (typeof pmID === 'string')
         pm = pmID
@@ -19,15 +20,17 @@ export const sendNotificate = (pmID, body) => {
                 unsubcriptUrl,
                 { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
             ).then(res => {
-                axios.post(
-                    url,
-                    message,
-                    { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
-                ).then(res => {
-                    console.log(res)
-                }).catch(err => {
-                    console.log(err)
-                })
+                if (pm !== '') {
+                    axios.post(
+                        url,
+                        message,
+                        { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
+                    ).then(res => {
+                        console.log(res)
+                    }).catch(err => {
+                        console.log(err)
+                    })
+                }
             }).catch(err => {
                 console.log(err)
             })

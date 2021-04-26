@@ -20,8 +20,8 @@ class Layout extends Component {
                     this.props.recievedNoti(token)
                 }
             })
+        navigator.serviceWorker.addEventListener('message', message => console.log('Mess', message.data.notification))
         messaging.onMessage((payload) => {
-            console.log('componentDidMount');
             this.props.fetchProject();
             this.showNotificate(payload.notification);
         });
