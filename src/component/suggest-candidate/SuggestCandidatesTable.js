@@ -63,7 +63,7 @@ class SuggestCandidates extends Component {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {this.showCandidate(item.employees, item.posID)}
+                                            {this.showCandidate(typeof item === 'undefined' ? [] : item.employees, typeof item === 'undefined' ? [] : item.posID)}
                                         </tbody>
                                     </table>
                                 </div>

@@ -7,13 +7,22 @@ import * as Action from "../../service/action/SuggestCandidateAction";
 import '../../css/SuggestNav.css'
 import { checkSession } from '../../service/action/AuthenticateAction';
 import { compose } from 'redux';
-import { Tabs } from "antd";
+import { Spin, Tabs } from "antd";
 import { history } from '../../service/helper/History';
 import { store } from 'react-notifications-component';
 
 const TabPane = Tabs.TabPane;
 
 class ListCandidate extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLoad: true
+        }
+    }
+
+
     componentDidMount = () => {
         this.props.checkSession();
         var { match } = this.props;
@@ -22,7 +31,8 @@ class ListCandidate extends Component {
     };
 
     componentDidUpdate = (prevProp) => {
-        if (prevProp.candidateSelectedList !== this.props.candidateSelectedList) {
+        if (prevProp.suggestCandidateList !== this.props.suggestCandidateList) {
+            this.setState({ isLoad: false })
             // console.log('candidateSelectedList', this.props.candidateSelectedList)
         }
     }
@@ -88,32 +98,39 @@ class ListCandidate extends Component {
         return (
             <div>
                 <ProgressBar current="0" />
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <Tabs defaultActiveKey="0" onChange={this.onSelected}>
-                            {this.getTabName()}
-                        </Tabs>
+                {this.state.isLoad ?
+                    <div className="row justify-content-center">
+                        <Spin className="text-center" size="large" />
+                    </div> :
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <Tabs defaultActiveKey="0" onChange={this.onSelected}>
+                                {this.getTabName()}
+                            </Tabs>
+                        </div>
+                        <div className="card-body">
+                            {suggestCandidateList.length > 0 ? (
+                                <SuggestCandidates
+                                    item={candidateSelectedList[selectedIndex]}
+                                    onSelectCandidate={this.selectCandidate}
+                                    onNoteRejectingReason={this.onNoteRejectingReason}
+                                    onSelectAll={this.onSelectAll}
+                                />
+                            ) : (
+                                ""
+                            )}
+                        </div>
                     </div>
-                    <div className="card-body">
-                        {suggestCandidateList.length > 0 ? (
-                            <SuggestCandidates
-                                item={candidateSelectedList[selectedIndex]}
-                                onSelectCandidate={this.selectCandidate}
-                                onNoteRejectingReason={this.onNoteRejectingReason}
-                                onSelectAll={this.onSelectAll}
-                            />
-                        ) : (
-                            ""
-                        )}
-                    </div>
-                </div>
-                <div className="row pull-right" style={{ marginTop: -10, marginBottom: 10 }}>
-                    <div className="col">
-                        <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }} onClick={this.onMoveToConfirmPage} >
-                            Next
+                }
+                {this.state.isLoad ? '' :
+                    <div className="row pull-right" style={{ marginTop: -10, marginBottom: 10 }}>
+                        <div className="col">
+                            <button type="button" className="btn btn-primary pull-right" style={{ width: 110, fontWeight: 600 }} onClick={this.onMoveToConfirmPage} >
+                                Next
                         </button>
+                        </div>
                     </div>
-                </div>
+                }
             </div>
         );
     }

@@ -9,6 +9,7 @@ import { checkSession } from '../../service/action/AuthenticateAction';
 import * as Action from '../../service/action/ProjectAction'
 import { showStatus, showBadge } from '../../service/util/util';
 import { history } from '../../service/helper/History'
+import { sendNotificate } from '../../service/action/FirebaseAction';
 
 class ProjectDetailTable extends Component {
 
@@ -31,13 +32,14 @@ class ProjectDetailTable extends Component {
     }
 
     onDecline = () => {
-        var { match, declineProject, project } = this.props
+        var { match, declineProject, project, sendNotificate } = this.props
         confirm({
             title: 'Are you sure decline this project?',
             okText: 'Yes',
             cancelText: 'No',
             onOk() {
                 declineProject(match.params.id, project.projectName, project.pmID)
+                // sendNotificate(project.pmID, `Project ${project.projectName} has been declined`)
             },
             onCancel() {
                 console.log('Cancel');
@@ -109,6 +111,9 @@ const mapDispatchToProp = dispatch => {
         },
         checkSession: () => {
             dispatch(checkSession())
+        },
+        sendNotificate: (pmID, body) => {
+            dispatch(sendNotificate(pmID, body))
         }
     }
 }
