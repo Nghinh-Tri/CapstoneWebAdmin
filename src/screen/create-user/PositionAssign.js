@@ -8,6 +8,7 @@ import SoftSkillForm from "../../component/create-position-form/soft-skill-form/
 import HardSkillForm from "../../component/create-position-form/hard-skill-form/HardSkillForm";
 import { compose } from 'redux';
 import { withRouter } from 'react-router';
+import { convertEmpInfo } from '../../service/util/util';
 
 class PositionAssign extends Component {
 
@@ -123,10 +124,11 @@ class PositionAssign extends Component {
 
     onAssignPosition = (e) => {
         e.preventDefault()
+        var itemConverted = convertEmpInfo(this.props.item)
         if (typeof this.props.location.state.empID !== 'undefined') {//create
-            this.props.onAssignPosition(this.props.location.state.empID, this.props.item, this.props.location.state.role)
+            this.props.onAssignPosition(this.props.location.state.empID, itemConverted, this.props.location.state.role)
         } else {
-            this.props.updatePosition(this.props.match.params.id, this.props.item, this.props.location.state.role)
+            this.props.updatePosition(this.props.match.params.id, itemConverted, this.props.location.state.role)
         }
     }
 

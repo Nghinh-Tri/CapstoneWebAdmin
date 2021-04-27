@@ -302,3 +302,24 @@ export const showRequestStatus = status => {
             break;
     }
 }
+
+export const convertEmpInfo = info => {
+    var result = { posID: 0, posLevel: 0, languages: [], softSkills: [], hardSkills: [] }
+    result.posID = info.posID
+    result.posLevel = info.posLevel
+    result.languages = info.languages
+    result.softSkills = info.softSkills
+    var hardSkillList = []
+    info.hardSkills.forEach(e => {
+        var hardSkill = { skillID: e.skillID, skillLevel: e.skillLevel, empCertifications: [] }
+        e.empCertifications.forEach(e1 => {
+            var empCerti = { certiID: e1.certiID, dateTaken: e1.dateTaken, dateEnd: e1.dateEnd }
+            hardSkill.empCertifications.push(empCerti)
+        })
+        hardSkillList.push(hardSkill)
+    })
+    result.hardSkills = hardSkillList
+    // console.log(result)
+
+    return result
+}
