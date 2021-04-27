@@ -415,7 +415,23 @@ export const updatePositionDetail = (empID, positionAssign, role) => {
                 { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } })
                 .then(res => {
                     if (res.status === 200) {
-                        dispatch(updatePositionDetailSuccess(empID))
+                        if (res.data.isSuccessed)
+                            dispatch(updatePositionDetailSuccess(empID))
+                        else {
+                            dispatch(assignPositionFail())
+                            store.addNotification({
+                                message: res.data.message,
+                                type: "danger",
+                                insert: "top",
+                                container: "top-center",
+                                animationIn: ["animated", "fadeIn"],
+                                animationOut: ["animated", "fadeOut"],
+                                dismiss: {
+                                    duration: 2000,
+                                    onScreen: false
+                                }
+                            })
+                        }
                     }
                 })
                 .catch(err => {

@@ -7,6 +7,7 @@ import { checkSession } from '../../service/action/AuthenticateAction';
 import { fetchProfileDetail } from '../../service/action/ProfileAction';
 import { Tabs } from 'antd';
 import SuitableProject from '../../component/profile/SuitableProject';
+import JoinedProject from '../../component/profile/joined-project/JoinedProject';
 const TabPane = Tabs.TabPane;
 
 class Profile extends Component {
@@ -42,6 +43,8 @@ class Profile extends Component {
             return <PositionTable empID={empID} role={profile.roleName} />
         if (select === 3)
             return <SuitableProject empID={empID} />
+        if (select === 4)
+            return <JoinedProject empID={empID} />
     }
 
 
@@ -52,13 +55,13 @@ class Profile extends Component {
             <React.Fragment>
                 <div className="row breadcrumb mb-4 mt-3">
                     <div className='col'>
-                        <li className="breadcrumb-item active">{profile.name}</li>
+                        <li className="breadcrumb-item active" style={{fontWeight:600}}>{profile.name}</li>
                     </div>
                     <div className='col'>
-                        <li className="breadcrumb-item active">Phone: {profile.phoneNumber}</li>
+                        <li className="breadcrumb-item active" style={{fontWeight:600}}>Phone: {profile.phoneNumber}</li>
                     </div>
                     <div className='col'>
-                        <li className="breadcrumb-item active">Email: {profile.email}</li>
+                        <li className="breadcrumb-item active" style={{fontWeight:600}}>Email: {profile.email}</li>
                     </div>
                 </div>
                 <div className="card mb-4">
@@ -68,7 +71,10 @@ class Profile extends Component {
                             <TabPane tab="Skill Details" key={2}></TabPane>
                             {
                                 typeof this.props.match !== 'undefined' ?
-                                    <TabPane tab="Suitable Projects" key={3}></TabPane>
+                                    <>
+                                        <TabPane tab="Suitable Projects" key={3}></TabPane>
+                                        <TabPane tab="Joined Projects" key={4}></TabPane>
+                                    </>
                                     : ''
                             }
                         </Tabs>
