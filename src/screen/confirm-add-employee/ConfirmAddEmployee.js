@@ -10,6 +10,7 @@ import { checkSession } from '../../service/action/AuthenticateAction';
 import { history } from '../../service/helper/History';
 import { compose } from 'redux';
 import { confirmSuggestList } from '../../service/action/SuggestCandidateAction';
+import BriefDetail from '../../component/brief-detail/BrriefDetails';
 
 class ConfirmSelectCandidate extends Component {
 
@@ -48,7 +49,7 @@ class ConfirmSelectCandidate extends Component {
         var projectID = JSON.parse(localStorage.getItem('projectId'))
         var pmID = JSON.parse(localStorage.getItem('pmID'))
         var projectName = JSON.parse(localStorage.getItem('projectName'))
-        console.log('aaa', projectID,pmID,projectName)
+        console.log('aaa', projectID, pmID, projectName)
 
         this.props.confirmSuggestList(obj, projectID, projectName, pmID)
     }
@@ -62,6 +63,7 @@ class ConfirmSelectCandidate extends Component {
         return (
             <div>
                 <ProgressBar current={3} />
+                <BriefDetail />
                 {candidateList.length === 0 ?
                     <h4 className="text-center" style={{ fontStyle: 'italic', color: 'gray', }} >No data</h4>
                     :

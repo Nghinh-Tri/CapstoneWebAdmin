@@ -9,6 +9,7 @@ import ProgressBar from '../../component/progress-bar/ProgressBar';
 import { confirmSuggestList, fetchSelectedList } from '../../service/action/SuggestCandidateAction';
 import { API_URL, convertSuggestList } from '../../service/util/util';
 import { Tabs } from "antd";
+import BriefDetail from '../../component/brief-detail/BrriefDetails';
 
 const TabPane = Tabs.TabPane;
 
@@ -60,6 +61,7 @@ class ConfirmPage extends Component {
         return (
             <div>
                 <ProgressBar current="1" />
+                <BriefDetail />
                 <div className="card mb-4">
                     <ConfirmSelectCandidate candidateList={this.props.candidateList} />
                 </div>

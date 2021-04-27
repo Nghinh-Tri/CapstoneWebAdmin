@@ -10,6 +10,7 @@ import { compose } from 'redux';
 import { Spin, Tabs } from "antd";
 import { history } from '../../service/helper/History';
 import { store } from 'react-notifications-component';
+import BriefDetail from '../../component/brief-detail/BrriefDetails';
 
 const TabPane = Tabs.TabPane;
 
@@ -98,6 +99,7 @@ class ListCandidate extends Component {
         return (
             <div>
                 <ProgressBar current="0" />
+                <BriefDetail />
                 {this.state.isLoad ?
                     <div className="row justify-content-center">
                         <Spin className="text-center" size="large" />

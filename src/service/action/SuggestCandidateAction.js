@@ -88,6 +88,14 @@ export const confirmSuggestList = (suggestList, projectID, projectName, pmID, op
                     setTimeout(() => {
                         dispatch(sendNotificate("" + pmID, `Employee for project '${projectName}' has been confirmed `))
                     }, 5000);
+                    localStorage.removeItem('projectId')
+                    localStorage.removeItem('pmID')
+                    localStorage.removeItem('projectType')
+                    localStorage.removeItem('projectField')
+                    localStorage.removeItem('projectName')
+                    localStorage.removeItem('positionRequire')
+                    localStorage.removeItem('dateCreate')
+                    localStorage.removeItem('dateEnd')
                     // suggestList.candidates.forEach(element => {
                     //     element.empIDs.forEach(e1 => {
                     //         setTimeout(() => {

@@ -80,6 +80,8 @@ class ListEmployeeContent extends Component {
             localStorage.setItem('projectField', JSON.stringify(this.props.project.fieldID))
             localStorage.setItem('projectName', JSON.stringify(this.props.project.projectName))
             localStorage.setItem('positionRequire', JSON.stringify(array))
+            localStorage.setItem('dateCreate', this.props.project.dateBegin)
+            localStorage.setItem('dateEnd', this.props.project.dateEstimatedEnd)
             history.push(`/project/add-employees/${this.props.project.projectID}`, { type: 'AddEmployee' })
         } else if (prevRequire.status === 1) {
             notification.open({
@@ -153,7 +155,7 @@ class ListEmployeeContent extends Component {
         if (typeof prevRequire.requiredPosID !== 'undefined') {
             temp = prevRequire
         }
-        console.log('prevRequire', prevRequire)
+        console.log('prevRequire', item)
         return (
             <React.Fragment>
                 <div className='row pull-right' style={{ width: 'auto' }} >
@@ -174,7 +176,7 @@ class ListEmployeeContent extends Component {
                     </table>
                 </div>
                 {/* {console.log(item.noe !== item.candidateNeeded, temp.status)} */}
-                {console.log('item', temp.status, item.noe !== item.candidateNeeded && (temp.status === 2 || temp.status === 0))}
+                {/* {console.log('item', temp.status, item.noe !== item.candidateNeeded && (temp.status === 2 || temp.status === 0))} */}
                 {typeof prevRequire.requiredPosID !== 'undefined' ?
                     item.noe !== item.candidateNeeded && (temp.status === 2 || temp.status === 0) ?
                         <>

@@ -61,6 +61,9 @@ class ListEmployee extends Component {
     }
 
     onHandle = () => {
+        localStorage.setItem('projectName', JSON.stringify(this.props.project.projectName))
+        localStorage.setItem('dateCreate', this.props.project.dateBegin)
+        localStorage.setItem('dateEnd', this.props.project.dateEstimatedEnd)
         history.push(`/project/confirm-candidate/${this.props.project.projectID}`)
     }
 
