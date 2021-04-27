@@ -19,7 +19,7 @@ class CertificateFormContent extends Component {
         return (
             <React.Fragment>
                 <tr >
-                    <td style={{ border: '0px' }}>
+                    <td >
                         <SelectBar name="certificateID"
                             type='unique'
                             placeholder="Select certificate"
@@ -30,13 +30,13 @@ class CertificateFormContent extends Component {
                             onUpdateCertficateID={this.props.onUpdateCertficateID}
                         />
                     </td>
-                    <td style={{ border: '0px' }}>
+                    <td >
                         <input type="date" name="dateTake" className="form-control" value={certificateDetail.dateTaken} onChange={this.handleInputChange} />
                     </td>
-                    <td style={{ border: '0px' }}>
+                    <td >
                         <input type="date" name="dateEnd" className="form-control" value={certificateDetail.dateEnd} onChange={this.handleInputChange} />
                     </td>
-                    <td style={{ border: '0px' }}>
+                    <td >
                         <span className="material-icons pull-right"
                             onClick={() => this.onDeleteCertificate(certificateIndex, hardSkillIndex)}
                         >clear</span>
