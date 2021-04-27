@@ -110,6 +110,7 @@ class HardSkillForm extends Component {
                                     <tr>
                                         <th >Hard Skill</th>
                                         <th >Skill Level</th>
+                                        <th className="text-center">Certificate</th>
                                         <th ></th>
                                     </tr>
                                 </thead>

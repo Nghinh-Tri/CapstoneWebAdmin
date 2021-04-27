@@ -20,7 +20,6 @@ class Layout extends Component {
                     this.props.recievedNoti(token)
                 }
             })
-        navigator.serviceWorker.addEventListener('message', message => console.log('Mess', message.data.notification))
         messaging.onMessage((payload) => {
             this.props.fetchProject();
             this.showNotificate(payload.notification);
@@ -32,7 +31,8 @@ class Layout extends Component {
             message: messaging.title,
             description: messaging.body,
             duration: 0,
-            placement: 'bottomRight'
+            placement: 'bottomRight',
+            style: { backgroundColor: '#F5FEFD' }
         });
     }
 
@@ -60,7 +60,6 @@ class Layout extends Component {
                         <NavBar />
                     </div>
                     <div id="layoutSidenav_content">
-                        {/* <button onClick={this.send}>Send</button> */}
                         <main>
                             <div class="container-fluid">
                                 {this.showContent(RouteList)}

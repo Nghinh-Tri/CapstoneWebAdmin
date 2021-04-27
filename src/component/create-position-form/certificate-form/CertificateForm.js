@@ -103,40 +103,24 @@ class CertificateForm extends Component {
             <div>
                 {!this.state.isMinimize ?
                     <div class="card-body">
-                        {/* <div class="table-responsive"> */}
-                        {/* <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style={{ border: 0 }} > */}
-                        {/* <table  width="100%" cellspacing="0" style={{ border: '0 !important' }} > */}
-                        <table width="100%" style={{ borderCollapse: 'collapse' }} >
-                            <thead >
-                                <tr>
-                                    <th>Certificate</th>
-                                    <th>Taken Date</th>
-                                    <th>Expired Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {showCerti(certificate)}
-                            </tbody>
-                        </table>
-                        {/* </div> */}
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead >
+                                    <tr>
+                                        <th>Certificate</th>
+                                        <th>Taken Date</th>
+                                        <th>Expired Date</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {showCerti(certificate)}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     : ''}
             </div>
-            // <div className="card" style={{ marginLeft: 50, marginRight: 50 }} >
-            //     <div className="card-header">
-            //         <div className="row">
-            //             <div className="col">
-            //                 <h5 className="font-weight-bold">Certificate</h5>
-            //             </div>
-            //             <div className="col pull-right">
-            //                 <span className="material-icons pull-right clear" onClick={this.setMinimize} >
-            //                     {this.state.isMinimize === false ? 'minimize' : 'crop_free'}
-            //                 </span>
-            //             </div>
-            //         </div>
-            //     </div>
-            //     {showCerti(certificate)}
-            // </div>
         );
     }
 }
