@@ -19,12 +19,12 @@ class Register extends Component {
             fullname: '',
             address: '',
             phoneNumber: '',
-            role: '',
+            role: 'Employee',
             identityNumber: '',
             submitted: false,
             isValidate: true,
             roleList: [
-                { label: 'Human Resources', value: 'admin' },
+                // { label: 'Human Resources', value: 'admin' },
                 { label: 'Project Manager', value: 'PM' },
                 { label: 'Employee', value: 'Employee' },
             ],
@@ -78,9 +78,7 @@ class Register extends Component {
     }
 
     onSelectRole = (value) => {
-        this.setState({
-            role: value
-        })
+        this.setState({ role: value })
     }
 
     handleSubmit = (e) => {
@@ -123,7 +121,7 @@ class Register extends Component {
                 <div className="container-fluid">
                     <div className="card"
                         style={{
-                            marginTop:"50px"
+                            marginTop: "50px"
                         }}
                     >
                         <div className="card-header card-header-primary">
@@ -257,18 +255,20 @@ class Register extends Component {
 
                                 {/* Role */}
                                 <div className="row">
-                                    {this.props.location.pathname === '/employee/register' ?
-                                        <div className="col">
-                                            <SelectBar name='role'
-                                                type="role"
-                                                value={role}
-                                                placeholder='Select role'
-                                                list={this.state.roleList}
-                                                onSelectRole={this.onSelectRole} />
-                                            {submitted && !role &&
-                                                <div className="error text-danger font-weight-bold" >Role is required</div>
-                                            }
-                                        </div>
+                                    <div className="col">
+                                        <label className={`bmd-label-${this.props.location.pathname !== '/employee/register' ? 'static' : 'floating'}`}>Role</label>
+                                        <SelectBar name='role'
+                                            type="role"
+                                            value={this.state.role}
+                                            placeholder='Select role'
+                                            list={this.state.roleList}
+                                            onSelectRole={this.onSelectRole} />
+                                        {submitted && !role &&
+                                            <div className="error text-danger font-weight-bold" >Role is required</div>
+                                        }
+                                    </div>
+                                    {/* {this.props.location.pathname === '/employee/register' ?
+                                        
                                         :
                                         this.props.profile.roleName === 'PM' ?
                                             <div className="col" style={{ marginTop: 5 }}>
@@ -288,7 +288,7 @@ class Register extends Component {
                                                     <div className="error text-danger font-weight-bold" >Role is required</div>
                                                 }
                                             </div>
-                                    }
+                                    } */}
                                 </div>
 
                                 <button type="submit" className="btn btn-primary pull-right mt-3    ">

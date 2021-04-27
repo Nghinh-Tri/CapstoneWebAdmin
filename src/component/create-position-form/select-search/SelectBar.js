@@ -30,10 +30,12 @@ class SelectBar extends Component {
     //important
     showCommonOption = () => {
         var { list } = this.props
+        // console.log('list', list)
         var result = null
         result = list.map((item, index) => {
             return (<Option key={index} value={item.value}>{item.label}</Option>)
         })
+        // console.log(result)
         return result
     }
 
@@ -179,35 +181,38 @@ class SelectBar extends Component {
     //important
     showRole = () => {
         var { value } = this.props
-        if (value === '') {
-            return (
-                <Select
-                    showSearch
-                    style={{ width: 250 }}
-                    placeholder={this.props.placeholder}
-                    onSelect={this.onSelectRole}
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                    }
-                >
-                    {this.showCommonOption()}
-                </Select>)
-        } else {
-            return (
-                <Select value={value}
-                    style={{ width: 250 }}
-                    showSearch
-                    placeholder={this.props.placeholder}
-                    onSelect={this.onSelectRole}
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                    }
-                >
-                    {this.showCommonOption()}
-                </Select>)
-        }
+        console.log('value', value)
+        // if (value === '') {
+        //     return (
+        //         <Select
+        //             showSearch
+        //             style={{ width: 250 }}
+        //             placeholder={this.props.placeholder}
+        //             onSelect={this.onSelectRole}
+        //             optionFilterProp="children"
+        //             filterOption={(input, option) =>
+        //                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+        //             }
+        //         >
+        //             {this.showCommonOption()}
+        //         </Select>)
+        // } else {
+        return (
+            <Select
+                value={value}
+                style={{ width: 150 }}
+                showSearch
+                placeholder={this.props.placeholder}
+                onSelect={this.onSelectRole}
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                }
+            >
+                {this.showCommonOption()}
+            </Select>
+        )
+        // }
     }
 
     //important
@@ -327,6 +332,9 @@ class SelectBar extends Component {
         var { name } = this.props
         switch (name) {
             case 'role':
+                this.props.onSelectRole(value)
+                break
+            case 'empListRole':
                 this.props.onSelectRole(value)
                 break
         }

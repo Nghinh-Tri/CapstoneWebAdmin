@@ -29,6 +29,23 @@ export const fetchProject = (pageIndex, search) => {
     }
 }
 
+export const fetchEmployeeJoinedProjects = (empID, pageIndex) => {
+    var url = `${API_URL}/Project/getEmployeeProjects/${empID}?PageIndex=${pageIndex}&PageSize=10`
+    return (dispatch) => {
+        axios.get(
+            url,
+            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
+        ).then(res => {
+            if (res.data.isSuccessed)
+                dispatch(fetchEmployeeJoinedProjectsSuccess(res.data.resultObj))
+        })
+    }
+}
+
+export const fetchEmployeeJoinedProjectsSuccess = (joinedList) => {
+    return { type: Type.FETCH_JOINED_PROJECTS, joinedList }
+}
+
 export const fetchPositionRequire = (projectID) => {
     var url = `${API_URL}/Project/getRequiredPositions/${projectID}`
     return (dispatch) => {
@@ -175,3 +192,5 @@ export const declineProjectSuccess = () => {
 export const declineProjectFail = () => {
     return { type: alertConstants.ERROR }
 }
+
+

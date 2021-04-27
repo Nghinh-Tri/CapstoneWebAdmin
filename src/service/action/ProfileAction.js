@@ -11,17 +11,18 @@ export const generateProfile = (profile) => {
     }
 }
 
-export const fetchProfile = (pageIndex, search) => {
+export const fetchProfile = (pageIndex, search, role) => {
     var url = ''
     if (search.length > 0) {
-        url = `${API_URL}/User/paging?Keyword=${search}&PageIndex=${pageIndex}&PageSize=10`
+        url = `${API_URL}/User/paging?Keyword=${search}&RoleName=${role}&PageIndex=${pageIndex}&PageSize=10`
     } else
-        url = `${API_URL}/User/paging?PageIndex=${pageIndex}&PageSize=10`
+        url = `${API_URL}/User/paging?RoleName=${role}&PageIndex=${pageIndex}&PageSize=10`
     return (dispatch) => {
         axios.get(
             url,
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
+            console.log(res.data)
             dispatch(fetchProfileSuccess(res.data.resultObj))
         })
     }
