@@ -8,6 +8,7 @@ import { notification } from 'antd';
 import { connect } from 'react-redux';
 import { recieveNotificate, sendNotificate } from "../service/action/FirebaseAction";
 import { fetchProject } from '../service/action/ProjectAction';
+import { history } from '../service/helper/History';
 
 class Layout extends Component {
 
@@ -32,8 +33,13 @@ class Layout extends Component {
             description: messaging.body,
             duration: 0,
             placement: 'bottomRight',
-            style: { backgroundColor: '#F5FEFD' }
+            style: { backgroundColor: '#F5FEFD' },
+            onClick: this.onClickNoti
         });
+    }
+
+    onClickNoti = () => {
+        history.push('/project')
     }
 
     showContent = (RouteList) => {
