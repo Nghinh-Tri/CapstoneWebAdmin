@@ -5,8 +5,8 @@ import SelectBar from "../../component/select-search/SelectBar";
 import ListEmployeeContent from './ListEmployeeContent';
 import { addMoreCandidate } from '../../service/action/PositionAction';
 import { history } from '../../service/helper/History';
-import { Tabs } from "antd";
-import { WarningTwoTone  } from "@ant-design/icons";
+import { Tabs, Tooltip } from "antd";
+import { InfoCircleTwoTone } from "@ant-design/icons";
 
 const TabPane = Tabs.TabPane;
 
@@ -46,30 +46,24 @@ class ListEmployee extends Component {
         }
     }
     getTabName = () => {
-        // var postList = []
-        // if (this.state.positionList.length >= 1)
-        //     postList = this.state.positionList
         var { listEmployee } = this.props;
-        var result = (listEmployee||[]).map((item, index) => (
-          <>
-            <TabPane
-              tab={
-                <>
-                  <span>{(item || {}).posName} </span>
-                  {item.candidateNeeded-item.noe > 0 ? (
-                    <WarningTwoTone
-                      twoToneColor="#FF0000"
-                      style={{ fontSize: "16px"
-                    }}
-                    />
-                  ) : (
-                    ""
-                  )}
-                </>
-              }
-              key={index}
-            ></TabPane>
-          </>
+        var result = (listEmployee || []).map((item, index) => (
+            <>
+                <TabPane
+                    tab={
+                        <>
+                            <Tooltip title={item.candidateNeeded - item.noe > 0 ? 'This position is missing employees' : ''} >
+                                <span>{(item || {}).posName} </span>
+                                {item.candidateNeeded - item.noe > 0 ? (
+                                    <InfoCircleTwoTone twoToneColor="#FF0000"
+                                        style={{ fontSize: "16px" }} />
+                                ) : ("")}
+                            </Tooltip>
+                        </>
+                    }
+                    key={index}
+                ></TabPane>
+            </>
         ));
         return result;
     };
