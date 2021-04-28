@@ -75,7 +75,7 @@ class Dashboard extends Component {
 
     render() {
         var { dataStatistics } = this.props
-        console.log(dataStatistics)
+        // console.log(dataStatistics)
         return (
             <React.Fragment>
                 <ol class="breadcrumb mb-4 mt-3">

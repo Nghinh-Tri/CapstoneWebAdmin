@@ -61,9 +61,9 @@ export const fetchSuggestListSuccess = (list) => {
 }
 
 export const confirmSuggestList = (suggestList, projectID, projectName, pmID, optionType) => {
+    console.log('a', suggestList, projectName, pmID, optionType)
     var url = `${API_URL}/Project/confirmCandidate/${projectID}`
-    let pm = "" + pmID
-    console.log('pm', pmID)
+    // console.log('pm', suggestList)
     return (dispatch) => {
         if (typeof suggestList.candidates.find(e => e.empIDs.find(k => !k.isAccept && k.note.length === 0)) !== 'undefined')
             store.addNotification({
@@ -78,43 +78,42 @@ export const confirmSuggestList = (suggestList, projectID, projectName, pmID, op
                     onScreen: false
                 }
             })
-        else
+        else {
             axios.post(
                 url,
                 suggestList,
                 { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
             ).then(res => {
                 if (res.status === 200) {
-                    setTimeout(() => {
-                        dispatch(sendNotificate("" + pmID, `Employee for project '${projectName}' has been confirmed `))
-                    }, 5000);
-                    localStorage.removeItem('projectId')
-                    localStorage.removeItem('pmID')
-                    localStorage.removeItem('projectType')
-                    localStorage.removeItem('projectField')
-                    localStorage.removeItem('projectName')
-                    localStorage.removeItem('positionRequire')
-                    localStorage.removeItem('dateCreate')
-                    localStorage.removeItem('dateEnd')
-                    // suggestList.candidates.forEach(element => {
-                    //     element.empIDs.forEach(e1 => {
-                    //         setTimeout(() => {
-                    //             dispatch(sendNotificate(e1, `You has been confirm to join project '${projectName}'`))
-                    //         }, 5000);
-                    //     });
-                    // });
-                    dispatch(confirmSuggestListSuggest())
-                    if (typeof optionType !== 'undefined') {
-                        history.push(`employee/profile/${optionType}`)
-                    } else {
-                        history.push("/project")
+                    if (res.data.isSuccessed) {
+                        setTimeout(() => {
+                            console.log('ok')
+                            dispatch(sendNotificate("" + pmID, `Employee for project '${projectName}' has been confirmed `))
+                        }, 5000);
+                        localStorage.removeItem('projectId')
+                        localStorage.removeItem('pmID')
+                        localStorage.removeItem('projectType')
+                        localStorage.removeItem('projectField')
+                        localStorage.removeItem('projectName')
+                        localStorage.removeItem('positionRequire')
+                        localStorage.removeItem('dateCreate')
+                        localStorage.removeItem('dateEnd')
+                        // suggestList.candidates.forEach(element => {
+                        //     element.empIDs.forEach(e1 => {
+                        //         setTimeout(() => {
+                        //             dispatch(sendNotificate(e1, `You has been confirm to join project '${projectName}'`))
+                        //         }, 5000);
+                        //     });
+                        // });
+                        dispatch(confirmSuggestListSuggest())
+                        if (typeof optionType !== 'undefined') {
+                            history.push(`employee/profile/${optionType}`)
+                        } else {
+                            history.push("/project")
+                        }
+                    }else{
+                        console.log(res.data)
                     }
-                    // if (suggestList.isAccept) {
-                    //     history.push("/project")
-                    // }
-                    // else {
-                    //     dispatch(fetchSuggestList(projectID))
-                    // }
                 }
             }).catch(err => {
                 // store.addNotification({
@@ -131,6 +130,7 @@ export const confirmSuggestList = (suggestList, projectID, projectName, pmID, op
                 // })
                 // console.log(err.response.data.message)
             })
+        }
     }
 }
 

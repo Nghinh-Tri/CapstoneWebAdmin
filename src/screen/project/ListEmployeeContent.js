@@ -155,7 +155,7 @@ class ListEmployeeContent extends Component {
         if (typeof prevRequire.requiredPosID !== 'undefined') {
             temp = prevRequire
         }
-        console.log('prevRequire', item)
+        console.log('prevRequire', prevRequire)
         return (
             <React.Fragment>
                 <div className='row pull-right' style={{ width: 'auto' }} >
@@ -189,7 +189,7 @@ class ListEmployeeContent extends Component {
                                 onCancel={this.handleCancel} >
                                 <Descriptions>
                                     <Descriptions.Item>{prevRequire.posName} </Descriptions.Item>
-                                    <Descriptions.Item label='Candidate Needs'>{prevRequire.missingEmployee} </Descriptions.Item>
+                                    <Descriptions.Item label='Candidate Needed'>{prevRequire.missingEmployee} </Descriptions.Item>
                                 </Descriptions>
                                 <Descriptions>
                                     <Descriptions.Item label='Hard Skill'>

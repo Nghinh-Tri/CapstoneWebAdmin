@@ -1,7 +1,7 @@
 import confirm from 'antd/lib/modal/confirm';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { confirmSuggestList } from '../../../service/action/SuggestCandidateAction';
+import { confirmSuggestList } from '../../../service/action/AddSuitableCandidateAction';
 
 class SuitableProjectDetail extends Component {
 

@@ -61,29 +61,34 @@ class JoinedProject extends Component {
                         <Spin className="text-center" size="large" />
                     </div>
                     :
-                    <>
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead className=" text-primary">
-                                    <tr>
-                                        <th width={40} className="font-weight-bold">No</th>
-                                        <th width={350} className="font-weight-bold">Project Name</th>
-                                        <th width={150} className="font-weight-bold text-center">Joined Date</th>
-                                        <th width={150} className="font-weight-bold text-center">Position</th>
-                                        <th width={50} className="font-weight-bold"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {this.onShowListProject(joinedProject.items)}
-                                </tbody>
-                            </table>
-                        </div>
-                        {joinedProject.pageCount === 1 ? "" :
-                            <div className='row justify-content-center' style={{ marginBottom: 20 }} >
-                                <Pagination defaultCurrent={joinedProject.pageIndex} total={joinedProject.totalRecords} onChange={this.onSelectPage} />
+                    joinedProject.items.length > 0 ?
+                        <>
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead className=" text-primary">
+                                        <tr>
+                                            <th width={40} className="font-weight-bold">No</th>
+                                            <th width={350} className="font-weight-bold">Project Name</th>
+                                            <th width={150} className="font-weight-bold text-center">Joined Date</th>
+                                            <th width={150} className="font-weight-bold text-center">Position</th>
+                                            <th width={50} className="font-weight-bold"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {this.onShowListProject(joinedProject.items)}
+                                    </tbody>
+                                </table>
                             </div>
-                        }
-                    </>
+                            {joinedProject.pageCount <= 1 ? "" :
+                                <div className='row justify-content-center' style={{ marginBottom: 20 }} >
+                                    <Pagination defaultCurrent={joinedProject.pageIndex} total={joinedProject.totalRecords} onChange={this.onSelectPage} />
+                                </div>
+                            }
+                        </>
+                        :
+                        <div className='row justify-content-center' style={{ width: 'auto' }} >
+                            <h4 style={{ fontStyle: 'italic', color: 'gray' }} >This employee has not joined any project</h4>
+                        </div>
                 }
             </React.Fragment>
         );

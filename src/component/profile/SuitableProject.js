@@ -49,20 +49,26 @@ class SuitableProject extends Component {
 
     render() {
         var { suitableList } = this.props
+        console.log(suitableList)
         return (
             <React.Fragment>
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <Tabs defaultActiveKey="0" onChange={this.onClickMenu}>
-                            {this.showProjectTab()}
-                        </Tabs>
+                {suitableList.length === 0 ?
+                    <div className='row justify-content-center' style={{ width: 'auto' }} >
+                        <h4 style={{ fontStyle: 'italic', color: 'gray' }} >There is currently no suitable project for this employee</h4>
                     </div>
-                    <div class="card-body">
-                    { this.showSuitableProjectDetail()}
 
-                        
+                    :
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <Tabs defaultActiveKey="0" onChange={this.onClickMenu}>
+                                {this.showProjectTab()}
+                            </Tabs>
+                        </div>
+                        <div class="card-body">
+                            {this.showSuitableProjectDetail()}
+                        </div>
                     </div>
-                </div>
+                }
             </React.Fragment >
         );
     }
