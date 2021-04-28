@@ -2,10 +2,8 @@ import axios from "axios";
 import { Type } from "../constant";
 import { API_URL, callAPI } from "../util/util";
 
-
 export const fetchDataStatistics = () => {
     var url = `${API_URL}/Project/getStatistics`
-    console.log(url)
     return (dispatch) => {
         axios.get(
             url,

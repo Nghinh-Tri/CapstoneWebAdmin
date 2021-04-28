@@ -289,6 +289,9 @@ class SelectBar extends Component {
             case 'certiLevel':
                 this.props.onUpdateCerti(value)
                 break
+            case 'posID':
+                this.props.onSelectPos(value)
+                break
         }
     }
 

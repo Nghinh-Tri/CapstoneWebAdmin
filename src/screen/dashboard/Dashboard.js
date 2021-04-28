@@ -1,25 +1,45 @@
 import React, { Component } from 'react';
 import PineChart from '../../component/Chart/PineChart'
-import RadarChart from '../../component/Chart/radarChart'
 import BarChart from '../../component/Chart/Barchart'
-import Donut from '../../component/Chart/donut'
-
 import { checkSession } from '../../service/action/AuthenticateAction';
 import { connect } from 'react-redux';
 import { fetchDataStatistics } from "../../service/action/StatisticAction";
 import ChartStatus from '../../component/Chart/ChartStatus';
-
+import { fetchPostionList } from '../../service/action/PositionAction';
+import SelectBar from "../../component/create-position-form/select-search/SelectBar";
+import { Spin } from 'antd';
+import { convertPositionList } from '../../service/util/util';
 
 class Dashboard extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            posID: 0,
+            isLoading: true
+        }
+    }
 
 
     componentDidMount = () => {
         this.props.checkSession()
         this.props.fetchDataStatistics()
+        this.props.fetchPositionList()
     }
 
+    componentDidUpdate = (prevProp) => {
+        if (prevProp.dataStatistics !== this.props.dataStatistics) {
+            var posID = this.state.posID
+            if (prevProp.positionList !== this.props.positionList) {
+                if (this.props.positionList.length > 0) {
+                    posID = this.props.positionList[0].posID
+                }
+            }
+            this.setState({ isLoading: false, posID: posID })
+        }
+    }
 
+    //get
     onShowPieList = (dataStatisticList) => {
         var result = null
         if (typeof dataStatisticList !== 'undefined') {
@@ -30,37 +50,7 @@ class Dashboard extends Component {
         return result
     }
 
-    onShowRadarList = (dataStatisticList) => {
-        var result = null
-        if (typeof dataStatisticList !== 'undefined') {
-            return (
-                <RadarChart dataStatisticList={dataStatisticList} />
-            )
-        }
-        return result
-    }
-
-    // onShowDonutList = (dataStatisticList) => {
-    //     var result = null
-    //     if (typeof dataStatisticList !== 'undefined') {
-    //         return (
-    //             <Donut dataStatisticList={dataStatisticList} />
-    //         )
-    //     }
-    //     return result
-    // }
-
-
-    onShowStatusList = (dataStatisticList) => {
-        var result = null
-        if (typeof dataStatisticList !== 'undefined') {
-            return (
-                <ChartStatus dataStatisticList={dataStatisticList} />
-            )
-        }
-        return result
-    }
-
+    //get
     onShowBarList = (dataStatisticList) => {
         var result = null
         if (typeof dataStatisticList !== 'undefined') {
@@ -71,79 +61,72 @@ class Dashboard extends Component {
         return result
     }
 
-
+    onSelectPos = (posID) => {
+        this.setState({ posID: posID })
+    }
 
     render() {
-        var { dataStatistics } = this.props
+        var { dataStatistics, positionList } = this.props
+        var positionListConverted = convertPositionList(positionList)
         // console.log(dataStatistics)
         return (
             <React.Fragment>
                 <ol class="breadcrumb mb-4 mt-3">
                     <li class="breadcrumb-item active">Dashboard</li>
                 </ol>
-                <div className="container-fluid">
-                    <div className="row">
-                        <div className="col-md-6">
-                            <div className="card card-chart">
-                                <div>
-                                    <div className="ct-chart">
-                                        {this.onShowPieList(dataStatistics.projectByTypes)}
+                {this.state.isLoading ?
+                    <div className="row justify-content-center">
+                        <Spin className="text-center" size="large" />
+                    </div> :
+
+                    <div className="container-fluid">
+                        <div className="row">
+                            <div className="col-md-6">
+                                <div className="card card-chart">
+                                    <div>
+                                        <div className="ct-chart" />
+                                        {this.onShowBarList(dataStatistics.employeeByHardSkills)}
+                                    </div>
+                                    <div className="card-body">
+                                        <h4 className="card-title">Position lack of staff</h4>
                                     </div>
                                 </div>
-                                <div className="card-body">
-                                    <h4 className="card-title">Type of project</h4>
-                                </div>
                             </div>
-                        </div>
 
-
-                        <div className="col-md-6">
-                            <div className="card card-chart">
-                                <div >
-                                    <div className="ct-chart" />
-                                    {this.onShowRadarList(dataStatistics.employeeByProjects)}
-                                </div>
-                                <div className="card-body">
-                                    <h4 className="card-title">Employee in project</h4>
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                        <div className="col-md-6">
-                            <div className="card card-chart">
-                                <div>
-                                    <div className="ct-chart" />
-                                    {this.onShowBarList(dataStatistics.employeeByHardSkills)}
-                                </div>
-                                <div className="card-body">
-                                    <h4 className="card-title">Hard skill of employee in application</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="col-md-6">
-                            <div className="card card-chart">
-                                <div>
-                                    <div className="ct-chart" />
-                                    {this.onShowStatusList(dataStatistics.projectByStatuses)}
-                                </div>
-                                <div className="card-body">
-                                    <h4 className="card-title">Status of project</h4>
+                            <div className="col-md-6">
+                                <div className="card card-chart">
+                                    <div className='row mb-4 mt-4 ml-5' >
+                                        <div className='col-auto mt-1'>Position</div>
+                                        <div className='col-auto'>
+                                            <SelectBar type='common'
+                                                name='posID'
+                                                list={positionListConverted}
+                                                value={this.state.posID}
+                                                onSelectPos={this.onSelectPos}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div className="ct-chart">
+                                            {this.onShowPieList(dataStatistics.projectByTypes)}
+                                        </div>
+                                    </div>
+                                    <div className="card-body">
+                                        <h4 className="card-title">Skills in position</h4>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                }
             </React.Fragment >
-
         );
     }
 }
 const mapStateToProps = (state) => {
     return {
-        dataStatistics: state.DataStatisticsReducer
+        dataStatistics: state.DataStatisticsReducer,
+        positionList: state.PositionSelectBarReducer
     }
 }
 
@@ -155,6 +138,9 @@ const mapDispatchToProp = (dispatch, props) => {
         fetchDataStatistics: () => {
             dispatch(fetchDataStatistics())
         },
+        fetchPositionList: () => {
+            dispatch(fetchPostionList())
+        }
     }
 }
 
