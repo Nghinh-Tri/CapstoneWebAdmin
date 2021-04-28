@@ -14,6 +14,7 @@ class SuggestCandidateItems extends Component {
 
     render() {
         var { index, candidate } = this.props
+        console.log('candidate', typeof candidate.check === 'undefined' || !candidate.check)
         return (
             <tr>
                 <th className="text-center">{index + 1}</th>
@@ -22,13 +23,15 @@ class SuggestCandidateItems extends Component {
                 <th className="">{candidate.email}</th>
                 <th className="text-center">{candidate.numberOfProject}</th>
                 <th className="text-center">
-                    <Tooltip title='Check to apply all candidates' placement='right'>
+                    <Tooltip title='Check to apply this candidate' placement='right'>
                         <input type="checkbox" onClick={this.onSelect} checked={typeof candidate.check === 'undefined' ? false : candidate.check} />
                     </Tooltip>
                 </th>
                 <th className="text-center">
                     <div className="form-group" style={{ marginBottom: '0 !important' }}>
-                        <input type="input" className="form-control" value={typeof candidate.check === 'undefined' || !candidate.check ? candidate.note : ''}
+                        <input type="input" className="form-control"
+                            value={(typeof candidate.check === 'undefined' || !candidate.check) ?
+                                (typeof candidate.note === 'undefined' ? '' : candidate.note) : ''}
                             readOnly={typeof candidate.check === 'undefined' ? false : candidate.check} style={{ height: 30 }} placeholder="Rejecting Reason"
                             onChange={this.onHandle} />
                     </div>

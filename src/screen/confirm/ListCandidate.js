@@ -96,6 +96,7 @@ class ListCandidate extends Component {
 
     render() {
         var { suggestCandidateList, selectedIndex, candidateSelectedList, } = this.props;
+        console.log('candidateSelectedList',candidateSelectedList)
         return (
             <div>
                 <ProgressBar current="0" />
