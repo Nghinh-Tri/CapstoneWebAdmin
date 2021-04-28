@@ -26,7 +26,7 @@ class ProjectTableItem extends Component {
             <tr>
                 <th className="text-center">{index + 1}</th>
                 <th className="">
-                    <Tooltip title={project.isMissEmp ? 'This project is missing employees' : ''} placement='right' >
+                    <Tooltip title={project.isMissEmp ? 'This project is currently missing employees' : ''} placement='right' >
                         <Badge dot={project.isMissEmp}>
                             {project.projectName}
                         </Badge>

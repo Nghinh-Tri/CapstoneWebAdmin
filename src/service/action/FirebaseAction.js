@@ -3,16 +3,17 @@ import { FIREBASE } from "../constant"
 import { API_URL, getUserName } from "../util/util"
 
 export const sendNotificate = (pmID, body) => {
-    console.log('sendNotificate', pmID)
     var pm = ''
     if (typeof pmID === 'string')
         pm = pmID
     var url = `${API_URL}/Notification?topic=pm${pm}`
     var token = JSON.parse(localStorage.getItem('FirebaseToken'))
     var message = {
-        title: `Human Resources ${getUserName()} send you a notification`,
+        title: `Human Resources ${getUserName()} sent you a notification`,
         body: body
     }
+    console.log('sendNotificate', message)
+
     return (dispatch) => {
         if (localStorage.getItem('token') !== null && token !== null) {
             var unsubcriptUrl = `${API_URL}/Notification/unsubscription?token=${token}&topic=pm${pm}`
