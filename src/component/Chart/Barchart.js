@@ -4,11 +4,12 @@ import { Bar } from 'react-chartjs-2'
 class Barchart extends Component {
     render() {
         var { dataStatisticList } = this.props
+        console.log(dataStatisticList)
         const arrLabel = [];
         const arryDataset = [];
         dataStatisticList.map((dataItem, index) => {
             arrLabel.push(dataItem.name);
-            arryDataset.push(dataItem.noe)
+            arryDataset.push(dataItem.missingEmp)
         })
         return (
             <div>

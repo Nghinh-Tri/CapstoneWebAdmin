@@ -114,10 +114,10 @@ class EmpList extends Component {
                                             <th width={200} className="font-weight-bold ">Name</th>
                                             <th width={120} className="font-weight-bold ">Phone</th>
                                             <th width={250} className="font-weight-bold ">Email</th>
-                                            <th width={150} className="font-weight-bold ">User Name</th>
+                                            <th width={150} className="font-weight-bold " >User Name</th>
                                             <th width={220} className="font-weight-bold ">
                                                 <div className="row">
-                                                    <div className='col-auto'> Role</div>
+                                                    <div className='col-auto'style={{marginTop:10}} > Role</div>
                                                     <div className='col-auto'>
                                                         <SelectBar name='empListRole'
                                                             type="role"

@@ -30,7 +30,6 @@ class SelectBar extends Component {
     //important
     showCommonOption = () => {
         var { list } = this.props
-        // console.log('list', list)
         var result = null
         result = list.map((item, index) => {
             return (<Option key={index} value={item.value}>{item.label}</Option>)
@@ -288,6 +287,9 @@ class SelectBar extends Component {
                 break
             case 'certiLevel':
                 this.props.onUpdateCerti(value)
+                break
+            case 'posID':
+                this.props.onSelectPos(value)
                 break
         }
     }
