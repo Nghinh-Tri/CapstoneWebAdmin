@@ -30,7 +30,6 @@ class SelectBar extends Component {
     //important
     showCommonOption = () => {
         var { list } = this.props
-        // console.log('list', list)
         var result = null
         result = list.map((item, index) => {
             return (<Option key={index} value={item.value}>{item.label}</Option>)

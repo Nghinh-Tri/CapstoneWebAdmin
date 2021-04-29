@@ -3,7 +3,7 @@ import PineChart from '../../component/Chart/PineChart'
 import BarChart from '../../component/Chart/Barchart'
 import { checkSession } from '../../service/action/AuthenticateAction';
 import { connect } from 'react-redux';
-import { fetchDataStatistics } from "../../service/action/StatisticAction";
+import { fetchDataStatistics, fetchMissingEmpPosition, fetchSkillInPosition } from "../../service/action/StatisticAction";
 import ChartStatus from '../../component/Chart/ChartStatus';
 import { fetchPostionList } from '../../service/action/PositionAction';
 import SelectBar from "../../component/create-position-form/select-search/SelectBar";
@@ -16,43 +16,39 @@ class Dashboard extends Component {
         super(props);
         this.state = {
             posID: 0,
-            isLoading: true
+            isLoading: true,
+            positionList: []
         }
     }
 
 
     componentDidMount = () => {
         this.props.checkSession()
-        this.props.fetchDataStatistics()
+        this.props.fetchMissingEmpPos()
         this.props.fetchPositionList()
+        this.props.fetchSkillInPosition()
     }
 
     componentDidUpdate = (prevProp) => {
-        if (prevProp.dataStatistics !== this.props.dataStatistics) {
+        if (prevProp.skillInPosition !== this.props.skillInPosition) {
             var posID = this.state.posID
-            if (prevProp.positionList !== this.props.positionList) {
-                if (this.props.positionList.length > 0) {
-                    posID = this.props.positionList[0].posID
-                }
+            // if (prevProp.positionList !== this.props.positionList) {
+            if (this.props.positionList.length > 0) {
+                posID = this.props.positionList[0].posID
+                //     }
+                //     if (prevProp.skillInPosition !== this.props.skillInPosition) {
+
+                //     }
             }
             this.setState({ isLoading: false, posID: posID })
-        }
-    }
 
-    //get
-    onShowPieList = (dataStatisticList) => {
-        var result = null
-        if (typeof dataStatisticList !== 'undefined') {
-            return (
-                <PineChart dataStatisticList={dataStatisticList} />
-            )
         }
-        return result
     }
 
     //get
     onShowBarList = (dataStatisticList) => {
         var result = null
+        console.log('onShowBarList',dataStatisticList)
         if (typeof dataStatisticList !== 'undefined') {
             return (
                 <BarChart dataStatisticList={dataStatisticList} />
@@ -61,14 +57,33 @@ class Dashboard extends Component {
         return result
     }
 
+    getIndexByPosID = () => {
+        var { skillInPosition } = this.props
+        var result = -1
+        for (let index = 0; index < skillInPosition.length; index++) {
+            if (skillInPosition[index].posID === this.state.posID)
+                result = index
+        }
+        return result
+    }
+
+    onShowPieList = () => {
+        var index = this.getIndexByPosID()
+        var { skillInPosition } = this.props
+        if (typeof skillInPosition.find(e => e.skillInPos) !== 'undefined') {
+            return (<PineChart item={skillInPosition[index].skillInPos} />)
+        }
+    }
+
     onSelectPos = (posID) => {
         this.setState({ posID: posID })
+        // this.props.fetchSkillInPosition(posID)
     }
 
     render() {
         var { dataStatistics, positionList } = this.props
+        console.log(dataStatistics)
         var positionListConverted = convertPositionList(positionList)
-        // console.log(dataStatistics)
         return (
             <React.Fragment>
                 <ol class="breadcrumb mb-4 mt-3">
@@ -85,7 +100,7 @@ class Dashboard extends Component {
                                 <div className="card card-chart">
                                     <div>
                                         <div className="ct-chart" />
-                                        {this.onShowBarList(dataStatistics.employeeByHardSkills)}
+                                        {this.onShowBarList(dataStatistics)}
                                     </div>
                                     <div className="card-body">
                                         <h4 className="card-title">Position lack of staff</h4>
@@ -94,28 +109,42 @@ class Dashboard extends Component {
                             </div>
 
                             <div className="col-md-6">
-                                <div className="card card-chart">
-                                    <div className='row mb-4 mt-4 ml-5' >
-                                        <div className='col-auto mt-1'>Position</div>
-                                        <div className='col-auto'>
-                                            <SelectBar type='common'
-                                                name='posID'
-                                                list={positionListConverted}
-                                                value={this.state.posID}
-                                                onSelectPos={this.onSelectPos}
-                                            />
+                                {positionListConverted.length === 0 ?
+                                    <div className="row justify-content-center">
+                                        <Spin className="text-center" size="large" />
+                                    </div>
+                                    :
+                                    <>
+
+                                        <div className="card card-chart">
+                                            <div className='row mb-4 mt-4 ml-5' >
+                                                <div className='col-auto mt-1'>Position</div>
+                                                <div className='col-auto'>
+
+                                                    <SelectBar type='common'
+                                                        placeholder="Select Position"
+                                                        name='posID'
+                                                        list={positionListConverted}
+                                                        value={this.state.posID}
+                                                        onSelectPos={this.onSelectPos}
+                                                    />
+
+                                                </div>
+                                            </div>
+                                            {console.log('state', this.state.posID)}
+                                            <div>
+                                                <div className="ct-chart">
+                                                    {this.onShowPieList()}
+                                                </div>
+                                            </div>
+                                            <div className="card-body">
+                                                <h4 className="card-title">Skills in position</h4>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div>
-                                        <div className="ct-chart">
-                                            {this.onShowPieList(dataStatistics.projectByTypes)}
-                                        </div>
-                                    </div>
-                                    <div className="card-body">
-                                        <h4 className="card-title">Skills in position</h4>
-                                    </div>
-                                </div>
+                                    </>
+                                }
                             </div>
+
                         </div>
                     </div>
                 }
@@ -126,7 +155,8 @@ class Dashboard extends Component {
 const mapStateToProps = (state) => {
     return {
         dataStatistics: state.DataStatisticsReducer,
-        positionList: state.PositionSelectBarReducer
+        positionList: state.PositionSelectBarReducer,
+        skillInPosition: state.SkillInPosition
     }
 }
 
@@ -140,6 +170,12 @@ const mapDispatchToProp = (dispatch, props) => {
         },
         fetchPositionList: () => {
             dispatch(fetchPostionList())
+        },
+        fetchMissingEmpPos: () => {
+            dispatch(fetchMissingEmpPosition())
+        },
+        fetchSkillInPosition: () => {
+            dispatch(fetchSkillInPosition())
         }
     }
 }

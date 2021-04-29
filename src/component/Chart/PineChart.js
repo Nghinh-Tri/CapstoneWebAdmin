@@ -1,15 +1,27 @@
 import React, { Component } from 'react';
 import { Pie } from 'react-chartjs-2'
+import { connect } from 'react-redux';
+import { checkSession } from '../../service/action/AuthenticateAction';
+import { fetchSkillInPosition } from '../../service/action/StatisticAction';
 
 class PineChart extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            arrLabel: [],
+            arryDataset: []
+        }
+    }
+
     render() {
-        var { dataStatisticList } = this.props
-        const arrLabel = [];
-        const arryDataset = [];
-        dataStatisticList.map((dataItem, index) => {
-            arrLabel.push(dataItem.name);
-            arryDataset.push(dataItem.nop)
-        })
+        var arrLabel = [], arryDataset = []
+        if (this.props.item.length > 0) {
+            this.props.item.forEach(element => {
+                arrLabel.push(element.hardSkill);
+                arryDataset.push(element.numberInRequire)
+            });
+        }
         return (
             <div>
                 <Pie data={{
@@ -56,6 +68,21 @@ class PineChart extends Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        skillInPosition: state.SkillInPosition
+    }
+}
 
+const mapDispatchToProp = (dispatch, props) => {
+    return {
+        checkSession: () => {
+            dispatch(checkSession())
+        },
+        fetchSkillInPosition: posID => {
+            dispatch(fetchSkillInPosition(posID))
+        }
+    }
+}
 
-export default PineChart;
+export default connect(mapStateToProps, mapDispatchToProp)(PineChart);
