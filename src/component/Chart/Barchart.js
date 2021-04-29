@@ -7,10 +7,13 @@ class Barchart extends Component {
         console.log(dataStatisticList)
         const arrLabel = [];
         const arryDataset = [];
-        dataStatisticList.map((dataItem, index) => {
-            arrLabel.push(dataItem.name);
-            arryDataset.push(dataItem.missingEmp)
-        })
+        if (dataStatisticList.length > 0) {
+            dataStatisticList.map((dataItem, index) => {
+                arrLabel.push(dataItem.name);
+                arryDataset.push(dataItem.missingEmp)
+            })
+        }
+
         return (
             <div>
                 <Bar
@@ -49,6 +52,15 @@ class Barchart extends Component {
                         }]
                     }
                     }
+                    options={{
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }}
                     height={400}
                     width={600} />
             </div>
