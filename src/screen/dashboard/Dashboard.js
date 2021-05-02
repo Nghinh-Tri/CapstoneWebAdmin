@@ -48,7 +48,6 @@ class Dashboard extends Component {
     //get
     onShowBarList = (dataStatisticList) => {
         var result = null
-        console.log('onShowBarList',dataStatisticList)
         if (typeof dataStatisticList !== 'undefined') {
             return (
                 <BarChart dataStatisticList={dataStatisticList} />
@@ -77,12 +76,10 @@ class Dashboard extends Component {
 
     onSelectPos = (posID) => {
         this.setState({ posID: posID })
-        // this.props.fetchSkillInPosition(posID)
     }
 
     render() {
         var { dataStatistics, positionList } = this.props
-        console.log(dataStatistics)
         var positionListConverted = convertPositionList(positionList)
         return (
             <React.Fragment>
@@ -131,7 +128,6 @@ class Dashboard extends Component {
 
                                                 </div>
                                             </div>
-                                            {console.log('state', this.state.posID)}
                                             <div>
                                                 <div className="ct-chart">
                                                     {this.onShowPieList()}

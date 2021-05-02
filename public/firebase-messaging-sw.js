@@ -21,3 +21,9 @@ firebase.initializeApp({
 })
 
 const initMessaging = firebase.messaging()
+
+initMessaging.onBackgroundMessage((payload) => {
+    console.log(payload.notification)  
+});
+
+
