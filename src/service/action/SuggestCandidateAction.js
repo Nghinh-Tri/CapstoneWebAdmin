@@ -116,18 +116,18 @@ export const confirmSuggestList = (suggestList, projectID, projectName, pmID, op
                     }
                 }
             }).catch(err => {
-                // store.addNotification({
-                //     message: err.response.data.message,
-                //     type: "danger",
-                //     insert: "top",
-                //     container: "top-center",
-                //     animationIn: ["animated", "fadeIn"],
-                //     animationOut: ["animated", "fadeOut"],
-                //     dismiss: {
-                //         duration: 2000,
-                //         onScreen: false
-                //     }
-                // })
+                store.addNotification({
+                    message: err.response.data.message,
+                    type: "danger",
+                    insert: "top",
+                    container: "top-center",
+                    animationIn: ["animated", "fadeIn"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: {
+                        duration: 2000,
+                        onScreen: false
+                    }
+                })
                 // console.log(err.response.data.message)
             })
         }

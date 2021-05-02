@@ -1,7 +1,8 @@
-import { Tabs } from 'antd';
+import { Button, Tabs } from 'antd';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchSuitableList } from '../../service/action/SuitableListAction';
+import { history } from '../../service/helper/History';
 import SuitableProjectDetail from './suitable-project-detail/SuitableProjectDetail';
 const TabPane = Tabs.TabPane;
 
@@ -24,13 +25,11 @@ class SuitableProject extends Component {
         }
     }
 
-    showProjectTab = (lst) => {
+    showProjectTab = () => {
         var { suitableList } = this.props
         var result = null
         result = suitableList.map((item, index) => {
-            console.log(item)
-            // if (item.matchInEachPos.length > 0)
-            return (<TabPane key={index} tab={item.projectInfo.projectName} ></TabPane>)
+            return (<TabPane key={index} tab={item.projectName} ></TabPane>)
         })
         return result
     }
@@ -47,16 +46,20 @@ class SuitableProject extends Component {
         }
     }
 
+    onDetails = () => {
+        var { suitableList } = this.props
+        history.push(`/project/detail/${suitableList[this.state.selectIndex].projectID}`)
+    }
+
     render() {
         var { suitableList } = this.props
         console.log(suitableList)
         return (
             <React.Fragment>
-                {suitableList.length === 0 ?
+                {suitableList.length === 0 ?                    
                     <div className='row justify-content-center' style={{ width: 'auto' }} >
                         <h4 style={{ fontStyle: 'italic', color: 'gray' }} >There is currently no suitable project for this employee</h4>
                     </div>
-
                     :
                     <div class="card mb-4">
                         <div class="card-header">
@@ -65,6 +68,12 @@ class SuitableProject extends Component {
                             </Tabs>
                         </div>
                         <div class="card-body">
+                            <div className='row pull-right mb-4 mr-2'>
+                                <Button onClick={this.onDetails} type="primary" >
+                                    Detail
+                                </Button>
+                            </div>
+
                             {this.showSuitableProjectDetail()}
                         </div>
                     </div>

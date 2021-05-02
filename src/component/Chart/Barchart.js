@@ -4,7 +4,6 @@ import { Bar } from 'react-chartjs-2'
 class Barchart extends Component {
     render() {
         var { dataStatisticList } = this.props
-        console.log(dataStatisticList)
         const arrLabel = [];
         const arryDataset = [];
         if (dataStatisticList.length > 0) {

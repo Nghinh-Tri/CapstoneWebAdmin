@@ -173,16 +173,21 @@ export const updateHardSkillCerti = (value, hardSkillIndex, positionFormIndex) =
 export const fetchPostionList = () => {
     var url = `${API_URL}/Position/getPositions`
     return (dispatch) => {
-        axios.get(
-            url,
-            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
-        ).then(res => {
-            dispatch(fetchPostionListSuccess(res.data.resultObj))
-        }).catch(err => {
-            if (err.response.status === 401) {
-                history.push('/login')
-            }
-        })
+        if (localStorage.getItem('token') !== null) {
+            axios.get(
+                url,
+                { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
+            ).then(res => {
+                dispatch(fetchPostionListSuccess(res.data.resultObj))
+            }).catch(err => {
+                // if (err.response.status === 401) {
+                //     history.push('/login')
+                // }
+            })
+        }
+        else{
+            history.push('/login')
+        }
     }
 }
 

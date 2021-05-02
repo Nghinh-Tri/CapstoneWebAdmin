@@ -11,7 +11,6 @@ import { fetchProject } from '../service/action/ProjectAction';
 import { history } from '../service/helper/History';
 
 class Layout extends Component {
-
     componentDidMount = () => {
         const messaging = firebase.messaging()
         messaging.getToken({ vapidKey: 'BCzV0OJHq4w2DQyltsiIxhhiM7Ce4yLOujK-1QRgWkmjUloUxEPRkvp2PgtvuRQ0nj8rVe1OTIcA2eKTIbEZE2w' })

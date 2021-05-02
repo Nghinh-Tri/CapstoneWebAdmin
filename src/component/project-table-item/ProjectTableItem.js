@@ -21,7 +21,6 @@ class ProjectTableItem extends Component {
 
     render() {
         var { index, project } = this.props
-        console.log(project)
         return (
             <tr>
                 <th className="text-center">{index + 1}</th>

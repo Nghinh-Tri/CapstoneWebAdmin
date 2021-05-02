@@ -29,13 +29,11 @@ export const fetchMissingEmpPosition = () => {
 
 export const fetchSkillInPosition = () => {
     var url = `${API_URL}/Project/getSkillInAllPos`
-    console.log(url)
     return (dispatch) => {
         axios.get(
             url,
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
-            console.log(res.data)
             if (res.data.isSuccessed)
                 dispatch(fetchSkillInPositionSuccess(res.data.resultObj))
         })
