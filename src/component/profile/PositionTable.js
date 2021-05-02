@@ -1,4 +1,4 @@
-import { Button, Descriptions } from "antd";
+import { Button, Descriptions, Spin } from "antd";
 import moment from "moment";
 import React, { Component } from 'react';
 import { showHardSkillLevel } from "../../service/util/util";
@@ -9,10 +9,23 @@ import { history } from "../../service/helper/History";
 
 class SkillProfile extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLoad: true
+        }
+    }
+
     componentDidMount = () => {
         this.props.checkSession();
         this.props.fetchPositionProfileDetai(this.props.empID);
     };
+
+    componentDidUpdate = (prevProp) => {
+        if (prevProp.positionDetail !== this.props.positionDetail) {
+            this.setState({ isLoad: false })
+        }
+    }
 
     onShowHardSkill = (hardSkills) => {
         var result = null;
@@ -20,7 +33,7 @@ class SkillProfile extends Component {
             result = (hardSkills || []).map((skill, index) => {
                 return (
                     <>
-                        <Descriptions.Item style={{backgroundColor:'#E8E8E8'}}  span={3} label={skill.skillName}>
+                        <Descriptions.Item style={{ backgroundColor: '#E8E8E8' }} span={3} label={skill.skillName}>
                             {showHardSkillLevel(skill.skillLevel)}
                         </Descriptions.Item>
                         {skill.certifications?.map((certification, innerIndex) => {
@@ -86,17 +99,25 @@ class SkillProfile extends Component {
         var { positionDetail } = this.props;
         return (
             <React.Fragment>
-                <Descriptions title="Hard Skill Info" layout="horizontal" bordered extra={<Button type="primary" onClick={this.onEdit}>Edit</Button>}                >
-                    {this.onShowHardSkill((positionDetail || {}).hardSkills)}
-                </Descriptions>
+                {this.state.isLoad ?
+                    <div className='row justify-content-center'>
+                        <Spin className='text-center' size="large" />
+                    </div>
+                    :
+                    <>
+                        <Descriptions title="Hard Skill Info" layout="horizontal" bordered extra={<Button type="primary" onClick={this.onEdit}>Edit</Button>}                >
+                            {this.onShowHardSkill((positionDetail || {}).hardSkills)}
+                        </Descriptions>
 
-                <Descriptions title="Language Info" layout="horizontal" bordered >
-                    {this.onShowLanguage((positionDetail || {}).languages)}
-                </Descriptions>
+                        <Descriptions title="Language Info" layout="horizontal" bordered >
+                            {this.onShowLanguage((positionDetail || {}).languages)}
+                        </Descriptions>
 
-                <Descriptions title="Soft Skill Info" layout="horizontal" bordered >
-                    {this.onShowSoftSkill((positionDetail || {}).softSkills)}
-                </Descriptions>
+                        <Descriptions title="Soft Skill Info" layout="horizontal" bordered >
+                            {this.onShowSoftSkill((positionDetail || {}).softSkills)}
+                        </Descriptions>
+                    </>
+                }
             </React.Fragment>
         );
     }

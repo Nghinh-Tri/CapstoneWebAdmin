@@ -5,6 +5,7 @@ import { checkSession } from '../../service/action/AuthenticateAction';
 import { fetchPositionRequire } from '../../service/action/ProjectAction';
 import PositionRequireDetail from './PositionRequireDetail';
 import { showRequestStatus } from "../../service/util/util";
+import { Spin } from 'antd';
 
 class PositionRequire extends Component {
 
@@ -12,12 +13,19 @@ class PositionRequire extends Component {
         super(props);
         this.state = {
             visible: false,
-            positionRequire: []
+            positionRequire: [],
+            isLoad: true
         }
     }
 
     componentDidMount = () => {
         this.props.fetchPositionRequire(this.props.projectID)
+    }
+
+    componentDidUpdate = (prevProp) => {
+        if (prevProp.positionRequire !== this.props.positionRequire) {
+            this.setState({ isLoad: false })
+        }
     }
 
     onShowRequireDetail = () => {
@@ -54,6 +62,7 @@ class PositionRequire extends Component {
             visible: false,
         });
     }
+
     handleCancel = (e) => {
         this.setState({
             visible: false,
@@ -64,11 +73,11 @@ class PositionRequire extends Component {
         var { positionRequire } = this.props
         return (
             <React.Fragment>
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <i class="fas fa-table mr-1"></i>
-                    Position
-                </div>
+                {this.state.isLoad ?
+                    <div className='row justify-content-center'>
+                        <Spin className='text-center' size="large" />
+                    </div>
+                    :
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -98,7 +107,7 @@ class PositionRequire extends Component {
                             </div>
                         }
                     </div>
-                </div>
+                }
             </React.Fragment>
         );
     }

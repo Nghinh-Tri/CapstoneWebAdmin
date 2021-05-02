@@ -5,7 +5,7 @@ import SelectBar from "../../component/select-search/SelectBar";
 import ListEmployeeContent from './ListEmployeeContent';
 import { addMoreCandidate } from '../../service/action/PositionAction';
 import { history } from '../../service/helper/History';
-import { Tabs, Tooltip } from "antd";
+import { Spin, Tabs, Tooltip } from "antd";
 import { InfoCircleTwoTone } from "@ant-design/icons";
 
 const TabPane = Tabs.TabPane;
@@ -18,7 +18,8 @@ class ListEmployee extends Component {
             page: 1,
             positionList: [],
             positionSelect: 0,
-            count: 0
+            count: 0,
+            isLoading: true
         }
     }
 
@@ -26,14 +27,20 @@ class ListEmployee extends Component {
         this.props.fetchListEmployee(this.props.project.projectID, 1)
     }
 
+    componentDidUpdate = (prevState) => {
+        if (prevState.listEmployee !== this.props.listEmployee) {
+            var { listEmployee } = this.props
+            var temp = []
+            listEmployee.forEach(element => {
+                var position = { label: element.posName, value: element.posID }
+                temp.push(position)
+            });
+            this.setState({ isLoading: false, positionList: temp })
+        }
+    }
+
     componentWillReceiveProps = () => {
-        var { listEmployee } = this.props
-        var temp = []
-        listEmployee.forEach(element => {
-            var position = { label: element.posName, value: element.posID }
-            temp.push(position)
-        });
-        this.setState({ positionList: temp })
+
     }
 
     showEmployee = (list) => {
@@ -45,6 +52,7 @@ class ListEmployee extends Component {
             </div>)
         }
     }
+
     getTabName = () => {
         var { listEmployee } = this.props;
         var result = (listEmployee || []).map((item, index) => (
@@ -85,31 +93,38 @@ class ListEmployee extends Component {
         if (this.state.positionList.length >= 1)
             postList = this.state.positionList
         return (
-            <div class="card mb-4">
-                <div class="card-header">
-                    <Tabs defaultActiveKey={this.state.positionSelect} onChange={this.onSelectPos}>
-                        {this.getTabName()}
-                    </Tabs>
-                </div>
-                <div class="card-body">
+            <React.Fragment>
+                {this.state.isLoading ?
+                    <div className="row justify-content-center">
+                        <Spin className="text-center" size="large" />
+                    </div>
+                    :
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <Tabs defaultActiveKey={this.state.positionSelect} onChange={this.onSelectPos}>
+                                {this.getTabName()}
+                            </Tabs>
+                        </div>
+                        <div class="card-body">
 
-                    {this.showEmployee(listEmployee)}
+                            {this.showEmployee(listEmployee)}
 
-                    {listEmployee.length > 0 ? '' : <div className='row justify-content-center' style={{ width: 'auto' }} >
-                        <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
-                    </div>}
+                            {listEmployee.length > 0 ? '' : <div className='row justify-content-center' style={{ width: 'auto' }} >
+                                <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
+                            </div>}
 
-                    {listEmployee.length > 0 ?
-                        typeof listEmployee.find(i => i.employees.find(k => k.dateIn === null)) !== 'undefined' ?
-                            <button type="submit" className="btn btn-primary pull-right" onClick={this.onHandle} style={{ fontWeight: 700 }} >
-                                Confirm Candidates
+                            {listEmployee.length > 0 ?
+                                typeof listEmployee.find(i => i.employees.find(k => k.dateIn === null)) !== 'undefined' ?
+                                    <button type="submit" className="btn btn-primary pull-right" onClick={this.onHandle} style={{ fontWeight: 700 }} >
+                                        Confirm Candidates
                         </button>
-                            : ''
-                        : ''
-                    }
-                </div>
-            </div>
-
+                                    : ''
+                                : ''
+                            }
+                        </div>
+                    </div>
+                }
+            </React.Fragment>
         );
     }
 }
