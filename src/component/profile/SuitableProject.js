@@ -1,4 +1,4 @@
-import { Button, Tabs } from 'antd';
+import { Button, Spin, Tabs } from 'antd';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchSuitableList } from '../../service/action/SuitableListAction';
@@ -11,10 +11,10 @@ class SuitableProject extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectIndex: 0
+            selectIndex: 0,
+            isLoad: true
         }
     }
-
 
     componentDidMount = () => {
         this.props.fetchSuitableList(this.props.empID)
@@ -22,6 +22,7 @@ class SuitableProject extends Component {
 
     componentDidUpdate = (prevProp) => {
         if (prevProp.suitableList !== this.props.suitableList) {
+            this.setState({ isLoad: false })
         }
     }
 
@@ -53,30 +54,35 @@ class SuitableProject extends Component {
 
     render() {
         var { suitableList } = this.props
-        console.log(suitableList)
+        // console.log(suitableList)
         return (
             <React.Fragment>
-                {suitableList.length === 0 ?                    
-                    <div className='row justify-content-center' style={{ width: 'auto' }} >
-                        <h4 style={{ fontStyle: 'italic', color: 'gray' }} >There is currently no suitable project for this employee</h4>
+                {this.state.isLoad ?
+                    <div className='row justify-content-center'>
+                        <Spin className='text-center' size="large" />
                     </div>
                     :
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <Tabs defaultActiveKey="0" onChange={this.onClickMenu}>
-                                {this.showProjectTab()}
-                            </Tabs>
+                    suitableList.length === 0 ?
+                        <div className='row justify-content-center' style={{ width: 'auto' }} >
+                            <h4 style={{ fontStyle: 'italic', color: 'gray' }} >There is currently no suitable project for this employee</h4>
                         </div>
-                        <div class="card-body">
-                            <div className='row pull-right mb-4 mr-2'>
-                                <Button onClick={this.onDetails} type="primary" >
-                                    Detail
-                                </Button>
+                        :
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <Tabs defaultActiveKey="0" onChange={this.onClickMenu}>
+                                    {this.showProjectTab()}
+                                </Tabs>
                             </div>
+                            <div class="card-body">
+                                <div className='row pull-right mb-4 mr-2'>
+                                    <Button onClick={this.onDetails} type="primary" >
+                                        Detail
+                                </Button>
+                                </div>
 
-                            {this.showSuitableProjectDetail()}
+                                {this.showSuitableProjectDetail()}
+                            </div>
                         </div>
-                    </div>
                 }
             </React.Fragment >
         );

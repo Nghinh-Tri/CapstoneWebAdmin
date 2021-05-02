@@ -89,8 +89,8 @@ class Dashboard extends Component {
                 {this.state.isLoading ?
                     <div className="row justify-content-center">
                         <Spin className="text-center" size="large" />
-                    </div> :
-
+                    </div>
+                    :
                     <div className="container-fluid">
                         <div className="row">
                             <div className="col-md-6">

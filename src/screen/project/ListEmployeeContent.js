@@ -155,7 +155,6 @@ class ListEmployeeContent extends Component {
         if (typeof prevRequire.requiredPosID !== 'undefined') {
             temp = prevRequire
         }
-        console.log('prevRequire', prevRequire)
         return (
             <React.Fragment>
                 <div className='row pull-right' style={{ width: 'auto' }} >
