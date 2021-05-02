@@ -71,7 +71,7 @@ class SuitableProjectDetail extends Component {
                                     <tr>
                                         <th className="font-weight-bold text-center" width={40}>No</th>
                                         <th className="font-weight-bold text-center" width={200}>Position</th>
-                                        <th className="font-weight-bold text-center" width={130}>Employee Needed</th>
+                                        <th className="font-weight-bold text-center" width={130}>Employees</th>
                                         <th className="font-weight-bold text-center" width={140}>Match Language</th>
                                         <th className="font-weight-bold text-center" width={140}>Match Soft Skill</th>
                                         <th className="font-weight-bold text-center" width={140}>Match Hard Skill</th>
