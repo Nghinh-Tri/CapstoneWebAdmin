@@ -180,22 +180,6 @@ class SelectBar extends Component {
     //important
     showRole = () => {
         var { value } = this.props
-        console.log('value', value)
-        // if (value === '') {
-        //     return (
-        //         <Select
-        //             showSearch
-        //             style={{ width: 250 }}
-        //             placeholder={this.props.placeholder}
-        //             onSelect={this.onSelectRole}
-        //             optionFilterProp="children"
-        //             filterOption={(input, option) =>
-        //                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-        //             }
-        //         >
-        //             {this.showCommonOption()}
-        //         </Select>)
-        // } else {
         return (
             <Select
                 value={value}
@@ -338,6 +322,9 @@ class SelectBar extends Component {
                 break
             case 'empListRole':
                 this.props.onSelectRole(value)
+                break
+            case 'skillType':
+                this.props.onSelectType(value)
                 break
         }
     }

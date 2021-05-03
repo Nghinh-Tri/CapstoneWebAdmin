@@ -4,12 +4,12 @@ import { API_URL } from "../util/util";
 import { history } from "../helper/History";
 import { store } from "react-notifications-component";
 
-export const fetchSkill = (pageIndex, search) => {
+export const fetchSkill = (pageIndex, search, skillType) => {
     var url = ''
     if (search.length > 0)
-        url = `${API_URL}/Skill/paging?Keyword=${search}&PageIndex=${pageIndex}&PageSize=10`
+        url = `${API_URL}/Skill/paging?Keyword=${search}&SkillType=${skillType}&PageIndex=${pageIndex}&PageSize=10`
     else
-        url = `${API_URL}/Skill/paging?PageIndex=${pageIndex}&PageSize=10`
+        url = `${API_URL}/Skill/paging?SkillType=${skillType}&PageIndex=${pageIndex}&PageSize=10`
     return (dispatch) => {
         axios.get(
             url,
