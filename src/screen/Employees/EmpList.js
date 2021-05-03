@@ -75,7 +75,6 @@ class EmpList extends Component {
 
     render() {
         var { profiles } = this.props
-        // console.log('profiles', profiles.items)
         return (
             <React.Fragment>
                 <ol class="breadcrumb mb-4 mt-3">
@@ -117,7 +116,7 @@ class EmpList extends Component {
                                             <th width={150} className="font-weight-bold " >User Name</th>
                                             <th width={220} className="font-weight-bold ">
                                                 <div className="row">
-                                                    <div className='col-auto'style={{marginTop:10}} > Role</div>
+                                                    <div className='col-auto' style={{ marginTop: 10 }} > Role</div>
                                                     <div className='col-auto'>
                                                         <SelectBar name='empListRole'
                                                             type="role"
@@ -142,11 +141,11 @@ class EmpList extends Component {
                                     <Spin className="text-center" size="large" />
                                 </div>
                             ) : ("")}
-                            {this.state.isLoading ? ("") : (
+                            {this.state.isLoading || profiles.pageCount === 1 ? ("") :
                                 <div className="row justify-content-center" style={{ marginBottom: 20 }}>
                                     <Pagination current={profiles.pageIndex} total={profiles.totalRecords} onChange={this.onSelectPage} />
                                 </div>
-                            )}
+                            }
                         </div>
                     </div>
                 </div>

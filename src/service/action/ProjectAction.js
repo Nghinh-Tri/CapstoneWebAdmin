@@ -90,6 +90,24 @@ export const fetchProjectField = () => {
     }
 }
 
+export const fetchCandidatesResult = requireID => {
+    var url = `${API_URL}/Project/getEmpByRequiredID/${requireID}`
+    return (dispatch) => {
+        return axios.get(
+            url,
+            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
+        ).then(res => {
+            if (res.data.isSuccessed)
+                dispatch(fetchCandidatesResultSuccess(res.data.resultObj !== null ? res.data.resultObj : []))
+        })
+    }
+}
+
+export const fetchCandidatesResultSuccess = (result) => {
+    return { type: Type.FETCH_CANDIDATES_RESULT, result }
+}
+
+
 export const fetchPostionTypeSuccess = (projectType) => {
     return {
         type: Type.FETCH_PROJECT_TYPE,

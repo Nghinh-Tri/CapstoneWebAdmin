@@ -6,6 +6,7 @@ import { fetchPositionRequire } from '../../service/action/ProjectAction';
 import PositionRequireDetail from './PositionRequireDetail';
 import { showRequestStatus } from "../../service/util/util";
 import { Spin } from 'antd';
+import RequireModal from './RequireModal';
 
 class PositionRequire extends Component {
 
@@ -28,45 +29,14 @@ class PositionRequire extends Component {
         }
     }
 
-    onShowRequireDetail = () => {
-        this.setState({ visible: true })
-    }
-
     showPosition = (list) => {
         var result = null
         result = list.map((value, index) => {
             return (
-                <tr key={index}>
-                    <td className='text-center'>{index + 1} </td>
-                    <td>{value.posName}</td>
-                    <td className='text-center'>{value.candidateNeeded}</td>
-                    <td className='text-center'>{value.missingEmployee}</td>
-                    <td className='text-center'>{value.hardSkills.length}</td>
-                    <td className='text-center'>{value.language.length}</td>
-                    <td className='text-center'>{value.softSkillIDs.length}</td>
-                    <td className='text-center'>{showRequestStatus(value.status)}</td>
-                    <td className='text-center'>
-                        <a style={{ color: 'blue' }} onClick={this.onShowRequireDetail} >Detail</a>
-                        <Modal width={1050} title={value.posName} visible={this.state.visible} onOk={this.handleOk} onCancel={this.handleCancel}>
-                            <PositionRequireDetail hardSkills={value.hardSkills} language={value.language} softSkills={value.softSkillIDs} />
-                        </Modal>
-                    </td>
-                </tr>
+                <RequireModal key={index} index={index} value={value} />
             )
         })
         return result
-    }
-
-    handleOk = (e) => {
-        this.setState({
-            visible: false,
-        });
-    }
-
-    handleCancel = (e) => {
-        this.setState({
-            visible: false,
-        });
     }
 
     render() {
@@ -103,7 +73,7 @@ class PositionRequire extends Component {
                         </div>
                         {positionRequire.length > 0 ? '' :
                             <div className='row justify-content-center' style={{ width: 'auto' }} >
-                                <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
+                                <h4 style={{ fontStyle: 'italic', color: 'gray' }} >There is currently no requirement</h4>
                             </div>
                         }
                     </div>

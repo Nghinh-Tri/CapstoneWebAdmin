@@ -31,7 +31,7 @@ import SuitableProjectReducer from "./SuitableProjectReducer";
 import ErrorReducer from "./ErrorReducer";
 import JoinedProjectReducer from "./JoinedProjectReducer";
 import SkillInPosition from "./SkillInPositionReducer";
-
+import CandidateResultReducer from "./CandidateResultReducer";
 const MainReducer = combineReducers({
     authentication,//use
     ProjectFetchReducer,//use
@@ -63,7 +63,8 @@ const MainReducer = combineReducers({
     SuitableProjectReducer,
     ErrorReducer,
     JoinedProjectReducer,
-    SkillInPosition
+    SkillInPosition,
+    CandidateResultReducer
 })
 
 export default MainReducer
