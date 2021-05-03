@@ -39,6 +39,7 @@ class Layout extends Component {
 
     onClickNoti = () => {
         history.push('/project')
+        notification.destroy()
     }
 
     showContent = (RouteList) => {
