@@ -79,8 +79,16 @@ class Dashboard extends Component {
     }
 
     render() {
-        var { dataStatistics, positionList } = this.props
-        var positionListConverted = convertPositionList(positionList)
+        var { dataStatistics, positionList, skillInPosition } = this.props
+        var pos = []
+        positionList.forEach(e => {
+            skillInPosition.forEach(e1 => {
+                if (e.posID === e1.posID) {
+                    pos.push(e)
+                }
+            });
+        });
+        var positionListConverted = convertPositionList(pos)
         return (
             <React.Fragment>
                 <ol class="breadcrumb mb-4 mt-3">
