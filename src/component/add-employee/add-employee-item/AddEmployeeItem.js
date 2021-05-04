@@ -45,12 +45,15 @@ class SuggestCandidateItems extends Component {
 
     render() {
         var { index, candidate, candidateNeeds } = this.props
+        console.log(candidate)
         return (
             <tr style={this.state.disable ? { backgroundColor: '#ff9999' } : index < candidateNeeds ? { backgroundColor: '#F0F0F0' } : { backgroundColor: 'white' }}>
                 <th className="text-center">{index + 1}</th>
                 <th className="">
                     <NavLink className='text-primary' to={`/project/suggest-candidate/emp/${candidate.empID}`}> {candidate.empName}</NavLink>
                 </th>
+                <th className="text-center">{candidate.projectTypeMatch.toFixed(2)} / 10</th>
+                <th className="text-center">{candidate.projectFieldMatch.toFixed(2)} / 10</th>
                 <th className="text-center">{candidate.languageMatch.toFixed(2)} / 10</th>
                 <th className="text-center">{candidate.softSkillMatch.toFixed(2)} / 10</th>
                 <th className="text-center">{candidate.hardSkillMatch.toFixed(2)} /10 </th>

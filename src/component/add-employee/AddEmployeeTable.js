@@ -1,8 +1,15 @@
-import { Checkbox } from 'antd';
 import React, { Component } from 'react';
 import SuggestCandidateItems from './add-employee-item/AddEmployeeItem';
 
 class SuggestCandidates extends Component {
+
+    onSortType = () => {
+        this.props.onSort('type')
+    }
+
+    onSortField = () => {
+        this.props.onSort('field')
+    }
 
     onSortLanguage = () => {
         this.props.onSort('language')
@@ -65,54 +72,65 @@ class SuggestCandidates extends Component {
     }
 
     render() {
-        var { item, selectedItem, candidateSelectedList } = this.props
+        var { item, selectedItem } = this.props
         var candidateNeeds = this.getCandidateNeeds(item.posId)
         return (
             <React.Fragment>
-                <div class="table-responsive">
-                    <h5 className="pull-right" style={{ marginTop: 0 }}>Select {selectedItem === null ? 0 : selectedItem.candidateSelect.length} / {candidateNeeds} </h5>
-
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th className="font-weight-bold text-center">No</th>
-                                <th className="font-weight-bold">Name</th>
-                                <th className="font-weight-bold text-center">
-                                    Match Language
-                                    <i className="material-icons" name='langugage' style={{ marginTop: -10, cursor: 'pointer' }} onClick={this.onSortLanguage}>swap_vert</i>
-                                </th>
-                                <th className="font-weight-bold text-center">
-                                    Match Soft Skill
-                                    <i className="material-icons" style={{ marginTop: -10, cursor: 'pointer' }} onClick={this.onSortSoftSkill}>swap_vert</i>
-                                </th>
-                                <th className="font-weight-bold text-center">
-                                    Match Hard Skill
-                                    <i className="material-icons" style={{ marginTop: -10, cursor: 'pointer' }} onClick={this.onSortHardSkill}>swap_vert</i>
-                                </th>
-                                <th className="font-weight-bold text-center">
-                                    Overall Match
-                                    <i className="material-icons" style={{ marginTop: -10, cursor: 'pointer' }} onClick={this.onSortOverall}>swap_vert</i>
-                                </th>
-                                <th className="font-weight-bold text-center">
-                                    {candidateNeeds >= item.matchDetail.length ?
-                                        <input type="checkbox" onClick={this.onSelectAll} checked={selectedItem === null ? false : selectedItem.selectAll} />
-                                        : ''}
-                                </th>
-                            </tr>
-                        </thead>
-                        {typeof item.matchDetail !== 'undefined' ? (
-                            <tbody>
-                                {this.showCandidate(typeof item.matchDetail !== 'undefined' ? item.matchDetail : [], selectedItem, candidateNeeds)}
-                            </tbody>
-                        ) : ('')}
-                    </table>
-                </div>
                 {typeof item.matchDetail !== 'undefined' ?
                     item.matchDetail.length === 0 ?
                         <div className='row justify-content-center' style={{ width: 'auto' }} >
-                            <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
+                            <h4 style={{ fontStyle: 'italic', color: 'gray' }} >
+                                There is currently no suitable candidates for this position
+                            </h4>
                         </div>
-                        : ''
+                        :
+                        <>
+                            <h5 className="pull-right" style={{ marginTop: 0 }}>Select {selectedItem === null ? 0 : selectedItem.candidateSelect.length} / {candidateNeeds} </h5>
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th className="font-weight-bold text-center">No</th>
+                                            <th className="font-weight-bold">Name</th>
+                                            <th className="font-weight-bold text-center" width={180}>
+                                                Project Type Match
+                                    <i className="material-icons" name='langugage' style={{ marginTop: -10, cursor: 'pointer' }} onClick={this.onSortType}>swap_vert</i>
+                                            </th>
+                                            <th className="font-weight-bold text-center" width={180}>
+                                                Project Field Match
+                                    <i className="material-icons" name='langugage' style={{ marginTop: -10, cursor: 'pointer' }} onClick={this.onSortField}>swap_vert</i>
+                                            </th>
+                                            <th className="font-weight-bold text-center">
+                                                Language Match
+                                    <i className="material-icons" name='langugage' style={{ marginTop: -10, cursor: 'pointer' }} onClick={this.onSortLanguage}>swap_vert</i>
+                                            </th>
+                                            <th className="font-weight-bold text-center">
+                                                Soft Skill Match
+                                    <i className="material-icons" style={{ marginTop: -10, cursor: 'pointer' }} onClick={this.onSortSoftSkill}>swap_vert</i>
+                                            </th>
+                                            <th className="font-weight-bold text-center">
+                                                Hard Skill Match
+                                    <i className="material-icons" style={{ marginTop: -10, cursor: 'pointer' }} onClick={this.onSortHardSkill}>swap_vert</i>
+                                            </th>
+                                            <th className="font-weight-bold text-center">
+                                                Overall Match
+                                    <i className="material-icons" style={{ marginTop: -10, cursor: 'pointer' }} onClick={this.onSortOverall}>swap_vert</i>
+                                            </th>
+                                            <th className="font-weight-bold text-center">
+                                                {candidateNeeds >= item.matchDetail.length ?
+                                                    <input type="checkbox" onClick={this.onSelectAll} checked={selectedItem === null ? false : selectedItem.selectAll} />
+                                                    : ''}
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    {typeof item.matchDetail !== 'undefined' ? (
+                                        <tbody>
+                                            {this.showCandidate(typeof item.matchDetail !== 'undefined' ? item.matchDetail : [], selectedItem, candidateNeeds)}
+                                        </tbody>
+                                    ) : ('')}
+                                </table>
+                            </div>
+                        </>
                     : ''}
             </React.Fragment>
         );

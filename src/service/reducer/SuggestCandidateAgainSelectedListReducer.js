@@ -1,5 +1,6 @@
 import { store } from "react-notifications-component";
-import { ADD_MORE_CANDIDATES, SUGGEST_CANDIDATE  } from "../constant";
+import { ADD_MORE_CANDIDATES, SUGGEST_CANDIDATE } from "../constant";
+import { history } from "../helper/History";
 import { sortSuggestListByOverallMatch } from "../util/util";
 
 const initState = []
@@ -43,8 +44,6 @@ const SuggestCandidateAgainSelectedListReducer = (state = initState, action) => 
                     positionItem.selectAll = true
                 state.push(positionItem)
             } else {
-                // var checkable = checkSelectable(state, action.candidate, action.candidateList.position)
-                // if (checkable) {
                 var isReachLimit = checkReachLimit(state, action.limit, action.candidateList.position)
                 if (isReachLimit) {
                     store.addNotification({
@@ -76,7 +75,6 @@ const SuggestCandidateAgainSelectedListReducer = (state = initState, action) => 
                         state.push(positionItem)
                     }
                 }
-                // } 
             }
             return [...state];
 
@@ -131,6 +129,18 @@ const SuggestCandidateAgainSelectedListReducer = (state = initState, action) => 
         case SUGGEST_CANDIDATE.CONFIRM_SUGGEST:
             state.splice(0, state.length)
             return [...state]
+
+        case ADD_MORE_CANDIDATES.CANCEL_SUGGEST:
+            state.splice(0, state.length)
+            localStorage.removeItem('projectId')
+            localStorage.removeItem('projectType')
+            localStorage.removeItem('projectField')
+            localStorage.removeItem('projectName')
+            localStorage.removeItem('positionRequire')
+            localStorage.removeItem('pmID')
+            history.push(`/project/detail/${action.projectID}`)
+            return [...state]
+
         default:
             return [...state];
     }

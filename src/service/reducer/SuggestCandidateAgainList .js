@@ -1,5 +1,5 @@
 import { ADD_MORE_CANDIDATES } from "../constant/index";
-import { sortSuggestListByHardSkillMatch, sortSuggestListByLanguageMatch, sortSuggestListByOverallMatch, sortSuggestListBySoftSkillMatch } from "../util/util";
+import { sortSuggestListByFieldMatch, sortSuggestListByHardSkillMatch, sortSuggestListByLanguageMatch, sortSuggestListByOverallMatch, sortSuggestListBySoftSkillMatch, sortSuggestListByTypeMatch } from "../util/util";
 const initState = []
 
 const SuggestCandidateAgainList = (state = initState, action) => {
@@ -30,6 +30,12 @@ const SuggestCandidateAgainList = (state = initState, action) => {
                 }
                 if (action.value === 'overall') {
                     sortSuggestListByOverallMatch(clone)
+                }
+                if (action.value === 'type') {
+                    sortSuggestListByTypeMatch(clone)
+                }
+                if (action.value === 'field') {
+                    sortSuggestListByFieldMatch(clone)
                 }
                 element.matchDetail = clone
             });

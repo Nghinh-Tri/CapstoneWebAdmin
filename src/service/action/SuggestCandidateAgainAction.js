@@ -1,5 +1,6 @@
 import axios from "axios"
 import { ADD_MORE_CANDIDATES } from "../constant"
+import { history } from "../helper/History"
 import { API_URL } from "../util/util"
 
 export const setPositionSelect = index => {
@@ -41,6 +42,11 @@ export const fetchSelectedList = () => {
     return {
         type: ADD_MORE_CANDIDATES.FETCH_SELECTED_LIST
     }
+}
+
+export const cancelSuggest = () => {
+    var projectID = localStorage.getItem('projectId')
+    return { type: ADD_MORE_CANDIDATES.CANCEL_SUGGEST, projectID }
 }
 
 export const fetchSuggestList = () => {

@@ -42,6 +42,8 @@ class SuitableProjectDetail extends Component {
                         <td>{index + 1}</td>
                         <td>{detail.posName}</td>
                         <td className='text-center'>{detail.candidateNeeded - detail.missingEmployee} / {detail.candidateNeeded}</td>
+                        <td className='text-center'>{detail.matchDetail.projectTypeMatch} / 10</td>
+                        <td className='text-center'>{detail.matchDetail.projectFieldMatch} / 10</td>
                         <td className='text-center'>{detail.matchDetail.languageMatch} / 10</td>
                         <td className='text-center'>{detail.matchDetail.softSkillMatch} / 10</td>
                         <td className='text-center'>{detail.matchDetail.hardSkillMatch} / 10</td>
@@ -72,9 +74,11 @@ class SuitableProjectDetail extends Component {
                                         <th className="font-weight-bold text-center" width={40}>No</th>
                                         <th className="font-weight-bold text-center" width={200}>Position</th>
                                         <th className="font-weight-bold text-center" width={130}>Employees</th>
-                                        <th className="font-weight-bold text-center" width={140}>Match Language</th>
-                                        <th className="font-weight-bold text-center" width={140}>Match Soft Skill</th>
-                                        <th className="font-weight-bold text-center" width={140}>Match Hard Skill</th>
+                                        <th className="font-weight-bold text-center" width={140}>Project Type Match</th>
+                                        <th className="font-weight-bold text-center" width={140}>Project Field Match</th>
+                                        <th className="font-weight-bold text-center" width={140}>Language Match</th>
+                                        <th className="font-weight-bold text-center" width={140}>Soft Skill Match</th>
+                                        <th className="font-weight-bold text-center" width={140}>Hard Skill Match</th>
                                         <th className="font-weight-bold text-center" width={140}>Overall Match</th>
                                         <th className="font-weight-bold text-center" width={50}>Action</th>
                                     </tr>

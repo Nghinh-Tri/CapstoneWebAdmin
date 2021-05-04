@@ -225,6 +225,14 @@ export const sortSuggestListByHardSkillMatch = list => {
     list.sort((a, b) => { return b.hardSkillMatch - a.hardSkillMatch })
 }
 
+export const sortSuggestListByTypeMatch = list => {
+    list.sort((a, b) => { return b.projectTypeMatch - a.projectTypeMatch })
+}
+
+export const sortSuggestListByFieldMatch = list => {
+    list.sort((a, b) => { return b.projectFieldMatch - a.projectFieldMatch })
+}
+
 export const convertSuggestList = list => {
     var result = []
     if (list.length > 0) {
