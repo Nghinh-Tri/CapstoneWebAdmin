@@ -102,12 +102,17 @@ export const register = (emp) => {
             .then(res => {
                 if (res.status === 200) {
                     dispatch(registerFailure({}))
+                    dispatch(registerErrorFailure(''))
                     dispatch(registerSuccess(res.data.resultObj, emp.roleName))
                 }
             })
             .catch(err => {
                 if (err.response.status === 400) {
-                    dispatch(registerFailure(err.response.data.errors))
+                    if (typeof err.response.data.errors !== 'undefined')
+                        dispatch(registerFailure(err.response.data.errors))
+                    else {
+                        dispatch(registerErrorFailure(err.response.data.message))
+                    }
                 }
             })
     }
@@ -136,4 +141,8 @@ export const registerFailure = (error) => {
 
 export const loginFailure = (error) => {
     return { type: ERROR.LOGIN_ERROR, error }
+}
+
+export const registerErrorFailure = (error) => {
+    return { type: ERROR.DUPLICATE_ERROR, error }
 }

@@ -5,12 +5,14 @@ import './ConfirmPage.css'
 import * as Action from "../../service/action/SuggestCandidateAgainAction";
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { convertAddEmployeeList } from '../../service/util/util';
+import { convertAddEmployeeList, convertCheckSuggestList } from '../../service/util/util';
 import { checkSession } from '../../service/action/AuthenticateAction';
 import { history } from '../../service/helper/History';
 import { compose } from 'redux';
-import { confirmSuggestList } from '../../service/action/SuggestCandidateAction';
+import { checkRejectCandidatesInSuggestList, confirmSuggestList } from '../../service/action/SuggestCandidateAction';
 import BriefDetail from '../../component/brief-detail/BrriefDetails';
+import TextArea from 'antd/lib/input/TextArea';
+import confirm from 'antd/lib/modal/confirm';
 
 class ConfirmSelectCandidate extends Component {
 
@@ -41,17 +43,30 @@ class ConfirmSelectCandidate extends Component {
     }
 
     onSuggest = () => {
-        var { candidateList } = this.props
-
+        var { candidateList, confirmSuggestList } = this.props
         var list = convertAddEmployeeList(candidateList)
-
         var obj = { candidates: list }
         var projectID = JSON.parse(localStorage.getItem('projectId'))
         var pmID = JSON.parse(localStorage.getItem('pmID'))
         var projectName = JSON.parse(localStorage.getItem('projectName'))
-        console.log('aaa', projectID, pmID, projectName)
-
-        this.props.confirmSuggestList(obj, projectID, projectName, pmID)
+        this.props.checkRejectedCandidate({ candidates: convertCheckSuggestList(candidateList) }, projectID)
+        if (this.props.rejectedCandidate.message !== '') {
+            var content = ""
+            this.props.rejectedCandidate.list.forEach(element => {
+                content = content + element + '\n'
+            });
+            confirm({
+                title: this.props.rejectedCandidate.message + ". Are you sure you want to suggest those candidates.",
+                content: (<>
+                    <TextArea defaultValue={content} disabled={true} autoSize={true}
+                        style={{ color: 'black', backgroundColor: 'white', borderColor: 'white', cursor: 'default' }} />
+                </>),
+                okType: 'danger',
+                onOk() { confirmSuggestList(obj, projectID, projectName, pmID) }
+            });
+        } else {
+            confirmSuggestList(obj, projectID, projectName, pmID)
+        }
     }
 
     onBack = () => {
@@ -84,7 +99,8 @@ class ConfirmSelectCandidate extends Component {
 
 const mapStateToProps = state => {
     return {
-        candidateList: state.SuggestCandidateAgainSelectedListReducer
+        candidateList: state.SuggestCandidateAgainSelectedListReducer,
+        rejectedCandidate: state.CheckRejectedCandidates
     }
 }
 
@@ -101,6 +117,9 @@ const mapDispatchToProps = dispatch => {
         },
         checkSession: () => {
             dispatch(checkSession())
+        },
+        checkRejectedCandidate: (suggestList, projectID) => {
+            dispatch(checkRejectCandidatesInSuggestList(suggestList, projectID))
         }
     }
 }

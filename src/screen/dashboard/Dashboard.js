@@ -69,7 +69,7 @@ class Dashboard extends Component {
     onShowPieList = () => {
         var index = this.getIndexByPosID()
         var { skillInPosition } = this.props
-        if (typeof skillInPosition.find(e => e.skillInPos) !== 'undefined') {
+        if (typeof skillInPosition[index].skillInPos !== 'undefined') {
             return (<PineChart item={skillInPosition[index].skillInPos} />)
         }
     }

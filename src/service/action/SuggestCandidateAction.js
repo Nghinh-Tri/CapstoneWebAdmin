@@ -60,8 +60,33 @@ export const fetchSuggestListSuccess = (list) => {
     }
 }
 
+export const checkRejectCandidatesInSuggestList = (suggestList, projectID) => {
+    var checkUrl = `${API_URL}/Project/checkCandidate/${projectID}`
+    return (dispatch) => {
+        if (suggestList.candidates.length > 0) {
+    console.log(suggestList)
+
+            axios.post(
+                checkUrl,
+                suggestList,
+                { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
+            ).then(res => {
+                console.log(res.data)
+                if (res.data.isSuccessed) {
+                    dispatch(rejectedCandidate('', []))
+                } else {
+                    dispatch(rejectedCandidate(res.data.message, res.data.resultObj))
+                }
+            }).catch(err=>{
+                console.log(err.response)
+            })
+        } else {
+            dispatch(rejectedCandidate('', []))
+        }
+    }
+}
+
 export const confirmSuggestList = (suggestList, projectID, projectName, pmID, optionType) => {
-    console.log('a', suggestList, projectName, pmID, optionType)
     var url = `${API_URL}/Project/confirmCandidate/${projectID}`
     // console.log('pm', suggestList)
     return (dispatch) => {
@@ -111,7 +136,7 @@ export const confirmSuggestList = (suggestList, projectID, projectName, pmID, op
                         } else {
                             history.push("/project")
                         }
-                    }else{
+                    } else {
                         console.log(res.data)
                     }
                 }
@@ -137,4 +162,8 @@ export const confirmSuggestList = (suggestList, projectID, projectName, pmID, op
 export const confirmSuggestListSuggest = () => {
     history.push('/project')
     return { type: SUGGEST_CANDIDATE.CONFIRM_SUGGEST }
+}
+
+export const rejectedCandidate = (message, list) => {
+    return { type: SUGGEST_CANDIDATE.REJECTED_CANDIDATE, message, list }
 }

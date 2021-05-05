@@ -255,6 +255,29 @@ export const convertSuggestList = list => {
     return result
 }
 
+export const convertCheckSuggestList = list => {
+    var result = []
+    var require = JSON.parse(localStorage.getItem("positionRequire"))
+    if (list.length > 0) {
+        list.forEach(element => {
+            require.forEach(e => {
+                if (e.posID === element.posId) {
+                    var positionObj = { requiredPosID: e.requiredPosID, posID: element.posId, empIDs: [] }
+                    if (positionObj.posID === element.posId) {
+                        var empID = []
+                        element.candidateSelect.forEach(e => {
+                            empID.push(e.empID)
+                        });
+                        positionObj.empIDs = empID
+                    }
+                    result.push(positionObj)
+                }
+            });
+        });
+    }
+    return result
+}
+
 export const convertAddEmployeeList = list => {
     var result = []
     var require = JSON.parse(localStorage.getItem('positionRequire'))

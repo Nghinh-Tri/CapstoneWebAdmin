@@ -31,7 +31,9 @@ class Register extends Component {
             roleListUpdate: [
                 { label: 'Project Manager', value: 'PM' },
                 { label: 'Employee', value: 'Employee' },
-            ]
+            ],
+            fieldError: '',
+            messageError: ''
         }
     }
 
@@ -40,13 +42,6 @@ class Register extends Component {
         var { match } = this.props
         if (this.props.location.pathname !== '/employee/register')
             this.props.fetchEmpDetail(match.params.id)
-    }
-
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.profile !== prevState.profile) {
-            return { someState: nextProps.profile };
-        }
-        return null;
     }
 
     componentDidUpdate(prevProps) {
@@ -60,7 +55,24 @@ class Register extends Component {
                 role: profile.roleName,
                 email: profile.email,
             })
+            console.log('aasdasdasdasdasdasdad', this.props.duplicateError)
+            if (prevProps.duplicateError !== this.props.duplicateError) {
+                var { duplicateError } = this.props
+                console.log(duplicateError)
+                if (duplicateError.error.includes(':')) {
+                    var list = duplicateError.error.split(':')
+                    this.setState({ messageError: list[1], fieldError: list[0], })
+                } else {
+                    this.setState({ messageError: '', fieldError: '', })
+                }
+            }
         }
+    }
+
+    componentWillReceiveProps = () => {
+        var { duplicateError } = this.props
+        console.log('asdasdasdadsasdadasdadsasdasdadsasdasdasdagfdgsfg', duplicateError)
+
     }
 
     handleInputChange = (e) => {
@@ -114,8 +126,19 @@ class Register extends Component {
     }
 
     render() {
-        const { address, phoneNumber, userName, fullname, email, password, confirmPassword, identityNumber, submitted, role } = this.state;
-        var { error } = this.props
+        const { address, phoneNumber, userName, fullname, email, password,
+            confirmPassword, identityNumber, submitted, role, } = this.state;
+        var { error, duplicateError } = this.props
+        var messageError = '', fieldError = ''
+        if (typeof duplicateError !== 'undefined') {
+            if (duplicateError.error !== '') {
+                var list = duplicateError.error.split(':')
+                messageError = list[1]
+                fieldError = list[0]
+            }
+        }
+        console.log('asdas', messageError, fieldError)
+
         return (
             <div className="content">
                 <div className="container-fluid">
@@ -137,7 +160,6 @@ class Register extends Component {
                                         <div className="form-group">
                                             <label className={`bmd-label-${this.props.location.pathname !== '/employee/register' ? 'static' : 'floating'}`}>Full name</label>
                                             <input name="fullname" type="text" className="form-control" value={fullname} onChange={this.handleInputChange} />
-                                            {console.log('error', error)}
                                             {typeof error.Name !== 'undefined' ?
                                                 error.Name.map((element, index) => {
                                                     return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
@@ -158,6 +180,12 @@ class Register extends Component {
                                                     return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
                                                 })
                                                 : ''}
+                                            {fieldError.trim().includes("Email") ? (
+                                                <div className="error text-danger font-weight-bold">
+                                                    {messageError}
+                                                </div>
+                                            ) : ("")
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -174,6 +202,13 @@ class Register extends Component {
                                                         return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
                                                     })
                                                     : ''}
+                                                {fieldError.trim().includes("Username") ? (
+                                                    <div className="error text-danger font-weight-bold">
+                                                        {messageError}
+                                                    </div>
+                                                ) : (
+                                                    ""
+                                                )}
                                             </div>
                                         </div>
                                     </div>
@@ -267,30 +302,7 @@ class Register extends Component {
                                             <div className="error text-danger font-weight-bold" >Role is required</div>
                                         }
                                     </div>
-                                    {/* {this.props.location.pathname === '/employee/register' ?
-                                        
-                                        :
-                                        this.props.profile.roleName === 'PM' ?
-                                            <div className="col" style={{ marginTop: 5 }}>
-                                                <label className="bmd-label">
-                                                    <h5 style={{ fontWeight: 350, fontSize: 15 }}>{showRole(role)}</h5>
-                                                </label>
-                                            </div>
-                                            :
-                                            <div className="col">
-                                                <SelectBar name='role'
-                                                    type="role"
-                                                    value={role}
-                                                    placeholder='Select role'
-                                                    list={this.state.roleListUpdate}
-                                                    onSelectRole={this.onSelectRole} />
-                                                {submitted && !role &&
-                                                    <div className="error text-danger font-weight-bold" >Role is required</div>
-                                                }
-                                            </div>
-                                    } */}
                                 </div>
-
                                 <button type="submit" className="btn btn-primary pull-right mt-3    ">
                                     {this.props.location.pathname !== '/employee/register' ? 'Update' : 'Create'}
                                 </button>
@@ -307,7 +319,8 @@ const mapState = (state) => {
     return {
         registering: state.authentication,
         profile: state.ProfileFetchReducer,
-        error: state.ErrorReducer
+        error: state.ErrorReducer,
+        duplicateError: state.RegisterErrorReducer
     };
 }
 
