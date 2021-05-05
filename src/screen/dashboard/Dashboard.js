@@ -108,7 +108,7 @@ class Dashboard extends Component {
                                         {this.onShowBarList(dataStatistics)}
                                     </div>
                                     <div className="card-body">
-                                        <h4 className="card-title">Position lack of staff</h4>
+                                        <h4 className="card-title">Positions in need of staffs</h4>
                                     </div>
                                 </div>
                             </div>
@@ -142,7 +142,7 @@ class Dashboard extends Component {
                                                 </div>
                                             </div>
                                             <div className="card-body">
-                                                <h4 className="card-title">Skills in position</h4>
+                                                <h4 className="card-title">Skills needed in each position</h4>
                                             </div>
                                         </div>
                                     </>
