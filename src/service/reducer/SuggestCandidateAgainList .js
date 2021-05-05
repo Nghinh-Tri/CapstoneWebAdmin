@@ -1,4 +1,4 @@
-import { ADD_MORE_CANDIDATES } from "../constant/index";
+import { ADD_MORE_CANDIDATES, SUGGEST_CANDIDATE } from "../constant/index";
 import { sortSuggestListByFieldMatch, sortSuggestListByHardSkillMatch, sortSuggestListByLanguageMatch, sortSuggestListByOverallMatch, sortSuggestListBySoftSkillMatch, sortSuggestListByTypeMatch } from "../util/util";
 const initState = []
 
@@ -39,6 +39,14 @@ const SuggestCandidateAgainList = (state = initState, action) => {
                 }
                 element.matchDetail = clone
             });
+            return [...state]
+
+        case SUGGEST_CANDIDATE.CONFIRM_SUGGEST:
+            state = []
+            return [...state]  
+
+        case ADD_MORE_CANDIDATES.CANCEL_SUGGEST:
+            state = []
             return [...state]
         default:
             return [...state]
