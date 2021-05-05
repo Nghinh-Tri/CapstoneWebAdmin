@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { showRequestStatus } from '../../service/util/util';
 import PositionRequireDetail from './PositionRequireDetail';
 import CandidateResult from "./CandidateResult";
+import moment from 'moment';
 const TabPane = Tabs.TabPane;
 
 class RequireModal extends Component {
@@ -41,6 +42,7 @@ class RequireModal extends Component {
                 <td className='text-center'>{value.hardSkills.length}</td>
                 <td className='text-center'>{value.language.length}</td>
                 <td className='text-center'>{value.softSkillIDs.length}</td>
+                <td className='text-center'>{moment(value.dateCreated).format('DD-MM-YYYY')}</td>
                 <td className='text-center'>{showRequestStatus(value.status)}</td>
                 <td className='text-center'>
                     <a style={{ color: 'blue' }} onClick={this.onShowRequireDetail} >Detail</a>

@@ -47,7 +47,7 @@ const SuggestCandidateAgainSelectedListReducer = (state = initState, action) => 
                 var isReachLimit = checkReachLimit(state, action.limit, action.candidateList.position)
                 if (isReachLimit) {
                     store.addNotification({
-                        message: `You have select enough candidate for this position`,
+                        message: `You have selected enough candidate for this position`,
                         type: "danger",
                         insert: "top",
                         container: "top-center",
