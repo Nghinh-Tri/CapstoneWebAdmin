@@ -87,6 +87,7 @@ const SuggestCandidateAgainSelectedListReducer = (state = initState, action) => 
                         positionObjClone.candidateSelect = [...action.candidateList.matchDetail]
                         state.splice(index, 1, positionObjClone)
                     } else {
+                        state = []
                         positionItem = { position: action.candidateList.position, posId: action.candidateList.posId, candidateSelect: [...action.candidateList.matchDetail], selectAll: true }
                         state.push(positionItem)
                     }
