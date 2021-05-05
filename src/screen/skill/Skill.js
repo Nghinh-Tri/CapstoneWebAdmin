@@ -181,7 +181,7 @@ class Skill extends Component {
                                     : ("")
                             }
                             {
-                                this.state.isLoading ? ("") :
+                                this.state.isLoading ? ("") || result.pageCount === 1 :
                                     (
                                         <div className="row justify-content-center" style={{ marginBottom: 20 }}>
                                             <Pagination defaultCurrent={result.pageIndex} total={result.totalRecords} onChange={this.onSelectPage} />

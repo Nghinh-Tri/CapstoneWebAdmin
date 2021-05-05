@@ -49,24 +49,24 @@ class ConfirmSelectCandidate extends Component {
         var projectID = JSON.parse(localStorage.getItem('projectId'))
         var pmID = JSON.parse(localStorage.getItem('pmID'))
         var projectName = JSON.parse(localStorage.getItem('projectName'))
-        this.props.checkRejectedCandidate({ candidates: convertCheckSuggestList(candidateList) }, projectID)
-        if (this.props.rejectedCandidate.message !== '') {
-            var content = ""
-            this.props.rejectedCandidate.list.forEach(element => {
-                content = content + element + '\n'
-            });
-            confirm({
-                title: this.props.rejectedCandidate.message + ". Are you sure you want to suggest those candidates.",
-                content: (<>
-                    <TextArea defaultValue={content} disabled={true} autoSize={true}
-                        style={{ color: 'black', backgroundColor: 'white', borderColor: 'white', cursor: 'default' }} />
-                </>),
-                okType: 'danger',
-                onOk() { confirmSuggestList(obj, projectID, projectName, pmID) }
-            });
-        } else {
-            confirmSuggestList(obj, projectID, projectName, pmID)
-        }
+        // this.props.checkRejectedCandidate({ candidates: convertCheckSuggestList(candidateList) }, projectID)
+        // if (this.props.rejectedCandidate.message !== '') {
+        //     var content = ""
+        //     this.props.rejectedCandidate.list.forEach(element => {
+        //         content = content + element + '\n'
+        //     });
+        //     confirm({
+        //         title: this.props.rejectedCandidate.message + ". Are you sure you want to suggest those candidates.",
+        //         content: (<>
+        //             <TextArea defaultValue={content} disabled={true} autoSize={true}
+        //                 style={{ color: 'black', backgroundColor: 'white', borderColor: 'white', cursor: 'default' }} />
+        //         </>),
+        //         okType: 'danger',
+        //         onOk() { confirmSuggestList(obj, projectID, projectName, pmID) }
+        //     });
+        // } else 
+        confirmSuggestList(obj, projectID, projectName, pmID)
+
     }
 
     onBack = () => {

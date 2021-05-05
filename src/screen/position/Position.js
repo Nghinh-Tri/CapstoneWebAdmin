@@ -204,7 +204,7 @@ class Position extends Component {
                   ) : (
                     ""
                   )}
-                  {this.state.isLoading ? (
+                  {this.state.isLoading || item.pageCount === 1? (
                     ""
                   ) : (
                     <div
