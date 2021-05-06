@@ -73,7 +73,9 @@ class SuggestCandidates extends Component {
 
     render() {
         var { item, selectedItem } = this.props
-        var candidateNeeds = this.getCandidateNeeds(item.posId)
+        var candidateNeeds = 0
+        if (typeof item.posId !== 'undefined')
+            candidateNeeds = this.getCandidateNeeds(item.posId)
         return (
             <React.Fragment>
                 {typeof item.matchDetail !== 'undefined' ?
