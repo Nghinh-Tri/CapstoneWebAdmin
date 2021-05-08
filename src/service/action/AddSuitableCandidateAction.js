@@ -16,34 +16,26 @@ export const confirmSuggestList = (suggestList, projectID, projectName, pmID, op
         ).then(res => {
             if (res.status === 200) {
                 if (res.data.isSuccessed) {
-                    setTimeout(() => {
-                        dispatch(sendNotificate(pmID, `Employee for project '${projectName}' has been confirmed `))
-                    }, 6000);
-                    // suggestList.candidates.forEach(element => {
-                    //     element.empIDs.forEach(e1 => {
-                    //         setTimeout(() => {
-                    //             dispatch(sendNotificate(e1, `You has been confirm to join project '${projectName}'`))
-                    //         }, 5000);
-                    //     });
-                    // });
                     dispatch(fetchSuitableList(optionType))
+                    dispatch(sendNotificate(pmID, `Employee for project '${projectName}' has been confirmed `))
                 } else {
                     console.log(res.data)
                 }
             }
         }).catch(err => {
-            store.addNotification({
-                message: err.toString(),
-                type: "danger",
-                insert: "top",
-                container: "top-center",
-                animationIn: ["animated", "fadeIn"],
-                animationOut: ["animated", "fadeOut"],
-                dismiss: {
-                    duration: 2000,
-                    onScreen: false
-                }
-            })
+            if (typeof err.response !== 'undefined')
+                store.addNotification({
+                    message: err.toString(),
+                    type: "danger",
+                    insert: "top",
+                    container: "top-center",
+                    animationIn: ["animated", "fadeIn"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: {
+                        duration: 2000,
+                        onScreen: false
+                    }
+                })
             // console.log(err.response.data.message)
         })
 

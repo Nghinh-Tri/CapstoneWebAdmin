@@ -139,8 +139,6 @@ class Register extends Component {
                     email: email,
                     phoneNumber: phoneNumber,
                     userName: userName,
-                    password: password,
-                    confirmPassword: confirmPassword,
                     roleName: role
                 }
             );
@@ -159,8 +157,8 @@ class Register extends Component {
     }
 
     render() {
-        const { address, phoneNumber, userName, fullname, email, password,
-            confirmPassword, identityNumber, submitted, role, } = this.state;
+        const { address, phoneNumber, userName, fullname, email,
+            identityNumber, submitted, role, } = this.state;
         var { error, duplicateError } = this.props
         var messageError = '', fieldError = ''
         if (typeof duplicateError !== 'undefined') {
@@ -170,6 +168,7 @@ class Register extends Component {
                 fieldError = list[0]
             }
         }
+        console.log(error)
         return (
             <div className="content">
                 <div className="container-fluid">
@@ -229,7 +228,9 @@ class Register extends Component {
                                                 <label className="bmd-label-floating">
                                                     Username <span style={{ color: 'red', fontWeight: 500 }} >*</span>
                                                 </label>
-                                                <input name="userName" type="text" className="form-control" value={userName} onChange={this.handleInputChange} />
+                                                <input name="userName" type="text" className="form-control"
+                                                    value={userName} onChange={this.handleInputChange}
+                                                    readOnly style={{ backgroundColor: 'white' }} />
                                                 {typeof error.UserName !== 'undefined' ?
                                                     error.UserName.map((element, index) => {
                                                         return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
@@ -244,37 +245,6 @@ class Register extends Component {
                                                 )}
                                             </div>
                                         </div>
-                                    </div>
-                                    : ''}
-
-                                {/* Password */}
-                                {this.props.location.pathname === '/employee/register' ?
-                                    <div className="row">
-                                        <div className="col" >
-                                            <div className="form-group">
-                                                <label className="bmd-label-floating">
-                                                    Password <span style={{ color: 'red', fontWeight: 500 }} >*</span>
-                                                </label>
-                                                <input name="password" type="text" className="form-control" value={password} onClick={this.onGeneratePassword} onChange={this.handleInputChange} />
-                                                {typeof error.Password !== 'undefined' ?
-                                                    error.Password.map((element, index) => {
-                                                        return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
-                                                    })
-                                                    : ''}
-                                            </div>
-                                        </div>
-                                        {/* 
-                                        <div className="col-md-4">
-                                            <div className="form-group">
-                                                <label className="bmd-label-floating">Confirm password</label>
-                                                <input name="confirmPassword" type="password" value={confirmPassword} className="form-control" onChange={this.handleInputChange} />
-                                                {typeof error.ConfirmPassword !== 'undefined' ?
-                                                    error.ConfirmPassword.map((element, index) => {
-                                                        return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
-                                                    })
-                                                    : ''}
-                                            </div>
-                                        </div> */}
                                     </div>
                                     : ''}
 
@@ -381,7 +351,7 @@ const mapDispatchToProp = dispatch => {
         updateProfile: (empID, emp) => {
             dispatch(updateProfile(empID, emp))
         },
-        refreshPage:()=>{
+        refreshPage: () => {
             dispatch(Action.refreshPage())
         }
     }

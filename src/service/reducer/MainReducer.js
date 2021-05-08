@@ -34,6 +34,8 @@ import SkillInPosition from "./SkillInPositionReducer";
 import CandidateResultReducer from "./CandidateResultReducer";
 import CheckRejectedCandidates from "./CheckRejectedCandidates";
 import RegisterErrorReducer from "./RegisterErrorReducer";
+import PositionErrorReducer from "./PositionErrorReducer";
+
 const MainReducer = combineReducers({
     authentication,//use
     ProjectFetchReducer,//use
@@ -68,7 +70,8 @@ const MainReducer = combineReducers({
     SkillInPosition,
     CandidateResultReducer,
     CheckRejectedCandidates,
-    RegisterErrorReducer
+    RegisterErrorReducer,
+    PositionErrorReducer
 })
 
 export default MainReducer

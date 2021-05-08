@@ -1,4 +1,4 @@
-import { SUGGEST_CANDIDATE } from "../constant";
+import { SUGGEST_CANDIDATE, Type } from "../constant";
 import { sortSuggestListByOverallMatch } from "../util/util";
 
 const initState = []
@@ -96,6 +96,10 @@ const SuggestCandidateSelectedList = (state = initState, action) => {
 
         case SUGGEST_CANDIDATE.CONFIRM_SUGGEST:
             state.splice(0, state.length)
+            return [...state]
+
+        case Type.FETCH_LIST_EMPLOYEE:
+            state = []
             return [...state]
         default:
 

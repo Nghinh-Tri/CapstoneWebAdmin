@@ -113,6 +113,8 @@ export const register = (emp) => {
                     else {
                         dispatch(registerErrorFailure(err.response.data.message))
                     }
+                }else{
+                    dispatch(registerFailure(err.response.data.errors))
                 }
             })
     }

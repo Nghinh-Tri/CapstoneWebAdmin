@@ -33,7 +33,9 @@ class CreatePosition extends Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.position !== this.props.position) {
-            var { position } = this.props
+            var { position, error } = this.props
+            console.log('ere11', error)
+
             this.setState({
                 posID: position.posID,
                 position: position.name,
@@ -50,7 +52,6 @@ class CreatePosition extends Component {
 
     onSubmit = (e) => {
         e.preventDefault()
-        console.log(this.state.position, this.state.description)
         if (typeof this.props.match === 'undefined')
             this.props.onCreatePosition({ name: this.state.position, description: this.state.description })
         else
@@ -58,8 +59,8 @@ class CreatePosition extends Component {
     }
 
     render() {
-        var { position, description } = this.state
-
+        var { position, description, error } = this.state
+        console.log('ere', error)
         return (
             <div className="card" style={{ marginTop: "50px", }}>
                 <div className="card-header card-header-primary">
@@ -77,6 +78,15 @@ class CreatePosition extends Component {
                                         Position <span style={{ color: 'red', fontWeight: 500 }} >*</span>
                                     </label>
                                     <input type="text" id="position" name="position" className="form-control" value={position} onChange={this.handleChange} />
+                                    {/* {typeof error.Name !== "undefined"
+                                        ? error.Name.map((element, index) => {
+                                            return (
+                                                <div key={index} className="error text-danger font-weight-bold">
+                                                    {element}
+                                                </div>
+                                            );
+                                        })
+                                        : ""} */}
                                 </fieldset>
                             </div>
                         </div>
@@ -95,6 +105,15 @@ class CreatePosition extends Component {
                                         autoSize={{ minRows: 5, maxRows: 20 }}
                                         onChange={this.handleChange}
                                     />
+                                    {/* {typeof error.Description !== "undefined"
+                                        ? error.Description.map((element, index) => {
+                                            return (
+                                                <div key={index} className="error text-danger font-weight-bold">
+                                                    {element}
+                                                </div>
+                                            );
+                                        })
+                                        : ""} */}
                                 </fieldset>
                             </div>
                         </div>
@@ -110,7 +129,8 @@ class CreatePosition extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        position: state.PositionFormReducer
+        error: state.PositionErrorReducer,
+        position: state.PositionFormReducer,
     }
 }
 

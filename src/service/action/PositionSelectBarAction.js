@@ -47,60 +47,15 @@ export const fetchPostionDetail = (posID) => {
 export const createPosition = (position) => {
     var url = `${API_URL}/Position`
     return (dispatch) => {
-        if (position.name.length === 0) {
-            dispatch(createPositionFail())
-            store.addNotification({
-                message: "Positon name is required",
-                type: "danger",
-                insert: "top",
-                container: "top-center",
-                animationIn: ["animated", "fadeIn"],
-                animationOut: ["animated", "fadeOut"],
-                dismiss: {
-                    duration: 2000,
-                    onScreen: false
-                }
-            })
-        }
-        else if (position.description.length === 0) {
-            dispatch(createPositionFail())
-            store.addNotification({
-                message: "Positon description is required",
-                type: "danger",
-                insert: "top",
-                container: "top-center",
-                animationIn: ["animated", "fadeIn"],
-                animationOut: ["animated", "fadeOut"],
-                dismiss: {
-                    duration: 2000,
-                    onScreen: false
-                }
-            })
-        } else {
-            axios.post(
-                url,
-                position,
-                { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
-            ).then(res => {
-                if (res.status === 200)
-                    dispatch(createPositionSuccess())
-            }).catch(err => {
-                console.log(err)
-                // store.addNotification({
-                //     message: err.response,
-                //     type: "danger",
-                //     insert: "top",
-                //     container: "top-center",
-                //     animationIn: ["animated", "fadeIn"],
-                //     animationOut: ["animated", "fadeOut"],
-                //     dismiss: {
-                //         duration: 2000,
-                //         onScreen: false
-                //     }
-                // })
-            })
-        }
-
+        axios.post(
+            url,
+            position,
+            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
+        ).then(res => {
+            dispatch(createPositionSuccess())
+        }).catch(err => {
+            dispatch(createPositionFail(err.response.data.errors))
+        })
     }
 }
 
@@ -137,8 +92,8 @@ export const createPositionSuccess = () => {
     return { type: POSITION.CREATE_SUCCESS }
 }
 
-export const createPositionFail = () => {
-    return { type: POSITION.CREATE_FAIL }
+export const createPositionFail = (error) => {
+    return { type: POSITION.CREATE_FAIL, error }
 }
 
 export const fetchPostionListSuccess = (positionList) => {

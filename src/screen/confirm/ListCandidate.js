@@ -23,7 +23,6 @@ class ListCandidate extends Component {
         }
     }
 
-
     componentDidMount = () => {
         this.props.checkSession();
         var { match } = this.props;

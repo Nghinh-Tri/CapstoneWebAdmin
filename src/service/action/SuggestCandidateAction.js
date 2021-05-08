@@ -64,7 +64,7 @@ export const checkRejectCandidatesInSuggestList = (suggestList, projectID) => {
     var checkUrl = `${API_URL}/Project/checkCandidate/${projectID}`
     return (dispatch) => {
         if (suggestList.candidates.length > 0) {
-    console.log(suggestList)
+            console.log(suggestList)
 
             axios.post(
                 checkUrl,
@@ -77,7 +77,7 @@ export const checkRejectCandidatesInSuggestList = (suggestList, projectID) => {
                 } else {
                     dispatch(rejectedCandidate(res.data.message, res.data.resultObj))
                 }
-            }).catch(err=>{
+            }).catch(err => {
                 console.log(err.response)
             })
         } else {
@@ -111,10 +111,9 @@ export const confirmSuggestList = (suggestList, projectID, projectName, pmID, op
             ).then(res => {
                 if (res.status === 200) {
                     if (res.data.isSuccessed) {
-                        setTimeout(() => {
-                            console.log('ok')
-                            dispatch(sendNotificate("" + pmID, `Employee for project '${projectName}' has been confirmed `))
-                        }, 5000);
+                        // setTimeout(() => {
+                        //     console.log('ok')
+                        // }, 5000);
                         localStorage.removeItem('projectId')
                         localStorage.removeItem('pmID')
                         localStorage.removeItem('projectType')
@@ -131,6 +130,8 @@ export const confirmSuggestList = (suggestList, projectID, projectName, pmID, op
                         //     });
                         // });
                         dispatch(confirmSuggestListSuggest())
+                        dispatch(sendNotificate("" + pmID, `Employee for project '${projectName}' has been confirmed `))
+
                         if (typeof optionType !== 'undefined') {
                             history.push(`employee/profile/${optionType}`)
                         } else {
@@ -141,18 +142,19 @@ export const confirmSuggestList = (suggestList, projectID, projectName, pmID, op
                     }
                 }
             }).catch(err => {
-                store.addNotification({
-                    message: err.response.data.message,
-                    type: "danger",
-                    insert: "top",
-                    container: "top-center",
-                    animationIn: ["animated", "fadeIn"],
-                    animationOut: ["animated", "fadeOut"],
-                    dismiss: {
-                        duration: 2000,
-                        onScreen: false
-                    }
-                })
+                if (typeof err.response !== 'undefined')
+                    store.addNotification({
+                        message: err.response.data.message,
+                        type: "danger",
+                        insert: "top",
+                        container: "top-center",
+                        animationIn: ["animated", "fadeIn"],
+                        animationOut: ["animated", "fadeOut"],
+                        dismiss: {
+                            duration: 2000,
+                            onScreen: false
+                        }
+                    })
                 // console.log(err.response.data.message)
             })
         }

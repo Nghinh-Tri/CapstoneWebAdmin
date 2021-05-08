@@ -32,16 +32,10 @@ class Dashboard extends Component {
     componentDidUpdate = (prevProp) => {
         if (prevProp.skillInPosition !== this.props.skillInPosition) {
             var posID = this.state.posID
-            // if (prevProp.positionList !== this.props.positionList) {
             if (this.props.positionList.length > 0) {
                 posID = this.props.positionList[0].posID
-                //     }
-                //     if (prevProp.skillInPosition !== this.props.skillInPosition) {
-
-                //     }
             }
             this.setState({ isLoading: false, posID: posID })
-
         }
     }
 
