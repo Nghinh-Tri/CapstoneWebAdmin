@@ -48,7 +48,7 @@ class SoftSkillForm extends Component {
         return (
             <div className="card mb-50">
                 <div className="card-header ">
-                    Soft Skill
+                    Soft Skill <span style={{ color: 'red', fontWeight: 500 }} >*</span>
                 </div>
                 <div className="card-body">
                     <SelectBar name="softSkillID"

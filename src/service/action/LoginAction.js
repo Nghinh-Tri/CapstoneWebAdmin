@@ -118,6 +118,14 @@ export const register = (emp) => {
     }
 }
 
+
+export const refreshPage = () => {
+    return (dispatch) => {
+        dispatch(registerFailure({}))
+        dispatch(registerErrorFailure(''))
+    }
+}
+
 export const registerRequest = (user) => {
     return {
         type: Type.REGISTER_REQUEST,

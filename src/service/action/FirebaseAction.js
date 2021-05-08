@@ -1,44 +1,22 @@
 import axios from "axios"
 import { FIREBASE } from "../constant"
 import { API_URL, getUserName } from "../util/util"
+import firebase from "../firebase/firebase";
+import moment from "moment";
 
 export const sendNotificate = (pmID, body) => {
     var pm = ''
     if (typeof pmID === 'string')
         pm = pmID
-    var url = `${API_URL}/Notification?topic=pm${pm}`
-    var token = JSON.parse(localStorage.getItem('FirebaseToken'))
     var message = {
-        title: `Human Resources ${getUserName()} sent you a notification`,
-        body: body
+        title: `Human Resources ${getUserName()} sent a notification`,
+        body: body,
+        status: true,
+        topic: pm,
+        dateCreate: moment.now()
     }
-    console.log('sendNotificate', message)
-
-    return (dispatch) => {
-        if (localStorage.getItem('token') !== null && token !== null) {
-            var unsubcriptUrl = `${API_URL}/Notification/unsubscription?token=${token}&topic=pm${pm}`
-            axios.post(
-                unsubcriptUrl,
-                { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
-            ).then(res => {
-                if (pm !== '') {
-                    axios.post(
-                        url,
-                        message,
-                        { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
-                    ).then(res => {
-                        console.log(res)
-                    }).catch(err => {
-                        console.log(err)
-                    })
-                }
-            }).catch(err => {
-                console.log(err)
-            })
-        } else {
-            dispatch(recieveNotificateFailed())
-        }
-    }
+    const fb = firebase.database().ref('fir-4d2be-default-rtdb')
+    fb.push(message)
 }
 
 export const recieveNotificate = (token) => {

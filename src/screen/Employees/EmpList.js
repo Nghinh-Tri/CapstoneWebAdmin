@@ -109,15 +109,15 @@ class EmpList extends Component {
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead className=" text-primary">
                                         <tr>
-                                            <th width={40} className="font-weight-bold text-center">No</th>
-                                            <th width={200} className="font-weight-bold ">Name</th>
-                                            <th width={120} className="font-weight-bold ">Phone</th>
-                                            <th width={250} className="font-weight-bold ">Email</th>
-                                            <th width={150} className="font-weight-bold " >User Name</th>
-                                            <th width={220} className="font-weight-bold ">
-                                                <div className="row">
-                                                    <div className='col-auto' style={{ marginTop: 10 }} > Role</div>
-                                                    <div className='col-auto'>
+                                            <th width={40} className="font-weight-bold text-center"  >No</th>
+                                            <th width={300} className="font-weight-bold text-center">Name</th>
+                                            <th width={150} className="font-weight-bold text-center">Phone</th>
+                                            <th width={250} className="font-weight-bold text-center">Email</th>
+                                            <th width={180} className="font-weight-bold text-center" >User Name</th>
+                                            <th width={200} className="font-weight-bold text-center"  >
+                                                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                                    <div style={{ marginTop: 10, marginRight: 10 }} > Role</div>
+                                                    <div style={{}}>
                                                         <SelectBar name='empListRole'
                                                             type="role"
                                                             value={this.state.role}
@@ -126,8 +126,8 @@ class EmpList extends Component {
                                                             onSelectRole={this.onSelectRole} />
                                                     </div>
                                                 </div>
+
                                             </th>
-                                            <th width={50} className="font-weight-bold "></th>
                                         </tr>
                                     </thead>
                                     {this.state.isLoading ? ("") : (

@@ -61,81 +61,49 @@ class CreatePosition extends Component {
         var { position, description } = this.state
 
         return (
-          <div
-            className="card"
-            style={{
-              marginTop: "50px",
-            }}
-          >
-            <div className="card-header card-header-primary">
-              <h4 className="card-title">
-                {typeof this.props.match !== "undefined"
-                  ? "Update Position"
-                  : "Create Position"}
-              </h4>
-            </div>
+            <div className="card" style={{ marginTop: "50px", }}>
+                <div className="card-header card-header-primary">
+                    <h4 className="card-title">
+                        {typeof this.props.match !== "undefined" ? "Update Position" : "Create Position"}
+                    </h4>
+                </div>
 
-            <div className="card-body">
-              <form onSubmit={this.handleSubmit}>
-                <div className="row">
-                  <div className="col">
-                    <fieldset className="form-group">
-                      <label
-                        className={`bmd-label-${
-                          typeof this.props.match !== "undefined"
-                            ? "static"
-                            : "floating"
-                        }`}
-                      >
-                        Position
-                      </label>
-                      <input
-                        type="text"
-                        id="position"
-                        name="position"
-                        className="form-control"
-                        value={position}
-                        onChange={this.handleChange}
-                      />
-                    </fieldset>
-                  </div>
+                <div className="card-body">
+                    <form onSubmit={this.handleSubmit}>
+                        <div className="row">
+                            <div className="col">
+                                <fieldset className="form-group">
+                                    <label className="bmd-label-floating">
+                                        Position <span style={{ color: 'red', fontWeight: 500 }} >*</span>
+                                    </label>
+                                    <input type="text" id="position" name="position" className="form-control" value={position} onChange={this.handleChange} />
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div className="row" style={{ marginTop: 10 }}>
+                            <div className="col">
+                                <fieldset className="form-group">
+                                    <label className="bmd-label-floating">
+                                        Description <span style={{ color: 'red', fontWeight: 500 }} >*</span>
+                                    </label>
+                                    <TextArea
+                                        type="textarea"
+                                        id="description"
+                                        name="description"
+                                        className="form-control"
+                                        defaultValue={description}
+                                        autoSize={{ minRows: 5, maxRows: 20 }}
+                                        onChange={this.handleChange}
+                                    />
+                                </fieldset>
+                            </div>
+                        </div>
+                        <button className="btn btn-primary pull-right" onClick={this.onSubmit}>
+                            {typeof this.props.match !== "undefined" ? "Update" : "Create"}
+                        </button>
+                    </form>
                 </div>
-                <div className="row" style={{ marginTop: 10 }}>
-                  <div className="col">
-                    <fieldset className="form-group">
-                      <label
-                        className={`bmd-label-${
-                          typeof this.props.match !== "undefined"
-                            ? "static"
-                            : "floating"
-                        }`}
-                      >
-                        Description
-                      </label>
-                      <TextArea
-                        row="5"
-                        type="textarea"
-                        id="description"
-                        name="description"
-                        className="form-control"
-                        defaultValue={description}
-                        autoSize={{ minRows: 3, maxRows: 20 }}
-                        onChange={this.handleChange}
-                      />
-                    </fieldset>
-                  </div>
-                </div>
-                <button
-                  className="btn btn-primary pull-right"
-                  onClick={this.onSubmit}
-                >
-                  {typeof this.props.match !== "undefined"
-                    ? "Update"
-                    : "Create"}
-                </button>
-              </form>
             </div>
-          </div>
         );
     }
 }

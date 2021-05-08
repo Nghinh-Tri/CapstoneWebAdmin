@@ -69,12 +69,10 @@ export const createUser = (profile, match) => {
                 }
                 else {
                     history.push(`/empList/detail/${match.params.id}`)
-
                 }
             }
         }).catch(err => {
             if (err.response.status === 401) {
-
                 history.push('/login')
             }
         })

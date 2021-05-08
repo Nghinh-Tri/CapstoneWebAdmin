@@ -191,10 +191,8 @@ export const declineProject = (projectID, projectName, pmID) => {
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }).
             then(res => {
                 if (res.data.isSuccessed) {
-                    setTimeout(() => {
-                        dispatch(sendNotificate(pmID, `Project ${projectName} has been declined`))
-                    }, 5000);
                     dispatch(declineProjectSuccess())
+                    dispatch(sendNotificate(pmID, `Project '${projectName}' has been declined`))
                 }
             }).catch(err => {
                 dispatch(declineProjectFail())

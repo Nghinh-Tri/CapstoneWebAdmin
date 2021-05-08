@@ -1,8 +1,15 @@
-import { Select } from 'antd';
+import { Select, Tooltip } from 'antd';
 import { Option } from 'antd/lib/mentions';
 import React, { Component } from 'react';
 
 class SelectBar extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            level: -1
+        }
+    }
 
     //importantt
     showDefaultOption = () => {
@@ -34,9 +41,65 @@ class SelectBar extends Component {
         result = list.map((item, index) => {
             return (<Option key={index} value={item.value}>{item.label}</Option>)
         })
-        // console.log(result)
         return result
     }
+
+    onMouseEnter = (e) => {
+        this.setState({ level: parseInt(e.currentTarget.title) })
+    }
+
+    showCertiDefaultOption = () => {
+        var { list } = this.props
+        var list = this.getUnSelectedList(list)
+        var result = null
+        result = list.map((item, index) => {
+            return (
+                <Option key={index} value={item.value} title={item.value} onMouseEnter={this.onMouseEnter} >
+                    <Tooltip title={this.showContent()} placement='right' >
+                        <div style={{ width: "100%" }}>
+                            <div style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", width: 300 }}>
+                                {item.label}
+                            </div>
+                        </div>
+                    </Tooltip>
+                </Option>
+            )
+        })
+        return result
+    }
+
+    showCertiSelectedOption = () => {
+        var { list, value } = this.props
+        var list = this.getSelectedList(value, list)
+
+        var result = null
+        result = list.map((item, index) => {
+            return (
+                <Option key={index} value={item.value} title={item.value} onMouseEnter={this.onMouseEnter} >
+                    <Tooltip title={this.showContent()} placement='right' >
+                        <div style={{ width: "100%" }}>
+                            <div style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", width: 300 }}>
+                                {item.label}
+                            </div>
+                        </div>
+                    </Tooltip>
+                </Option>
+            )
+        })
+        return result
+    }
+
+    showContent = () => {
+        var { level } = this.state
+        var { list } = this.props
+        var result = ''
+        list.forEach(element => {
+            if (element.value === level)
+                result = `${element.label} - Level ${element.level}`
+        });
+        return result
+    }
+
 
     //important
     showSelect = () => {
@@ -54,6 +117,41 @@ class SelectBar extends Component {
                 return this.showRole()
             case 'multi':
                 return this.showMulti()
+            case 'certi':
+                return this.showCerti()
+        }
+    }
+
+    showCerti = () => {
+        var { value } = this.props
+        if (value === 0) {
+            return (
+                <Select
+                    showSearch
+                    style={{ width: 300 }}
+                    placeholder={this.props.placeholder}
+                    onSelect={this.onSelectUnique}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showCertiDefaultOption()}
+                </Select>)
+        } else {
+            return (
+                <Select value={value}
+                    style={{ width: 300 }}
+                    showSearch
+                    placeholder={this.props.placeholder}
+                    onSelect={this.onSelectUnique}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showCertiSelectedOption()}
+                </Select>)
         }
     }
 
@@ -270,6 +368,7 @@ class SelectBar extends Component {
                 this.props.onSelectSkill(value)
                 break
             case 'certiLevel':
+                console.log(value)
                 this.props.onUpdateCerti(value)
                 break
             case 'posID':

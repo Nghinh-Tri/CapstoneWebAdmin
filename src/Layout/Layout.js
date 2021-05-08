@@ -4,42 +4,47 @@ import Header from '../component/header/Header';
 import NavBar from '../component/nav-bar/NavBar';
 import RouteList from '../RouterMap'
 import firebase from "../service/firebase/firebase";
-import { notification } from 'antd';
 import { connect } from 'react-redux';
 import { recieveNotificate, sendNotificate } from "../service/action/FirebaseAction";
 import { fetchProject } from '../service/action/ProjectAction';
+import moment from 'moment';
+import { notification } from 'antd';
 import { history } from '../service/helper/History';
 
 class Layout extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            notiList: [],
+            title: '',
+            body: '',
+            newest: {},
+            number: 0
+        }
+    }
+
     componentDidMount = () => {
-        const messaging = firebase.messaging()
-        messaging.getToken({ vapidKey: 'BCzV0OJHq4w2DQyltsiIxhhiM7Ce4yLOujK-1QRgWkmjUloUxEPRkvp2PgtvuRQ0nj8rVe1OTIcA2eKTIbEZE2w' })
-            .then(token => {
-                if (token) {
-                    localStorage.setItem('FirebaseToken', JSON.stringify(token))
-                    this.props.recievedNoti(token)
+        const fb = firebase.database().ref('fir-4d2be-default-rtdb')
+        fb.on('value', snapshot => {
+            var notiObj = snapshot.val()
+            var temp = []
+            var newest = {}
+            var { number } = this.state
+            number = 0
+
+            for (let id in notiObj) {
+                if (notiObj[id].topic === 'news') {
+                    temp.push({ id, ...notiObj[id] })
+                    if (notiObj[id].status) {
+                        newest = { id, ...notiObj[id] }
+                        number++
+                    }
                 }
-            })
-        messaging.onMessage((payload) => {
-            this.props.fetchProject();
-            this.showNotificate(payload.notification);
-        });
-    }
-
-    showNotificate = (messaging) => {
-        notification.open({
-            message: messaging.title,
-            description: messaging.body,
-            duration: 0,
-            placement: 'bottomRight',
-            style: { backgroundColor: '#F5FEFD' },
-            onClick: this.onClickNoti
-        });
-    }
-
-    onClickNoti = () => {
-        history.push('/project')
-        notification.destroy()
+            }
+            temp = temp.sort((a, b) => { return moment(b.dateCreate).diff(a.dateCreate) })
+            this.setState({ notiList: temp, newest: newest, number: number })
+        })
     }
 
     showContent = (RouteList) => {
@@ -54,13 +59,26 @@ class Layout extends Component {
         return <Switch> {result} </Switch>
     }
 
-    send = () => {
-        this.props.sendNoti('e3604445-296d-47ab-99dd-984847e2e4f4', 'heelo')
+    onSeen = (id, status, option) => {
+        if (status) {
+            const fb = firebase.database().ref('fir-4d2be-default-rtdb').child(id)
+            fb.update({ status: false })
+            if (option === 'single') {
+                history.push('/project')
+                this.props.fetchProject();
+                notification.destroy()
+            }
+        }
     }
+
     render() {
         return (
             <div>
-                <Header />
+                <Header notiList={this.state.notiList}
+                    newest={this.state.newest}
+                    number={this.state.number}
+                    onSeenNoti={this.onSeen}
+                />
                 <div id="layoutSidenav">
                     <div id="layoutSidenav_nav">
                         <NavBar />
