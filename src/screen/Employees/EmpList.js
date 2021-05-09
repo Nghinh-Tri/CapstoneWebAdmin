@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as Action from "../../service/action/ProfileAction";
+import * as Action from "../../service/action/user/ProfileAction";
 import EmpTableItem from "./EmpTableItem";
-import { checkSession } from '../../service/action/AuthenticateAction';
+import { checkSession } from '../../service/action/user/AuthenticateAction';
 import Search from '../../component/search/Search';
 import { Pagination, Spin } from 'antd';
 import SelectBar from '../../component/create-position-form/select-search/SelectBar';

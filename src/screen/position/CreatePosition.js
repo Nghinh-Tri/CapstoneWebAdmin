@@ -1,8 +1,8 @@
 import TextArea from 'antd/lib/input/TextArea';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { checkSession } from '../../service/action/AuthenticateAction';
-import { createPosition, fetchPostionDetail, updatePosition } from '../../service/action/PositionSelectBarAction';
+import { checkSession } from '../../service/action/user/AuthenticateAction';
+import { createPosition, fetchPostionDetail, refreshPage, updatePosition } from '../../service/action/position/PositionSelectBarAction';
 
 class CreatePosition extends Component {
 
@@ -33,9 +33,8 @@ class CreatePosition extends Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.position !== this.props.position) {
-            var { position, error } = this.props
-            console.log('ere11', error)
-
+            var { position } = this.props
+            console.log(position)
             this.setState({
                 posID: position.posID,
                 position: position.name,
@@ -43,6 +42,10 @@ class CreatePosition extends Component {
                 status: position.status
             })
         }
+    }
+
+    componentWillUnmount = () => {
+        this.props.refreshPage()
     }
 
     handleChange = (e) => {
@@ -59,8 +62,8 @@ class CreatePosition extends Component {
     }
 
     render() {
-        var { position, description, error } = this.state
-        console.log('ere', error)
+        var { position, description, } = this.state
+        var { error } = this.props
         return (
             <div className="card" style={{ marginTop: "50px", }}>
                 <div className="card-header card-header-primary">
@@ -78,7 +81,7 @@ class CreatePosition extends Component {
                                         Position <span style={{ color: 'red', fontWeight: 500 }} >*</span>
                                     </label>
                                     <input type="text" id="position" name="position" className="form-control" value={position} onChange={this.handleChange} />
-                                    {/* {typeof error.Name !== "undefined"
+                                    {typeof error.Name !== "undefined"
                                         ? error.Name.map((element, index) => {
                                             return (
                                                 <div key={index} className="error text-danger font-weight-bold">
@@ -86,7 +89,7 @@ class CreatePosition extends Component {
                                                 </div>
                                             );
                                         })
-                                        : ""} */}
+                                        : ""}
                                 </fieldset>
                             </div>
                         </div>
@@ -101,11 +104,11 @@ class CreatePosition extends Component {
                                         id="description"
                                         name="description"
                                         className="form-control"
-                                        defaultValue={description}
+                                        value={description}
                                         autoSize={{ minRows: 5, maxRows: 20 }}
                                         onChange={this.handleChange}
                                     />
-                                    {/* {typeof error.Description !== "undefined"
+                                    {typeof error.Description !== "undefined"
                                         ? error.Description.map((element, index) => {
                                             return (
                                                 <div key={index} className="error text-danger font-weight-bold">
@@ -113,7 +116,7 @@ class CreatePosition extends Component {
                                                 </div>
                                             );
                                         })
-                                        : ""} */}
+                                        : ""}
                                 </fieldset>
                             </div>
                         </div>
@@ -129,7 +132,7 @@ class CreatePosition extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        error: state.PositionErrorReducer,
+        error: state.ErrorReducer,
         position: state.PositionFormReducer,
     }
 }
@@ -147,6 +150,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         updatePosition: (posID, position) => {
             dispatch(updatePosition(posID, position))
+        },
+        refreshPage: () => {
+            dispatch(refreshPage())
         }
     }
 }

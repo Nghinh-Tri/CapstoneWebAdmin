@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
 import PositionTable from '../../component/profile/PositionTable';
 import ProfileTable from '../../component/profile/ProfileTable';
-import { checkSession } from '../../service/action/AuthenticateAction';
-import { fetchProfileDetail } from '../../service/action/ProfileAction';
+import { checkSession } from '../../service/action/user/AuthenticateAction';
+import { fetchProfileDetail } from '../../service/action/user/ProfileAction';
 import { Tabs } from 'antd';
 import SuitableProject from '../../component/profile/SuitableProject';
 import JoinedProject from '../../component/profile/joined-project/JoinedProject';

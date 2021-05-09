@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SelectBar from '../../component/create-position-form/select-search/SelectBar';
-import { fetchPostionList } from '../../service/action/PositionAction';
-import { fetchProjectType } from '../../service/action/ProjectAction';
+import { fetchPostionList } from '../../service/action/position/PositionAction';
+import { fetchProjectType } from '../../service/action/project/ProjectAction';
 import { convertPositionList, convertProjectTypeList } from '../../service/util/util';
 
 class HardSkillOption extends Component {

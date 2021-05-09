@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as Action from "../../service/action/ProjectAction";
+import * as Action from "../../service/action/project/ProjectAction";
 import ProjectTableItem from "../../component/project-table-item/ProjectTableItem";
-import { checkSession } from '../../service/action/AuthenticateAction';
+import { checkSession } from '../../service/action/user/AuthenticateAction';
 import Search from '../../component/search/Search';
 import { Pagination, Spin } from 'antd';
-
-
 
 class Project extends Component {
 

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { NavLink, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import ProgressBar from '../../component/progress-bar/ProgressBar';
 import SuggestCandidates from '../../component/suggest-candidate/SuggestCandidatesTable'
-import * as Action from "../../service/action/SuggestCandidateAction";
+import * as Action from "../../service/action/confirm/SuggestCandidateAction";
 import '../../css/SuggestNav.css'
-import { checkSession } from '../../service/action/AuthenticateAction';
+import { checkSession } from '../../service/action/user/AuthenticateAction';
 import { compose } from 'redux';
 import { Spin, Tabs } from "antd";
 import { history } from '../../service/helper/History';
@@ -95,7 +95,7 @@ class ListCandidate extends Component {
 
     render() {
         var { suggestCandidateList, selectedIndex, candidateSelectedList, } = this.props;
-        console.log('candidateSelectedList',candidateSelectedList)
+        console.log('candidateSelectedList', candidateSelectedList)
         return (
             <div>
                 <ProgressBar current="0" />

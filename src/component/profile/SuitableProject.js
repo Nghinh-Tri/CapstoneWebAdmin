@@ -1,7 +1,7 @@
 import { Button, Spin, Tabs } from 'antd';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchSuitableList } from '../../service/action/SuitableListAction';
+import { fetchSuitableList } from '../../service/action/confirm/SuitableListAction';
 import { history } from '../../service/helper/History';
 import SuitableProjectDetail from './suitable-project-detail/SuitableProjectDetail';
 const TabPane = Tabs.TabPane;

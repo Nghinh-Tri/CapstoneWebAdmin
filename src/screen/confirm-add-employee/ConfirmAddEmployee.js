@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import CandidateTable from '../../component/confirm-add-candidate-table/CandidateTable';
 import ProgressBar from '../../component/progress-bar/ProgressBar';
 import './ConfirmPage.css'
-import * as Action from "../../service/action/SuggestCandidateAgainAction";
+import * as Action from "../../service/action/confirm/SuggestCandidateAgainAction";
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { convertAddEmployeeList, convertCheckSuggestList } from '../../service/util/util';
-import { checkSession } from '../../service/action/AuthenticateAction';
+import { checkSession } from '../../service/action/user/AuthenticateAction';
 import { history } from '../../service/helper/History';
 import { compose } from 'redux';
-import { checkRejectCandidatesInSuggestList, confirmSuggestList } from '../../service/action/SuggestCandidateAction';
+import { checkRejectCandidatesInSuggestList, confirmSuggestList } from '../../service/action/confirm/SuggestCandidateAction';
 import BriefDetail from '../../component/brief-detail/BrriefDetails';
 import TextArea from 'antd/lib/input/TextArea';
 import confirm from 'antd/lib/modal/confirm';

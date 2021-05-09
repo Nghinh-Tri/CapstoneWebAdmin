@@ -2,8 +2,8 @@ import { Button, Descriptions, Spin } from "antd";
 import moment from "moment";
 import React, { Component } from 'react';
 import { showHardSkillLevel } from "../../service/util/util";
-import { checkSession } from "../../service/action/AuthenticateAction";
-import { fetchPositionProfileDetail } from "../../service/action/ProfileAction";
+import { checkSession } from "../../service/action/user/AuthenticateAction";
+import { fetchPositionProfileDetail } from "../../service/action/user/ProfileAction";
 import { connect } from "react-redux";
 import { history } from "../../service/helper/History";
 

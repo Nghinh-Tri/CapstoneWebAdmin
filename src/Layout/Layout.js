@@ -5,8 +5,8 @@ import NavBar from '../component/nav-bar/NavBar';
 import RouteList from '../RouterMap'
 import firebase from "../service/firebase/firebase";
 import { connect } from 'react-redux';
-import { recieveNotificate, sendNotificate } from "../service/action/FirebaseAction";
-import { fetchProject } from '../service/action/ProjectAction';
+import { recieveNotificate, sendNotificate } from "../service/action/firebase/FirebaseAction";
+import { fetchProject } from '../service/action/project/ProjectAction';
 import moment from 'moment';
 import { notification } from 'antd';
 import { history } from '../service/helper/History';

@@ -8,10 +8,9 @@ class CertificateFormContent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            check: false
+            check: this.props.certificateDetail.dateEnd !== ''
         }
     }
-
 
     onDeleteCertificate = (certificateIndex, hardSkillIndex) => {
         this.props.onDeleteCertificate(certificateIndex, hardSkillIndex)

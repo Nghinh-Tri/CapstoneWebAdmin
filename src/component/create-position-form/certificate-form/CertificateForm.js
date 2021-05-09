@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import CertificateFormContent from './certificate-form-content/CertificateFormContent';
-import { fetchCertification } from "../../../service/action/CertificationSelectBarAction";
+import { fetchCertification } from "../../../service/action/certificate/CertificationSelectBarAction";
 
 class CertificateForm extends Component {
 
@@ -42,9 +42,6 @@ class CertificateForm extends Component {
 
     getCertificateListNotSelect = () => {
         var { certiList, certificate } = this.props
-
-        console.log('certiList', certiList, 'certificate', certificate)
-
         var listNotSelect = certiList.slice(0, certiList.length)
         for (let i = 0; i < listNotSelect.length; i++) {
             for (let k = 0; k < certificate.length; k++) {
@@ -56,7 +53,6 @@ class CertificateForm extends Component {
                 }
             }
         }
-        // console.log('listNotSelect', listNotSelect)
         return listNotSelect
     }
 

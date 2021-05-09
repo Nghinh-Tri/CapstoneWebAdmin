@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchLanguage } from '../../../service/action/LanguageSelectBarAction';
+import { fetchLanguage } from '../../../service/action/language/LanguageSelectBarAction';
 import LanguageFormContent from './language-form-content/LanguageFormContent';
 
 class LanguageForm extends Component {
@@ -70,7 +70,7 @@ class LanguageForm extends Component {
     }
 
     render() {
-        var { language } = this.props
+        var { language, languageError } = this.props
         var result = []
         if (typeof language !== 'undefined')
             result = language
@@ -92,10 +92,23 @@ class LanguageForm extends Component {
         return (
             <div class="card mb-4">
                 <div class="card-header">
-                    Communicate Language <span style={{ color: 'red', fontWeight: 500 }} >*</span>
-                    <span className="material-icons pull-right clear" style={{ cursor: 'pointer' }} onClick={this.setMinimize} >
-                        {!this.state.isMinimize ? 'minimize' : 'crop_free'}
-                    </span>
+                    <div className='row'>
+                        <div className='col-auto'>
+                            Communicate Language <span style={{ color: 'red', fontWeight: 500 }} >*</span>
+                        </div>
+                        <div className='col'>
+                            {typeof languageError.Languages !== 'undefined' ?
+                                languageError.Languages.map((element, index) => {
+                                    return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
+                                })
+                                : ''}
+                        </div>
+                        <div className='col'>
+                            <span className="material-icons pull-right clear" style={{ cursor: 'pointer' }} onClick={this.setMinimize} >
+                                {!this.state.isMinimize ? 'minimize' : 'crop_free'}
+                            </span>
+                        </div>
+                    </div>
                 </div>
                 {!this.state.isMinimize ?
                     <div class="card-body">

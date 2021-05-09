@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as Action from "../../service/action/PositionAssignAction";
-import { fetchPostionList } from '../../service/action/PositionSelectBarAction';
-import { checkSession } from '../../service/action/AuthenticateAction';
+import * as Action from "../../service/action/position/PositionAssignAction";
+import { fetchPostionList } from '../../service/action/position/PositionSelectBarAction';
+import { checkSession } from '../../service/action/user/AuthenticateAction';
 import LanguageForm from "../../component/create-position-form/language-form/LanguageForm";
 import SoftSkillForm from "../../component/create-position-form/soft-skill-form/SoftSkillForm";
 import HardSkillForm from "../../component/create-position-form/hard-skill-form/HardSkillForm";
@@ -133,7 +133,7 @@ class PositionAssign extends Component {
     }
 
     render() {
-        var { item } = this.props
+        var { item, error } = this.props
         return (
             <div class="card mb-4">
                 <div class="card-header">
@@ -150,15 +150,21 @@ class PositionAssign extends Component {
                         onDeleteCertificate={this.onDeleteCertificate}
                         onUpdateCertficateID={this.onUpdateCertficateID}
                         onUpdateCertificateDate={this.onUpdateCertificateDate}
+
+                        hardSkillError={error}
                     />
                     <LanguageForm language={item.languages}
                         onAddLanguage={this.onAddLanguage}
                         onDeleteLanguage={this.onDeleteLanguage}
                         onUpdateLanguageID={this.onUpdateLanguageID}
-                        onUpdateLanguageLevel={this.onUpdateLanguageLevel} />
+                        onUpdateLanguageLevel={this.onUpdateLanguageLevel}
+                        languageError={error}
+                    />
 
                     <SoftSkillForm softSkill={item.softSkills}
-                        onUpdateSoftSkillID={this.onUpdateSoftSkillID} />
+                        onUpdateSoftSkillID={this.onUpdateSoftSkillID}
+                        softSkillError={error}
+                    />
                     <button type="submit" className="btn btn-primary pull-right" style={{ fontWeight: 700, marginTop: 10 }} onClick={this.onAssignPosition} >Assign</button>
                 </div>
 
@@ -170,7 +176,8 @@ class PositionAssign extends Component {
 const mapStateToProps = (state) => {
     return {
         item: state.PositionAssignReducer,
-        positionList: state.PositionSelectBarReducer
+        positionList: state.PositionSelectBarReducer,
+        error: state.ErrorReducer
     }
 }
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchSoftSkill } from '../../../service/action/SoftSkillSelectBarAction';
+import { fetchSoftSkill } from '../../../service/action/skill/SoftSkillSelectBarAction';
 import { convertSkillList } from '../../../service/util/util';
 import SelectBar from '../select-search/SelectBar';
 
@@ -40,7 +40,7 @@ class SoftSkillForm extends Component {
     }
 
     render() {
-        var { softSkill } = this.props
+        var { softSkill, softSkillError } = this.props
         var result = []
         if (typeof softSkill !== 'undefined')
             result = softSkill
@@ -48,7 +48,18 @@ class SoftSkillForm extends Component {
         return (
             <div className="card mb-50">
                 <div className="card-header ">
-                    Soft Skill <span style={{ color: 'red', fontWeight: 500 }} >*</span>
+                    <div className='row'>
+                        <div className='col-auto'>
+                            Soft Skill <span style={{ color: 'red', fontWeight: 500 }} >*</span>
+                        </div>
+                        <div className='col'>
+                            {typeof softSkillError.SoftSkills !== 'undefined' ?
+                                softSkillError.SoftSkills.map((element, index) => {
+                                    return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
+                                })
+                                : ''}
+                        </div>
+                    </div>
                 </div>
                 <div className="card-body">
                     <SelectBar name="softSkillID"

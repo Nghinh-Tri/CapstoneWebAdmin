@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import PineChart from '../../component/Chart/PineChart'
 import BarChart from '../../component/Chart/Barchart'
-import { checkSession } from '../../service/action/AuthenticateAction';
+import { checkSession } from '../../service/action/user/AuthenticateAction';
 import { connect } from 'react-redux';
-import { fetchDataStatistics, fetchMissingEmpPosition, fetchSkillInPosition } from "../../service/action/StatisticAction";
-import ChartStatus from '../../component/Chart/ChartStatus';
-import { fetchPostionList } from '../../service/action/PositionAction';
+import { fetchDataStatistics, fetchMissingEmpPosition, fetchSkillInPosition } from "../../service/action/statistic/StatisticAction";
+import { fetchPostionList } from '../../service/action/position/PositionAction';
 import SelectBar from "../../component/create-position-form/select-search/SelectBar";
 import { Spin } from 'antd';
 import { convertPositionList } from '../../service/util/util';
@@ -31,6 +30,7 @@ class Dashboard extends Component {
 
     componentDidUpdate = (prevProp) => {
         if (prevProp.skillInPosition !== this.props.skillInPosition) {
+            console.log('componentDidUpdate', this.props.skillInPosition)
             var posID = this.state.posID
             if (this.props.positionList.length > 0) {
                 posID = this.props.positionList[0].posID
@@ -64,8 +64,10 @@ class Dashboard extends Component {
         var index = this.getIndexByPosID()
         var { skillInPosition } = this.props
         console.log(skillInPosition)
-        if (typeof skillInPosition[index].skillInPos !== 'undefined') {
-            return (<PineChart item={skillInPosition[index].skillInPos} />)
+        if (index !== -1) {
+            if (typeof skillInPosition[index].skillInPos !== 'undefined') {
+                return (<PineChart item={skillInPosition[index].skillInPos} />)
+            }
         }
     }
 

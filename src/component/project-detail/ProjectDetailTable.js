@@ -3,13 +3,11 @@ import confirm from 'antd/lib/modal/confirm';
 import moment from 'moment';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { NavLink, withRouter } from 'react-router-dom';
 import { compose } from 'redux';
-import { checkSession } from '../../service/action/AuthenticateAction';
-import * as Action from '../../service/action/ProjectAction'
+import { checkSession } from '../../service/action/user/AuthenticateAction';
+import * as Action from '../../service/action/project/ProjectAction'
 import { showStatus, showBadge } from '../../service/util/util';
-import { history } from '../../service/helper/History'
-import { sendNotificate } from '../../service/action/FirebaseAction';
+import { withRouter } from 'react-router';
 
 class ProjectDetailTable extends Component {
 
@@ -32,7 +30,7 @@ class ProjectDetailTable extends Component {
     }
 
     onDecline = () => {
-        var { match, declineProject, project, sendNotificate } = this.props
+        var { match, declineProject, project } = this.props
         confirm({
             title: 'Are you sure decline this project?',
             okText: 'Yes',
@@ -109,10 +107,7 @@ const mapDispatchToProp = dispatch => {
         },
         checkSession: () => {
             dispatch(checkSession())
-        },
-        sendNotificate: (pmID, body) => {
-            dispatch(sendNotificate(pmID, body))
-        }
+        },        
     }
 }
 

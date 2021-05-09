@@ -1,11 +1,13 @@
+import { AutoComplete } from 'antd';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { compose } from 'redux';
 import SelectBar from '../../component/create-position-form/select-search/SelectBar';
-import { checkSession } from '../../service/action/AuthenticateAction';
-import * as Action from '../../service/action/LoginAction'
-import { fetchProfileDetail, updateProfile } from '../../service/action/ProfileAction';
+import { suggestAddress } from '../../service/action/user/AddressAutoFill';
+import { checkSession } from '../../service/action/user/AuthenticateAction';
+import * as Action from '../../service/action/user/LoginAction'
+import { fetchProfileDetail, updateProfile } from '../../service/action/user/ProfileAction';
 import { showRole } from '../../service/util/util';
 class Register extends Component {
 
@@ -24,36 +26,13 @@ class Register extends Component {
             submitted: false,
             isValidate: true,
             roleList: [
-                // { label: 'Human Resources', value: 'admin' },
-                { label: 'Project Manager', value: 'PM' },
-                { label: 'Employee', value: 'Employee' },
-            ],
-            roleListUpdate: [
                 { label: 'Project Manager', value: 'PM' },
                 { label: 'Employee', value: 'Employee' },
             ],
             fieldError: '',
-            messageError: ''
+            messageError: '',
+            dataSource: []
         }
-    }
-
-
-
-    generatePassword = () => {
-        var randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        var result = '';
-        var regex = new RegExp('^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{6,8}$', 'g')
-        var seed = '678'
-        var match = false
-        while (!match) {
-            result = ''
-            var max = parseInt(seed.charAt(Math.floor(Math.random() * seed.length)))
-            for (var i = 0; i <= max; i++) {
-                result += randomChars.charAt(Math.floor(Math.random() * randomChars.length));
-            }
-            match = regex.test(result)
-        }
-        return result
     }
 
     componentDidMount = () => {
@@ -61,13 +40,6 @@ class Register extends Component {
         var { match } = this.props
         if (this.props.location.pathname !== '/employee/register') {
             this.props.fetchEmpDetail(match.params.id)
-        }
-    }
-
-    onGeneratePassword = () => {
-        if (this.props.location.pathname === '/employee/register') {
-            let password = this.generatePassword()
-            this.setState({ password: password })
         }
     }
 
@@ -82,16 +54,8 @@ class Register extends Component {
                 role: profile.roleName,
                 email: profile.email,
             })
-            if (prevProps.duplicateError !== this.props.duplicateError) {
-                var { duplicateError } = this.props
-                console.log(duplicateError)
-                if (duplicateError.error.includes(':')) {
-                    var list = duplicateError.error.split(':')
-                    this.setState({ messageError: list[1], fieldError: list[0], })
-                } else {
-                    this.setState({ messageError: '', fieldError: '', })
-                }
-            }
+        } else if (prevProps.addressSugget !== this.props.addressSugget) {
+            this.setState({ dataSource: this.props.addressSugget })
         }
     }
 
@@ -126,6 +90,10 @@ class Register extends Component {
         this.setState({ role: value })
     }
 
+    onSelect = (value) => {
+        this.setState({ address: value })
+    }
+
     handleSubmit = (e) => {
         e.preventDefault();
         this.setState({ submitted: true });
@@ -156,9 +124,14 @@ class Register extends Component {
         }
     }
 
+    onInputAddress = (e) => {
+        this.props.getAddressSuggestion(e)
+    }
+
     render() {
         const { address, phoneNumber, userName, fullname, email,
-            identityNumber, submitted, role, } = this.state;
+            identityNumber, submitted, role, dataSource } = this.state;
+            console.log(address)
         var { error, duplicateError } = this.props
         var messageError = '', fieldError = ''
         if (typeof duplicateError !== 'undefined') {
@@ -168,11 +141,10 @@ class Register extends Component {
                 fieldError = list[0]
             }
         }
-        console.log(error)
         return (
             <div className="content">
                 <div className="container-fluid">
-                    <div className="card" style={{ marginTop: "50px" }}>
+                    <div className="card">
                         <div className="card-header card-header-primary">
                             <h4 className="card-title">
                                 {this.props.location.pathname !== '/employee/register' ? 'Update Profile' : 'Create New Employee'}
@@ -289,7 +261,16 @@ class Register extends Component {
                                             <label className='bmd-label-floating'>
                                                 Adress <span style={{ color: 'red', fontWeight: 500 }} >*</span>
                                             </label>
-                                            <input type="text" name="address" className="form-control" value={address} onChange={this.handleInputChange} />
+                                            <AutoComplete
+                                                className="form-control"
+                                                name='address'
+                                                dataSource={dataSource}
+                                                inputValue={address}
+                                                style={{ borderStyle: 'none' }}
+                                                onSelect={this.onSelect}
+                                                onChange={this.onInputAddress}
+                                            />
+                                            {/* <input type="text" name="address" className="form-control" value={address} onChange={this.handleInputChange} /> */}
                                             {typeof error.Address !== 'undefined' ?
                                                 error.Address.map((element, index) => {
                                                     return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
@@ -333,7 +314,8 @@ const mapState = (state) => {
         registering: state.authentication,
         profile: state.ProfileFetchReducer,
         error: state.ErrorReducer,
-        duplicateError: state.RegisterErrorReducer
+        duplicateError: state.RegisterErrorReducer,
+        addressSugget: state.SuggestAddressReducer
     };
 }
 
@@ -353,6 +335,9 @@ const mapDispatchToProp = dispatch => {
         },
         refreshPage: () => {
             dispatch(Action.refreshPage())
+        },
+        getAddressSuggestion: (value) => {
+            dispatch(suggestAddress(value))
         }
     }
 }

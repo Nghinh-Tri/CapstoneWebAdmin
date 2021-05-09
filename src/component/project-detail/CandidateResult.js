@@ -1,8 +1,8 @@
 import { Spin } from 'antd';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { checkSession } from '../../service/action/AuthenticateAction';
-import { fetchCandidatesResult } from '../../service/action/ProjectAction';
+import { checkSession } from '../../service/action/user/AuthenticateAction';
+import { fetchCandidatesResult } from '../../service/action/project/ProjectAction';
 
 class CandidateResult extends Component {
 

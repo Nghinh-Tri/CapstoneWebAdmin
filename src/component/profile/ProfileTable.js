@@ -1,8 +1,8 @@
 import { Input, Spin } from 'antd';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { checkSession } from '../../service/action/AuthenticateAction';
-import { fetchProfileDetail } from '../../service/action/ProfileAction';
+import { checkSession } from '../../service/action/user/AuthenticateAction';
+import { fetchProfileDetail } from '../../service/action/user/ProfileAction';
 import { history } from '../../service/helper/History';
 import { showRole } from '../../service/util/util';
 import { Button, Descriptions } from 'antd';

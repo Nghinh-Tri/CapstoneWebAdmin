@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as Action from "../../../../service/action/LanguageSelectBarAction";
+import * as Action from "../../../../service/action/language/LanguageSelectBarAction";
 import { convertLanguageList } from "../../../../service/util/util";
 import SelectBar from '../../select-search/SelectBar';
 
