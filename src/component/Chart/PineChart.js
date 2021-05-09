@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Pie } from 'react-chartjs-2'
 import { connect } from 'react-redux';
-import { checkSession } from '../../service/action/AuthenticateAction';
-import { fetchSkillInPosition } from '../../service/action/StatisticAction';
+import { checkSession } from '../../service/action/user/AuthenticateAction';
+import { fetchSkillInPosition } from '../../service/action/statistic/StatisticAction';
 
 class PineChart extends Component {
 

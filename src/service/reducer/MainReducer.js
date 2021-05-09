@@ -1,43 +1,41 @@
 import { combineReducers } from "redux";
-import authentication from "./AuthenticateReducer";
-import ProjectFetchReducer from "./ProjectFetchReducer";
-import ProjectFormReducer from "./ProjectFormReducer";
-// import PositionFormReducer from "./PositionFormReducer";
-import CertificationSelectBarReducer from "./CertificationSelectBarReducer";
-import HardSkillSelectBarReducer from "./HardSkillSelectBarReducer";
-import SoftSkillSelectBarReducer from "./SoftSkillSelectBarReducer";
-import PositionSelectBarReducer from "./PositionSelectBarReducer";
-import LanguageSelectBarReducer from "./LanguageSelectBarReducer";
-import SuggestCandidateList from "./SuggestCandidateList";
-import SuggestCandidateSelect from "./SuggestCandidateSelect";
-import SuggestCandidateSelectedList from "./SuggestCandidateSelectedListReducer";
-import SkillReducer from "./SkillReducer";
-import CertificationReducer from "./CertificationReducer";
-import ProfileFetchReducer from "./ProfileFetchReducer";
-import PositionAssignReducer from "./PositionAssignReducer";
-import ListEmployeeReducer from "./ListEmployeeReducer";
-import PositionReducer from "./PositionReducer";
-import PositionFormReducer from "./PositionFormReducer";
-import DataStatisticsReducer from "./DataStatisticsReducer";
-import PositionRequireReducer from "./PositionRequireReducer";
-import ProjectFieldReducer from "./ProjectFieldReducer";
-import ProjectTypeReducer from "./ProjectTypeReducer";
-import PreviosRequrieReducer from "./PreviosRequrieReducer";
-import SuggestCandidateAgainSelectedListReducer from "./SuggestCandidateAgainSelectedListReducer";
-import ProjectDetailFetchReducer from "./ProjectDetailFetchReducer";
-import SuggestCandidateAgainSelect from "./SuggestCandidateAgainSelect";
-import SuggestCandidateAgainList from "./SuggestCandidateAgainList ";
-import SuitableProjectReducer from "./SuitableProjectReducer";
-import ErrorReducer from "./ErrorReducer";
-import JoinedProjectReducer from "./JoinedProjectReducer";
-import SkillInPosition from "./SkillInPositionReducer";
-import CandidateResultReducer from "./CandidateResultReducer";
-import CheckRejectedCandidates from "./CheckRejectedCandidates";
-import RegisterErrorReducer from "./RegisterErrorReducer";
+import authentication from "./employee/AuthenticateReducer";
+import ProjectFetchReducer from "./project/ProjectFetchReducer";
+import CertificationSelectBarReducer from "./certificate/CertificationSelectBarReducer";
+import HardSkillSelectBarReducer from "./skill/HardSkillSelectBarReducer";
+import SoftSkillSelectBarReducer from "./skill/SoftSkillSelectBarReducer";
+import PositionSelectBarReducer from "./position/PositionSelectBarReducer";
+import LanguageSelectBarReducer from "./language/LanguageSelectBarReducer";
+import SuggestCandidateList from "./confirm/SuggestCandidateList";
+import SuggestCandidateSelect from "./confirm/SuggestCandidateSelect";
+import SuggestCandidateSelectedList from "./confirm/SuggestCandidateSelectedListReducer";
+import SkillReducer from "./skill/SkillReducer";
+import CertificationReducer from "./certificate/CertificationReducer";
+import ProfileFetchReducer from "./employee/ProfileFetchReducer";
+import PositionAssignReducer from "./position/PositionAssignReducer";
+import ListEmployeeReducer from "./employee/ListEmployeeReducer";
+import PositionReducer from "./position/PositionReducer";
+import PositionFormReducer from "./position/PositionFormReducer";
+import DataStatisticsReducer from "./statistic/DataStatisticsReducer";
+import PositionRequireReducer from "./position/PositionRequireReducer";
+import ProjectTypeReducer from "./project/ProjectTypeReducer";
+import PreviosRequrieReducer from "./project/PreviosRequrieReducer";
+import SuggestCandidateAgainSelectedListReducer from "./suggest/SuggestCandidateAgainSelectedListReducer";
+import ProjectDetailFetchReducer from "./project/ProjectDetailFetchReducer";
+import SuggestCandidateAgainSelect from "./suggest/SuggestCandidateAgainSelect";
+import SuggestCandidateAgainList from "./suggest/SuggestCandidateAgainList ";
+import SuitableProjectReducer from "./project/SuitableProjectReducer";
+import ErrorReducer from "./error/ErrorReducer";
+import JoinedProjectReducer from "./project/JoinedProjectReducer";
+import SkillInPosition from "./skill/SkillInPositionReducer";
+import CandidateResultReducer from "./confirm/CandidateResultReducer";
+import CheckRejectedCandidates from "./confirm/CheckRejectedCandidates";
+import RegisterErrorReducer from "./error/RegisterErrorReducer";
+import SuggestAddressReducer from "./employee/SuggestAddressReducer";
+
 const MainReducer = combineReducers({
     authentication,//use
-    ProjectFetchReducer,//use
-    ProjectFormReducer,
+    ProjectFetchReducer,//use    
     CertificationSelectBarReducer,//use
     HardSkillSelectBarReducer,//use
     SoftSkillSelectBarReducer,//use
@@ -55,7 +53,6 @@ const MainReducer = combineReducers({
     PositionFormReducer,//use
     DataStatisticsReducer,
     PositionRequireReducer,
-    ProjectFieldReducer,
     ProjectTypeReducer,
     PreviosRequrieReducer,
     SuggestCandidateAgainSelectedListReducer,
@@ -68,7 +65,8 @@ const MainReducer = combineReducers({
     SkillInPosition,
     CandidateResultReducer,
     CheckRejectedCandidates,
-    RegisterErrorReducer
+    RegisterErrorReducer,
+    SuggestAddressReducer
 })
 
 export default MainReducer

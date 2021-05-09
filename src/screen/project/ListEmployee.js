@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as Action from '../../service/action/ListEmployeeAction'
-import SelectBar from "../../component/select-search/SelectBar";
+import * as Action from '../../service/action/project/ListEmployeeAction'
 import ListEmployeeContent from './ListEmployeeContent';
-import { addMoreCandidate } from '../../service/action/PositionAction';
 import { history } from '../../service/helper/History';
 import { Spin, Tabs, Tooltip } from "antd";
 import { InfoCircleTwoTone } from "@ant-design/icons";

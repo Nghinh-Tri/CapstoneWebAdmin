@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as Action from "../../../../service/action/LanguageSelectBarAction";
+import * as Action from "../../../../service/action/language/LanguageSelectBarAction";
 import { convertLanguageList } from "../../../../service/util/util";
 import SelectBar from '../../select-search/SelectBar';
 
@@ -59,7 +59,8 @@ class LanguageFormContent extends Component {
                             value={item.langLevel} />
                     </td>
                     <td>
-                        <span className="material-icons pull-right" onClick={() => this.onDeleteLanguage(languageIndex)}>clear</span>
+                        <span className="material-icons pull-right" style={{cursor:'pointer'}}
+                        onClick={() => this.onDeleteLanguage(languageIndex)}>clear</span>
                     </td>
                 </tr>
             </React.Fragment>

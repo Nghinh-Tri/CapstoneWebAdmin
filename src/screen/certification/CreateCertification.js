@@ -2,9 +2,9 @@ import TextArea from 'antd/lib/input/TextArea';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SelectBar from '../../component/create-position-form/select-search/SelectBar';
-import { checkSession } from '../../service/action/AuthenticateAction';
-import { createCertification, fetchCertificationDetail, generateCertification, updateCertificate, updateCertificationName, updateCertiLevel, updateSKillId } from '../../service/action/CertificationSelectBarAction';
-import { fetchHardSkill } from '../../service/action/HardSkillSelectBarAction';
+import { checkSession } from '../../service/action/user/AuthenticateAction';
+import { createCertification, fetchCertificationDetail, refreshPage, updateCertificate } from '../../service/action/certificate/CertificationSelectBarAction';
+import { fetchHardSkill } from '../../service/action/skill/HardSkillSelectBarAction';
 import { convertSkillList } from '../../service/util/util';
 
 class CreateCertification extends Component {
@@ -23,19 +23,22 @@ class CreateCertification extends Component {
                 { label: 8, value: 8 },
                 { label: 9, value: 9 },
                 { label: 10, value: 10 },
-            ]
+            ],
+            certificationName: "",
+            description: "",
+            skillID: 0,
+            certiLevel: 0,
+            certificationID: 0
         }
     }
 
     componentDidMount = () => {
         this.props.checkSession()
         this.props.onFetchHardSkill()
-
         var { match } = this.props
         if (typeof match !== 'undefined') {
             this.props.fetchCertiDetail(match.params.id)
-        } else
-            this.props.onGenerateCerti()
+        }
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -47,144 +50,189 @@ class CreateCertification extends Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.certi !== this.props.certi) {
+            var { certi } = this.props
+            this.setState({
+                certificationID: certi.certificationID,
+                certificationName: certi.certificationName,
+                description: certi.description,
+                skillID: certi.skillID,
+                certiLevel: certi.certiLevel
+            })
         }
     }
 
+    componentWillUnmount = () => {
+        this.props.refreshPage()
+    }
+
     handleChange = (e) => {
-        this.props.onUpdateCertiName(e.target.name, e.target.value)
+        var { name, value } = e.target
+        this.setState({ [name]: value })
     }
 
     onSelectSkill = (value) => {
-        this.props.onUpdateSkillID(value)
+        this.setState({ skillID: value })
     }
 
     onSelectLevel = (value) => {
-        this.props.onUpdateCertiLevel(value)
+        this.setState({ certiLevel: value })
     }
 
     onSubmit = (e) => {
         e.preventDefault()
-        if (typeof this.props.match === 'undefined')
-            this.props.onCreateCertification(this.props.certi)
-        else
-            this.props.updateCertficate(this.props.certi)
+        if (typeof this.props.match === 'undefined') {
+            var certi = {
+                certificationName: this.state.certificationName,
+                description: this.state.description,
+                skillID: this.state.skillID,
+                certiLevel: this.state.certiLevel
+            }
+            this.props.onCreateCertification(certi)
+        }
+        else {
+            var { certificationID, certiLevel, certificationName, description, skillID } = this.state
+            var certi = {
+                certificationID: certificationID,
+                certificationName: certificationName,
+                description: description,
+                skillID: skillID,
+                certiLevel: certiLevel
+            }
+            this.props.updateCertficate(certi)
+        }
     }
 
     render() {
-        var { certi } = this.props
+        var { certiLevel, certificationName, description, skillID } = this.state
+        var { error } = this.props
+        console.log(error)
         var listConverted = convertSkillList(this.props.hardSkillList)
         return (
-          <div
-            className="card"
-            style={{
-              marginTop: "50px",
-            }}
-          >
-            <div className="card-header card-header-primary">
-              <h4 className="card-title">
-                {typeof this.props.match !== "undefined"
-                  ? "Update Certificate"
-                  : "Create New Certificate"}
-              </h4>
+            <div className="card" style={{ marginTop: "50px", }}>
+                <div className="card-header card-header-primary">
+                    <h4 className="card-title">
+                        {typeof this.props.match !== "undefined" ? "Update Certificate" : "Create New Certificate"}
+                    </h4>
+                </div>
+                <div className="card-body">
+                    <form onSubmit={this.handleSubmit}>
+                        {/* Certificate */}
+                        <div className="row">
+                            <div className="col">
+                                <fieldset className="form-group">
+                                    <label className='bmd-label-static'>
+                                        Certificate <span style={{ color: 'red', fontWeight: 500 }} >*</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="certificationName"
+                                        name="certificationName"
+                                        className="form-control"
+                                        value={certificationName}
+                                        onChange={this.handleChange}
+                                    />
+                                    {typeof error.CertificationName !== "undefined"
+                                        ? error.CertificationName.map((element, index) => {
+                                            return (
+                                                <div key={index} className="error text-danger font-weight-bold">
+                                                    {element}
+                                                </div>
+                                            );
+                                        })
+                                        : ""}
+                                </fieldset>
+                            </div>
+                        </div>
+
+                        {/* Skill */}
+                        <div className="row">
+                            <div className="col-auto" style={{ marginTop: 15 }}>
+                                <label className="bmd-label-floating">
+                                    Skill <span style={{ color: 'red', fontWeight: 500 }} >*</span>
+                                </label>
+                            </div>
+                            <div className="col-auto" style={{ marginTop: 10 }}>
+                                <SelectBar
+                                    name="hardSkillList"
+                                    type="common"
+                                    placeholder="Select skill"
+                                    list={listConverted}
+                                    value={skillID}
+                                    onSelectSkill={this.onSelectSkill}
+                                />
+                                {typeof error.SkillID !== "undefined"
+                                    ? error.SkillID.map((element, index) => {
+                                        return (
+                                            <div key={index} className="error text-danger font-weight-bold">
+                                                {element}
+                                            </div>
+                                        );
+                                    })
+                                    : ""}
+                            </div>
+
+                            {/* Level */}
+                            <div className="col-auto" style={{ marginLeft: 30, marginTop: 15 }}>
+                                <label className="bmd-label-floating">
+                                    Level <span style={{ color: 'red', fontWeight: 500 }} >*</span>
+                                </label>
+                            </div>
+                            <div className="col-auto" style={{ marginTop: 10 }}>
+                                <SelectBar
+                                    name="certiLevel"
+                                    type="common"
+                                    placeholder="Select level"
+                                    list={this.state.level}
+                                    onUpdateCerti={this.onSelectLevel}
+                                    value={certiLevel}
+                                />
+                                {typeof error.CertiLevel !== "undefined"
+                                    ? error.CertiLevel.map((element, index) => {
+                                        return (
+                                            <div key={index} className="error text-danger font-weight-bold">
+                                                {element}
+                                            </div>
+                                        );
+                                    })
+                                    : ""}
+                            </div>
+                        </div>
+
+                        {/* Description */}
+                        <div className="row" style={{ marginTop: 10 }}>
+                            <div className="col">
+                                <fieldset className="form-group">
+                                    <label className="bmd-label-floating">
+                                        Description <span style={{ color: 'red', fontWeight: 500 }} >*</span>
+                                    </label>
+                                    <TextArea
+                                        type="textarea"
+                                        elastic
+                                        id="description"
+                                        name="description"
+                                        value={description}
+                                        className="form-control"
+                                        autoSize={{ minRows: 5, maxRows: 20 }}
+                                        onChange={this.handleChange}
+                                    />
+                                    {typeof error.Description !== "undefined"
+                                        ? error.Description.map((element, index) => {
+                                            return (
+                                                <div key={index} className="error text-danger font-weight-bold">
+                                                    {element}
+                                                </div>
+                                            );
+                                        })
+                                        : ""}
+                                </fieldset>
+                            </div>
+                        </div>
+                        <button className="btn btn-primary pull-right" onClick={this.onSubmit}>
+                            {typeof this.props.match !== "undefined" ? "Update" : "Create"}
+                        </button>
+                    </form>
+                </div>
             </div>
-            <div className="card-body">
-              <form onSubmit={this.handleSubmit}>
-                <div className="row">
-                  <div className="col">
-                    <fieldset className="form-group">
-                      <label
-                        className={`bmd-label-${
-                          typeof this.props.match !== "undefined"
-                            ? "static"
-                            : "floating"
-                        }`}
-                      >
-                        Certificate
-                      </label>
-                      <input
-                        type="text"
-                        id="certificationName"
-                        name="certificationName"
-                        className="form-control"
-                        value={certi.certificationName}
-                        onChange={this.handleChange}
-                      />
-                    </fieldset>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-auto" style={{ marginTop: 15 }}>
-                    <label className="bmd-label-floating">Skill</label>
-                  </div>
-                  <div
-                    className="col-auto"
-                    style={{ marginLeft: 30, marginTop: 10 }}
-                  >
-                    <SelectBar
-                      name="hardSkillList"
-                      type="common"
-                      placeholder="Select skill"
-                      list={listConverted}
-                      value={certi.skillID}
-                      onSelectSkill={this.onSelectSkill}
-                    />
-                  </div>
-                  <div
-                    className="col-auto"
-                    style={{ marginLeft: 30, marginTop: 15 }}
-                  >
-                    <label className="bmd-label-floating">Level</label>
-                  </div>
-                  <div
-                    className="col-auto"
-                    style={{ marginLeft: 30, marginTop: 10 }}
-                  >
-                    <SelectBar
-                      name="certiLevel"
-                      type="common"
-                      placeholder="Select level"
-                      list={this.state.level}
-                      onUpdateCerti={this.onSelectLevel}
-                      value={certi.certiLevel}
-                    />
-                  </div>
-                </div>
-                <div className="row" style={{ marginTop: 10 }}>
-                  <div className="col">
-                    <fieldset className="form-group">
-                      <label
-                        className={`bmd-label-${
-                          typeof this.props.match !== "undefined"
-                            ? "static"
-                            : "floating"
-                        }`}
-                      >
-                        Description
-                      </label>
-                      <TextArea
-                        type="textarea"
-                        elastic
-                        id="description"
-                        name="description"
-                        value={certi.description}
-                        className="form-control"
-                        autoSize={{ minRows: 3, maxRows: 20 }}
-                        onChange={this.handleChange}
-                      />
-                    </fieldset>
-                  </div>
-                </div>
-                <button
-                  className="btn btn-primary pull-right"
-                  onClick={this.onSubmit}
-                >
-                  {typeof this.props.match !== "undefined"
-                    ? "Update"
-                    : "Create"}
-                </button>
-              </form>
-            </div>
-          </div>
         );
     }
 }
@@ -192,7 +240,8 @@ class CreateCertification extends Component {
 const mapStateToProps = (state) => {
     return {
         certi: state.CertificationReducer,
-        hardSkillList: state.HardSkillSelectBarReducer
+        hardSkillList: state.HardSkillSelectBarReducer,
+        error: state.ErrorReducer
     }
 }
 
@@ -200,18 +249,6 @@ const mapDispatchToProps = (dispatch) => {
     return {
         checkSession: () => {
             dispatch(checkSession())
-        },
-        onGenerateCerti: () => {
-            dispatch(generateCertification())
-        },
-        onUpdateCertiName: (name, value) => {
-            dispatch(updateCertificationName(name, value))
-        },
-        onUpdateSkillID: (value) => {
-            dispatch(updateSKillId(value))
-        },
-        onUpdateCertiLevel: (value) => {
-            dispatch(updateCertiLevel(value))
         },
         onFetchHardSkill: () => {
             dispatch(fetchHardSkill())
@@ -224,6 +261,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         updateCertficate: (certi) => {
             dispatch(updateCertificate(certi))
+        },
+        refreshPage: () => {
+            dispatch(refreshPage())
         }
     }
 }

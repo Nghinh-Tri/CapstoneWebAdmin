@@ -3,7 +3,7 @@ import moment from 'moment';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { getPrevRequire } from '../../service/action/PositionAction';
+import { getPrevRequire } from '../../service/action/position/PositionAction';
 import { history } from '../../service/helper/History';
 
 class ListEmployeeContent extends Component {

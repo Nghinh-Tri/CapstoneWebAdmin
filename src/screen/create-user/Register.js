@@ -1,11 +1,13 @@
+import { AutoComplete } from 'antd';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { compose } from 'redux';
 import SelectBar from '../../component/create-position-form/select-search/SelectBar';
-import { checkSession } from '../../service/action/AuthenticateAction';
-import * as Action from '../../service/action/LoginAction'
-import { fetchProfileDetail, updateProfile } from '../../service/action/ProfileAction';
+import { suggestAddress } from '../../service/action/user/AddressAutoFill';
+import { checkSession } from '../../service/action/user/AuthenticateAction';
+import * as Action from '../../service/action/user/LoginAction'
+import { fetchProfileDetail, updateProfile } from '../../service/action/user/ProfileAction';
 import { showRole } from '../../service/util/util';
 class Register extends Component {
 
@@ -24,24 +26,21 @@ class Register extends Component {
             submitted: false,
             isValidate: true,
             roleList: [
-                // { label: 'Human Resources', value: 'admin' },
-                { label: 'Project Manager', value: 'PM' },
-                { label: 'Employee', value: 'Employee' },
-            ],
-            roleListUpdate: [
                 { label: 'Project Manager', value: 'PM' },
                 { label: 'Employee', value: 'Employee' },
             ],
             fieldError: '',
-            messageError: ''
+            messageError: '',
+            dataSource: []
         }
     }
 
     componentDidMount = () => {
         this.props.checkSession()
         var { match } = this.props
-        if (this.props.location.pathname !== '/employee/register')
+        if (this.props.location.pathname !== '/employee/register') {
             this.props.fetchEmpDetail(match.params.id)
+        }
     }
 
     componentDidUpdate(prevProps) {
@@ -55,31 +54,29 @@ class Register extends Component {
                 role: profile.roleName,
                 email: profile.email,
             })
-            console.log('aasdasdasdasdasdasdad', this.props.duplicateError)
-            if (prevProps.duplicateError !== this.props.duplicateError) {
-                var { duplicateError } = this.props
-                console.log(duplicateError)
-                if (duplicateError.error.includes(':')) {
-                    var list = duplicateError.error.split(':')
-                    this.setState({ messageError: list[1], fieldError: list[0], })
-                } else {
-                    this.setState({ messageError: '', fieldError: '', })
-                }
-            }
+        } else if (prevProps.addressSugget !== this.props.addressSugget) {
+            this.setState({ dataSource: this.props.addressSugget })
         }
     }
 
-    componentWillReceiveProps = () => {
-        var { duplicateError } = this.props
-        console.log('asdasdasdadsasdadasdadsasdasdadsasdasdasdagfdgsfg', duplicateError)
-
+    componentWillUnmount = () => {
+        this.props.refreshPage()
     }
 
     handleInputChange = (e) => {
         const { name, value } = e.target;
-        this.setState({
-            [name]: value
-        });
+        if (name === 'email') {
+            var username = ''
+            var index = value.indexOf('@')
+            if (index === -1) {
+                username = value
+            } else {
+                username = value.substr(0, index)
+            }
+            username = username.charAt(0).toUpperCase() + username.substring(1, username.length)
+            this.setState({ userName: username })
+        }
+        this.setState({ [name]: value });
         if (name === 'userName') {
             var space = value.indexOf(" ")
             if (space >= 0)
@@ -91,6 +88,10 @@ class Register extends Component {
 
     onSelectRole = (value) => {
         this.setState({ role: value })
+    }
+
+    onSelect = (value) => {
+        this.setState({ address: value })
     }
 
     handleSubmit = (e) => {
@@ -106,8 +107,6 @@ class Register extends Component {
                     email: email,
                     phoneNumber: phoneNumber,
                     userName: userName,
-                    password: password,
-                    confirmPassword: confirmPassword,
                     roleName: role
                 }
             );
@@ -125,9 +124,14 @@ class Register extends Component {
         }
     }
 
+    onInputAddress = (e) => {
+        this.props.getAddressSuggestion(e)
+    }
+
     render() {
-        const { address, phoneNumber, userName, fullname, email, password,
-            confirmPassword, identityNumber, submitted, role, } = this.state;
+        const { address, phoneNumber, userName, fullname, email,
+            identityNumber, submitted, role, dataSource } = this.state;
+            console.log(address)
         var { error, duplicateError } = this.props
         var messageError = '', fieldError = ''
         if (typeof duplicateError !== 'undefined') {
@@ -137,16 +141,10 @@ class Register extends Component {
                 fieldError = list[0]
             }
         }
-        console.log('asdas', messageError, fieldError)
-
         return (
             <div className="content">
                 <div className="container-fluid">
-                    <div className="card"
-                        style={{
-                            marginTop: "50px"
-                        }}
-                    >
+                    <div className="card">
                         <div className="card-header card-header-primary">
                             <h4 className="card-title">
                                 {this.props.location.pathname !== '/employee/register' ? 'Update Profile' : 'Create New Employee'}
@@ -158,7 +156,9 @@ class Register extends Component {
                                 <div className="row">
                                     <div className="col">
                                         <div className="form-group">
-                                            <label className={`bmd-label-${this.props.location.pathname !== '/employee/register' ? 'static' : 'floating'}`}>Full name</label>
+                                            <label className='bmd-label-static'>
+                                                Full name <span style={{ color: 'red', fontWeight: 500 }} >*</span>
+                                            </label>
                                             <input name="fullname" type="text" className="form-control" value={fullname} onChange={this.handleInputChange} />
                                             {typeof error.Name !== 'undefined' ?
                                                 error.Name.map((element, index) => {
@@ -173,7 +173,9 @@ class Register extends Component {
                                 <div className="row">
                                     <div className="col">
                                         <div className="form-group">
-                                            <label className={`bmd-label-${this.props.location.pathname !== '/employee/register' ? 'static' : 'floating'}`}>Email</label>
+                                            <label className='bmd-label-static'>
+                                                Email <span style={{ color: 'red', fontWeight: 500 }} >*</span>
+                                            </label>
                                             <input name="email" type="email" placeholder="Email" className="form-control" value={email} onChange={this.handleInputChange} />
                                             {typeof error.Email !== 'undefined' ?
                                                 error.Email.map((element, index) => {
@@ -195,8 +197,12 @@ class Register extends Component {
                                     <div className="row">
                                         <div className="col">
                                             <div className="form-group">
-                                                <label className="bmd-label-floating">Username</label>
-                                                <input name="userName" type="text" className="form-control" value={userName} onChange={this.handleInputChange} />
+                                                <label className="bmd-label-floating">
+                                                    Username <span style={{ color: 'red', fontWeight: 500 }} >*</span>
+                                                </label>
+                                                <input name="userName" type="text" className="form-control"
+                                                    value={userName} onChange={this.handleInputChange}
+                                                    readOnly style={{ backgroundColor: 'white' }} />
                                                 {typeof error.UserName !== 'undefined' ?
                                                     error.UserName.map((element, index) => {
                                                         return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
@@ -214,40 +220,13 @@ class Register extends Component {
                                     </div>
                                     : ''}
 
-                                {/* Password */}
-                                {this.props.location.pathname === '/employee/register' ?
-                                    <div className="row">
-                                        <div className="col-md-4" >
-                                            <div className="form-group">
-                                                <label className="bmd-label-floating">Password</label>
-                                                <input name="password" type="password" className="form-control" value={password} onChange={this.handleInputChange} />
-                                                {typeof error.Password !== 'undefined' ?
-                                                    error.Password.map((element, index) => {
-                                                        return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
-                                                    })
-                                                    : ''}
-                                            </div>
-                                        </div>
-
-                                        <div className="col-md-4">
-                                            <div className="form-group">
-                                                <label className="bmd-label-floating">Confirm password</label>
-                                                <input name="confirmPassword" type="password" value={confirmPassword} className="form-control" onChange={this.handleInputChange} />
-                                                {typeof error.ConfirmPassword !== 'undefined' ?
-                                                    error.ConfirmPassword.map((element, index) => {
-                                                        return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
-                                                    })
-                                                    : ''}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    : ''}
-
                                 {/* Phone Number */}
                                 <div className="row">
                                     <div className="col">
                                         <div className="form-group">
-                                            <label className={`bmd-label-${this.props.location.pathname !== '/employee/register' ? 'static' : 'floating'}`}>Phone Number</label>
+                                            <label className='bmd-label-floating'>
+                                                Phone Number <span style={{ color: 'red', fontWeight: 500 }} >*</span>
+                                            </label>
                                             <input type="text" name="phoneNumber" value={phoneNumber} className="form-control" onChange={this.handleInputChange} />
                                             {typeof error.PhoneNumber !== 'undefined' ?
                                                 error.PhoneNumber.map((element, index) => {
@@ -262,7 +241,9 @@ class Register extends Component {
                                 <div className="row">
                                     <div className="col">
                                         <div className="form-group">
-                                            <label className={`bmd-label-${this.props.location.pathname !== '/employee/register' ? 'static' : 'floating'}`}>Identity Number</label>
+                                            <label className='bmd-label-floating'>
+                                                Identity Number <span style={{ color: 'red', fontWeight: 500 }} >*</span>
+                                            </label>
                                             <input name="identityNumber" type="identityNumber" placeholder="" className="form-control" value={identityNumber} onChange={this.handleInputChange} />
                                             {typeof error.IdentityNumber !== 'undefined' ?
                                                 error.IdentityNumber.map((element, index) => {
@@ -277,8 +258,19 @@ class Register extends Component {
                                 <div className="row">
                                     <div className="col">
                                         <div className="form-group">
-                                            <label className={`bmd-label-${this.props.location.pathname !== '/employee/register' ? 'static' : 'floating'}`}>Adress</label>
-                                            <input type="text" name="address" className="form-control" value={address} onChange={this.handleInputChange} />
+                                            <label className='bmd-label-floating'>
+                                                Adress <span style={{ color: 'red', fontWeight: 500 }} >*</span>
+                                            </label>
+                                            <AutoComplete
+                                                className="form-control"
+                                                name='address'
+                                                dataSource={dataSource}
+                                                inputValue={address}
+                                                style={{ borderStyle: 'none' }}
+                                                onSelect={this.onSelect}
+                                                onChange={this.onInputAddress}
+                                            />
+                                            {/* <input type="text" name="address" className="form-control" value={address} onChange={this.handleInputChange} /> */}
                                             {typeof error.Address !== 'undefined' ?
                                                 error.Address.map((element, index) => {
                                                     return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
@@ -291,7 +283,9 @@ class Register extends Component {
                                 {/* Role */}
                                 <div className="row">
                                     <div className="col">
-                                        <label className={`bmd-label-${this.props.location.pathname !== '/employee/register' ? 'static' : 'floating'}`}>Role</label>
+                                        <label className='bmd-label-floating'>
+                                            Role <span style={{ color: 'red', fontWeight: 500 }} >*</span>
+                                        </label>
                                         <SelectBar name='role'
                                             type="role"
                                             value={this.state.role}
@@ -320,7 +314,8 @@ const mapState = (state) => {
         registering: state.authentication,
         profile: state.ProfileFetchReducer,
         error: state.ErrorReducer,
-        duplicateError: state.RegisterErrorReducer
+        duplicateError: state.RegisterErrorReducer,
+        addressSugget: state.SuggestAddressReducer
     };
 }
 
@@ -337,6 +332,12 @@ const mapDispatchToProp = dispatch => {
         },
         updateProfile: (empID, emp) => {
             dispatch(updateProfile(empID, emp))
+        },
+        refreshPage: () => {
+            dispatch(Action.refreshPage())
+        },
+        getAddressSuggestion: (value) => {
+            dispatch(suggestAddress(value))
         }
     }
 }

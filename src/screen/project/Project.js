@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as Action from "../../service/action/ProjectAction";
+import * as Action from "../../service/action/project/ProjectAction";
 import ProjectTableItem from "../../component/project-table-item/ProjectTableItem";
-import { checkSession } from '../../service/action/AuthenticateAction';
+import { checkSession } from '../../service/action/user/AuthenticateAction';
 import Search from '../../component/search/Search';
 import { Pagination, Spin } from 'antd';
-
-
 
 class Project extends Component {
 
@@ -85,14 +83,13 @@ class Project extends Component {
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th width={40} className="font-weight-bold">No</th>
-                                            <th width={200} className="font-weight-bold">Project Name</th>
-                                            <th className="font-weight-bold">PM Name</th>
-                                            <th className="font-weight-bold text-center">Created Date</th>
-                                            <th className="font-weight-bold text-center">Start Date</th>
-                                            <th className="font-weight-bold text-center">Estimated End Date</th>
+                                            <th width={40} className="font-weight-bold text-center">No</th>
+                                            <th width={200} className="font-weight-bold text-center" width={400}>Project Name</th>
+                                            <th className="font-weight-bold text-center" width={150}>Project Manager</th>
+                                            <th className="font-weight-bold text-center" width={120}>Created Date</th>
+                                            <th className="font-weight-bold text-center" width={120}>Start Date</th>
+                                            <th className="font-weight-bold text-center" width={160} >Estimated End Date</th>
                                             <th className="font-weight-bold text-center" style={{ width: 80 }}>Status</th>
-                                            <th className="font-weight-bold"></th>
                                         </tr>
                                     </thead>
                                     {this.state.isLoading ? '' :

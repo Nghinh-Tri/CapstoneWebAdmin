@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ProjectDetailTable from '../../component/project-detail/ProjectDetailTable';
-import { checkSession } from '../../service/action/AuthenticateAction';
-import { fetchProjectDetail } from '../../service/action/ProjectAction';
+import { checkSession } from '../../service/action/user/AuthenticateAction';
+import { fetchProjectDetail } from '../../service/action/project/ProjectAction';
 import { history } from '../../service/helper/History';
 import ListEmployee from './ListEmployee';
 import { Tabs } from 'antd';

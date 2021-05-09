@@ -3,8 +3,7 @@ import moment from 'moment';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { fetchEmployeeJoinedProjects } from '../../../service/action/ProjectAction';
-import ProjectTableItem from '../../project-table-item/ProjectTableItem';
+import { fetchEmployeeJoinedProjects } from '../../../service/action/project/ProjectAction';
 
 class JoinedProject extends Component {
 

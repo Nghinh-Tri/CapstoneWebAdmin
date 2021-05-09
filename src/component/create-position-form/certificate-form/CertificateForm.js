@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import CertificateFormContent from './certificate-form-content/CertificateFormContent';
-import { fetchCertification } from "../../../service/action/CertificationSelectBarAction";
+import { fetchCertification } from "../../../service/action/certificate/CertificationSelectBarAction";
 
 class CertificateForm extends Component {
 
@@ -45,6 +45,7 @@ class CertificateForm extends Component {
         var listNotSelect = certiList.slice(0, certiList.length)
         for (let i = 0; i < listNotSelect.length; i++) {
             for (let k = 0; k < certificate.length; k++) {
+                
                 if (listNotSelect[i].certificationID === certificate[k].certiID) {
                     var clone = { ...listNotSelect[i] }
                     clone.isSelect = true
@@ -92,7 +93,7 @@ class CertificateForm extends Component {
                         {this.showItems(certificate, hardSkillIndex)}
                         {this.props.certiList.length === this.props.certificate.length ?
                             '' :
-                            <span className="material-icons add" style={{ marginTop: 10 }}
+                            <span className="material-icons add" style={{ marginTop: 10, cursor: 'pointer' }}
                                 onClick={() => this.onAddCertificate(hardSkillIndex)}>add_box</span>
                         }
                     </>
@@ -107,10 +108,10 @@ class CertificateForm extends Component {
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead >
                                     <tr>
-                                        <th>Certificate</th>
-                                        <th>Taken Date</th>
-                                        <th>Expired Date</th>
-                                        <th></th>
+                                        <th className="text-center" width={300}   >Certificate</th>
+                                        <th className="text-center" width={200} >Taken Date</th>
+                                        <th className="text-center" width={230} >Expired Date</th>
+                                        <th width={50}></th>
                                     </tr>
                                 </thead>
                                 <tbody>

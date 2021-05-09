@@ -24,14 +24,16 @@ class ProjectTableItem extends Component {
         return (
             <tr>
                 <th className="text-center">{index + 1}</th>
-                <th className="">
-                    <Tooltip title={project.isMissEmp ? 'This project is currently missing employees' : ''} placement='right' >
-                        <Badge dot={project.isMissEmp}>
-                            {project.projectName}
-                        </Badge>
-                    </Tooltip>
+                <th >
+                    <NavLink to={`/project/detail/${project.projectID}`} style={{ color: 'blue' }}>
+                        <Tooltip title={project.isMissEmp ? 'This project is currently missing employees' : ''} placement='right' >
+                            <Badge dot={project.isMissEmp}>
+                                <p className='text-primary' style={{ marginBottom: 0, marginTop: 0 }}> {project.projectName}</p>
+                            </Badge>
+                        </Tooltip>
+                    </NavLink>
                 </th>
-                <th className="">{project.name}</th>
+                <th className="text-center">{project.name}</th>
                 <th className="text-center">{moment(project.dateCreated).format("DD-MM-YYYY")}</th>
                 <th className="text-center">{moment(project.dateBegin).format("DD-MM-YYYY")}</th>
                 <th className="text-center">{moment(project.dateEstimatedEnd).format("DD-MM-YYYY")}</th>
@@ -39,11 +41,6 @@ class ProjectTableItem extends Component {
                     <span className={`badge badge-pill ${showSpan(project.status)} span`}>
                         {showStatus(project.status)}
                     </span>
-                </th>
-                <th className="text-center">
-                    <NavLink to={`/project/detail/${project.projectID}`}>
-                        Detail
-                    </NavLink>
                 </th>
             </tr>
         );

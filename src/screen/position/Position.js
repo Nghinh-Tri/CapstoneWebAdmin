@@ -3,8 +3,8 @@ import confirm from 'antd/lib/modal/confirm';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Search from '../../component/search/Search';
-import { checkSession } from '../../service/action/AuthenticateAction';
-import { changeStatusPosition, fetchPostionListPaging } from '../../service/action/PositionSelectBarAction';
+import { checkSession } from '../../service/action/user/AuthenticateAction';
+import { changeStatusPosition, fetchPostionListPaging } from '../../service/action/position/PositionSelectBarAction';
 import { history } from '../../service/helper/History';
 import { showPositionSpan, showPositionStatus } from '../../service/util/util';
 

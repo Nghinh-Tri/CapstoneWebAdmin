@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import HardSkillFormContent from './hard-skill-form-content/HardSkillFormContent';
-import { fetchHardSkill } from "../../../service/action/HardSkillSelectBarAction";
+import { fetchHardSkill } from "../../../service/action/skill/HardSkillSelectBarAction";
 
 class HardSkillForm extends Component {
 
@@ -76,7 +76,7 @@ class HardSkillForm extends Component {
     }
 
     render() {
-        var { hardSkill } = this.props
+        var { hardSkill, hardSkillError } = this.props
         var result = []
         if (typeof hardSkill !== 'undefined')
             result = hardSkill
@@ -88,7 +88,7 @@ class HardSkillForm extends Component {
                     {this.showItems(hardSkill)}
                     {this.props.hardSkillList.length === hardSkill.length ?
                         '' :
-                        <span className="material-icons add" style={{ marginTop: 10 }}
+                        <span className="material-icons add" style={{ marginTop: 10, cursor: 'pointer' }}
                             onClick={this.onAddHardSkill}>add_box</span>
                     }
                 </>)
@@ -96,11 +96,24 @@ class HardSkillForm extends Component {
 
         return (
             <div class="card mb-4">
-                <div class="card-header">
-                    Hard Skills
-                    <span className="material-icons pull-right clear" style={{ cursor: 'pointer' }} onClick={this.setMinimize} >
-                        {!this.state.isMinimize ? 'minimize' : 'crop_free'}
-                    </span>
+                <div class="card-header" >
+                    <div className='row'>
+                        <div className='col-1'>
+                            Hard Skills <span style={{ color: 'red', fontWeight: 500 }} >*</span>
+                        </div>
+                        <div className='col'>
+                            {typeof hardSkillError.HardSkills !== 'undefined' ?
+                                hardSkillError.HardSkills.map((element, index) => {
+                                    return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
+                                })
+                                : ''}
+                        </div>
+                        <div className='col'>
+                            <span className="material-icons pull-right clear" style={{ cursor: 'pointer' }} onClick={this.setMinimize} >
+                                {!this.state.isMinimize ? 'minimize' : 'crop_free'}
+                            </span>
+                        </div>
+                    </div>
                 </div>
                 {!this.state.isMinimize ?
                     <div class="card-body">
@@ -108,10 +121,10 @@ class HardSkillForm extends Component {
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th >Hard Skill</th>
-                                        <th >Skill Level</th>
+                                        <th className="text-center" >Hard Skill</th>
+                                        <th className="text-center" >Skill Level</th>
                                         <th className="text-center">Certificate</th>
-                                        <th ></th>
+                                        <th  ></th>
                                     </tr>
                                 </thead>
                                 <tbody>

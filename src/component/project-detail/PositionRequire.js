@@ -1,10 +1,7 @@
-import Modal from 'antd/lib/modal/Modal';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { checkSession } from '../../service/action/AuthenticateAction';
-import { fetchPositionRequire } from '../../service/action/ProjectAction';
-import PositionRequireDetail from './PositionRequireDetail';
-import { showRequestStatus } from "../../service/util/util";
+import { checkSession } from '../../service/action/user/AuthenticateAction';
+import { fetchPositionRequire } from '../../service/action/project/ProjectAction';
 import { Spin } from 'antd';
 import RequireModal from './RequireModal';
 

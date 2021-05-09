@@ -178,7 +178,8 @@ export const convertCertificationList = (list) => {
         result.push({
             label: element.certificationName,
             value: element.certificationID,
-            isSelect: typeof element.isSelect === 'undefined' ? false : element.isSelect
+            isSelect: typeof element.isSelect === 'undefined' ? false : element.isSelect,
+            level: element.certiLevel
         })
     });
     return result;

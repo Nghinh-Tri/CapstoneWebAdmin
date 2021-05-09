@@ -4,8 +4,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SelectBar from '../../component/create-position-form/select-search/SelectBar';
 import Search from '../../component/search/Search';
-import { checkSession } from '../../service/action/AuthenticateAction';
-import { changeStatus, fetchSkill } from '../../service/action/SkillAction';
+import { checkSession } from '../../service/action/user/AuthenticateAction';
+import { changeStatus, fetchSkill } from '../../service/action/skill/SkillAction';
 import { history } from '../../service/helper/History';
 import { showPositionSpan, showPositionStatus } from '../../service/util/util';
 

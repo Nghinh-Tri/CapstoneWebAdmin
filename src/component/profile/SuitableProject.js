@@ -1,7 +1,7 @@
 import { Button, Spin, Tabs } from 'antd';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchSuitableList } from '../../service/action/SuitableListAction';
+import { fetchSuitableList } from '../../service/action/confirm/SuitableListAction';
 import { history } from '../../service/helper/History';
 import SuitableProjectDetail from './suitable-project-detail/SuitableProjectDetail';
 const TabPane = Tabs.TabPane;
@@ -22,7 +22,7 @@ class SuitableProject extends Component {
 
     componentDidUpdate = (prevProp) => {
         if (prevProp.suitableList !== this.props.suitableList) {
-            this.setState({ isLoad: false })
+            this.setState({ isLoad: false, selectIndex: 0 })
         }
     }
 
@@ -42,7 +42,8 @@ class SuitableProject extends Component {
     showSuitableProjectDetail = () => {
         var { selectIndex } = this.state
         var { suitableList } = this.props
-        if (suitableList.length > 0) {
+        console.log('suitableList', suitableList)
+        if (suitableList.length > 0 && typeof suitableList[selectIndex] !== 'undefined') {
             return (<SuitableProjectDetail item={suitableList[selectIndex]} empID={this.props.empID} />)
         }
     }

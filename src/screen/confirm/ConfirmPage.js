@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as Action from "../../service/action/ProjectAction";
-import ProjectDetailTable from "../../component/project-detail/ProjectDetailTable";
+import * as Action from "../../service/action/project/ProjectAction";
 import ConfirmSelectCandidate from '../../component/confirm-select-candidate/ConfirmSelectCandidate';
-import { checkSession } from '../../service/action/AuthenticateAction';
+import { checkSession } from '../../service/action/user/AuthenticateAction';
 import { NavLink } from 'react-router-dom';
 import ProgressBar from '../../component/progress-bar/ProgressBar';
-import { confirmSuggestList, fetchSelectedList } from '../../service/action/SuggestCandidateAction';
-import { API_URL, convertSuggestList } from '../../service/util/util';
+import { confirmSuggestList, fetchSelectedList } from '../../service/action/confirm/SuggestCandidateAction';
+import { convertSuggestList } from '../../service/util/util';
 import { Tabs } from "antd";
 import BriefDetail from '../../component/brief-detail/BrriefDetails';
 
