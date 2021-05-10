@@ -7,6 +7,10 @@ const CandidateResultReducer = (state = initState, action) => {
         case Type.FETCH_CANDIDATES_RESULT:
             state = action.result
             return [...state]
+
+        case Type.REFRESH_CANDIDATE_RESULT:
+            state = []
+            return [...state]
         default:
             return [...state];
 

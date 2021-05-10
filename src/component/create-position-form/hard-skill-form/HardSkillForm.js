@@ -93,7 +93,6 @@ class HardSkillForm extends Component {
                     }
                 </>)
         }
-
         return (
             <div class="card mb-4">
                 <div class="card-header" >

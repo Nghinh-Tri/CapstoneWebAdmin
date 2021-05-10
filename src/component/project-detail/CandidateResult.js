@@ -1,8 +1,5 @@
 import { Spin } from 'antd';
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { checkSession } from '../../service/action/user/AuthenticateAction';
-import { fetchCandidatesResult } from '../../service/action/project/ProjectAction';
 
 class CandidateResult extends Component {
 
@@ -11,15 +8,6 @@ class CandidateResult extends Component {
         this.state = {
             isLoading: true
         }
-    }
-
-    componentDidMount = () => {
-        this.props.fetchPositionRequire(this.props.requireID)
-    }
-
-    componentDidUpdate = (prevProp) => {
-        if (prevProp.candidatesResult !== this.props.candidatesResult)
-            this.setState({ isLoading: false })
     }
 
     showCandidatesStatus = (status) => {
@@ -56,10 +44,7 @@ class CandidateResult extends Component {
     render() {
         return (
             <React.Fragment>
-                {this.state.isLoading ?
-                    <div className='row justify-content-center'>
-                        <Spin className='text-center' size="large" />
-                    </div> :
+                {
                     this.props.candidatesResult.length === 0 ?
                         <div className='row justify-content-center' style={{ width: 'auto' }} >
                             <h4 style={{ fontStyle: 'italic', color: 'gray' }} >There is currently no candidates for this requirement</h4>
@@ -90,21 +75,4 @@ class CandidateResult extends Component {
     }
 }
 
-const mapStateToProp = state => {
-    return {
-        candidatesResult: state.CandidateResultReducer
-    }
-}
-
-const mapDispatchToProp = dispatch => {
-    return {
-        fetchPositionRequire: requireID => {
-            dispatch(fetchCandidatesResult(requireID))
-        },
-        checkSession: () => {
-            dispatch(checkSession())
-        }
-    }
-}
-
-export default connect(mapStateToProp, mapDispatchToProp)(CandidateResult);
+export default CandidateResult;
