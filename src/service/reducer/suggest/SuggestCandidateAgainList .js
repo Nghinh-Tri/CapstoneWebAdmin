@@ -1,9 +1,14 @@
-import { ADD_MORE_CANDIDATES, SUGGEST_CANDIDATE } from "../../constant/index";
+import { ADD_MORE_CANDIDATES, SUGGEST_CANDIDATE, Type } from "../../constant/index";
 import { sortSuggestListByFieldMatch, sortSuggestListByHardSkillMatch, sortSuggestListByLanguageMatch, sortSuggestListByOverallMatch, sortSuggestListBySoftSkillMatch, sortSuggestListByTypeMatch } from "../../util/util";
 const initState = []
 
 const SuggestCandidateAgainList = (state = initState, action) => {
     switch (action.type) {
+
+        case Type.FETCH_LIST_EMPLOYEE:
+            state = []
+            return [...state]
+
         case ADD_MORE_CANDIDATES.FETCH_SUGGEST_LIST:
             if (Array.isArray(action.list)) {
                 state = action.list
@@ -43,7 +48,7 @@ const SuggestCandidateAgainList = (state = initState, action) => {
 
         case SUGGEST_CANDIDATE.CONFIRM_SUGGEST:
             state = []
-            return [...state]  
+            return [...state]
 
         case ADD_MORE_CANDIDATES.CANCEL_SUGGEST:
             state = []

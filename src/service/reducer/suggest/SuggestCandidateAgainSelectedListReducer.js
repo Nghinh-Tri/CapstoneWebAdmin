@@ -1,5 +1,5 @@
 import { store } from "react-notifications-component";
-import { ADD_MORE_CANDIDATES, SUGGEST_CANDIDATE } from "../../constant";
+import { ADD_MORE_CANDIDATES, SUGGEST_CANDIDATE, Type } from "../../constant";
 import { history } from "../../helper/History";
 import { sortSuggestListByOverallMatch } from "../../util/util";
 
@@ -141,7 +141,10 @@ const SuggestCandidateAgainSelectedListReducer = (state = initState, action) => 
             localStorage.removeItem('pmID')
             history.push(`/project/detail/${action.projectID}`)
             return [...state]
-
+            
+        case Type.FETCH_LIST_EMPLOYEE:
+            state = []
+            return [...state]
         default:
             return [...state];
     }
