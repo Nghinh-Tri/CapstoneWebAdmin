@@ -1,14 +1,6 @@
-import { Spin } from 'antd';
 import React, { Component } from 'react';
 
 class CandidateResult extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            isLoading: true
-        }
-    }
 
     showCandidatesStatus = (status) => {
         switch (status) {
