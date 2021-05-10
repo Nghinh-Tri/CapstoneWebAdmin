@@ -1,4 +1,4 @@
-import { SUGGEST_CANDIDATE, Type } from "../../constant/index";
+import { ADD_MORE_CANDIDATES, SUGGEST_CANDIDATE, Type } from "../../constant/index";
 
 const initState = { message: '', list: [] }
 
@@ -7,6 +7,12 @@ const CheckRejectedCandidates = (state = initState, action) => {
         case SUGGEST_CANDIDATE.REJECTED_CANDIDATE:
             state.message = action.message
             state.list = [...action.list]
+            return state
+
+        case ADD_MORE_CANDIDATES.FETCH_SUGGEST_LIST:
+            state.message = ''
+            state.list = []
+            return state
         default:
             return state
 
