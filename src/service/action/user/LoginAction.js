@@ -49,7 +49,7 @@ export const login = (username, password) => {
                 })
             } else {
                 var error = err.response.data
-                if (typeof error.errors !== 'undefined') {
+                if (error.errors !== null) {
                     dispatch(loginFailure(error.errors))
                 } else {
                     dispatch(loginFailure({}))
