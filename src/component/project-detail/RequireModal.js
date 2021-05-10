@@ -1,17 +1,15 @@
-import { Modal, Tabs } from 'antd';
 import React, { Component } from 'react';
 import { showRequestStatus } from '../../service/util/util';
-import PositionRequireDetail from './PositionRequireDetail';
-import CandidateResult from "./CandidateResult";
 import moment from 'moment';
-const TabPane = Tabs.TabPane;
+import RequireModalDetail from './RequireModalDetail';
 
 class RequireModal extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            visible: false
+            visible: false,
+            default: 1
         }
     }
 
@@ -29,6 +27,7 @@ class RequireModal extends Component {
 
     onShowRequireDetail = () => {
         this.setState({ visible: true })
+        this.props.refreshPage()
     }
 
     render() {
@@ -45,17 +44,7 @@ class RequireModal extends Component {
                 <td className='text-center'>{moment(value.dateCreated).format('DD-MM-YYYY')}</td>
                 <td className='text-center'>{showRequestStatus(value.status)}</td>
                 <td className='text-center'>
-                    <a style={{ color: 'blue' }} onClick={this.onShowRequireDetail} >Detail</a>
-                    <Modal width={1050} title={value.posName} visible={this.state.visible} onOk={this.handleOk} onCancel={this.handleCancel}>
-                        <Tabs defaultActiveKey={1} >
-                            <TabPane key={1} tab="Details">
-                                <PositionRequireDetail hardSkills={value.hardSkills} language={value.language} softSkills={value.softSkillIDs} />
-                            </TabPane>
-                            <TabPane key={2} tab="Candidates">
-                                <CandidateResult requireID={value.requiredPosID} />
-                            </TabPane>
-                        </Tabs>
-                    </Modal>
+                    <RequireModalDetail value={value} />
                 </td>
             </tr>
         );

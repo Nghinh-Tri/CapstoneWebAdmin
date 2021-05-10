@@ -28,7 +28,7 @@ import SuitableProjectReducer from "./project/SuitableProjectReducer";
 import ErrorReducer from "./error/ErrorReducer";
 import JoinedProjectReducer from "./project/JoinedProjectReducer";
 import SkillInPosition from "./skill/SkillInPositionReducer";
-import CandidateResultReducer from "./confirm/CandidateResultReducer";
+import CandidateResultReducer from "./project/CandidateResultReducer";
 import CheckRejectedCandidates from "./confirm/CheckRejectedCandidates";
 import RegisterErrorReducer from "./error/RegisterErrorReducer";
 import SuggestAddressReducer from "./employee/SuggestAddressReducer";

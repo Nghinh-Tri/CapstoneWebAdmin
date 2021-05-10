@@ -209,4 +209,8 @@ export const declineProjectFail = () => {
     return { type: alertConstants.ERROR }
 }
 
+export const refreshCandidateResult = () => {
+    return { type: Type.REFRESH_CANDIDATE_RESULT }
+}
+
 

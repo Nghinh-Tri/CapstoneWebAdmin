@@ -92,7 +92,7 @@ export const assignPosition = (empID, positionAssign, role) => {
                 dispatch(assignPositionSuccess())
             }
         }).catch(err => {
-            console.log(err.response.data.errors)
+            dispatch(assignPositionFail(err.response.data.errors))
         })
     }
 }

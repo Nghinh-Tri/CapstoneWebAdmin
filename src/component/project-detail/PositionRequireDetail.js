@@ -1,5 +1,6 @@
 import { Descriptions } from 'antd';
 import React, { Component } from 'react';
+import { showHardSkillLevel } from '../../service/util/util';
 
 class PositionRequireDetail extends Component {
     constructor(props) {
@@ -30,7 +31,7 @@ class PositionRequireDetail extends Component {
                 <tr key={index} >
                     <td>{index + 1}</td>
                     <td>{value.hardSkillName}</td>
-                    <td>{value.skillLevel}</td>
+                    <td>{showHardSkillLevel(value.skillLevel)}</td>
                     <td>{value.certificationLevel}</td>
                     <td>{value.priority}</td>
                 </tr>
