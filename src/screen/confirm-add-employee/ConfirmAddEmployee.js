@@ -19,7 +19,9 @@ class ConfirmSelectCandidate extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isUpdate: false
+            isUpdate: false,
+            confirmObj: {},
+            click: false
         }
     }
 
@@ -42,31 +44,42 @@ class ConfirmSelectCandidate extends Component {
             this.setState({ isUpdate: this.props.location.state.isUpdate })
     }
 
-    onSuggest = () => {
-        var { candidateList, confirmSuggestList } = this.props
-        var list = convertAddEmployeeList(candidateList)
-        var obj = { candidates: list }
-        var projectID = JSON.parse(localStorage.getItem('projectId'))
-        var pmID = JSON.parse(localStorage.getItem('pmID'))
-        var projectName = JSON.parse(localStorage.getItem('projectName'))
-        // this.props.checkRejectedCandidate({ candidates: convertCheckSuggestList(candidateList) }, projectID)
-        // if (this.props.rejectedCandidate.message !== '') {
-        //     var content = ""
-        //     this.props.rejectedCandidate.list.forEach(element => {
-        //         content = content + element + '\n'
-        //     });
-        //     confirm({
-        //         title: this.props.rejectedCandidate.message + ". Are you sure you want to suggest those candidates.",
-        //         content: (<>
-        //             <TextArea defaultValue={content} disabled={true} autoSize={true}
-        //                 style={{ color: 'black', backgroundColor: 'white', borderColor: 'white', cursor: 'default' }} />
-        //         </>),
-        //         okType: 'danger',
-        //         onOk() { confirmSuggestList(obj, projectID, projectName, pmID) }
-        //     });
-        // } else 
-        confirmSuggestList(obj, projectID, projectName, pmID)
+    componentWillReceiveProps = () => {
+        var { rejectedCandidate, confirmSuggestList } = this.props
+        var { confirmObj, click } = this.state
+        if (click) {
+            var projectID = JSON.parse(localStorage.getItem('projectId'))
+            var pmID = JSON.parse(localStorage.getItem('pmID'))
+            var projectName = JSON.parse(localStorage.getItem('projectName'))
+            if (rejectedCandidate.message !== "" && rejectedCandidate.list.length > 0) {
+                var content = ""
+                this.props.rejectedCandidate.list.forEach(element => {
+                    content = content + element + '\n'
+                });
+                confirm({
+                    title: rejectedCandidate.message,
+                    content: (<>
+                        <TextArea defaultValue={content} disabled={true} autoSize={true}
+                            style={{ color: 'black', backgroundColor: 'white', borderColor: 'white', cursor: 'default' }} />
+                    </>),
+                    okType: 'danger',
+                    onOk() { confirmSuggestList(confirmObj, projectID, projectName, pmID) },
+                    onCancel: () => { this.setState({ click: !this.state.click }) }
+                });
+            } else {
+                confirmSuggestList(confirmObj, projectID, projectName, pmID)
+            }
+        }
+    }
 
+    onSuggest = () => {
+        var { candidateList, } = this.props
+        var list = convertAddEmployeeList(candidateList)
+        var projectID = JSON.parse(localStorage.getItem('projectId'))
+        var obj = { candidates: list }
+        var checkSuggest = convertCheckSuggestList(candidateList)
+        this.setState({ confirmObj: obj, click: !this.state.click })
+        this.props.checkRejectedCandidate({ candidates: checkSuggest }, projectID)
     }
 
     onBack = () => {
