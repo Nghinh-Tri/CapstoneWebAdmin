@@ -11,10 +11,10 @@ class EmpTableItem extends Component {
     }
 
     render() {
-        var { index, profile } = this.props
+        var { index, profile, pageIndex } = this.props
         return (
             <tr>
-                <th className="text-center">{index + 1}</th>
+                <th className="text-center">{(pageIndex - 1) * 10 + index + 1}</th>
                 <th className="text-primary">
                     <a onClick={this.onHandle} style={{ cursor: 'pointer' }}>
                         {profile.name}

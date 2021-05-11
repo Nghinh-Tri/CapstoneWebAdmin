@@ -67,23 +67,16 @@ class Register extends Component {
         const { name, value } = e.target;
         if (name === 'email') {
             var username = ''
-            var index = value.indexOf('@')
+            var index = value.trim().indexOf('@')
             if (index === -1) {
-                username = value
+                username = value.trim()
             } else {
-                username = value.substr(0, index)
+                username = value.trim().substr(0, index)
             }
             username = username.charAt(0).toUpperCase() + username.substring(1, username.length)
             this.setState({ userName: username })
         }
         this.setState({ [name]: value });
-        if (name === 'userName') {
-            var space = value.indexOf(" ")
-            if (space >= 0)
-                this.setState({ isValidate: false })
-            else
-                this.setState({ isValidate: true })
-        }
     }
 
     onSelectRole = (value) => {
@@ -101,12 +94,12 @@ class Register extends Component {
         if (this.props.location.pathname === '/employee/register') {
             this.props.register(
                 {
-                    name: fullname,
-                    identityNumber: identityNumber,
-                    address: address,
-                    email: email,
-                    phoneNumber: phoneNumber,
-                    userName: userName,
+                    name: fullname.trim(),
+                    identityNumber: identityNumber.trim(),
+                    address: address.trim(),
+                    email: email.trim(),
+                    phoneNumber: phoneNumber.trim(),
+                    userName: userName.trim(),
                     roleName: role
                 }
             );
@@ -125,13 +118,13 @@ class Register extends Component {
     }
 
     onInputAddress = (e) => {
-        this.props.getAddressSuggestion(e)
+        this.setState({ address: e.trim() })
+        this.props.getAddressSuggestion(e.trim())
     }
 
     render() {
         const { address, phoneNumber, userName, fullname, email,
             identityNumber, submitted, role, dataSource } = this.state;
-            console.log(address)
         var { error, duplicateError } = this.props
         var messageError = '', fieldError = ''
         if (typeof duplicateError !== 'undefined') {
@@ -176,7 +169,7 @@ class Register extends Component {
                                             <label className='bmd-label-static'>
                                                 Email <span style={{ color: 'red', fontWeight: 500 }} >*</span>
                                             </label>
-                                            <input name="email" type="email" placeholder="Email" className="form-control" value={email} onChange={this.handleInputChange} />
+                                            <input name="email" type="text" className="form-control" value={email} onChange={this.handleInputChange} />
                                             {typeof error.Email !== 'undefined' ?
                                                 error.Email.map((element, index) => {
                                                     return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
@@ -202,7 +195,7 @@ class Register extends Component {
                                                 </label>
                                                 <input name="userName" type="text" className="form-control"
                                                     value={userName} onChange={this.handleInputChange}
-                                                    readOnly style={{ backgroundColor: 'white' }} />
+                                                    style={{ backgroundColor: 'white' }} />
                                                 {typeof error.UserName !== 'undefined' ?
                                                     error.UserName.map((element, index) => {
                                                         return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
@@ -259,7 +252,7 @@ class Register extends Component {
                                     <div className="col">
                                         <div className="form-group">
                                             <label className='bmd-label-floating'>
-                                                Adress <span style={{ color: 'red', fontWeight: 500 }} >*</span>
+                                                Address <span style={{ color: 'red', fontWeight: 500 }} >*</span>
                                             </label>
                                             <AutoComplete
                                                 className="form-control"

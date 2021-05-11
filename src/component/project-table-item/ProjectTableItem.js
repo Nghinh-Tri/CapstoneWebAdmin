@@ -20,10 +20,10 @@ class ProjectTableItem extends Component {
     }
 
     render() {
-        var { index, project } = this.props
+        var { index, project, pageIndex } = this.props
         return (
             <tr>
-                <th className="text-center">{index + 1}</th>
+                <th className="text-center">{(pageIndex - 1) * 10 + index + 1}</th>
                 <th >
                     <NavLink to={`/project/detail/${project.projectID}`} style={{ color: 'blue' }}>
                         <Tooltip title={project.isMissEmp ? 'This project is currently missing employees' : ''} placement='right' >

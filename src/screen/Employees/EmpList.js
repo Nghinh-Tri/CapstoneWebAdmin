@@ -6,6 +6,7 @@ import { checkSession } from '../../service/action/user/AuthenticateAction';
 import Search from '../../component/search/Search';
 import { Pagination, Spin } from 'antd';
 import SelectBar from '../../component/create-position-form/select-search/SelectBar';
+import { EMPLOYEE } from '../../service/constant/nodata';
 
 class EmpList extends Component {
 
@@ -16,7 +17,6 @@ class EmpList extends Component {
             search: '',
             isLoading: true,
             roleList: [
-                // { label: 'Human Resources', value: 'admin' },
                 { label: 'Project Manager', value: 'PM' },
                 { label: 'Employee', value: 'Employee' },
             ],
@@ -49,11 +49,11 @@ class EmpList extends Component {
         localStorage.setItem("empID", 0)
     }
 
-    onShowListProfile = (profileList) => {
+    onShowListProfile = (profileList, pageIndex) => {
         var result = null
         if (typeof profileList !== 'undefined') {
             result = profileList.map((profile, index) => {
-                return (<EmpTableItem key={index} profile={profile} index={index} />);
+                return (<EmpTableItem key={index} profile={profile} index={index} pageIndex={pageIndex} />);
             })
         }
         return result
@@ -85,68 +85,65 @@ class EmpList extends Component {
                         <div class="card-header">
                             <i class="fas fa-table mr-1"></i>Employees
                         </div>
-
-                        <div className="card-body">
-                            {this.state.isLoading ? ("") : (
-                                <div className="row mb-3">
-                                    <button type="button"
-                                        className="btn btn-primary"
-                                        style={{ fontWeight: 700, borderRadius: 5, marginLeft: 20, marginTop: 10, }}
-                                        onClick={() => this.onGenerateProfile(profiles.isCreateNew)}
-                                    >
-                                        <div className="row" style={{ paddingLeft: 7, paddingRight: 7 }}>
-                                            <i className="material-icons">add_box</i>Create New Employee
+                        {this.state.isLoading ?
+                            <div className="row justify-content-center">
+                                <Spin className="text-center" size="large" />
+                            </div>
+                            : (
+                                <div className="card-body">
+                                    <div className="row mb-3">
+                                        <button type="button"
+                                            className="btn btn-primary"
+                                            style={{ fontWeight: 700, borderRadius: 5, marginLeft: 20, marginTop: 10, }}
+                                            onClick={() => this.onGenerateProfile(profiles.isCreateNew)}
+                                        >
+                                            <div className="row" style={{ paddingLeft: 7, paddingRight: 7 }}>
+                                                <i className="material-icons">add_box</i>Create New Employee
                                         </div>
-                                    </button>
-                                    <Search
-                                        search="Employee"
-                                        placeholder="Search employee name ..."
-                                        searchEmp={this.searchEmp}
-                                    />
+                                        </button>
+                                        <Search search="Employee" placeholder="Search employee name ..." searchEmp={this.searchEmp} />
+                                    </div>
+
+                                    {profiles.items.length > 0 ?
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                                <thead className=" text-primary">
+                                                    <tr>
+                                                        <th width={40} className="font-weight-bold text-center"  >No</th>
+                                                        <th width={300} className="font-weight-bold text-center">Name</th>
+                                                        <th width={150} className="font-weight-bold text-center">Phone</th>
+                                                        <th width={250} className="font-weight-bold text-center">Email</th>
+                                                        <th width={180} className="font-weight-bold text-center" >User Name</th>
+                                                        <th width={200} className="font-weight-bold text-center"  >
+                                                            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                                                <div style={{ marginTop: 10, marginRight: 10 }} > Role</div>
+                                                                <div style={{}}>
+                                                                    <SelectBar name='empListRole'
+                                                                        type="role"
+                                                                        value={this.state.role}
+                                                                        placeholder='Select role'
+                                                                        list={this.state.roleList}
+                                                                        onSelectRole={this.onSelectRole} />
+                                                                </div>
+                                                            </div>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>{this.onShowListProfile(profiles.items, profiles.pageIndex)}</tbody>
+                                            </table>
+                                        </div>
+                                        :
+                                        <div className='row justify-content-center'>
+                                            <h4 style={{ fontStyle: 'italic', color: 'gray' }} >{EMPLOYEE.NO_EMPLOYEE}</h4>
+                                        </div>
+                                    }
+                                    {profiles.pageCount <= 1 ? ("") :
+                                        <div className="row justify-content-center" style={{ marginBottom: 20 }}>
+                                            <Pagination current={profiles.pageIndex} total={profiles.totalRecords} onChange={this.onSelectPage} />
+                                        </div>
+                                    }
                                 </div>
                             )}
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead className=" text-primary">
-                                        <tr>
-                                            <th width={40} className="font-weight-bold text-center"  >No</th>
-                                            <th width={300} className="font-weight-bold text-center">Name</th>
-                                            <th width={150} className="font-weight-bold text-center">Phone</th>
-                                            <th width={250} className="font-weight-bold text-center">Email</th>
-                                            <th width={180} className="font-weight-bold text-center" >User Name</th>
-                                            <th width={200} className="font-weight-bold text-center"  >
-                                                <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                                    <div style={{ marginTop: 10, marginRight: 10 }} > Role</div>
-                                                    <div style={{}}>
-                                                        <SelectBar name='empListRole'
-                                                            type="role"
-                                                            value={this.state.role}
-                                                            placeholder='Select role'
-                                                            list={this.state.roleList}
-                                                            onSelectRole={this.onSelectRole} />
-                                                    </div>
-                                                </div>
-
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    {this.state.isLoading ? ("") : (
-                                        <tbody>{this.onShowListProfile(profiles.items)}</tbody>
-                                    )}
-                                </table>
-                            </div>
-
-                            {this.state.isLoading ? (
-                                <div className="row justify-content-center">
-                                    <Spin className="text-center" size="large" />
-                                </div>
-                            ) : ("")}
-                            {this.state.isLoading || profiles.pageCount === 1 ? ("") :
-                                <div className="row justify-content-center" style={{ marginBottom: 20 }}>
-                                    <Pagination current={profiles.pageIndex} total={profiles.totalRecords} onChange={this.onSelectPage} />
-                                </div>
-                            }
-                        </div>
                     </div>
                 </div>
                 <style jsx global>

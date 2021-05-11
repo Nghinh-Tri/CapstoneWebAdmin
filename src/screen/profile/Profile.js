@@ -54,23 +54,23 @@ class Profile extends Component {
             <React.Fragment>
                 <div className="row breadcrumb mb-4 mt-3">
                     <div className='col'>
-                        <li className="breadcrumb-item active" style={{fontWeight:600}}>{profile.name}</li>
+                        <li className="breadcrumb-item active" style={{ fontWeight: 600 }}>{profile.name}</li>
                     </div>
                     <div className='col'>
-                        <li className="breadcrumb-item active" style={{fontWeight:600}}>Phone: {profile.phoneNumber}</li>
+                        <li className="breadcrumb-item active" style={{ fontWeight: 600 }}>Phone: {profile.phoneNumber}</li>
                     </div>
                     <div className='col'>
-                        <li className="breadcrumb-item active" style={{fontWeight:600}}>Email: {profile.email}</li>
+                        <li className="breadcrumb-item active" style={{ fontWeight: 600 }}>Email: {profile.email}</li>
                     </div>
                 </div>
                 <div className="card mb-4">
                     <div className="card-header">
                         <Tabs defaultActiveKey="1" onChange={this.onClickMenu}>
                             <TabPane tab="Personal Infomation" key={1}></TabPane>
-                            <TabPane tab="Skill Details" key={2}></TabPane>
                             {
                                 typeof this.props.match !== 'undefined' ?
                                     <>
+                                        <TabPane tab="Skill Details" key={2}></TabPane>
                                         <TabPane tab="Suitable Projects" key={3}></TabPane>
                                         <TabPane tab="Joined Projects" key={4}></TabPane>
                                     </>

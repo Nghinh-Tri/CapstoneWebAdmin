@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import SuggestCandidateItems from './add-employee-item/AddEmployeeItem';
-
+import { ArrowUpOutlined } from "@ant-design/icons";
 class SuggestCandidates extends Component {
 
     onSortType = () => {
@@ -94,29 +94,41 @@ class SuggestCandidates extends Component {
                                         <tr>
                                             <th className="font-weight-bold text-center">No</th>
                                             <th className="font-weight-bold">Name</th>
-                                            <th className="font-weight-bold text-center" width={180}>
-                                                Project Type Match
-                                    <i className="material-icons" name='langugage' style={{ marginTop: -10, cursor: 'pointer' }} onClick={this.onSortType}>swap_vert</i>
+                                            <th className="font-weight-bold " width={180}  >
+                                                <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
+                                                    <div>Project Type Match</div>
+                                                    <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={this.onSortType} />
+                                                </div>
                                             </th>
-                                            <th className="font-weight-bold text-center" width={180}>
-                                                Project Field Match
-                                    <i className="material-icons" name='langugage' style={{ marginTop: -10, cursor: 'pointer' }} onClick={this.onSortField}>swap_vert</i>
-                                            </th>
-                                            <th className="font-weight-bold text-center" width={160}>
-                                                Language Match
-                                    <i className="material-icons" name='langugage' style={{ marginTop: -10, cursor: 'pointer' }} onClick={this.onSortLanguage}>swap_vert</i>
-                                            </th>
-                                            <th className="font-weight-bold text-center" width={160}>
-                                                Soft Skill Match
-                                    <i className="material-icons" style={{ marginTop: -10, cursor: 'pointer' }} onClick={this.onSortSoftSkill}>swap_vert</i>
+                                            <th className="font-weight-bold text-center" width={180} >
+                                                <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
+                                                    <div> Project Field Match</div>
+                                                    <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={this.onSortField} />
+                                                </div>
                                             </th>
                                             <th className="font-weight-bold text-center" width={160}>
-                                                Hard Skill Match
-                                    <i className="material-icons" style={{ marginTop: -10, cursor: 'pointer' }} onClick={this.onSortHardSkill}>swap_vert</i>
+                                                <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
+                                                    <div>Language Match</div>
+                                                    <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={this.onSortLanguage} />
+                                                </div>
+                                            </th>
+                                            <th className="font-weight-bold text-center" width={160}>
+                                                <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
+                                                    <div>Soft Skill Match</div>
+                                                    <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={this.onSortSoftSkill} />
+                                                </div>
+                                            </th>
+                                            <th className="font-weight-bold text-center" width={160}>
+                                                <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
+                                                    <div>Hard Skill Match</div>
+                                                    <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={this.onSortHardSkill} />
+                                                </div>
                                             </th>
                                             <th className="font-weight-bold text-center" width={150}>
-                                                Overall Match
-                                    <i className="material-icons" style={{ marginTop: -10, cursor: 'pointer' }} onClick={this.onSortOverall}>swap_vert</i>
+                                                <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
+                                                    <div>Overall Match</div>
+                                                    <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={this.onSortOverall} />
+                                                </div>
                                             </th>
                                             <th className="font-weight-bold text-center">
                                                 {candidateNeeds >= item.matchDetail.length ?

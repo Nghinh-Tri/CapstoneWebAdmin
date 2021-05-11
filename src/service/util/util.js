@@ -322,6 +322,19 @@ export const getRole = () => {
     return result
 }
 
+export const getEmail = () => {
+    var result = ''
+    var token = localStorage.getItem('token')
+    var decode = jwtDecode(token)
+    Object.keys(decode).forEach(key => {
+        let res = key.split('/')
+        if (res[res.length - 1] === "emailaddress") {
+            result = decode[key]
+        }
+    })
+    return result
+}
+
 export const showRequestStatus = status => {
     switch (status) {
         case 0:
