@@ -148,7 +148,10 @@ class Skill extends Component {
                                                 <i className="material-icons">add_box</i>Create New Skill
                                             </div>
                                         </button>
-                                        <Search search="Skill" placeholder="Search skill name ..." searchSkill={this.searchSkill} />
+                                        <Search search="Skill"
+                                            refresh={skills.isRefresh}
+                                            placeholder="Search skill name ..."
+                                            searchSkill={this.searchSkill} />
                                     </div>
                                     {result.items.length > 0 ?
                                         <div class="table-responsive">

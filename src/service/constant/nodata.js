@@ -11,7 +11,7 @@ export const SKILL = {
 }
 
 export const POSITION = {
-    NO_POSITION: 'No skill available'
+    NO_POSITION: 'No position available'
 }
 
 export const CERTIFICATE = {

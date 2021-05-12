@@ -11,9 +11,12 @@ class Search extends Component {
         }
     }
 
-
-    componentDidUpdate() {
-        // console.log('a',this.props.isLoading)
+    componentDidUpdate(prevProp) {
+        if (prevProp.refresh !== this.props.refresh) {
+            if (this.props.refresh) {
+                this.setState({ key: '' })
+            }
+        }
     }
 
     onHandle = (e) => {

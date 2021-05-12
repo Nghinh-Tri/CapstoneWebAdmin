@@ -20,6 +20,7 @@ class Project extends Component {
 
     componentDidMount = () => {
         this.props.checkSession()
+        console.log('a')
         this.props.fetchProject(this.state.page, this.state.search)
     }
 
@@ -79,6 +80,7 @@ class Project extends Component {
                                 <div class="card-body">
                                     <div className="row mb-3">
                                         <Search search="project"
+                                            refresh={projects.isRefresh}
                                             placeholder="Search project name ..."
                                             searchProject={this.searchProject}
                                         />

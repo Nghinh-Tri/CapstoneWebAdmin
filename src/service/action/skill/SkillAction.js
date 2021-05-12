@@ -3,7 +3,7 @@ import { SKILL } from "../../constant"
 import { API_URL } from "../../util/util";
 import { history } from "../../helper/History";
 
-export const fetchSkill = (pageIndex, search, skillType) => {
+export const fetchSkill = (pageIndex, search, skillType, refresh) => {
     var url = ''
     if (search.length > 0)
         url = `${API_URL}/Skill/paging?Keyword=${search}&SkillType=${skillType}&PageIndex=${pageIndex}&PageSize=10`
@@ -15,7 +15,7 @@ export const fetchSkill = (pageIndex, search, skillType) => {
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
         ).then(res => {
             if (res.status = 200) {
-                dispatch(fetchSkillSuccess(res.data.resultObj))
+                dispatch(fetchSkillSuccess(res.data.resultObj, typeof refresh === 'undefined' ? false : refresh))
             }
         }).catch(err => {
             if (err.response.status === 401) {
@@ -79,10 +79,10 @@ export const changeStatusFail = (error) => {
     return { type: SKILL.CHANGE_STATUS_FAIL, error }
 }
 
-export const fetchSkillSuccess = (skills) => {
+export const fetchSkillSuccess = (skills, refresh) => {
     return {
         type: SKILL.FETCH_ALL_SKILL,
-        skills
+        skills, refresh
     }
 }
 

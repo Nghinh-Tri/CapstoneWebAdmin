@@ -12,7 +12,7 @@ export const generateProject = (project) => {
     }
 }
 
-export const fetchProject = (pageIndex, search) => {
+export const fetchProject = (pageIndex, search, refresh) => {
     var url = ''
     if (search.length > 0)
         url = `${API_URL}/Project/paging?Keyword=${search}&PageIndex=${pageIndex}&PageSize=10`
@@ -24,7 +24,7 @@ export const fetchProject = (pageIndex, search) => {
             url,
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
-            dispatch(fetchProjectSuccess(res.data.resultObj))
+            dispatch(fetchProjectSuccess(res.data.resultObj, typeof refresh === 'undefined' ? false : refresh))
         })
     }
 }
@@ -129,10 +129,10 @@ export const fetchPositionRequireSuccess = (resultObj) => {
     }
 }
 
-export const fetchProjectSuccess = (resultObj) => {
+export const fetchProjectSuccess = (resultObj, refresh) => {
     return {
         type: Type.FETCH_PROJECT,
-        resultObj
+        resultObj, refresh
     }
 }
 
