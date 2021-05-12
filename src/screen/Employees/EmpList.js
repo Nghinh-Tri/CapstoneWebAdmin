@@ -101,7 +101,10 @@ class EmpList extends Component {
                                                 <i className="material-icons">add_box</i>Create New Employee
                                         </div>
                                         </button>
-                                        <Search search="Employee" placeholder="Search employee name ..." searchEmp={this.searchEmp} />
+                                        <Search search="Employee"
+                                            refresh={profiles.isRefresh}
+                                            placeholder="Search employee name ..."
+                                            searchEmp={this.searchEmp} />
                                     </div>
 
                                     {profiles.items.length > 0 ?

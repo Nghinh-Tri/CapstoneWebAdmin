@@ -137,7 +137,10 @@ class Certification extends Component {
                                                 <i className="material-icons">add_box</i>Create New Certificate
                                         </div>
                                         </button>
-                                        <Search search="Certi" placeholder="Search certificate name ..." searchCert={this.searchCert} />
+                                        <Search search="Certi"
+                                            refresh={certiList.isRefresh}
+                                            placeholder="Search certificate name ..."
+                                            searchCert={this.searchCert} />
                                     </div>
                                     {result.items.length > 0 ?
                                         <div className="table-responsive">

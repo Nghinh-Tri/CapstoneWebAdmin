@@ -15,7 +15,7 @@ export const fetchPostionList = () => {
     }
 }
 
-export const fetchPostionListPaging = (pageIndex, search) => {
+export const fetchPostionListPaging = (pageIndex, search, refresh) => {
     var url = ''
     if (search.length === 0)
         url = `${API_URL}/Position/paging?PageIndex=${pageIndex}&PageSize=10`
@@ -26,7 +26,7 @@ export const fetchPostionListPaging = (pageIndex, search) => {
             url,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
         ).then(res => {
-            dispatch(fetchPostionListPaginSuccess(res.data.resultObj))
+            dispatch(fetchPostionListPaginSuccess(res.data.resultObj, typeof refresh === 'undefined' ? false : refresh))
         })
     }
 }
@@ -117,10 +117,10 @@ export const updatePositionSuccess = () => {
 }
 
 
-export const fetchPostionListPaginSuccess = (positionList) => {
+export const fetchPostionListPaginSuccess = (positionList, refresh) => {
     return {
         type: POSITION.FETCH_POSITION_LIST_PAGING,
-        positionList
+        positionList, refresh
     }
 }
 

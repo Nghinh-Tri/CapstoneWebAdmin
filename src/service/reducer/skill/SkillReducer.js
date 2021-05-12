@@ -7,6 +7,7 @@ const skillReducer = (state = initState, action) => {
     switch (action.type) {
         case SKILL.FETCH_ALL_SKILL:
             state = action.skills
+            state.isRefresh = action.refresh
             return state
         case SKILL.GENERATE_SKILL:
             state = action.skill

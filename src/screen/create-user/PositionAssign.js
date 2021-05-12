@@ -54,6 +54,10 @@ class PositionAssign extends Component {
         if (prevProps.item !== this.props.item) { }
     }
 
+    componentWillUnmount = () => {
+        this.props.refreshPage()
+    }
+
     onUpdatePositionID = (value) => {
         this.props.onUpdatePosID(value)
     }
@@ -245,6 +249,9 @@ const mapDispatchToProps = dispatch => {
         },
         updatePosition: (empID, item, role) => {
             dispatch(Action.updatePositionDetail(empID, item, role))
+        },
+        refreshPage: () => {
+            dispatch(Action.refreshPage())
         }
     }
 }

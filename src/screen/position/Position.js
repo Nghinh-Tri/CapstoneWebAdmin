@@ -130,7 +130,10 @@ class Position extends Component {
                                                 <i className="material-icons">add_box</i>Create New Position
                                         </div>
                                         </button>
-                                        <Search search="Position" placeholder="Search position name ..." searchPos={this.searchPos} />
+                                        <Search search="Position"
+                                            refresh={item.isRefresh}
+                                            placeholder="Search position name ..."
+                                            searchPos={this.searchPos} />
                                     </div>
                                     {item.items.length > 0 ?
                                         <div className="table-responsive">

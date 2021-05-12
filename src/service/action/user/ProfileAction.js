@@ -11,7 +11,7 @@ export const generateProfile = (profile) => {
     }
 }
 
-export const fetchProfile = (pageIndex, search, role) => {
+export const fetchProfile = (pageIndex, search, role, refresh) => {
     var url = ''
     if (search.length > 0) {
         url = `${API_URL}/User/paging?Keyword=${search}&RoleName=${role}&PageIndex=${pageIndex}&PageSize=10`
@@ -23,7 +23,7 @@ export const fetchProfile = (pageIndex, search, role) => {
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
             console.log(res.data)
-            dispatch(fetchProfileSuccess(res.data.resultObj))
+            dispatch(fetchProfileSuccess(res.data.resultObj, typeof refresh === 'undefined' ? false : refresh))
         })
     }
 }
@@ -67,10 +67,10 @@ export const updateProfile = (id, profile) => {
     }
 }
 
-export const fetchProfileSuccess = (resultObj) => {
+export const fetchProfileSuccess = (resultObj, refresh) => {
     return {
         type: Type.FETCH_PROFILE,
-        resultObj
+        resultObj, refresh
     }
 }
 

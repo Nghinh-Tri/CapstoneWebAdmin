@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Route } from 'react-router-dom';
+import { fetchCertificationPaging } from '../../service/action/certificate/CertificationSelectBarAction';
+import { fetchPostionListPaging } from '../../service/action/position/PositionSelectBarAction';
 import { fetchProject } from '../../service/action/project/ProjectAction';
+import { fetchSkill } from '../../service/action/skill/SkillAction';
+import { fetchProfile } from '../../service/action/user/ProfileAction';
 import { history } from "../../service/helper/History";
 class MenuLink extends Component {
 
@@ -12,7 +16,18 @@ class MenuLink extends Component {
             case '/project':
                 this.props.fetchProjectList()
                 break;
-
+            case '/employee':
+                this.props.fetchEmployeeList()
+                break
+            case '/position':
+                this.props.fetchPosittionList()
+                break;
+            case '/skill':
+                this.props.fetchSkillsList()
+                break;
+            case '/certification':
+                this.props.fetchCertificationsList()
+                break;
             default:
                 break;
         }
@@ -36,8 +51,20 @@ class MenuLink extends Component {
 const mapDispatchToProp = (dispatch) => {
     return {
         fetchProjectList: () => {
-            dispatch(fetchProject(1, ''))
-        }
+            dispatch(fetchProject(1, '', true))
+        },
+        fetchEmployeeList: () => {
+            dispatch(fetchProfile(1, '', 'Employee', true))
+        },
+        fetchPosittionList: () => {
+            dispatch(fetchPostionListPaging(1, '', true))
+        },
+        fetchSkillsList: () => {
+            dispatch(fetchSkill(1, '', 0, true))
+        },
+        fetchCertificationsList: () => {
+            dispatch(fetchCertificationPaging(1, '', true))
+        },
     }
 }
 

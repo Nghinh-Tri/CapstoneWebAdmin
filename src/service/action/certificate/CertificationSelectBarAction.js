@@ -16,7 +16,7 @@ export const fetchCertification = (hardSkillID) => {
     }
 }
 
-export const fetchCertificationPaging = (pageIndex, search) => {
+export const fetchCertificationPaging = (pageIndex, search, refresh) => {
     var url = ''
     if (search.length > 0)
         url = `${API_URL}/Certification/paging?Keyword=${search}&PageIndex=${pageIndex}&PageSize=10`
@@ -27,7 +27,7 @@ export const fetchCertificationPaging = (pageIndex, search) => {
             url,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
         ).then(res => {
-            dispatch(fetchCertificationPagingSuccess(res.data.resultObj))
+            dispatch(fetchCertificationPagingSuccess(res.data.resultObj, typeof refresh === 'undefined' ? false : refresh))
         })
     }
 }
@@ -111,10 +111,10 @@ export const fetchCertificationSuccess = (certiList) => {
     };
 }
 
-export const fetchCertificationPagingSuccess = (certiList) => {
+export const fetchCertificationPagingSuccess = (certiList, refresh) => {
     return {
         type: CERTIFICATION.FETCH_CERTIFICATION_PAGING,
-        certiList
+        certiList, refresh
     };
 }
 

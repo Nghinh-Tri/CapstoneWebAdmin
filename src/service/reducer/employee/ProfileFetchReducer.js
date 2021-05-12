@@ -6,6 +6,7 @@ const profileFormReducer = (state = initState, action) => {
     switch (action.type) {
         case Type.FETCH_PROFILE:
             state = action.resultObj
+            state.isRefresh = action.refresh
             return state
         case Type.FETCH_PROFILE_DETAIL:
             state = action.resultObj
