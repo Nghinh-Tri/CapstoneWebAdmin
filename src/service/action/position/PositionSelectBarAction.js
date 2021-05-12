@@ -82,8 +82,10 @@ export const changeStatusPosition = (posID, pageIndex, search) => {
             null,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
         ).then(res => {
-            if (res.status === 200)
+            if (res.data.isSuccessed)
                 dispatch(fetchPostionListPaging(pageIndex, search))
+        }).catch(err => {
+            dispatch(changeStatusFail(err.response.data.message))
         })
     }
 }
@@ -97,18 +99,16 @@ export const createPositionFail = (error) => {
     return { type: POSITION.CREATE_FAIL, error }
 }
 
+export const changeStatusFail = (error) => {
+    return { type: POSITION.CHANGE_STATUS_FAIL, error }
+}
+
 export const fetchPostionListSuccess = (positionList) => {
-    return {
-        type: Type.FETCH_POSITION_LIST,
-        positionList
-    }
+    return { type: Type.FETCH_POSITION_LIST, positionList }
 }
 
 export const fetchPostionDetailSuccess = (pos) => {
-    return {
-        type: POSITION.FETCH_POSITION_DETAIL,
-        pos
-    }
+    return { type: POSITION.FETCH_POSITION_DETAIL, pos }
 }
 
 export const updatePositionSuccess = () => {

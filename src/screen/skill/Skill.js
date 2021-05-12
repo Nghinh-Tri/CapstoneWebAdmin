@@ -1,11 +1,11 @@
-import { Pagination, Spin } from 'antd';
+import { Modal, Pagination, Spin } from 'antd';
 import confirm from 'antd/lib/modal/confirm';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SelectBar from '../../component/create-position-form/select-search/SelectBar';
 import Search from '../../component/search/Search';
 import { checkSession } from '../../service/action/user/AuthenticateAction';
-import { changeStatus, fetchSkill } from '../../service/action/skill/SkillAction';
+import { changeStatus, fetchSkill, refreshPage } from '../../service/action/skill/SkillAction';
 import { history } from '../../service/helper/History';
 import { showPositionSpan, showPositionStatus } from '../../service/util/util';
 import { SKILL } from '../../service/constant/nodata';
@@ -42,6 +42,14 @@ class Skill extends Component {
         if (prevProps.skills !== this.props.skills) {
             if (this.props.skills !== null) {
                 this.setState({ isLoading: false })
+            }
+        } else if (prevProps.error !== this.props.error) {
+            var { refreshError, error } = this.props
+            if (this.props.error !== '') {
+                Modal.error({
+                    title: error,
+                    onOk: () => { refreshError() }
+                });
             }
         }
     }
@@ -195,7 +203,8 @@ class Skill extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        skills: state.SkillReducer
+        skills: state.SkillReducer,
+        error: state.ChangeStatusErrorReducer
     }
 }
 
@@ -209,6 +218,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         changeStatus: (skillID, pageIndex, search) => {
             dispatch(changeStatus(skillID, pageIndex, search))
+        },
+        refreshError: () => {
+            dispatch(refreshPage())
         }
     }
 }
