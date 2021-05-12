@@ -36,20 +36,52 @@ class Header extends Component {
         var result = null
         result = notiList.map((noti, index) => {
             return (
-                <a class="dropdown-item" key={index} onClick={() => this.onSeen(noti.id, noti.status)} style={{ }} >
-                    <div style={{ display: 'flex', flexDirection: 'row' ,maxWidth: 500 }}>
-                        {noti.status ?
-                            <div className='col-1'>
-                                <Badge dot />
-                            </div>
-                            : <div className='col-1'></div>}
-                        <div  >
-                            <div style={{ fontWeight: 600, wordWrap: 'break-word', }} >{noti.title}</div>
-                            <div style={{ wordWrap: 'break-word', overflowX:'auto' }}>{noti.body}</div>
-                        </div>
+              <a
+                class="dropdown-item"
+                key={index}
+                onClick={() => this.onSeen(noti.id, noti.status)}
+                style={{}}
+              >
+                <div
+                  style={{ display: "flex", flexDirection: "row", width: 500 }}
+                >
+                  {noti.status ? (
+                    <div className="col-1" 
+                    style={{ marginLeft: "-20px" }}>
+                      <Badge dot />
                     </div>
-                </a>
-            )
+                  ) : (
+                    <div
+                      className="col-1"
+                      style={{ marginLeft: "-20px" }}
+                    ></div>
+                  )}
+                  <div>
+                    <div
+                      style={{
+                        fontWeight: 600,
+                        wordWrap: "break-word",
+                        width: 500,
+                        overflowWrap: "normal",
+                        whiteSpace: "pre-wrap",
+                      }}
+                    >
+                      {noti.title}
+                    </div>
+                    <div
+                      style={{
+                        wordWrap: "break-word",
+                        width: 500,
+                        overflowWrap: "normal",
+                        whiteSpace: "pre-wrap",
+                      }}
+                    >
+                      {noti.body}
+                    </div>
+                  </div>
+                </div>
+              </a>
+            );
         })
         return result
     }
@@ -74,7 +106,7 @@ class Header extends Component {
                             <i class="fas fa-bell"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown"
-                            style={{ overflow: 'auto', maxHeight: 600 }} >
+                            style={{ overflowX: 'hidden', maxHeight: 600 }} >
                             {this.showNotificate()}
                         </div>
                     </li>
