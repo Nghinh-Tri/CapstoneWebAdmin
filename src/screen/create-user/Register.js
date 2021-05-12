@@ -90,7 +90,7 @@ class Register extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.setState({ submitted: true });
-        const { address, phoneNumber, userName, email, fullname, password, confirmPassword, identityNumber, role } = this.state;
+        const { address, phoneNumber, userName, email, fullname, identityNumber, role } = this.state;
         if (this.props.location.pathname === '/employee/register') {
             this.props.register(
                 {
@@ -107,11 +107,11 @@ class Register extends Component {
             var { profile } = this.props
             this.props.updateProfile(profile.id,
                 {
-                    name: fullname,
-                    identityNumber: identityNumber,
-                    address: address,
-                    email: email,
-                    phoneNumber: phoneNumber,
+                    name: fullname.trim(),
+                    identityNumber: identityNumber.trim(),
+                    address: address.trim(),
+                    email: email.trim(),
+                    phoneNumber: phoneNumber.trim(),
                     roleName: role
                 })
         }

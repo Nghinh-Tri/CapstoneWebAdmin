@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { DeleteOutlined } from "@ant-design/icons";
 
 class CandidateTable extends Component {
 
@@ -17,7 +18,8 @@ class CandidateTable extends Component {
                 <th className="text-center">{candidate.hardSkillMatch.toFixed(2)} /10 </th>
                 <th className="text-center">{candidate.overallMatch.toFixed(2)} / 100</th>
                 <th className="text-center">
-                    <span class="material-icons" style={{ color: '#85C1E9', cursor: 'pointer' }} onClick={() => this.removeCandiate(candidate, this.props.position)} >delete</span>
+                    <DeleteOutlined style={{ color: '#85C1E9', cursor: 'pointer', fontSize: 22 }}
+                        onClick={() => this.removeCandiate(candidate, this.props.position)} />
                 </th>
             </tr>)
         })

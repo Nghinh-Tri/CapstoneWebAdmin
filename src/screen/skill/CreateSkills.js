@@ -185,7 +185,7 @@ class CreateSkills extends Component {
 const mapStateToProps = (state) => {
     return {
         skill: state.SkillReducer,
-        projectField: state.ProjectFieldReducer,
+        projectField: state.ProjectTypeReducer,
         error: state.ErrorReducer
     }
 }

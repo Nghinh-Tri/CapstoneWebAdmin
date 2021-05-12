@@ -1,10 +1,11 @@
-import { Descriptions, Modal, notification } from 'antd';
+import { Modal, notification } from 'antd';
 import moment from 'moment';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { getPrevRequire } from '../../service/action/position/PositionAction';
 import { history } from '../../service/helper/History';
+import { showHardSkillLevel } from "../../service/util/util";
 
 class ListEmployeeContent extends Component {
 
@@ -97,11 +98,11 @@ class ListEmployeeContent extends Component {
     showHardSkill = (skills) => {
         var result = null
         result = skills.map((value, index) => {
-            return (<ul key={index} >
+            return (<ul key={index} style={{ width: 300 }}>
                 <li>{value.hardSkillName}</li>
-                <li>Skill Level: {value.skillLevel}</li>
+                <li>Skill Level: {showHardSkillLevel(value.skillLevel)}</li>
                 <li>
-                    Certification Level: {value.certificationLevel === 0 ? 'All' : 'Level ' + value.certificationLevel}  <br />
+                    Certificate Level: {value.certificationLevel === 0 ? 'All' : 'Level ' + value.certificationLevel}  <br />
                 </li>
                 <li>
                     Priority: {value.priority}
@@ -115,7 +116,7 @@ class ListEmployeeContent extends Component {
         var result = null
         result = language.map((value, index) => {
             return (
-                <ul key={index}>
+                <ul key={index} style={{ width: 200 }}>
                     <li>{value.langName}</li>
                     <li>Priority: {value.priority}</li>
                 </ul>
@@ -128,7 +129,7 @@ class ListEmployeeContent extends Component {
         var result = null
         result = softSkill.map((value, index) => {
             return (
-                <ul key={index}>
+                <ul key={index} style={{ width: 200 }}>
                     <li>{value.softSkillName}</li>
                 </ul>
             )
@@ -169,35 +170,36 @@ class ListEmployeeContent extends Component {
                             <button type="submit" className="btn btn-primary pull-right" onClick={this.onHandle} style={{ fontWeight: 700 }} onClick={this.onClickAddEmployees} >
                                 Add Employees
                         </button>
-                            <Modal title="Requirement" width={1000}
+                            <Modal title={<span style={{ color: 'red', fontWeight: 600 }} >System will suggest suitable employee followed those requirements </span>}
+                                width={1000}
                                 visible={this.state.visible}
                                 onOk={this.handleOk}
                                 onCancel={this.handleCancel} >
-                                <Descriptions>
-                                    <Descriptions.Item>
-                                        <span style={{ color: 'red', fontWeight: 600 }} >System will suggest suitable employee followed those requirements </span>
-                                    </Descriptions.Item>
-                                </Descriptions>
-                                <Descriptions>
-                                    <Descriptions.Item>{prevRequire.posName} </Descriptions.Item>
-                                    <Descriptions.Item label='Candidate Needed'>{prevRequire.missingEmployee} </Descriptions.Item>
-                                </Descriptions>
-                                <Descriptions>
-                                    <Descriptions.Item span={3} label='Hard Skill' />
-                                    <Descriptions.Item >
-                                        {this.showHardSkill(prevRequire.hardSkills)}
-                                    </Descriptions.Item>
-                                </Descriptions>
-                                <Descriptions>
-                                    <Descriptions.Item span={3} label='Language' />
-                                    <Descriptions.Item >
-                                        {this.showLanguage(prevRequire.language)}
-                                    </Descriptions.Item>
-                                </Descriptions>
-                                <Descriptions>
-                                    <Descriptions.Item span={3} label='Soft Skill' />
-                                    {this.showSoftSkill(prevRequire.softSkillIDs)}
-                                </Descriptions>
+                                <div>
+                                    <div style={{ display: 'flex', flexDirection: 'row', marginBottom: 10 }} >
+                                        <span style={{ fontWeight: 600 }} >{prevRequire.posName}</span>
+                                        <span style={{ marginLeft: 300, fontWeight: 600 }} >Candidate Needed:</span>
+                                        <span style={{ marginLeft: 20 }}>{prevRequire.missingEmployee}</span>
+                                    </div>
+                                    <div style={{ marginTop: 10, marginBottom: 10 }} >
+                                        <div style={{ marginTop: 10, marginBottom: 10, fontWeight: 600 }}>Hard Skill</div>
+                                        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }} >
+                                            {this.showHardSkill(prevRequire.hardSkills)}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div style={{ marginTop: 10, marginBottom: 10, fontWeight: 600 }}>Language</div>
+                                        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }} >
+                                            {this.showLanguage(prevRequire.language)}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div style={{ marginTop: 10, marginBottom: 10, fontWeight: 600 }}>Soft Skill</div>
+                                        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }} >
+                                            {this.showSoftSkill(prevRequire.softSkillIDs)}
+                                        </div>
+                                    </div>
+                                </div>
                             </Modal>
                         </> : '' : ''}
             </React.Fragment>

@@ -93,7 +93,7 @@ class ConfirmSelectCandidate extends Component {
                 <ProgressBar current={3} />
                 <BriefDetail />
                 {candidateList.length === 0 ?
-                    <h4 className="text-center" style={{ fontStyle: 'italic', color: 'gray', }} >No data</h4>
+                    history.push(`/project/add-employees/${this.props.match.params.id}`)
                     :
                     this.showList(candidateList)
                 }
