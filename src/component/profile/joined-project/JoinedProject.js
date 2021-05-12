@@ -38,8 +38,10 @@ class JoinedProject extends Component {
                         </th>
                         <th className="">{project.posName}</th>
                         <th className="text-center">{moment(project.dateIn).format('DD-MM-YYYY')}</th>
-                        <th className="text-center">{moment(project.dateIn).format('DD-MM-YYYY')}</th>
-                        <th className="text-center">{moment(project.dateIn).format('DD-MM-YYYY')}</th>
+                        <th className="text-center">{moment(project.dateBegin).format('DD-MM-YYYY')}</th>
+                        <th className="text-center">
+                            {project.dateEnd === null ? moment(project.dateEstimatedEnd).format('DD-MM-YYYY') : moment(project.dateEnd).format('DD-MM-YYYY')}
+                        </th>
                     </tr>
                 );
             })
