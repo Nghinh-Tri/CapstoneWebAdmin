@@ -68,6 +68,24 @@ export const fetchSuggestList = () => {
     }
 }
 
+export const pagingSuggestList = (list, pageIndex) => {
+    var url = `${API_URL}/User/candidate/paging?PageIndex=${pageIndex}&PageSize=10`
+    return (dispatch) => {
+        axios.put(
+            url,
+            list,
+            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
+        ).then(res => {
+            if (res.data.isSuccessed)
+                dispatch(pagingSuggestListSuccess(res.data.resultObj))
+        })
+    }
+}
+
+export const pagingSuggestListSuccess = (result) => {
+    return { type: ADD_MORE_CANDIDATES.PAGING_SUGGEST_LIST, result }
+}
+
 export const fetchSuggestListSuccess = (list) => {
     return {
         type: ADD_MORE_CANDIDATES.FETCH_SUGGEST_LIST,

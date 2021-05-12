@@ -36,16 +36,16 @@ class Header extends Component {
         var result = null
         result = notiList.map((noti, index) => {
             return (
-                <a class="dropdown-item" key={index} onClick={() => this.onSeen(noti.id, noti.status)} >
-                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <a class="dropdown-item" key={index} onClick={() => this.onSeen(noti.id, noti.status)} style={{ }} >
+                    <div style={{ display: 'flex', flexDirection: 'row' ,maxWidth: 500 }}>
                         {noti.status ?
                             <div className='col-1'>
                                 <Badge dot />
                             </div>
                             : <div className='col-1'></div>}
-                        <div >
-                            <div style={{ fontWeight: 600,  }} >{noti.title}</div>
-                            <div style={{ }}>{noti.body}</div>
+                        <div  >
+                            <div style={{ fontWeight: 600, wordWrap: 'break-word', }} >{noti.title}</div>
+                            <div style={{ wordWrap: 'break-word', overflowX:'auto' }}>{noti.body}</div>
                         </div>
                     </div>
                 </a>
@@ -73,8 +73,8 @@ class Header extends Component {
                             <Badge count={this.props.number} size='small' offset={[20, -20]}></Badge>
                             <i class="fas fa-bell"></i>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown" 
-                        style={{overflow:'auto', maxHeight:600}} >
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown"
+                            style={{ overflow: 'auto', maxHeight: 600 }} >
                             {this.showNotificate()}
                         </div>
                     </li>
