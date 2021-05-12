@@ -33,6 +33,7 @@ import CheckRejectedCandidates from "./confirm/CheckRejectedCandidates";
 import RegisterErrorReducer from "./error/RegisterErrorReducer";
 import SuggestAddressReducer from "./employee/SuggestAddressReducer";
 import PagingSuggestListReducer from "./suggest/PagingSuggestListReducer";
+import ChangeStatusErrorReducer from "./error/ChangeStatusErrorReducer";
 const MainReducer = combineReducers({
     authentication,//use
     ProjectFetchReducer,//use    
@@ -67,7 +68,8 @@ const MainReducer = combineReducers({
     CheckRejectedCandidates,
     RegisterErrorReducer,
     SuggestAddressReducer,
-    PagingSuggestListReducer
+    PagingSuggestListReducer,
+    ChangeStatusErrorReducer
 })
 
 export default MainReducer

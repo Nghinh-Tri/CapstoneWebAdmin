@@ -1,10 +1,10 @@
-import { Pagination, Spin } from 'antd';
+import { Modal, Pagination, Spin } from 'antd';
 import confirm from 'antd/lib/modal/confirm';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Search from '../../component/search/Search';
 import { checkSession } from '../../service/action/user/AuthenticateAction';
-import { changeStatus, fetchCertificationPaging } from '../../service/action/certificate/CertificationSelectBarAction';
+import { changeStatus, fetchCertificationPaging, refreshPage } from '../../service/action/certificate/CertificationSelectBarAction';
 import { history } from '../../service/helper/History';
 import { showPositionSpan, showPositionStatus } from '../../service/util/util';
 import { CERTIFICATE } from '../../service/constant/nodata';
@@ -35,6 +35,14 @@ class Certification extends Component {
         if (prevProps.certiList !== this.props.certiList) {
             if (typeof this.props.certiList.items !== 'undefined') {
                 this.setState({ isLoading: false })
+            }
+        } else if (prevProps.error !== this.props.error) {
+            var { refreshError, error } = this.props
+            if (this.props.error !== '') {
+                Modal.error({
+                    title: error,
+                    onOk: () => { refreshError() }
+                });
             }
         }
     }
@@ -174,7 +182,8 @@ class Certification extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        certiList: state.CertificationReducer
+        certiList: state.CertificationReducer,
+        error: state.ChangeStatusErrorReducer
     }
 }
 
@@ -188,6 +197,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         changeStatus: (certificationID, pageIndex, search) => {
             dispatch(changeStatus(certificationID, pageIndex, search))
+        },
+        refreshError: () => {
+            dispatch(refreshPage())
         }
     }
 }

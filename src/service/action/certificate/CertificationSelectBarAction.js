@@ -91,15 +91,17 @@ export const changeStatus = (certificationID, pageIndex, search) => {
             null,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
         ).then(res => {
-            if (res.status = 200) {
+            if (res.data.isSuccessed) {
                 dispatch(fetchCertificationPaging(pageIndex, search))
             }
         }).catch(err => {
-            // if (err.response.status === 401) {
-            //     history.push('/login')
-            // }
+            dispatch(changeStatusFail(err.response.data.message))
         })
     }
+}
+
+export const changeStatusFail = (error) => {
+    return { type: CERTIFICATION.CHANGE_STATUS_FAIL, error }
 }
 
 export const fetchCertificationSuccess = (certiList) => {

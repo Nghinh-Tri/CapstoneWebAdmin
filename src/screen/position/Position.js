@@ -1,10 +1,10 @@
-import { Pagination, Spin } from 'antd';
+import { Modal, Pagination, Spin } from 'antd';
 import confirm from 'antd/lib/modal/confirm';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Search from '../../component/search/Search';
 import { checkSession } from '../../service/action/user/AuthenticateAction';
-import { changeStatusPosition, fetchPostionListPaging } from '../../service/action/position/PositionSelectBarAction';
+import { changeStatusPosition, fetchPostionListPaging, refreshPage } from '../../service/action/position/PositionSelectBarAction';
 import { history } from '../../service/helper/History';
 import { showPositionSpan, showPositionStatus } from '../../service/util/util';
 import { POSITION } from '../../service/constant/nodata';
@@ -35,6 +35,14 @@ class Position extends Component {
         if (prevProps.item !== this.props.item) {
             if (typeof this.props.item.items !== 'undefined') {
                 this.setState({ isLoading: false })
+            }
+        } else if (prevProps.error !== this.props.error) {
+            var { refreshError, error } = this.props
+            if (this.props.error !== '') {
+                Modal.error({
+                    title: error,
+                    onOk: () => { refreshError() }
+                });
             }
         }
     }
@@ -99,9 +107,6 @@ class Position extends Component {
 
     render() {
         var { item } = this.props
-        var list = []
-        if (typeof item.items !== 'undefined')
-            list = item.items
         return (
             <React.Fragment>
                 <ol class="breadcrumb mb-4 mt-3">
@@ -167,7 +172,8 @@ class Position extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        item: state.PositionReducer
+        item: state.PositionReducer,
+        error: state.ChangeStatusErrorReducer
     }
 }
 
@@ -181,6 +187,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         changeStatus: (posID, pageIndex, search) => {
             dispatch(changeStatusPosition(posID, pageIndex, search))
+        },
+        refreshError: () => {
+            dispatch(refreshPage())
         }
     }
 }

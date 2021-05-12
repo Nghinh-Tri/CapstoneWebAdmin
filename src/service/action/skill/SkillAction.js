@@ -66,12 +66,17 @@ export const changeStatus = (skillID, pageIndex, search) => {
             null,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
         ).then(res => {
-            if (res.status = 200) {
+            if (res.data.isSuccessed) {
                 dispatch(fetchSkill(pageIndex, search))
             }
         }).catch(err => {
+            dispatch(changeStatusFail(err.response.data.message))
         })
     }
+}
+
+export const changeStatusFail = (error) => {
+    return { type: SKILL.CHANGE_STATUS_FAIL, error }
 }
 
 export const fetchSkillSuccess = (skills) => {
