@@ -9,6 +9,7 @@ import Layout from './Layout/Layout';
 import RouteList from './RouterMap'
 import ReactNotification from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
+import ChangePassword from './screen/change-password/ChangePassword';
 // import SuggestCandidate from './screen/suggest-candidate/SuggestCandidate';
 
 
@@ -29,11 +30,12 @@ class App extends Component {
     render() {
         return (
             <React.Fragment>
-                <Router history={history}>
+                <Router history={history} forceRefresh >
                 <ReactNotification />
                     <div>
                         {this.showPrivateRoute(RouteList)}
                         <Route path="/login" component={LoginPage} />
+                        <Route path="/change-password" component={ChangePassword} />
                     </div>
                 </Router>
             </React.Fragment>

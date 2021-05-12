@@ -8,6 +8,7 @@ import { checkSession } from '../../service/action/user/AuthenticateAction';
 import { changeStatus, fetchSkill } from '../../service/action/skill/SkillAction';
 import { history } from '../../service/helper/History';
 import { showPositionSpan, showPositionStatus } from '../../service/util/util';
+import { SKILL } from '../../service/constant/nodata';
 
 class Skill extends Component {
 
@@ -66,14 +67,14 @@ class Skill extends Component {
         });
     }
 
-    onShowListSkills = (items) => {
+    onShowListSkills = (items, pageIndex) => {
         var result = null
         if (typeof items !== 'undefined' && items.length > 0) {
             result = items.map((item, index) => {
                 if (item.skillType === this.state.selectType)
                     return (
                         <tr key={index}>
-                            <th className="text-center">{index + 1}</th>
+                            <th className="text-center">{(pageIndex - 1) * 10 + index + 1}</th>
                             <th className="" style={{ minWidth: 200, maxWidth: 200 }} >{item.skillName}</th>
                             <th style={{ fontWeight: 600, width: 200 }}>{item.skillType === 0 ? 'Hard skill' : 'Soft skill'}</th>
                             <th className="text-center" style={{ width: 150 }} >
@@ -125,9 +126,12 @@ class Skill extends Component {
                             <i class="fas fa-table mr-1"></i>Skills
                         </div>
                         <div className="card-body">
-                            {this.state.isLoading ? ("")
+                            {this.state.isLoading ?
+                                <div className="row justify-content-center">
+                                    <Spin className="text-center" size="large" />
+                                </div>
                                 :
-                                (
+                                <>
                                     <div className="row mb-3">
                                         <button type="button" className="btn btn-primary"
                                             style={{ fontWeight: 700, borderRadius: 5, marginLeft: 20, marginTop: 10 }}
@@ -138,55 +142,45 @@ class Skill extends Component {
                                         </button>
                                         <Search search="Skill" placeholder="Search skill name ..." searchSkill={this.searchSkill} />
                                     </div>
-                                )
-                            }
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead className=" text-primary">
-                                        <tr>
-                                            <th className="font-weight-bold text-center">No</th>
-                                            <th className="font-weight-bold text-center">Skill</th>
-                                            <th className="font-weight-bold text-center" width={250} >
-                                                <div className='row'>
-                                                    <div className='col-auto' style={{ marginTop: 10 }} > Type</div>
-                                                    <div className='col-auto mt-1'>
-                                                        <SelectBar name='skillType'
-                                                            type="role"
-                                                            value={this.state.selectType}
-                                                            placeholder='Select skill type'
-                                                            list={this.state.type}
-                                                            onSelectType={this.onSelectType} />
-                                                    </div>
-                                                </div>
-                                            </th>
-                                            <th className="font-weight-bold text-center" style={{ marginLeft: 20 }}>Status</th>
-                                            <th className="font-weight-bold text-center"></th>
-                                            <th className="font-weight-bold text-center"></th>
-                                        </tr>
-                                    </thead>
-                                    {this.state.isLoading ? (
-                                        ""
-                                    ) : (
-                                        <tbody>{this.onShowListSkills(result.items)}</tbody>
-                                    )}
-                                </table>
-                            </div>
-                            {
-                                this.state.isLoading ?
-                                    (
-                                        <div className="row justify-content-center">
-                                            <Spin className="text-center" size="large" />
+                                    {result.items.length > 0 ?
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                                <thead className=" text-primary">
+                                                    <tr>
+                                                        <th className="font-weight-bold text-center">No</th>
+                                                        <th className="font-weight-bold text-center">Skill</th>
+                                                        <th className="font-weight-bold text-center" width={250} >
+                                                            <div className='row'>
+                                                                <div className='col-auto' style={{ marginTop: 10 }} > Type</div>
+                                                                <div className='col-auto mt-1'>
+                                                                    <SelectBar name='skillType'
+                                                                        type="role"
+                                                                        value={this.state.selectType}
+                                                                        placeholder='Select skill type'
+                                                                        list={this.state.type}
+                                                                        onSelectType={this.onSelectType} />
+                                                                </div>
+                                                            </div>
+                                                        </th>
+                                                        <th className="font-weight-bold text-center" style={{ marginLeft: 20 }}>Status</th>
+                                                        <th className="font-weight-bold text-center"></th>
+                                                        <th className="font-weight-bold text-center"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>{this.onShowListSkills(result.items, result.pageIndex)}</tbody>
+                                            </table>
                                         </div>
-                                    )
-                                    : ("")
-                            }
-                            {
-                                this.state.isLoading ? ("") || result.pageCount === 1 :
-                                    (
+                                        :
+                                        <div className='row justify-content-center'>
+                                            <h4 style={{ fontStyle: 'italic', color: 'gray' }} >{SKILL.NO_SKILL}</h4>
+                                        </div>
+                                    }
+                                    {result.pageCount <= 1 ? '' :
                                         <div className="row justify-content-center" style={{ marginBottom: 20 }}>
                                             <Pagination defaultCurrent={result.pageIndex} total={result.totalRecords} onChange={this.onSelectPage} />
                                         </div>
-                                    )
+                                    }
+                                </>
                             }
                         </div>
                     </div>

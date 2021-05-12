@@ -6,6 +6,9 @@ import { fetchProfileDetail } from '../../service/action/user/ProfileAction';
 import { history } from '../../service/helper/History';
 import { showRole } from '../../service/util/util';
 import { Button, Descriptions } from 'antd';
+import { compose } from 'redux';
+import { withRouter } from 'react-router';
+import { NavLink } from 'react-router-dom';
 
 class ProfileTable extends Component {
 
@@ -31,8 +34,13 @@ class ProfileTable extends Component {
         history.push(`/employee/update-profile/${this.props.empID}`)
     }
 
+    onMoveToChangePassword = () => {
+        history.push('/change-password')
+    }
+
     render() {
         var { profile } = this.props
+        console.log(this.props.match)
         return (
             <React.Fragment>
                 {this.state.isLoad ?
@@ -43,7 +51,13 @@ class ProfileTable extends Component {
                     <div className="card">
                         <div className="card-body">
                             <div className="form-group">
-                                <Descriptions title="Profile Info" layout='horizontal' bordered extra={<Button onClick={this.onUpdate} type="primary" >Edit</Button>}>
+                                <Descriptions title="Profile Info" layout='horizontal' bordered
+                                    extra={
+                                        this.props.match.path.includes('profile/') ?
+                                            <Button onClick={this.onUpdate} type="primary" >Edit</Button>
+                                            :
+                                            <Button onClick={this.onMoveToChangePassword} type="primary">Change Password</Button>
+                                    }>
 
                                     <Descriptions.Item span={3} label="Name">
                                         <Input className="form-group" value={profile.name} disabled="true"
@@ -97,4 +111,4 @@ const mapDispatchToProp = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProp, mapDispatchToProp)(ProfileTable);
+export default compose(withRouter, connect(mapStateToProp, mapDispatchToProp))(ProfileTable);

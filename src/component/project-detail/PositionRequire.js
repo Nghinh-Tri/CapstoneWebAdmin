@@ -46,30 +46,29 @@ class PositionRequire extends Component {
                     </div>
                     :
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th width={50} className='text-center'>No</th>
-                                        <th width={160}>Position</th>
-                                        <th width={160} className='text-center'>Candidates Needed</th>
-                                        <th width={160} className='text-center'>Missing Employees</th>
-                                        <th width={190} className='text-center'>Hard Skill Requirements</th>
-                                        <th width={190} className='text-center'>Language Requirements</th>
-                                        <th width={190} className='text-center'>Soft Skill Requirements</th>
-                                        <th width={120} className='text-center'>Created Date </th>
-                                        <th width={100} className='text-center'>Status</th>
-                                        <th width={100}></th>
-                                    </tr>
-                                </thead>
-                                {positionRequire.length > 0 ?
+                        {positionRequire.length > 0 ?
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th width={50} className='text-center'>No</th>
+                                            <th width={160}>Position</th>
+                                            <th width={160} className='text-center'>Candidates Needed</th>
+                                            <th width={160} className='text-center'>Missing Employees</th>
+                                            <th width={190} className='text-center'>Hard Skill Requirements</th>
+                                            <th width={190} className='text-center'>Language Requirements</th>
+                                            <th width={190} className='text-center'>Soft Skill Requirements</th>
+                                            <th width={120} className='text-center'>Created Date </th>
+                                            <th width={100} className='text-center'>Status</th>
+                                            <th width={100}></th>
+                                        </tr>
+                                    </thead>
                                     <tbody>
                                         {this.showPosition(positionRequire)}
                                     </tbody>
-                                    : ''}
-                            </table>
-                        </div>
-                        {positionRequire.length > 0 ? '' :
+                                </table>
+                            </div>
+                            :
                             <div className='row justify-content-center' style={{ width: 'auto' }} >
                                 <h4 style={{ fontStyle: 'italic', color: 'gray' }} >There is currently no requirement</h4>
                             </div>

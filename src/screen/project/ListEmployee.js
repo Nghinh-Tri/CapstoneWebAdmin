@@ -5,7 +5,7 @@ import ListEmployeeContent from './ListEmployeeContent';
 import { history } from '../../service/helper/History';
 import { Spin, Tabs, Tooltip } from "antd";
 import { InfoCircleTwoTone } from "@ant-design/icons";
-
+import { EMPLOYEE } from "../../service/constant/nodata";
 const TabPane = Tabs.TabPane;
 
 class ListEmployee extends Component {
@@ -34,20 +34,6 @@ class ListEmployee extends Component {
                 temp.push(position)
             });
             this.setState({ isLoading: false, positionList: temp })
-        }
-    }
-
-    componentWillReceiveProps = () => {
-
-    }
-
-    showEmployee = (list) => {
-        if (list.length > 0) {
-            return (<ListEmployeeContent item={list[this.state.positionSelect]} project={this.props.project} />)
-        } else {
-            return (<div className='row justify-content-center'>
-                <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
-            </div>)
         }
     }
 
@@ -87,9 +73,6 @@ class ListEmployee extends Component {
 
     render() {
         var { listEmployee } = this.props;
-        var postList = []
-        if (this.state.positionList.length >= 1)
-            postList = this.state.positionList
         return (
             <React.Fragment>
                 {this.state.isLoading ?
@@ -97,30 +80,27 @@ class ListEmployee extends Component {
                         <Spin className="text-center" size="large" />
                     </div>
                     :
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <Tabs defaultActiveKey={this.state.positionSelect} onChange={this.onSelectPos}>
-                                {this.getTabName()}
-                            </Tabs>
-                        </div>
-                        <div class="card-body">
-
-                            {this.showEmployee(listEmployee)}
-
-                            {listEmployee.length > 0 ? '' : <div className='row justify-content-center' style={{ width: 'auto' }} >
-                                <h4 style={{ fontStyle: 'italic', color: 'gray' }} >No data</h4>
-                            </div>}
-
-                            {listEmployee.length > 0 ?
-                                typeof listEmployee.find(i => i.employees.find(k => k.dateIn === null)) !== 'undefined' ?
+                    listEmployee.length <= 0 ?
+                        <div className='row justify-content-center' style={{ width: 'auto' }} >
+                            <h4 style={{ fontStyle: 'italic', color: 'gray' }} >{EMPLOYEE.NO_EMPLOYEE}</h4>
+                        </div> 
+                        :
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <Tabs defaultActiveKey={this.state.positionSelect} onChange={this.onSelectPos}>
+                                    {this.getTabName()}
+                                </Tabs>
+                            </div>
+                            <div class="card-body">
+                                <ListEmployeeContent item={listEmployee[this.state.positionSelect]} project={this.props.project} />
+                                {typeof listEmployee.find(i => i.employees.find(k => k.dateIn === null)) !== 'undefined' ?
                                     <button type="submit" className="btn btn-primary pull-right" onClick={this.onHandle} style={{ fontWeight: 700 }} >
                                         Confirm Candidates
-                        </button>
+                                        </button>
                                     : ''
-                                : ''
-                            }
+                                }
+                            </div>
                         </div>
-                    </div>
                 }
             </React.Fragment>
         );

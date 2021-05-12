@@ -50,7 +50,7 @@ class SuggestCandidateItems extends Component {
             <tr style={this.state.disable ? { backgroundColor: '#ff9999' } : index < candidateNeeds ? { backgroundColor: '#F0F0F0' } : { backgroundColor: 'white' }}>
                 <th className="text-center">{index + 1}</th>
                 <th className="">
-                    <NavLink className='text-primary' to={`/project/suggest-candidate/emp/${candidate.empID}`}> {candidate.empName}</NavLink>
+                    <NavLink className='text-primary' to={`/employee/profile/${candidate.empID}`}> {candidate.empName}</NavLink>
                 </th>
                 <th className="text-center">{candidate.projectTypeMatch.toFixed(2)} / 10</th>
                 <th className="text-center">{candidate.projectFieldMatch.toFixed(2)} / 10</th>

@@ -5,31 +5,6 @@ import RequireModalDetail from './RequireModalDetail';
 
 class RequireModal extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            visible: false,
-            default: 1
-        }
-    }
-
-    handleOk = (e) => {
-        this.setState({
-            visible: false,
-        });
-    }
-
-    handleCancel = (e) => {
-        this.setState({
-            visible: false,
-        });
-    }
-
-    onShowRequireDetail = () => {
-        this.setState({ visible: true })
-        this.props.refreshPage()
-    }
-
     render() {
         var { index, value } = this.props
         return (

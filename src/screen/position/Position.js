@@ -7,6 +7,7 @@ import { checkSession } from '../../service/action/user/AuthenticateAction';
 import { changeStatusPosition, fetchPostionListPaging } from '../../service/action/position/PositionSelectBarAction';
 import { history } from '../../service/helper/History';
 import { showPositionSpan, showPositionStatus } from '../../service/util/util';
+import { POSITION } from '../../service/constant/nodata';
 
 class Position extends Component {
 
@@ -59,42 +60,28 @@ class Position extends Component {
         });
     }
 
-    onShowListPosition = (list) => {
+    onShowListPosition = (list, pageIndex) => {
         var result = null
         result = list.map((value, index) => {
             return (
                 <tr key={index}>
-                    <th className="text-center">{index + 1}</th>
+                    <th className="text-center">{(pageIndex - 1) * 10 + index + 1}</th>
                     <th className="" style={{ width: 450 }}>{value.name}</th>
                     <th className="text-center" style={{ width: 150 }}>
                         <span className={`badge badge-pill ${showPositionSpan(value.status)} span`}>
                             {showPositionStatus(value.status)}
                         </span>
                     </th>
-                    <th className="text-primary">
-                        <a className="text-rigth" style={{ cursor: 'pointer' }} onClick={() => this.onUpdate(value.posID)} >Update</a>
+                    <th className="text-primary text-center">
+                        <a style={{ cursor: 'pointer' }} onClick={() => this.onUpdate(value.posID)} >Update</a>
                     </th>
-                    <th className="text-primary">
-                        <a className="text-primary" style={{ cursor: 'pointer' }} onClick={() => this.onChangeStatus(value.posID, value.name)}>Change Status</a>
+                    <th className="text-primary text-center">
+                        <a style={{ cursor: 'pointer' }} onClick={() => this.onChangeStatus(value.posID, value.name)}>Change Status</a>
                     </th>
                 </tr>
             )
         })
         return result
-    }
-
-    onNext = () => {
-        var { item } = this.props
-        if (item.pageIndex < item.pageCount) {
-            this.props.fetchPosittion(item.pageIndex + 1, this.state.search)
-        }
-    }
-
-    onPrevios = () => {
-        var { item } = this.props
-        if (item.pageIndex > 1) {
-            this.props.fetchPosittion(item.pageIndex - 1, this.state.search)
-        }
     }
 
     onHandle = () => {
@@ -116,119 +103,64 @@ class Position extends Component {
         if (typeof item.items !== 'undefined')
             list = item.items
         return (
-          <React.Fragment>
-            <ol class="breadcrumb mb-4 mt-3">
-              <li class="breadcrumb-item active">Positions</li>
-            </ol>
-            <div className="container-fluid">
-              <div class="card mb-4">
-                <div class="card-header">
-                  <i class="fas fa-table mr-1"></i>
-                  Positions
-                </div>
-
-                <div className="card-body">
-                  {this.state.isLoading ? (
-                    ""
-                  ) : (
-                    <div className="row mb-3">
-                      <button
-                        type="button"
-                        className="btn btn-primary"
-                        style={{
-                          fontWeight: 700,
-                          borderRadius: 5,
-                          marginLeft: 20,
-                          marginTop: 10,
-                        }}
-                        onClick={this.onHandle}
-                      >
-                        <div
-                          className="row"
-                          style={{ paddingLeft: 7, paddingRight: 7 }}
-                        >
-                          <i className="material-icons">add_box</i>Create New Position
+            <React.Fragment>
+                <ol class="breadcrumb mb-4 mt-3">
+                    <li class="breadcrumb-item active">Positions</li>
+                </ol>
+                <div className="container-fluid">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="fas fa-table mr-1"></i>Positions
                         </div>
-                      </button>
-
-                      <Search
-                        search="Position"
-                        placeholder="Search position name ..."
-                        searchPos={this.searchPos}
-                      />
+                        <div className="card-body">
+                            {this.state.isLoading ?
+                                <div className="row justify-content-center">
+                                    <Spin className="text-center" size="large" />
+                                </div>
+                                : <>
+                                    <div className="row mb-3">
+                                        <button type="button" className="btn btn-primary"
+                                            style={{ fontWeight: 700, borderRadius: 5, marginLeft: 20, marginTop: 10, }} onClick={this.onHandle}>
+                                            <div className="row" style={{ paddingLeft: 7, paddingRight: 7 }}>
+                                                <i className="material-icons">add_box</i>Create New Position
+                                        </div>
+                                        </button>
+                                        <Search search="Position" placeholder="Search position name ..." searchPos={this.searchPos} />
+                                    </div>
+                                    {item.items.length > 0 ?
+                                        <div className="table-responsive">
+                                            <table className="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                                <thead className=" text-primary">
+                                                    <tr>
+                                                        <th className="font-weight-bold text-center">No</th>
+                                                        <th className="font-weight-bold" style={{ marginLeft: 20 }}>Position</th>
+                                                        <th className="font-weight-bold text-center" style={{ marginLeft: 20 }}>Status</th>
+                                                        <th className="font-weight-bold text-center" style={{ marginLeft: 20 }}></th>
+                                                        <th className="font-weight-bold text-center" style={{ marginLeft: 20 }}></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>{this.onShowListPosition(item.items, item.pageIndex)}</tbody>
+                                            </table>
+                                        </div>
+                                        :
+                                        <div className='row justify-content-center'>
+                                            <h4 style={{ fontStyle: 'italic', color: 'gray' }} >{POSITION.NO_POSITION}</h4>
+                                        </div>
+                                    }
+                                    {item.pageCount <= 1 ? ""
+                                        :
+                                        <div className="row justify-content-center" style={{ marginBottom: 20 }}>
+                                            <Pagination defaultCurrent={item.pageIndex} total={item.totalRecords} onChange={this.onSelectPage} />
+                                        </div>
+                                    }
+                                </>}
+                        </div>
                     </div>
-                  )}
-                  <div class="table-responsive">
-                    <table
-                      class="table table-bordered"
-                      id="dataTable"
-                      width="100%"
-                      cellspacing="0"
-                    >
-                      <thead className=" text-primary">
-                        <tr>
-                          <th className="font-weight-bold text-center">No</th>
-                          <th
-                            className="font-weight-bold"
-                            style={{ marginLeft: 20 }}
-                          >
-                            Position
-                          </th>
-                          <th
-                            className="font-weight-bold text-center"
-                            style={{ marginLeft: 20 }}
-                          >
-                            Status
-                          </th>
-                          <th
-                            className="font-weight-bold text-center"
-                            style={{ marginLeft: 20 }}
-                          ></th>
-                          <th
-                            className="font-weight-bold text-center"
-                            style={{ marginLeft: 20 }}
-                          ></th>
-                        </tr>
-                      </thead>
-                      {this.state.isLoading ? (
-                        ""
-                      ) : (
-                        <tbody>{this.onShowListPosition(list)}</tbody>
-                      )}
-                    </table>
-                  </div>
-                  {this.state.isLoading ? (
-                    <div className="row justify-content-center">
-                      <Spin className="text-center" size="large" />
-                    </div>
-                  ) : (
-                    ""
-                  )}
-                  {this.state.isLoading || item.pageCount === 1? (
-                    ""
-                  ) : (
-                    <div
-                      className="row justify-content-center"
-                      style={{ marginBottom: 20 }}
-                    >
-                      <Pagination
-                        defaultCurrent={item.pageIndex}
-                        total={item.totalRecords}
-                        onChange={this.onSelectPage}
-                      />
-                    </div>
-                  )}
                 </div>
-              </div>
-            </div>
-            <style jsx global>
-              {`
-                .ant-select-selector {
-                  visibility: hidden;
-                }
-              `}
-            </style>
-          </React.Fragment>
+                <style jsx global>
+                    {`.ant-select-selector {visibility: hidden;}`}
+                </style>
+            </React.Fragment>
         );
     }
 }

@@ -97,7 +97,7 @@ class ListEmployeeContent extends Component {
     showHardSkill = (skills) => {
         var result = null
         result = skills.map((value, index) => {
-            return (<ul>
+            return (<ul key={index} >
                 <li>{value.hardSkillName}</li>
                 <li>Skill Level: {value.skillLevel}</li>
                 <li>
@@ -115,7 +115,10 @@ class ListEmployeeContent extends Component {
         var result = null
         result = language.map((value, index) => {
             return (
-                <>{value.langName} - Priority: {value.priority}</>
+                <ul key={index}>
+                    <li>{value.langName}</li>
+                    <li>Priority: {value.priority}</li>
+                </ul>
             )
         })
         return result
@@ -124,26 +127,10 @@ class ListEmployeeContent extends Component {
     showSoftSkill = (softSkill) => {
         var result = null
         result = softSkill.map((value, index) => {
-            return (<>{value.softSkillName} < br /></>
-            )
-        })
-        return result
-    }
-
-    showLanguage = (language) => {
-        var result = null
-        result = language.map((value, index) => {
             return (
-                <>{value.langName} - Priority: {value.priority}</>
-            )
-        })
-        return result
-    }
-
-    showSoftSkill = (softSkill) => {
-        var result = null
-        result = softSkill.map((value, index) => {
-            return (<>{value.softSkillName} < br /></>
+                <ul key={index}>
+                    <li>{value.softSkillName}</li>
+                </ul>
             )
         })
         return result
@@ -167,7 +154,7 @@ class ListEmployeeContent extends Component {
                             <th className="font-weight-bold">Position</th>
                             <th className="font-weight-bold">Email</th>
                             <th className="font-weight-bold">Phone</th>
-                            <th width={120} className="font-weight-bold text-center">Date In</th>
+                            <th width={140} className="font-weight-bold text-center">Confirmed Date</th>
                         </thead>
                         <tbody>
                             {this.showCandidate(item.employees, item.posName)}
@@ -187,23 +174,29 @@ class ListEmployeeContent extends Component {
                                 onOk={this.handleOk}
                                 onCancel={this.handleCancel} >
                                 <Descriptions>
+                                    <Descriptions.Item>
+                                        <span style={{ color: 'red', fontWeight: 600 }} >System will suggest suitable employee followed those requirements </span>
+                                    </Descriptions.Item>
+                                </Descriptions>
+                                <Descriptions>
                                     <Descriptions.Item>{prevRequire.posName} </Descriptions.Item>
                                     <Descriptions.Item label='Candidate Needed'>{prevRequire.missingEmployee} </Descriptions.Item>
                                 </Descriptions>
                                 <Descriptions>
-                                    <Descriptions.Item label='Hard Skill'>
+                                    <Descriptions.Item span={3} label='Hard Skill' />
+                                    <Descriptions.Item >
                                         {this.showHardSkill(prevRequire.hardSkills)}
                                     </Descriptions.Item>
                                 </Descriptions>
                                 <Descriptions>
-                                    <Descriptions.Item label='Language'>
+                                    <Descriptions.Item span={3} label='Language' />
+                                    <Descriptions.Item >
                                         {this.showLanguage(prevRequire.language)}
                                     </Descriptions.Item>
                                 </Descriptions>
                                 <Descriptions>
-                                    <Descriptions.Item label='Soft Skill'>
-                                        {this.showSoftSkill(prevRequire.softSkillIDs)}
-                                    </Descriptions.Item>
+                                    <Descriptions.Item span={3} label='Soft Skill' />
+                                    {this.showSoftSkill(prevRequire.softSkillIDs)}
                                 </Descriptions>
                             </Modal>
                         </> : '' : ''}

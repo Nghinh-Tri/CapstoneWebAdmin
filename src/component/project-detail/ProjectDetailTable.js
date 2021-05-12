@@ -48,6 +48,7 @@ class ProjectDetailTable extends Component {
 
     render() {
         var { project } = this.state
+        console.log(project)
         return (
             <React.Fragment>
                 {this.state.isLoad ?
@@ -64,9 +65,13 @@ class ProjectDetailTable extends Component {
 
                         <Descriptions.Item span={3} label="Project Name">{project.projectName} </Descriptions.Item>
 
+                        <Descriptions.Item span={3} label="Project Manager">{project.pmName}</Descriptions.Item>
+
                         <Descriptions.Item span={3} label="Project Type">{project.typeName}</Descriptions.Item>
 
                         <Descriptions.Item span={3} label="Project Field">{project.fieldName}</Descriptions.Item>
+
+                        <Descriptions.Item span={3} label="Created Date">{moment(project.dateCreated).format('DD-MM-YYYY')}</Descriptions.Item>
 
                         <Descriptions.Item label="Start Date">{moment(project.dateBegin).format('DD-MM-YYYY')}</Descriptions.Item>
 
@@ -80,7 +85,7 @@ class ProjectDetailTable extends Component {
                         </Descriptions.Item>
 
 
-                        <Descriptions.Item label="Description">{project.description}</Descriptions.Item>
+                        <Descriptions.Item span={3} label="Description">{project.description}</Descriptions.Item>
                     </Descriptions>
                 }
             </React.Fragment>
@@ -107,7 +112,7 @@ const mapDispatchToProp = dispatch => {
         },
         checkSession: () => {
             dispatch(checkSession())
-        },        
+        },
     }
 }
 

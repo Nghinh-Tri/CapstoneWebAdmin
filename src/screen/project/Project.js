@@ -5,6 +5,7 @@ import ProjectTableItem from "../../component/project-table-item/ProjectTableIte
 import { checkSession } from '../../service/action/user/AuthenticateAction';
 import Search from '../../component/search/Search';
 import { Pagination, Spin } from 'antd';
+import { PROJECT } from '../../service/constant/nodata';
 
 class Project extends Component {
 
@@ -37,11 +38,11 @@ class Project extends Component {
         }
     }
 
-    onShowListProject = (projectList) => {
+    onShowListProject = (projectList, pageIndex) => {
         var result = null
         if (typeof projectList !== 'undefined') {
             result = projectList.map((project, index) => {
-                return (<ProjectTableItem key={index} project={project} index={index} />);
+                return (<ProjectTableItem key={index} project={project} index={index} pageIndex={pageIndex} />);
             })
         }
         return result
@@ -64,56 +65,61 @@ class Project extends Component {
                     <li class="breadcrumb-item active">Projects</li>
                 </ol>
                 <div className="container-fluid">
-
-
                     <div class="card mb-4">
                         <div class="card-header">
                             <i class="fas fa-table mr-1"></i>
                     Projects
                 </div>
-                        <div class="card-body">
-                            {this.state.isLoading ? '' :
-                                <div className="row mb-3">
-                                    <Search search="project"
-                                        placeholder="Search project name ..."
-                                        searchProject={this.searchProject} />
-                                </div>
-                            }
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th width={40} className="font-weight-bold text-center">No</th>
-                                            <th width={200} className="font-weight-bold text-center" width={400}>Project Name</th>
-                                            <th className="font-weight-bold text-center" width={150}>Project Manager</th>
-                                            <th className="font-weight-bold text-center" width={120}>Created Date</th>
-                                            <th className="font-weight-bold text-center" width={120}>Start Date</th>
-                                            <th className="font-weight-bold text-center" width={160} >Estimated End Date</th>
-                                            <th className="font-weight-bold text-center" style={{ width: 80 }}>Status</th>
-                                        </tr>
-                                    </thead>
-                                    {this.state.isLoading ? '' :
-                                        <tbody>
-                                            {this.onShowListProject(projects.items)}
-                                        </tbody>
-                                    }
-                                </table>
-                            </div>
-                        </div>
                         {this.state.isLoading ?
                             <div className='row justify-content-center'>
                                 <Spin className='text-center' size="large" />
                             </div>
-                            : ''}
-                        {this.state.isLoading || projects.pageCount === 1 ? '' :
-                            <div className='row justify-content-center' style={{ marginBottom: 20 }} >
-                                <Pagination defaultCurrent={projects.pageIndex} total={projects.totalRecords} onChange={this.onSelectPage} />
-                            </div>
+                            :
+                            <>
+                                <div class="card-body">
+                                    <div className="row mb-3">
+                                        <Search search="project"
+                                            placeholder="Search project name ..."
+                                            searchProject={this.searchProject}
+                                        />
+                                    </div>
+                                    {projects.items.length > 0 ?
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th width={40} className="font-weight-bold text-center">No</th>
+                                                        <th width={200} className="font-weight-bold text-center" width={400}>Project Name</th>
+                                                        <th className="font-weight-bold text-center" width={150}>Project Manager</th>
+                                                        <th className="font-weight-bold text-center" width={120}>Created Date</th>
+                                                        <th className="font-weight-bold text-center" width={120}>Start Date</th>
+                                                        <th className="font-weight-bold text-center" width={160} >Estimated End Date</th>
+                                                        <th className="font-weight-bold text-center" style={{ width: 80 }}>Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {this.onShowListProject(projects.items, projects.pageIndex)}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        :
+                                        <div className='row justify-content-center'>
+                                            <h4 style={{ fontStyle: 'italic', color: 'gray' }} >{PROJECT.NO_PROJECT}</h4>
+                                        </div>
+                                    }
+                                </div>
+                                {projects.pageCount <= 1 ? '' :
+                                    <div className='row justify-content-center' style={{ marginBottom: 20 }} >
+                                        <Pagination defaultCurrent={projects.pageIndex} total={projects.totalRecords} onChange={this.onSelectPage} />
+                                    </div>
+                                }
+                            </>
                         }
                     </div>
                 </div>
-
-
+                <style jsx global>
+                    {`.ant-pagination-options {visibility: hidden;}`}
+                </style>
             </React.Fragment >
         );
     }
