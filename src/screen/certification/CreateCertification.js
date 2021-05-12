@@ -82,8 +82,8 @@ class CreateCertification extends Component {
         e.preventDefault()
         if (typeof this.props.match === 'undefined') {
             var certi = {
-                certificationName: this.state.certificationName,
-                description: this.state.description,
+                certificationName: this.state.certificationName.trim(),
+                description: this.state.description.trim(),
                 skillID: this.state.skillID,
                 certiLevel: this.state.certiLevel
             }
@@ -93,8 +93,8 @@ class CreateCertification extends Component {
             var { certificationID, certiLevel, certificationName, description, skillID } = this.state
             var certi = {
                 certificationID: certificationID,
-                certificationName: certificationName,
-                description: description,
+                certificationName: certificationName.trim(),
+                description: description.trim(),
                 skillID: skillID,
                 certiLevel: certiLevel
             }

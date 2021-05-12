@@ -56,9 +56,9 @@ class CreatePosition extends Component {
     onSubmit = (e) => {
         e.preventDefault()
         if (typeof this.props.match === 'undefined')
-            this.props.onCreatePosition({ name: this.state.position, description: this.state.description })
+            this.props.onCreatePosition({ name: this.state.position, description: this.state.description.trim() })
         else
-            this.props.updatePosition(this.state.posID, { name: this.state.position, description: this.state.description })
+            this.props.updatePosition(this.state.posID, { name: this.state.position, description: this.state.description.trim() })
     }
 
     render() {
