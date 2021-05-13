@@ -1,22 +1,23 @@
 import React, { Component } from 'react';
 import SuggestCandidateItems from './add-employee-item/AddEmployeeItem';
-import { ArrowUpOutlined } from "@ant-design/icons";
+import { ArrowDownOutlined } from "@ant-design/icons";
 import { connect } from 'react-redux';
 import { pagingSuggestList, sortSuggestList } from '../../service/action/confirm/SuggestCandidateAgainAction';
 import { Pagination, Spin } from 'antd';
-
+import Search from "../search/Search";
 class SuggestCandidates extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            isLoad: true
+            isLoad: true,
+            page: 1,
+            search: '',
         }
     }
 
-
     componentDidMount() {
-        this.props.pagingSuggestList(this.props.item.matchDetail, 1)
+        this.props.pagingSuggestList(this.props.item.matchDetail, 1, '')
     }
 
     componentDidUpdate = (prevProp) => {
@@ -45,7 +46,7 @@ class SuggestCandidates extends Component {
             this.props.onUnSelectAll(this.props.item.position)
     }
 
-    showCandidate = (candidateList, selectedItem, candidateNeeds) => {
+    showCandidate = (candidateList, selectedItem, candidateNeeds, pageIndex) => {
         var { item, candidateSelectedList } = this.props
         var result = null
         result = candidateList.map((candidate, index) => {
@@ -53,6 +54,7 @@ class SuggestCandidates extends Component {
                 onSelect={this.onSelect}
                 candidate={candidate}
                 index={index}
+                pageIndex={pageIndex}
                 candidateNeeds={candidateNeeds}
                 position={item.position}
                 selectedItem={selectedItem === null ? null : selectedItem}
@@ -73,7 +75,13 @@ class SuggestCandidates extends Component {
     }
 
     onSelectPage = (e) => {
-        this.props.pagingSuggestList(this.props.item.matchDetail, e)
+        this.setState({ page: e })
+        this.props.pagingSuggestList(this.props.item.matchDetail, e, this.state.search)
+    }
+
+    searchCandidate = (value) => {
+        this.setState({ search: value })
+        this.props.pagingSuggestList(this.props.item.matchDetail, this.state.page, value)
     }
 
     render() {
@@ -88,8 +96,17 @@ class SuggestCandidates extends Component {
                         <Spin className="text-center" size="large" />
                     </div>
                     : <>
-                        {typeof item.matchDetail !== 'undefined' ?
-                            item.matchDetail.length === 0 ?
+                        <div className='row justify-content-between' >
+                            <div className='col-auto' style={{ marginBottom: 10, marginTop: -20 }}>
+                                <Search search="candidate"
+                                    refresh={false}
+                                    placeholder="Search candidate name ..."
+                                    searchCandidate={this.searchCandidate} />
+                            </div>
+                            <h5 className="pull-right" style={{ marginRight: 15 }} >Select {selectedItem === null ? 0 : selectedItem.candidateSelect.length} / {candidateNeeds} </h5>
+                        </div>
+                        {typeof paging.items !== 'undefined' ?
+                            paging.items.length === 0 ?
                                 <div className='row justify-content-center' style={{ width: 'auto' }} >
                                     <h4 style={{ fontStyle: 'italic', color: 'gray' }} >
                                         There is currently no suitable candidates for this position
@@ -97,7 +114,6 @@ class SuggestCandidates extends Component {
                                 </div>
                                 :
                                 <>
-                                    <h5 className="pull-right" style={{ marginTop: 0 }}>Select {selectedItem === null ? 0 : selectedItem.candidateSelect.length} / {candidateNeeds} </h5>
                                     <div class="table-responsive">
                                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                             <thead>
@@ -107,37 +123,37 @@ class SuggestCandidates extends Component {
                                                     <th className="font-weight-bold " width={180}  >
                                                         <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
                                                             <div>Project Type Match</div>
-                                                            <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('type')} />
+                                                            <ArrowDownOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('type')} />
                                                         </div>
                                                     </th>
                                                     <th className="font-weight-bold text-center" width={180} >
                                                         <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
                                                             <div> Project Field Match</div>
-                                                            <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('field')} />
+                                                            <ArrowDownOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('field')} />
                                                         </div>
                                                     </th>
                                                     <th className="font-weight-bold text-center" width={160}>
                                                         <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
                                                             <div>Language Match</div>
-                                                            <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('language')} />
+                                                            <ArrowDownOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('language')} />
                                                         </div>
                                                     </th>
                                                     <th className="font-weight-bold text-center" width={160}>
                                                         <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
                                                             <div>Soft Skill Match</div>
-                                                            <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('softSkill')} />
+                                                            <ArrowDownOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('softSkill')} />
                                                         </div>
                                                     </th>
                                                     <th className="font-weight-bold text-center" width={160}>
                                                         <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
                                                             <div>Hard Skill Match</div>
-                                                            <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('hardSkill')} />
+                                                            <ArrowDownOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('hardSkill')} />
                                                         </div>
                                                     </th>
                                                     <th className="font-weight-bold text-center" width={150}>
                                                         <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
                                                             <div>Overall Match</div>
-                                                            <ArrowUpOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('overall')} />
+                                                            <ArrowDownOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('overall')} />
                                                         </div>
                                                     </th>
                                                     <th className="font-weight-bold text-center">
@@ -148,7 +164,7 @@ class SuggestCandidates extends Component {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {this.showCandidate(typeof paging.items !== 'undefined' ? paging.items : [], selectedItem, candidateNeeds)}
+                                                {this.showCandidate(typeof paging.items !== 'undefined' ? paging.items : [], selectedItem, candidateNeeds, paging.pageIndex)}
                                             </tbody>
                                         </table>
                                     </div>
@@ -173,8 +189,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        pagingSuggestList: (list, pageIndex) => {
-            dispatch(pagingSuggestList(list, pageIndex))
+        pagingSuggestList: (list, pageIndex, search) => {
+            dispatch(pagingSuggestList(list, pageIndex, search))
         },
         onSortSuggestList: (value) => {
             dispatch(sortSuggestList(value));
