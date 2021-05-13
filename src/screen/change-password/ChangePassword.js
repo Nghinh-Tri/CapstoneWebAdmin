@@ -37,8 +37,8 @@ class ChangePassword extends Component {
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-5">
-                        <div class="card shadow-lg border-0 rounded-lg mt-5">
-                            <div class="card-header"><h4 class="card-title ">Change Password</h4></div>
+                        <div class="card"  style={{ marginTop: "50px", }}>
+                            <div class="card-header card-header-primary"><h4 class="card-title ">Change Password</h4></div>
                             <div class="card-body">
                                 <form onSubmit={this.handleSubmit}>
                                     <div class="form-group">
