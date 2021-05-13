@@ -36,16 +36,23 @@ class Header extends Component {
         var result = null
         result = notiList.map((noti, index) => {
             return (
-                <a class="dropdown-item" key={index} onClick={() => this.onSeen(noti.id, noti.status)} style={{ }} >
-                    <div style={{ display: 'flex', flexDirection: 'row' ,maxWidth: 500 }}>
+                <a className="dropdown-item" key={index} onClick={() => this.onSeen(noti.id, noti.status)}>
+                    <div style={{ display: "flex", flexDirection: "row", width: 380 }}>
                         {noti.status ?
-                            <div className='col-1'>
+                            <div className="col-1"
+                                style={{ marginLeft: "-20px" }}>
                                 <Badge dot />
                             </div>
-                            : <div className='col-1'></div>}
-                        <div  >
-                            <div style={{ fontWeight: 600, wordWrap: 'break-word', }} >{noti.title}</div>
-                            <div style={{ wordWrap: 'break-word', overflowX:'auto' }}>{noti.body}</div>
+                            :
+                            <div className="col-1" style={{ marginLeft: "-20px" }} ></div>
+                        }
+                        <div>
+                            <div style={{ fontWeight: 600, wordWrap: "break-word", width: 360, overflowWrap: "normal", whiteSpace: "pre-wrap", }}>
+                                {noti.title}
+                            </div>
+                            <div style={{ wordWrap: "break-word", width: 360, overflowWrap: "normal", whiteSpace: "pre-wrap", }}>
+                                {noti.body}
+                            </div>
                         </div>
                     </div>
                 </a>

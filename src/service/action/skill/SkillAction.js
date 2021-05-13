@@ -67,7 +67,7 @@ export const changeStatus = (skillID, pageIndex, search) => {
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
         ).then(res => {
             if (res.data.isSuccessed) {
-                dispatch(fetchSkill(pageIndex, search))
+                dispatch(fetchSkill(pageIndex, search, 0))
             }
         }).catch(err => {
             dispatch(changeStatusFail(err.response.data.message))
