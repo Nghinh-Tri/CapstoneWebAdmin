@@ -54,7 +54,7 @@ class SuggestCandidates extends Component {
                                                     <th className="font-weight-bold text-center">
                                                         <input type="checkbox" onClick={this.onSelectAll} checked={
                                                             typeof item === 'undefined' ? false :
-                                                                typeof item.selectAll === 'undefined' ? false : item.selectAll} /> Get All
+                                                                typeof item.selectAll === 'undefined' ? false : item.selectAll} />
                                                     </th>
                                                 </Tooltip>
                                                 <th className="font-weight-bold text-center">
