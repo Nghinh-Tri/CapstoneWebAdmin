@@ -145,7 +145,7 @@ class Skill extends Component {
                                             style={{ fontWeight: 700, borderRadius: 5, marginLeft: 20, marginTop: 10 }}
                                             onClick={this.onHandle}>
                                             <div className="row" style={{ paddingLeft: 7, paddingRight: 7 }}>
-                                                <i className="material-icons">add_box</i>Create New Skill
+                                                <i className="material-icons">add_box</i>New Skill
                                             </div>
                                         </button>
                                         <Search search="Skill"

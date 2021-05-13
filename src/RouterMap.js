@@ -15,6 +15,7 @@ import EmpList from "./screen/Employees/EmpList"
 import PositionAssign from "./screen/create-user/PositionAssign"
 import AddEmployee from "./screen/add-employee/AddEmployee"
 import ConfirmAddEmployee from "./screen/confirm-add-employee/ConfirmAddEmployee"
+import ChangePassword from './screen/change-password/ChangePassword';
 
 
 const route = [
@@ -132,6 +133,11 @@ const route = [
         path: "/profile",
         exact: true,
         main: () => <Profile empID={JSON.parse(localStorage.getItem("EMP"))} />,
+    },
+    {
+        path: "/profile/change-password",
+        exact: true,
+        main: () => <ChangePassword />,
     },
 ];
 

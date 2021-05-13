@@ -45,7 +45,7 @@ class CertificateForm extends Component {
         var listNotSelect = certiList.slice(0, certiList.length)
         for (let i = 0; i < listNotSelect.length; i++) {
             for (let k = 0; k < certificate.length; k++) {
-                
+
                 if (listNotSelect[i].certificationID === certificate[k].certiID) {
                     var clone = { ...listNotSelect[i] }
                     clone.isSelect = true
@@ -108,9 +108,9 @@ class CertificateForm extends Component {
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead >
                                     <tr>
-                                        <th className="text-center" width={300}   >Certificate</th>
+                                        <th className="text-center" width={300} >Certificate</th>
                                         <th className="text-center" width={200} >Taken Date</th>
-                                        <th className="text-center" width={230} >Expired Date</th>
+                                        <th className="text-center" width={230} >Expiration  Date</th>
                                         <th width={50}></th>
                                     </tr>
                                 </thead>
