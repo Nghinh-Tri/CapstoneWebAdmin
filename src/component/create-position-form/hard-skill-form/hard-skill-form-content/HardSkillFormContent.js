@@ -1,9 +1,11 @@
 import { Modal } from 'antd';
 import React, { Component } from 'react';
 import { store } from 'react-notifications-component';
+import { connect } from 'react-redux';
 import { convertSkillList } from '../../../../service/util/util';
 import CertificateForm from '../../certificate-form/CertificateForm';
 import SelectBar from "../../select-search/SelectBar";
+import { assignPositionFail } from "../../../../service/action/position/PositionAssignAction";
 
 class HardSkillFormContent extends Component {
 
@@ -17,7 +19,8 @@ class HardSkillFormContent extends Component {
                 { label: 'Applied Theory', value: 4 },
                 { label: 'Recognized Authority', value: 5 },
             ],
-            visible: false
+            visible: false,
+            check: false
         }
     }
 
@@ -44,9 +47,16 @@ class HardSkillFormContent extends Component {
     }
 
     handleOk = (e) => {
-        this.setState({
-            visible: false,
-        });
+        if (this.state.check && typeof
+            this.props.hardSkillDetail.empCertifications.find(e => e.dateEnd === '') !== 'undefined') {
+            this.props.certiError({ Certificate: ['Please input expiration date'] })
+        } else {
+            this.props.certiError({})
+            this.setState({
+                visible: false,
+            });
+        }
+
     }
     handleCancel = (e) => {
         this.setState({
@@ -61,6 +71,10 @@ class HardSkillFormContent extends Component {
                 name = element.label
         });
         return name
+    }
+
+    isCheck = (value) => {
+        this.setState({ check: value })
     }
 
     render() {
@@ -91,7 +105,18 @@ class HardSkillFormContent extends Component {
                     </td>
                     <td className="text-center" >
                         <a style={{ color: 'blue' }} onClick={this.onShowCertificate} >Details</a>
-                        <Modal width={1070} title={this.getHardSkillName(listConverted, hardSkillDetail.skillID)}
+                        <Modal width={1070} title={
+                            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                <div style={{ marginRight: 10 }}>
+                                    {this.getHardSkillName(listConverted, hardSkillDetail.skillID)}
+                                </div>
+                                {typeof this.props.error.Certificate !== 'undefined' ?
+                                    this.props.error.Certificate.map((element, index) => {
+                                        return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
+                                    })
+                                    : ''}
+                            </div>
+                        }
                             visible={this.state.visible} onOk={this.handleOk} onCancel={this.handleCancel}>
                             <CertificateForm
                                 certificate={hardSkillDetail.empCertifications}
@@ -102,6 +127,7 @@ class HardSkillFormContent extends Component {
                                 onDeleteCertificate={this.props.onDeleteCertificate}
                                 onUpdateCertficateID={this.props.onUpdateCertficateID}
                                 onUpdateCertificateDate={this.props.onUpdateCertificateDate}
+                                isCheck={this.isCheck}
                             />
                         </Modal>
                     </td>
@@ -116,4 +142,18 @@ class HardSkillFormContent extends Component {
     }
 }
 
-export default HardSkillFormContent;
+const mapStateToProps = (state) => {
+    return {
+        error: state.ErrorReducer
+    }
+}
+
+const mapDispatchToProp = (dispatch) => {
+    return {
+        certiError: (error) => {
+            dispatch(assignPositionFail(error))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProp)(HardSkillFormContent);
