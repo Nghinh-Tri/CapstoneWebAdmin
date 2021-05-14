@@ -92,6 +92,9 @@ class SkillProfile extends Component {
     };
 
     onEdit = () => {
+        localStorage.setItem('name', this.props.name)
+        localStorage.setItem('phone', this.props.phone)
+        localStorage.setItem('email', this.props.email)
         history.push(`/employee/update-position/${this.props.empID}`, { role: this.props.role })
     }
 

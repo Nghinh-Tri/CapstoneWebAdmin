@@ -37,7 +37,6 @@ class ProjectDetailTable extends Component {
             cancelText: 'No',
             onOk() {
                 declineProject(match.params.id, project.projectName, project.pmID)
-                // sendNotificate(project.pmID, `Project ${project.projectName} has been declined`)
             },
             onCancel() {
                 console.log('Cancel');
@@ -75,7 +74,7 @@ class ProjectDetailTable extends Component {
 
                         <Descriptions.Item label="Start Date">{moment(project.dateBegin).format('DD-MM-YYYY')}</Descriptions.Item>
 
-                        <Descriptions.Item label={project.dateEnd === null ? 'Estimated End Date' : 'Ended Date'} span={2}>
+                        <Descriptions.Item label={project.dateEnd === null ? 'Estimated End Date' : 'End Date'} span={2}>
                             {project.dateEnd === null ? moment(project.dateEstimatedEnd).format('DD-MM-YYYY') : moment(project.dateEnd).format('DD-MM-YYYY')}
                         </Descriptions.Item>
 

@@ -138,13 +138,13 @@ class Position extends Component {
                                     {item.items.length > 0 ?
                                         <div className="table-responsive">
                                             <table className="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                                <thead className=" text-primary">
+                                                <thead className="font-weight-bold text-center text-primary">
                                                     <tr>
-                                                        <th className="font-weight-bold text-center">No</th>
-                                                        <th className="font-weight-bold" style={{ marginLeft: 20 }}>Position</th>
-                                                        <th className="font-weight-bold text-center" style={{ marginLeft: 20 }}>Status</th>
-                                                        <th className="font-weight-bold text-center" style={{ marginLeft: 20 }}></th>
-                                                        <th className="font-weight-bold text-center" style={{ marginLeft: 20 }}></th>
+                                                        <th width={40}>No</th>
+                                                        <th>Position</th>
+                                                        <th width={50}>Status</th>
+                                                        <th width={100}></th>
+                                                        <th width={150}></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>{this.onShowListPosition(item.items, item.pageIndex)}</tbody>

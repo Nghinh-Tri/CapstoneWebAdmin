@@ -30,7 +30,7 @@ class ProfileTable extends Component {
         }
     }
 
-    onUpdate = () => {
+    onUpdate = () => {        
         history.push(`/employee/update-profile/${this.props.empID}`)
     }
 
@@ -40,7 +40,6 @@ class ProfileTable extends Component {
 
     render() {
         var { profile } = this.props
-        console.log(this.props.match)
         return (
             <React.Fragment>
                 {this.state.isLoad ?

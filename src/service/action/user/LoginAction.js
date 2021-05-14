@@ -7,9 +7,11 @@ import { store } from 'react-notifications-component';
 export const login = (username, password) => {
     var user = { email: username.trim(), password: password, rememberMe: true }
     return dispatch => {
-        dispatch(request(user))
-        axios.post(`${API_URL}/User/authenticate`, user).then(res => {
-            if (res.status === 200) {
+        axios.post(
+            `${API_URL}/User/authenticate`,
+            user
+        ).then(res => {
+            if (res.data.isSuccessed) {
                 localStorage.setItem('EMP', JSON.stringify(res.data.resultObj.empId));
                 localStorage.setItem('token', JSON.stringify(res.data.resultObj.token));
                 var role = getRole()
@@ -18,7 +20,6 @@ export const login = (username, password) => {
                     history.push('/');
                 } else {
                     localStorage.clear()
-                    dispatch(failure())
                     store.addNotification({
                         message: "User role is not match",
                         type: "danger",
@@ -34,20 +35,7 @@ export const login = (username, password) => {
                 }
             }
         }).catch(err => {
-            if (err.response.status === 500) {
-                store.addNotification({
-                    message: "Duplicate email or username",
-                    type: "danger",
-                    insert: "top",
-                    container: "top-center",
-                    animationIn: ["animated", "fadeIn"],
-                    animationOut: ["animated", "fadeOut"],
-                    dismiss: {
-                        duration: 2000,
-                        onScreen: false
-                    }
-                })
-            } else {
+            if (typeof err.response !== 'undefined') {
                 var error = err.response.data
                 if (error.errors !== null) {
                     dispatch(loginFailure(error.errors))
@@ -85,13 +73,6 @@ export const success = (user) => {
     }
 }
 
-export const failure = (user) => {
-    return {
-        type: Type.LOGIN_FAILURE,
-        user
-    }
-}
-
 export const register = (emp) => {
     var url = `${API_URL}/User`
     return dispatch => {
@@ -103,7 +84,7 @@ export const register = (emp) => {
                 if (res.status === 200) {
                     dispatch(registerFailure({}))
                     dispatch(registerErrorFailure(''))
-                    dispatch(registerSuccess(res.data.resultObj, emp.roleName))
+                    dispatch(registerSuccess(res.data.resultObj, emp.roleName, emp.name, emp.phoneNumber, emp.email))
                 }
             })
             .catch(err => {
@@ -153,15 +134,15 @@ export const refreshPage = () => {
 }
 
 export const registerRequest = (user) => {
-    return {
-        type: Type.REGISTER_REQUEST,
-        user
-    }
+    return { type: Type.REGISTER_REQUEST, user }
 }
 
-export const registerSuccess = (userID, role) => {
+export const registerSuccess = (userID, role, name, phone, email) => {
     if (role === 'Employee' || role === 'PM') {
-        history.push('/employee/position-assign', { empID: userID, role: role });
+        localStorage.setItem('name', name)
+        localStorage.setItem('phone', phone)
+        localStorage.setItem('email', email)
+        history.push('/employee/position-assign', { empID: userID, role: role });        
     }
     else {
         history.push('/employee')

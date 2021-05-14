@@ -76,10 +76,10 @@ class Certification extends Component {
                 return (
                     <tr key={index}>
                         <th className="text-center">{(pageIndex - 1) * 10 + index + 1}</th>
-                        <th className="" style={{ width: 350 }}>{item.certificationName}</th>
-                        <th className="" style={{ width: 250 }}>{item.skillName}</th>
+                        <th>{item.certificationName}</th>
+                        <th className="text-center">{item.skillName}</th>
                         <th className="text-center">{item.certiLevel}</th>
-                        <th className="text-center" style={{ width: 150 }} >
+                        <th className="text-center">
                             <span className={`badge badge-pill ${showPositionSpan(item.status)} span`}>
                                 {showPositionStatus(item.status)}
                             </span>
@@ -145,15 +145,15 @@ class Certification extends Component {
                                     {result.items.length > 0 ?
                                         <div className="table-responsive">
                                             <table className="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                                <thead className=" text-primary">
+                                                <thead className="font-weight-bold text-center text-primary">
                                                     <tr>
-                                                        <th className="font-weight-bold text-center">No</th>
-                                                        <th className="font-weight-bold text-center" style={{ marginLeft: 20 }}>Certification</th>
-                                                        <th className="font-weight-bold text-center" style={{ marginLeft: 20 }}>Skill</th>
-                                                        <th className="font-weight-bold text-center">Level</th>
-                                                        <th className="font-weight-bold text-center">Status</th>
-                                                        <th className="font-weight-bold "></th>
-                                                        <th className="font-weight-bold "></th>
+                                                        <th width={40}>No</th>
+                                                        <th>Certification</th>
+                                                        <th width={200}>Skill</th>
+                                                        <th width={40}>Level</th>
+                                                        <th width={80}>Status</th>
+                                                        <th width={100}></th>
+                                                        <th width={150}></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>

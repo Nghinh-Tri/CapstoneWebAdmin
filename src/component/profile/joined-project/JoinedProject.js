@@ -24,13 +24,13 @@ class JoinedProject extends Component {
         }
     }
 
-    onShowListProject = (projectList) => {
+    onShowListProject = (projectList, pageIndex) => {
         var result = null
         if (typeof projectList !== 'undefined') {
             result = projectList.map((project, index) => {
                 return (
                     <tr key={index}>
-                        <th className="text-center">{index + 1}</th>
+                        <th className="text-center">{(pageIndex - 1) * 10 + index + 1}</th>
                         <th className="">
                             <NavLink to={`/project/detail/${project.projectID}`}>
                                 {project.projectName}
@@ -78,7 +78,7 @@ class JoinedProject extends Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {this.onShowListProject(joinedProject.items)}
+                                        {this.onShowListProject(joinedProject.items, joinedProject.pageIndex)}
                                     </tbody>
                                 </table>
                             </div>

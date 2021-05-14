@@ -83,15 +83,15 @@ class Skill extends Component {
                     return (
                         <tr key={index}>
                             <th className="text-center">{(pageIndex - 1) * 10 + index + 1}</th>
-                            <th className="" style={{ minWidth: 200, maxWidth: 200 }} >{item.skillName}</th>
-                            <th style={{ fontWeight: 600, width: 200 }}>{item.skillType === 0 ? 'Hard skill' : 'Soft skill'}</th>
+                            <th style={{ minWidth: 200, maxWidth: 200 }} >{item.skillName}</th>
+                            <th className="text-center" style={{ fontWeight: 600, width: 200 }}>{item.skillType === 0 ? 'Hard skill' : 'Soft skill'}</th>
                             <th className="text-center" style={{ width: 150 }} >
                                 <span className={`badge badge-pill ${showPositionSpan(item.status)} span`}>
                                     {showPositionStatus(item.status)}
                                 </span>
                             </th>
-                            <th className="text-primary"><a className="text-primary" style={{ cursor: 'pointer' }} onClick={() => this.onUpdate(item.skillID)}>Update</a></th>
-                            <th className="text-primary"><a className="text-primary" style={{ cursor: 'pointer' }} onClick={() => this.onChangeStatus(item.skillID, item.skillName)}>Change Status</a></th>
+                            <th className="text-primary text-center"><a className="text-primary" style={{ cursor: 'pointer' }} onClick={() => this.onUpdate(item.skillID)}>Update</a></th>
+                            <th className="text-primary text-center"><a className="text-primary" style={{ cursor: 'pointer' }} onClick={() => this.onChangeStatus(item.skillID, item.skillName)}>Change Status</a></th>
                         </tr>
                     )
             })
@@ -156,11 +156,11 @@ class Skill extends Component {
                                     {result.items.length > 0 ?
                                         <div class="table-responsive">
                                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                                <thead className=" text-primary">
+                                                <thead className="font-weight-bold text-center text-primary">
                                                     <tr>
-                                                        <th className="font-weight-bold text-center">No</th>
-                                                        <th className="font-weight-bold text-center">Skill</th>
-                                                        <th className="font-weight-bold text-center" width={250} >
+                                                        <th width={40}>No</th>
+                                                        <th >Skill</th>
+                                                        <th width={250} >
                                                             <div className='row'>
                                                                 <div className='col-auto' style={{ marginTop: 10 }} > Type</div>
                                                                 <div className='col-auto mt-1'>
@@ -173,9 +173,9 @@ class Skill extends Component {
                                                                 </div>
                                                             </div>
                                                         </th>
-                                                        <th className="font-weight-bold text-center" style={{ marginLeft: 20 }}>Status</th>
-                                                        <th className="font-weight-bold text-center"></th>
-                                                        <th className="font-weight-bold text-center"></th>
+                                                        <th width={80}>Status</th>
+                                                        <th width={100}></th>
+                                                        <th width={150}></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>{this.onShowListSkills(result.items, result.pageIndex)}</tbody>
