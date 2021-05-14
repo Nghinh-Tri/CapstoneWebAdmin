@@ -71,6 +71,7 @@ class CertificateForm extends Component {
                         onDeleteCertificate={this.props.onDeleteCertificate}
                         onUpdateCertficateID={this.props.onUpdateCertficateID}
                         onUpdateCertificateDate={this.props.onUpdateCertificateDate}
+                        isCheck={this.props.isCheck}
                     />
                 );
             })
@@ -108,8 +109,8 @@ class CertificateForm extends Component {
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead >
                                     <tr>
-                                        <th className="text-center" width={300} >Certificate</th>
-                                        <th className="text-center" width={200} >Taken Date</th>
+                                        <th className="text-center text-danger" width={300} >Certificate</th>
+                                        <th className="text-center text-danger" width={200} >Taken Date</th>
                                         <th className="text-center" width={230} >Expiration  Date</th>
                                         <th width={50}></th>
                                     </tr>
