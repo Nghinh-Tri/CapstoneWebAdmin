@@ -55,6 +55,9 @@ class PositionAssign extends Component {
     }
 
     componentWillUnmount = () => {
+        localStorage.removeItem('name')
+        localStorage.removeItem('phone')
+        localStorage.removeItem('email')
         this.props.refreshPage()
     }
 
@@ -139,40 +142,50 @@ class PositionAssign extends Component {
     render() {
         var { item, error } = this.props
         return (
-            <div class="card mb-4">
-                <div class="card-header">
+            <React.Fragment>
+                <div className="row breadcrumb mb-4 mt-3">
+                    <div className='col'>
+                        <li className="breadcrumb-item active" style={{ fontWeight: 600 }}>{localStorage.getItem('name')}</li>
+                    </div>
+                    <div className='col'>
+                        <li className="breadcrumb-item active" style={{ fontWeight: 600 }}>Phone: {localStorage.getItem('phone')}</li>
+                    </div>
+                    <div className='col'>
+                        <li className="breadcrumb-item active" style={{ fontWeight: 600 }}>Email: {localStorage.getItem('email')}</li>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <HardSkillForm hardSkill={item.hardSkills}
-                        onAddHardSkill={this.onAddHardSkill}
-                        onDeleteHardSkill={this.onDeleteHardSkill}
-                        onUpdateHardSkillID={this.onUpdateHardSkillID}
-                        onUpdateHardSkillLevel={this.onUpdateHardSkillLevel}
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <HardSkillForm hardSkill={item.hardSkills}
+                            onAddHardSkill={this.onAddHardSkill}
+                            onDeleteHardSkill={this.onDeleteHardSkill}
+                            onUpdateHardSkillID={this.onUpdateHardSkillID}
+                            onUpdateHardSkillLevel={this.onUpdateHardSkillLevel}
 
-                        //Certi
-                        onAddCertificate={this.onAddCertificate}
-                        onDeleteCertificate={this.onDeleteCertificate}
-                        onUpdateCertficateID={this.onUpdateCertficateID}
-                        onUpdateCertificateDate={this.onUpdateCertificateDate}
+                            //Certi
+                            onAddCertificate={this.onAddCertificate}
+                            onDeleteCertificate={this.onDeleteCertificate}
+                            onUpdateCertficateID={this.onUpdateCertficateID}
+                            onUpdateCertificateDate={this.onUpdateCertificateDate}
 
-                        hardSkillError={error}
-                    />
-                    <LanguageForm language={item.languages}
-                        onAddLanguage={this.onAddLanguage}
-                        onDeleteLanguage={this.onDeleteLanguage}
-                        onUpdateLanguageID={this.onUpdateLanguageID}
-                        onUpdateLanguageLevel={this.onUpdateLanguageLevel}
-                        languageError={error}
-                    />
+                            hardSkillError={error}
+                        />
+                        <LanguageForm language={item.languages}
+                            onAddLanguage={this.onAddLanguage}
+                            onDeleteLanguage={this.onDeleteLanguage}
+                            onUpdateLanguageID={this.onUpdateLanguageID}
+                            onUpdateLanguageLevel={this.onUpdateLanguageLevel}
+                            languageError={error}
+                        />
 
-                    <SoftSkillForm softSkill={item.softSkills}
-                        onUpdateSoftSkillID={this.onUpdateSoftSkillID}
-                        softSkillError={error}
-                    />
-                    <button type="submit" className="btn btn-primary pull-right" style={{ fontWeight: 700, marginTop: 10 }} onClick={this.onAssignPosition} >Assign</button>
+                        <SoftSkillForm softSkill={item.softSkills}
+                            onUpdateSoftSkillID={this.onUpdateSoftSkillID}
+                            softSkillError={error}
+                        />
+                        <button type="submit" className="btn btn-primary pull-right" style={{ fontWeight: 700, marginTop: 10 }} onClick={this.onAssignPosition} >Assign</button>
+                    </div>
                 </div>
-
-            </div>
+            </React.Fragment>
         );
     }
 }
