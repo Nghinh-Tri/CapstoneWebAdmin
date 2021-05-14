@@ -35,7 +35,7 @@ class ProfileTable extends Component {
     }
 
     onMoveToChangePassword = () => {
-        history.push('/change-password')
+        history.push('/profile/change-password')
     }
 
     render() {

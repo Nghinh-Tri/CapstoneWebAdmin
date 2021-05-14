@@ -39,6 +39,9 @@ class Search extends Component {
             case 'Certi':
                 this.props.searchCert(value.trim())
                 break
+            case 'candidate':
+                this.props.searchCandidate(value.trim())
+                break
         }
     }
 

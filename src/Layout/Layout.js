@@ -104,7 +104,7 @@ const map = (dispatch) => {
             dispatch(sendNotificate(pm, body))
         },
         fetchProject: () => {
-            dispatch(fetchProject(1, ''))
+            dispatch(fetchProject(1, '', true))
         }
     }
 }

@@ -83,24 +83,27 @@ class ListEmployee extends Component {
                     listEmployee.length <= 0 ?
                         <div className='row justify-content-center' style={{ width: 'auto' }} >
                             <h4 style={{ fontStyle: 'italic', color: 'gray' }} >{EMPLOYEE.NO_EMPLOYEE}</h4>
-                        </div> 
-                        :
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <Tabs defaultActiveKey={this.state.positionSelect} onChange={this.onSelectPos}>
-                                    {this.getTabName()}
-                                </Tabs>
-                            </div>
-                            <div class="card-body">
-                                <ListEmployeeContent item={listEmployee[this.state.positionSelect]} project={this.props.project} />
-                                {typeof listEmployee.find(i => i.employees.find(k => k.dateIn === null)) !== 'undefined' ?
-                                    <button type="submit" className="btn btn-primary pull-right" onClick={this.onHandle} style={{ fontWeight: 700 }} >
-                                        Confirm Candidates
-                                        </button>
-                                    : ''
-                                }
-                            </div>
                         </div>
+                        :
+                        <>
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <Tabs defaultActiveKey={this.state.positionSelect} onChange={this.onSelectPos}>
+                                        {this.getTabName()}
+                                    </Tabs>
+                                </div>
+                                <div class="card-body">
+                                    <ListEmployeeContent item={listEmployee[this.state.positionSelect]} project={this.props.project} />
+                                </div>
+
+                            </div>
+                            {typeof listEmployee.find(i => i.employees.find(k => k.dateIn === null)) !== 'undefined' ?
+                                <button type="submit" className="btn btn-primary pull-right" onClick={this.onHandle} style={{ fontWeight: 700 }} >
+                                    Confirm Candidates
+                                        </button>
+                                : ''
+                            }
+                        </>
                 }
             </React.Fragment>
         );

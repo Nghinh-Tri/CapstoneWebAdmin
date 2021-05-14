@@ -127,7 +127,7 @@ class Position extends Component {
                                         <button type="button" className="btn btn-primary"
                                             style={{ fontWeight: 700, borderRadius: 5, marginLeft: 20, marginTop: 10, }} onClick={this.onHandle}>
                                             <div className="row" style={{ paddingLeft: 7, paddingRight: 7 }}>
-                                                <i className="material-icons">add_box</i>Create New Position
+                                                <i className="material-icons">add_box</i>New Position
                                         </div>
                                         </button>
                                         <Search search="Position"

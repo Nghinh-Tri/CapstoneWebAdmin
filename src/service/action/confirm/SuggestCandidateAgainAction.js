@@ -68,8 +68,12 @@ export const fetchSuggestList = () => {
     }
 }
 
-export const pagingSuggestList = (list, pageIndex) => {
-    var url = `${API_URL}/User/candidate/paging?PageIndex=${pageIndex}&PageSize=10`
+export const pagingSuggestList = (list, pageIndex, search) => {
+    var url = ''
+    if (search === '')
+        url = `${API_URL}/User/candidate/paging?PageIndex=${pageIndex}&PageSize=10`
+    else
+        url = `${API_URL}/User/candidate/paging?Keyword=${search}&PageIndex=${pageIndex}&PageSize=10`
     return (dispatch) => {
         axios.put(
             url,

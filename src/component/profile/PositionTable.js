@@ -45,7 +45,7 @@ class SkillProfile extends Component {
                                             ? moment(certification.dateTaken).format("DD-MM-YYYY")
                                             : ""}
                                     </Descriptions.Item>
-                                    <Descriptions.Item label="Expire Date">
+                                    <Descriptions.Item label="Expiration Date">
                                         {certification?.dateEnd
                                             ? moment(certification.dateEnd).format("DD-MM-YYYY")
                                             : ""}

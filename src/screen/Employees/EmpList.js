@@ -98,7 +98,7 @@ class EmpList extends Component {
                                             onClick={() => this.onGenerateProfile(profiles.isCreateNew)}
                                         >
                                             <div className="row" style={{ paddingLeft: 7, paddingRight: 7 }}>
-                                                <i className="material-icons">add_box</i>Create New Employee
+                                                <i className="material-icons">add_box</i>New Employee
                                         </div>
                                         </button>
                                         <Search search="Employee"
