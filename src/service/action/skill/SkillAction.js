@@ -59,7 +59,7 @@ export const updateSkill = (skill) => {
 }
 
 export const addFile = (fileList) => {
-  var url = `${API_URL}/User/ProductImage/tuan`;
+  var url = `https://esms-backendapi.conveyor.cloud/api/User/ProductImage/tuan`;
   const listFileOrigin = fileList.map((file) => file.originFileObj);
   const formData = new FormData();
   console.log(fileList)
