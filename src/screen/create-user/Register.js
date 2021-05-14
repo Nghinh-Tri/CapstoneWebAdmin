@@ -65,18 +65,20 @@ class Register extends Component {
 
     handleInputChange = (e) => {
         const { name, value } = e.target;
-        if (name === 'email') {
-            var username = ''
-            var index = value.trim().indexOf('@')
-            if (index === -1) {
-                username = value.trim()
-            } else {
-                username = value.trim().substr(0, index)
+        if (name === 'phoneNumber') {
+            var phone = value
+            if (/^\d*$/.test(phone.trim())) {
+                this.setState({ phoneNumber: phone.trim() })
             }
-            username = username.charAt(0).toUpperCase() + username.substring(1, username.length)
-            this.setState({ userName: username })
+        } else if (name === 'identityNumber') {
+            var id = value
+            if (/^\d*$/.test(id.trim())) {
+                this.setState({ identityNumber: id.trim() })
+            }
         }
-        this.setState({ [name]: value });
+        else {
+            this.setState({ [name]: value });
+        }
     }
 
     onSelectRole = (value) => {
@@ -220,7 +222,7 @@ class Register extends Component {
                                             <label className='bmd-label-floating'>
                                                 Phone Number <span style={{ color: 'red', fontWeight: 500 }} >*</span>
                                             </label>
-                                            <input type="text" name="phoneNumber" value={phoneNumber} className="form-control" onChange={this.handleInputChange} />
+                                            <input type="tel" name="phoneNumber" value={phoneNumber} className="form-control" onChange={this.handleInputChange} />
                                             {typeof error.PhoneNumber !== 'undefined' ?
                                                 error.PhoneNumber.map((element, index) => {
                                                     return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
