@@ -195,7 +195,7 @@ class Skill extends Component {
           //     return false;
           //   }}
         >
-          {fileList.length < 5 && "+ Upload"}
+          {fileList.length < 1 && "+ Upload"}
         </Upload>
         <button
           type="button"
