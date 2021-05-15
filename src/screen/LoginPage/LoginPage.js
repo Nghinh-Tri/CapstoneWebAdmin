@@ -10,7 +10,6 @@ class Login extends Component {
             email: '',
             password: '',
             submitted: false,
-            isLoad: false
         };
     }
 
@@ -19,13 +18,7 @@ class Login extends Component {
         if (user && user !== 'undefined') {            // check for not undefined
             this.props.history.push('/')               // now you can redirect your desired route
         }
-    }
-
-    componentDidUpdate = (prevProp) => {
-        if (prevProp.loading !== this.props.loading) {
-            this.setState({ isLoad: this.props.loading.isLoad })
-        }
-    }
+    }  
 
     handleChange = (e) => {
         var { name, value } = e.target;
@@ -77,7 +70,7 @@ class Login extends Component {
                                                         : ''}
                                                 </div>
                                                 <div className="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-                                                    <Button type='primary' loading={this.state.isLoad} onClick={this.handleSubmit}>Login</Button>
+                                                    <Button type='primary' loading={this.props.loading} onClick={this.handleSubmit}>Login</Button>
                                                 </div>
                                             </form>
                                         </div>
