@@ -1,3 +1,4 @@
+import { Button } from 'antd';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as Action from '../../service/action/user/LoginAction'
@@ -25,13 +26,13 @@ class Login extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
+        console.log('a')
         this.setState({ submitted: true });
         const { email, password } = this.state;
         this.props.login(email, password);
     }
 
     render() {
-        const { email, password, submitted } = this.state;
         var { error } = this.props
         return (
             <div id="layoutAuthentication">
@@ -43,7 +44,7 @@ class Login extends Component {
                                     <div class="card shadow-lg border-0 rounded-lg mt-5">
                                         <div class="card-header"><h3 class="text-center font-weight-light my-4">Login to Human Resources</h3></div>
                                         <div class="card-body">
-                                            <form onSubmit={this.handleSubmit}>
+                                            <form>
                                                 <div class="form-group">
                                                     <label class="small mb-1" for="inputEmailAddress">Email</label>
                                                     <input class="form-control py-4" type="text"
@@ -69,7 +70,8 @@ class Login extends Component {
                                                         : ''}
                                                 </div>
                                                 <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-                                                    <button type='submit' class="btn btn-primary">Login</button>
+                                                    {/* <button type='submit' class="btn btn-primary">Login</button> */}
+                                                    <Button type='primary' loading={this.props.loading.isLoad} onClick={this.handleSubmit}>Login</Button>
                                                 </div>
                                             </form>
                                         </div>
@@ -86,7 +88,7 @@ class Login extends Component {
 
 const mapState = (state) => {
     return {
-        loggingIn: state.authentication,
+        loading: state.authentication,
         error: state.ErrorReducer
     };
 }
