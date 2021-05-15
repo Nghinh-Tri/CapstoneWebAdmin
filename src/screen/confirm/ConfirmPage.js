@@ -47,7 +47,6 @@ class ConfirmPage extends Component {
         var candidates = { candidates: item };
         var projectName = this.state.project.projectName
         var pmID = this.state.project.pmID
-        // console.log(candidates, this.state.project.projectID, projectName, pmID)
         this.props.onConfirm(candidates, this.state.project.projectID, projectName, pmID);
     };
 

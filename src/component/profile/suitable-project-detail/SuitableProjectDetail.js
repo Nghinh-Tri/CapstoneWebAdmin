@@ -62,7 +62,6 @@ class SuitableProjectDetail extends Component {
 
     render() {
         var { item } = this.props
-        console.log(item)
         return (
             <React.Fragment>
                 {

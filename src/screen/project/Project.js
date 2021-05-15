@@ -20,7 +20,6 @@ class Project extends Component {
 
     componentDidMount = () => {
         this.props.checkSession()
-        console.log('a')
         this.props.fetchProject(this.state.page, this.state.search)
     }
 

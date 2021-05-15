@@ -5,7 +5,7 @@ import ListEmployeeContent from './ListEmployeeContent';
 import { history } from '../../service/helper/History';
 import { Spin, Tabs, Tooltip } from "antd";
 import { InfoCircleTwoTone } from "@ant-design/icons";
-import { EMPLOYEE } from "../../service/constant/nodata";
+import { EMPLOYEE, PROJECT_EMPLOYEE_LIST } from "../../service/constant/nodata";
 const TabPane = Tabs.TabPane;
 
 class ListEmployee extends Component {
@@ -80,9 +80,9 @@ class ListEmployee extends Component {
                         <Spin className="text-center" size="large" />
                     </div>
                     :
-                    listEmployee.length <= 0 ?
+                    listEmployee.length === 0 ?
                         <div className='row justify-content-center' style={{ width: 'auto' }} >
-                            <h4 style={{ fontStyle: 'italic', color: 'gray' }} >{EMPLOYEE.NO_EMPLOYEE}</h4>
+                            <h4 style={{ fontStyle: 'italic', color: 'gray' }} >{PROJECT_EMPLOYEE_LIST.NO_POSITION}</h4>
                         </div>
                         :
                         <>

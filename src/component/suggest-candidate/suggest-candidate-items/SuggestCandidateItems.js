@@ -14,7 +14,6 @@ class SuggestCandidateItems extends Component {
 
     render() {
         var { index, candidate } = this.props
-        console.log('candidate', typeof candidate.check === 'undefined' || !candidate.check)
         return (
             <tr>
                 <th className="text-center">{index + 1}</th>

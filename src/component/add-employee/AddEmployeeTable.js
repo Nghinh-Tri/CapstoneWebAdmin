@@ -87,8 +87,9 @@ class SuggestCandidates extends Component {
     render() {
         var { item, selectedItem, paging } = this.props
         var candidateNeeds = 0
-        if (typeof item.posId !== 'undefined')
-            candidateNeeds = this.getCandidateNeeds(item.posId)
+        if (typeof item !== 'undefined')
+            if (typeof item.posId !== 'undefined')
+                candidateNeeds = this.getCandidateNeeds(item.posId)
         return (
             <React.Fragment>
                 {this.state.isLoad ?
@@ -129,7 +130,7 @@ class SuggestCandidates extends Component {
                                                     <th width={180} style={{ cursor: 'pointer', }}>
                                                         <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
                                                             <div> Project Field Match</div>
-                                                            <ArrowDownOutlined  onClick={() => this.onSort('field')} />
+                                                            <ArrowDownOutlined onClick={() => this.onSort('field')} />
                                                         </div>
                                                     </th>
                                                     <th width={160} style={{ cursor: 'pointer', }}>

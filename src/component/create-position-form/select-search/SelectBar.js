@@ -368,7 +368,6 @@ class SelectBar extends Component {
                 this.props.onSelectSkill(value)
                 break
             case 'certiLevel':
-                console.log(value)
                 this.props.onUpdateCerti(value)
                 break
             case 'posID':

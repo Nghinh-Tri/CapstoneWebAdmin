@@ -8,6 +8,7 @@ import { checkSession } from '../../service/action/user/AuthenticateAction';
 import * as Action from '../../service/action/project/ProjectAction'
 import { showStatus, showBadge } from '../../service/util/util';
 import { withRouter } from 'react-router';
+import TextArea from 'antd/lib/input/TextArea';
 
 class ProjectDetailTable extends Component {
 
@@ -47,7 +48,6 @@ class ProjectDetailTable extends Component {
 
     render() {
         var { project } = this.state
-        console.log(project)
         return (
             <React.Fragment>
                 {this.state.isLoad ?
@@ -82,8 +82,10 @@ class ProjectDetailTable extends Component {
                             <Badge status={showBadge(project.status)} text={showStatus(project.status)} />
                         </Descriptions.Item>
 
-
-                        <Descriptions.Item span={3} label="Description">{project.description}</Descriptions.Item>
+                        <Descriptions.Item span={3} label="Description">
+                            <TextArea value={project.description} readOnly autoSize={true}
+                                style={{ backgroundColor: 'white', border: 'none' }} />
+                        </Descriptions.Item>
                     </Descriptions>
                 }
             </React.Fragment>
