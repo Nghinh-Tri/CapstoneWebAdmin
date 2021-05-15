@@ -7,6 +7,7 @@ import { store } from 'react-notifications-component';
 export const login = (username, password) => {
     var user = { email: username.trim(), password: password, rememberMe: true }
     return dispatch => {
+        dispatch(request())
         axios.post(
             `${API_URL}/User/authenticate`,
             user
@@ -59,18 +60,12 @@ export const login = (username, password) => {
     }
 }
 
-export const request = (user) => {
-    return {
-        type: Type.LOGIN_REQUEST,
-        user
-    }
+export const request = () => {
+    return { type: Type.LOGIN_REQUEST }
 }
 
-export const success = (user) => {
-    return {
-        type: Type.LOGIN_SUCCESS,
-        user
-    }
+export const success = () => {
+    return { type: Type.LOGIN_SUCCESS }
 }
 
 export const register = (emp) => {
@@ -142,7 +137,7 @@ export const registerSuccess = (userID, role, name, phone, email) => {
         localStorage.setItem('name', name)
         localStorage.setItem('phone', phone)
         localStorage.setItem('email', email)
-        history.push('/employee/position-assign', { empID: userID, role: role });        
+        history.push('/employee/position-assign', { empID: userID, role: role });
     }
     else {
         history.push('/employee')
