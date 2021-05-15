@@ -9,7 +9,8 @@ class Login extends Component {
         this.state = {
             email: '',
             password: '',
-            submitted: false
+            submitted: false,
+            isLoad: false
         };
     }
 
@@ -19,6 +20,13 @@ class Login extends Component {
             this.props.history.push('/')               // now you can redirect your desired route
         }
     }
+
+    componentDidUpdate = (prevProp) => {
+        if (prevProp.loading !== this.props.loading) {
+            this.setState({ isLoad: this.props.loading.isLoad })
+        }
+    }
+
     handleChange = (e) => {
         var { name, value } = e.target;
         this.setState({ [name]: value })
@@ -37,16 +45,16 @@ class Login extends Component {
             <div id="layoutAuthentication">
                 <div id="layoutAuthentication_content">
                     <main>
-                        <div class="container">
-                            <div class="row justify-content-center">
-                                <div class="col-lg-5">
-                                    <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                        <div class="card-header"><h3 class="text-center font-weight-light my-4">Login to Human Resources</h3></div>
-                                        <div class="card-body">
+                        <div className="container">
+                            <div className="row justify-content-center">
+                                <div className="col-lg-5">
+                                    <div className="card shadow-lg border-0 rounded-lg mt-5">
+                                        <div className="card-header"><h3 class="text-center font-weight-light my-4">Login to Human Resources</h3></div>
+                                        <div className="card-body">
                                             <form>
-                                                <div class="form-group">
-                                                    <label class="small mb-1" for="inputEmailAddress">Email</label>
-                                                    <input class="form-control py-4" type="text"
+                                                <div className="form-group">
+                                                    <label className="small mb-1" for="inputEmailAddress">Email</label>
+                                                    <input className="form-control py-4" type="text"
                                                         id="email" name="email"
                                                         className="form-control"
                                                         onChange={this.handleChange} />
@@ -56,9 +64,9 @@ class Login extends Component {
                                                         })
                                                         : ''}
                                                 </div>
-                                                <div class="form-group">
-                                                    <label class="small mb-1" for="inputPassword">Password</label>
-                                                    <input class="form-control py-4" type="password"
+                                                <div className="form-group">
+                                                    <label className="small mb-1" for="inputPassword">Password</label>
+                                                    <input className="form-control py-4" type="password"
                                                         id="password" name="password"
                                                         className="form-control"
                                                         onChange={this.handleChange} />
@@ -68,9 +76,8 @@ class Login extends Component {
                                                         })
                                                         : ''}
                                                 </div>
-                                                <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-                                                    {/* <button type='submit' class="btn btn-primary">Login</button> */}
-                                                    <Button type='primary' loading={this.props.loading.isLoad} onClick={this.handleSubmit}>Login</Button>
+                                                <div className="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                                                    <Button type='primary' loading={this.state.isLoad} onClick={this.handleSubmit}>Login</Button>
                                                 </div>
                                             </form>
                                         </div>
