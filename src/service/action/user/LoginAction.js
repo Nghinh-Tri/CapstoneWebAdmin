@@ -13,11 +13,11 @@ export const login = (username, password) => {
             user
         ).then(res => {
             if (res.data.isSuccessed) {
+                dispatch(success())
                 localStorage.setItem('EMP', JSON.stringify(res.data.resultObj.empId));
                 localStorage.setItem('token', JSON.stringify(res.data.resultObj.token));
                 var role = getRole()
                 if (role === 'admin') {
-                    dispatch(success(JSON.stringify(res.data.resultObj)))
                     history.push('/');
                 } else {
                     localStorage.clear()
