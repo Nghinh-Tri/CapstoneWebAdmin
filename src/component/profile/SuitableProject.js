@@ -42,7 +42,6 @@ class SuitableProject extends Component {
     showSuitableProjectDetail = () => {
         var { selectIndex } = this.state
         var { suitableList } = this.props
-        console.log('suitableList', suitableList)
         if (suitableList.length > 0 && typeof suitableList[selectIndex] !== 'undefined') {
             return (<SuitableProjectDetail item={suitableList[selectIndex]} empID={this.props.empID} />)
         }
@@ -55,7 +54,6 @@ class SuitableProject extends Component {
 
     render() {
         var { suitableList } = this.props
-        // console.log(suitableList)
         return (
             <React.Fragment>
                 {this.state.isLoad ?

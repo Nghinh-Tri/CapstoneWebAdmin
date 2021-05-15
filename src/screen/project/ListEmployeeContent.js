@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { getPrevRequire } from '../../service/action/position/PositionAction';
+import { PROJECT_EMPLOYEE_LIST } from '../../service/constant/nodata';
 import { history } from '../../service/helper/History';
 import { showHardSkillLevel } from "../../service/util/util";
 
@@ -149,20 +150,26 @@ class ListEmployeeContent extends Component {
                 <div className='row pull-right' style={{ width: 'auto' }} >
                     <h5 style={{ marginRight: 14 }} >{item.noe} / {item.candidateNeeded} Employees </h5>
                 </div>
-                <div className="table-responsive">
-                    <table className="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead className="font-weight-bold text-center text-primary">
-                            <th>Name</th>
-                            <th>Position</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th width={140}>Confirmed Date</th>
-                        </thead>
-                        <tbody>
-                            {this.showCandidate(item.employees, item.posName)}
-                        </tbody>
-                    </table>
-                </div>
+                {item.employees.length === 0 ?
+                    <div className='row justify-content-center'>
+                        <h4 style={{ fontStyle: 'italic', color: 'gray' }} >{PROJECT_EMPLOYEE_LIST.NO_EMP_IN_POS}</h4>
+                    </div>
+                    :
+                    <div className="table-responsive">
+                        <table className="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead className="font-weight-bold text-center text-primary">
+                                <th>Name</th>
+                                <th>Position</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th width={140}>Confirmed Date</th>
+                            </thead>
+                            <tbody>
+                                {this.showCandidate(item.employees, item.posName)}
+                            </tbody>
+                        </table>
+                    </div>
+                }
                 {typeof prevRequire.requiredPosID !== 'undefined' ?
                     item.noe !== item.candidateNeeded && (temp.status === 2 || temp.status === 0) ?
                         <>

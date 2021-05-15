@@ -82,7 +82,6 @@ class HardSkillOption extends Component {
         var { positionList, hardSkill, projectType } = this.props
         var positionConverted = convertPositionList(positionList)
         var projectTypeConverted = convertProjectTypeList(this.getProjectTypeNotSelect())
-        console.log('a', hardSkill)
         return (
             <React.Fragment>
                 {this.showHardSkillOption(hardSkill, positionConverted, projectTypeConverted)}

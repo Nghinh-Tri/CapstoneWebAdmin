@@ -105,7 +105,6 @@ class CreateCertification extends Component {
     render() {
         var { certiLevel, certificationName, description, skillID } = this.state
         var { error } = this.props
-        console.log(error)
         var listConverted = convertSkillList(this.props.hardSkillList)
         return (
             <div className="card" style={{ marginTop: "50px", }}>

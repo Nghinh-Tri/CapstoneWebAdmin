@@ -34,7 +34,6 @@ class CreatePosition extends Component {
     componentDidUpdate(prevProps) {
         if (prevProps.position !== this.props.position) {
             var { position } = this.props
-            console.log(position)
             this.setState({
                 posID: position.posID,
                 position: position.name,

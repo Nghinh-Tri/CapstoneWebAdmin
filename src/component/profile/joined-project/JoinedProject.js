@@ -55,7 +55,6 @@ class JoinedProject extends Component {
 
     render() {
         var { joinedProject } = this.props
-        console.log(joinedProject)
         return (
             <React.Fragment>
                 {this.state.isLoad ?
