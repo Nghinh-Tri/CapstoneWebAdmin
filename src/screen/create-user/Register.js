@@ -1,4 +1,4 @@
-import { AutoComplete } from 'antd';
+import { AutoComplete, Modal } from 'antd';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -8,6 +8,7 @@ import { suggestAddress } from '../../service/action/user/AddressAutoFill';
 import { checkSession } from '../../service/action/user/AuthenticateAction';
 import * as Action from '../../service/action/user/LoginAction'
 import { fetchProfileDetail, updateProfile } from '../../service/action/user/ProfileAction';
+import { history } from '../../service/helper/History';
 import { showRole } from '../../service/util/util';
 class Register extends Component {
 
@@ -44,7 +45,31 @@ class Register extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.profile !== this.props.profile) {
+        if (prevProps.status !== this.props.status) {
+            if (this.props.status) {
+                let { userID, role, name, phone, email } = this.props.profile
+                let { location } = this.props
+                let empID = this.props.profile.id
+                Modal.success({
+                    title: this.props.location.pathname === '/employee/register' ? 'Create Employee Successfully' : 'Update Employee Successfully',
+                    onOk() {
+                        if (location.pathname === '/employee/register') {
+                            localStorage.setItem('name', name)
+                            localStorage.setItem('phone', phone)
+                            localStorage.setItem('email', email)
+                            history.push('/employee/position-assign', { empID: userID, role: role });
+                        }
+                        else
+                            history.push(`/employee/profile/${empID}`)
+                    }
+                })
+            }
+            else
+                Modal.error({
+                    title: 'Create Position Failed'
+                })
+        }
+        else if (prevProps.profile !== this.props.profile) {
             var { profile } = this.props
             this.setState({
                 fullname: profile.name,
@@ -287,9 +312,9 @@ class Register extends Component {
                                             placeholder='Select role'
                                             list={this.state.roleList}
                                             onSelectRole={this.onSelectRole} />
-                                        {submitted && !role &&
+                                        {/* {submitted && !role &&
                                             <div className="error text-danger font-weight-bold" >Role is required</div>
-                                        }
+                                        } */}
                                     </div>
                                 </div>
                                 <button type="submit" className="btn btn-primary pull-right mt-3    ">
@@ -310,7 +335,8 @@ const mapState = (state) => {
         profile: state.ProfileFetchReducer,
         error: state.ErrorReducer,
         duplicateError: state.RegisterErrorReducer,
-        addressSugget: state.SuggestAddressReducer
+        addressSugget: state.SuggestAddressReducer,
+        status: state.StatusReducer
     };
 }
 

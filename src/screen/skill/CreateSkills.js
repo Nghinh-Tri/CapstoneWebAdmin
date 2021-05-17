@@ -6,6 +6,8 @@ import { fetchProjectField } from '../../service/action/project/ProjectAction';
 import { addHardSkillOption, createSkill, deleteHardSkillOption, fetchSkillDetail, generateSkill, refreshPage, selectPosition, selectProjectField, selectProjectType, updateSkill, updateSkillName, updateSkillType } from '../../service/action/skill/SkillAction';
 import { convertProjectTypeList } from '../../service/util/util';
 import HardSkillOption from './HardSkillOption';
+import { history } from '../../service/helper/History';
+import { Modal } from 'antd';
 
 class CreateSkills extends Component {
 
@@ -16,7 +18,7 @@ class CreateSkills extends Component {
                 { label: 'Hard Skill', value: 0 },
                 { label: 'Soft Skill', value: 1 }
             ],
-            skillType: -1
+            skillType: -1,
         }
     }
 
@@ -38,9 +40,21 @@ class CreateSkills extends Component {
     }
 
     componentDidUpdate(prevProps) {
+        console.log(this.props.status)
+
         if (prevProps.skill !== this.props.skill) {
             if (this.props.skill.skillType !== -1)
                 this.setState({ skillType: this.props.skill.skillType })
+        } else if (prevProps.status !== this.props.status) {
+            if (this.props.status)
+                Modal.success({
+                    title: typeof this.props.match === 'undefined' ? 'Create Skill Successfully' : 'Update Skill Successfully',
+                    onOk() { history.push('/skill') }
+                })
+            else
+                Modal.error({
+                    title: typeof this.props.match === 'undefined' ? 'Create Skill Failed' : 'Update Skill Failed'
+                })
         }
     }
 
@@ -186,7 +200,8 @@ const mapStateToProps = (state) => {
     return {
         skill: state.SkillReducer,
         projectField: state.ProjectTypeReducer,
-        error: state.ErrorReducer
+        error: state.ErrorReducer,
+        status: state.StatusReducer
     }
 }
 

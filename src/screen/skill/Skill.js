@@ -51,6 +51,14 @@ class Skill extends Component {
                     onOk: () => { refreshError() }
                 });
             }
+        } else if (prevProps.status !== this.props.status) {
+            let { fetchSkills } = this.props
+            let { pageIndex, search, selectType } = this.state
+            if (this.props.status)
+                Modal.success({
+                    title: 'Change Skill Status Successfully',
+                    onOk() { fetchSkills(pageIndex, search, selectType) }
+                })
         }
     }
 
@@ -207,7 +215,8 @@ class Skill extends Component {
 const mapStateToProps = (state) => {
     return {
         skills: state.SkillReducer,
-        error: state.ChangeStatusErrorReducer
+        error: state.ChangeStatusErrorReducer,
+        status: state.StatusReducer
     }
 }
 
@@ -219,8 +228,8 @@ const mapDispatchToProps = (dispatch) => {
         checkSession: () => {
             dispatch(checkSession())
         },
-        changeStatus: (skillID, pageIndex, search) => {
-            dispatch(changeStatus(skillID, pageIndex, search))
+        changeStatus: (skillID,) => {
+            dispatch(changeStatus(skillID))
         },
         refreshError: () => {
             dispatch(refreshPage())
