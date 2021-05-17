@@ -164,6 +164,7 @@ class CreateSkills extends Component {
                                         <SelectBar
                                             name="projectField"
                                             type="multi"
+                                            placeholder="Select project field"
                                             list={projectFieldConverted}
                                             value={result.softSkillOption}
                                             onSelectProjectField={this.onSelectProjectField}
@@ -185,7 +186,7 @@ class CreateSkills extends Component {
 const mapStateToProps = (state) => {
     return {
         skill: state.SkillReducer,
-        projectField: state.ProjectTypeReducer,
+        projectField: state.ProjectFieldReducer,
         error: state.ErrorReducer
     }
 }
