@@ -48,7 +48,7 @@ const StatusReducer = (state = initState, action) => {
             return state;
         case SUGGEST_CANDIDATE.CONFIRM_SUGGEST:
             state = action.isSuccessed
-            return state;
+            return state;            
         default:
             state = false
             return state;

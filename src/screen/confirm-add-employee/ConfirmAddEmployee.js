@@ -13,15 +13,26 @@ import { checkRejectCandidatesInSuggestList, confirmSuggestList } from '../../se
 import BriefDetail from '../../component/brief-detail/BrriefDetails';
 import TextArea from 'antd/lib/input/TextArea';
 import confirm from 'antd/lib/modal/confirm';
+import { Modal } from 'antd';
 
 class ConfirmSelectCandidate extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            isUpdate: false,
+            // isUpdate: false,
             confirmObj: {},
             click: false
+        }
+    }
+
+    componentDidUpdate = (prevProp) => {
+        if (prevProp.status !== this.props.status) {
+            if (this.props.status)
+                Modal.success({
+                    title: 'Confirm Employee Successfully',
+                    onOk() { history.push('/project') }
+                })
         }
     }
 
@@ -39,9 +50,7 @@ class ConfirmSelectCandidate extends Component {
 
     componentDidMount = () => {
         this.props.checkSession()
-        this.props.fetchSelectCandidate()
-        if (typeof this.props.location.state !== 'undefined')
-            this.setState({ isUpdate: this.props.location.state.isUpdate })
+        this.props.fetchSelectCandidate()      
     }
 
     componentWillReceiveProps = () => {
@@ -63,7 +72,10 @@ class ConfirmSelectCandidate extends Component {
                             style={{ color: 'black', backgroundColor: 'white', borderColor: 'white', cursor: 'default' }} />
                     </>),
                     okType: 'danger',
-                    onOk() { confirmSuggestList(confirmObj, projectID, projectName, pmID) },
+                    onOk:()=> { 
+                        confirmSuggestList(confirmObj, projectID, projectName, pmID) 
+                        this.setState({ click: !this.state.click })
+                    },
                     onCancel: () => { this.setState({ click: !this.state.click }) }
                 });
             } else {
@@ -113,7 +125,8 @@ class ConfirmSelectCandidate extends Component {
 const mapStateToProps = state => {
     return {
         candidateList: state.SuggestCandidateAgainSelectedListReducer,
-        rejectedCandidate: state.CheckRejectedCandidates
+        rejectedCandidate: state.CheckRejectedCandidates,
+        status: state.StatusReducer
     }
 }
 

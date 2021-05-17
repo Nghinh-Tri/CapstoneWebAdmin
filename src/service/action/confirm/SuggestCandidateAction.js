@@ -64,19 +64,12 @@ export const checkRejectCandidatesInSuggestList = (suggestList, projectID) => {
     var checkUrl = `${API_URL}/Project/checkCandidate/${projectID}`
     return (dispatch) => {
         if (suggestList.candidates.length > 0) {
-            console.log(suggestList)
-
             axios.post(
                 checkUrl,
                 suggestList,
                 { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
             ).then(res => {
-                console.log(res.data)
-                if (res.data.isSuccessed) {
-                    dispatch(rejectedCandidate('', []))
-                } else {
-                    dispatch(rejectedCandidate(res.data.message, res.data.resultObj))
-                }
+                dispatch(rejectedCandidate(res.data.message !== null ? res.data.message : '', res.data.resultObj !== null ? res.data.resultObj : []))
             }).catch(err => {
                 console.log(err.response)
             })
@@ -88,7 +81,6 @@ export const checkRejectCandidatesInSuggestList = (suggestList, projectID) => {
 
 export const confirmSuggestList = (suggestList, projectID, projectName, pmID, optionType) => {
     var url = `${API_URL}/Project/confirmCandidate/${projectID}`
-    // console.log('pm', suggestList)
     return (dispatch) => {
         if (typeof suggestList.candidates.find(e => e.empIDs.find(k => !k.isAccept && k.note.length === 0)) !== 'undefined')
             store.addNotification({
@@ -109,7 +101,6 @@ export const confirmSuggestList = (suggestList, projectID, projectName, pmID, op
                 suggestList,
                 { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
             ).then(res => {
-                console.log(res.data)
                 if (res.data.isSuccessed) {
                     localStorage.removeItem('projectId')
                     localStorage.removeItem('pmID')
@@ -155,7 +146,6 @@ export const confirmSuggestList = (suggestList, projectID, projectName, pmID, op
 }
 
 export const confirmSuggestListSuggest = (isSuccessed) => {
-    // history.push('/project')
     return { type: SUGGEST_CANDIDATE.CONFIRM_SUGGEST, isSuccessed }
 }
 
