@@ -59,33 +59,36 @@ export const updateSkill = (skill) => {
 }
 
 export const addFile = (fileList) => {
-  var url = `https://esms-backendapi.conveyor.cloud/api/User/ProductImage/tuan`;
-  const listFileOrigin = fileList.map((file) => file.originFileObj);
-  const formData = new FormData();
-  console.log(fileList)
-  for (let file of listFileOrigin) {
-    formData.append("files", file);
-  }
+    var url = `${API_URL}/User/Import`;
+    const listFileOrigin = fileList.map((file) => file.originFileObj);
+    const formData = new FormData();
+    console.log(fileList)
+    for (let file of listFileOrigin) {
+        formData.append("files", file);
+    }
 
-  return (dispatch) => {
-    axios
-      .put(url, formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage
-            .getItem("token")
-            .replace(/"/g, "")}`,
-        },
-        body: {},
-      })
-      .then((res) => {
-        if ((res.status = 200)) {
-          dispatch(addFileSuccess());
-        }
-      })
-      .catch((err) => {
-        dispatch(addFileFail(err?.response?.data?.errors));
-      });
-  };
+    return (dispatch) => {
+        axios
+            .put(url, formData, {
+                headers: {
+                    Authorization: `Bearer ${localStorage
+                        .getItem("token")
+                        .replace(/"/g, "")}`,
+                },
+                body: {},
+            })
+            .then((res) => {
+                console.log(res.data)
+                if ((res.status = 200)) {
+                    dispatch(addFileSuccess());
+                }
+            })
+            .catch((err) => {
+                console.log(err.response)
+
+                dispatch(addFileFail(err?.response?.data?.errors));
+            });
+    };
 };
 
 export const changeStatus = (skillID, pageIndex, search) => {
@@ -200,10 +203,10 @@ export const refreshPage = () => {
 }
 
 export const addFileSuccess = () => {
-  history.push("/skill");
-  return { type: SKILL.ADD_FILE };
+    history.push("/skill");
+    return { type: SKILL.ADD_FILE };
 };
 
 export const addFileFail = (error) => {
-  return { type: SKILL.ADD_FILE_FAIL, error };
+    return { type: SKILL.ADD_FILE_FAIL, error };
 };
