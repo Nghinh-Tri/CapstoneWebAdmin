@@ -8,7 +8,7 @@ const ProjectTypeReducer = (state = initState, action) => {
             state = []
             if (state.length === 0)
                 state = action.projectType.slice()
-            return [...state];
+            return [...state];        
         default:
             return [...state];
     }

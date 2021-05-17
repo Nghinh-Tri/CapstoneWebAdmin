@@ -64,19 +64,12 @@ export const checkRejectCandidatesInSuggestList = (suggestList, projectID) => {
     var checkUrl = `${API_URL}/Project/checkCandidate/${projectID}`
     return (dispatch) => {
         if (suggestList.candidates.length > 0) {
-            console.log(suggestList)
-
             axios.post(
                 checkUrl,
                 suggestList,
                 { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
             ).then(res => {
-                console.log(res.data)
-                if (res.data.isSuccessed) {
-                    dispatch(rejectedCandidate('', []))
-                } else {
-                    dispatch(rejectedCandidate(res.data.message, res.data.resultObj))
-                }
+                dispatch(rejectedCandidate(res.data.message !== null ? res.data.message : '', res.data.resultObj !== null ? res.data.resultObj : []))
             }).catch(err => {
                 console.log(err.response)
             })
@@ -88,7 +81,6 @@ export const checkRejectCandidatesInSuggestList = (suggestList, projectID) => {
 
 export const confirmSuggestList = (suggestList, projectID, projectName, pmID, optionType) => {
     var url = `${API_URL}/Project/confirmCandidate/${projectID}`
-    // console.log('pm', suggestList)
     return (dispatch) => {
         if (typeof suggestList.candidates.find(e => e.empIDs.find(k => !k.isAccept && k.note.length === 0)) !== 'undefined')
             store.addNotification({
@@ -109,37 +101,30 @@ export const confirmSuggestList = (suggestList, projectID, projectName, pmID, op
                 suggestList,
                 { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
             ).then(res => {
-                if (res.status === 200) {
-                    if (res.data.isSuccessed) {
-                        // setTimeout(() => {
-                        //     console.log('ok')
-                        // }, 5000);
-                        localStorage.removeItem('projectId')
-                        localStorage.removeItem('pmID')
-                        localStorage.removeItem('projectType')
-                        localStorage.removeItem('projectField')
-                        localStorage.removeItem('projectName')
-                        localStorage.removeItem('positionRequire')
-                        localStorage.removeItem('dateCreate')
-                        localStorage.removeItem('dateEnd')
-                        // suggestList.candidates.forEach(element => {
-                        //     element.empIDs.forEach(e1 => {
-                        //         setTimeout(() => {
-                        //             dispatch(sendNotificate(e1, `You has been confirm to join project '${projectName}'`))
-                        //         }, 5000);
-                        //     });
-                        // });
-                        dispatch(confirmSuggestListSuggest())
-                        dispatch(sendNotificate("" + pmID, `Employee for project '${projectName}' has been confirmed `))
+                if (res.data.isSuccessed) {
+                    localStorage.removeItem('projectId')
+                    localStorage.removeItem('pmID')
+                    localStorage.removeItem('projectType')
+                    localStorage.removeItem('projectField')
+                    localStorage.removeItem('projectName')
+                    localStorage.removeItem('positionRequire')
+                    localStorage.removeItem('dateCreate')
+                    localStorage.removeItem('dateEnd')
+                    // suggestList.candidates.forEach(element => {
+                    //     element.empIDs.forEach(e1 => {
+                    //         dispatch(sendNotificate(e1, `You has been confirm to join project '${projectName}'`))
+                    //     });
+                    // });
+                    dispatch(confirmSuggestListSuggest(res.data.isSuccessed))
+                    dispatch(sendNotificate("" + pmID, `Employee for project '${projectName}' has been confirmed `))
 
-                        if (typeof optionType !== 'undefined') {
-                            history.push(`employee/profile/${optionType}`)
-                        } else {
-                            history.push("/project")
-                        }
-                    } else {
-                        console.log(res.data)
-                    }
+                    // if (typeof optionType !== 'undefined') {
+                    //     history.push(`employee/profile/${optionType}`)
+                    // } else {
+                    //     history.push("/project")
+                    // }
+                } else {
+                    console.log(res.data)
                 }
             }).catch(err => {
                 if (typeof err.response !== 'undefined')
@@ -151,19 +136,17 @@ export const confirmSuggestList = (suggestList, projectID, projectName, pmID, op
                         animationIn: ["animated", "fadeIn"],
                         animationOut: ["animated", "fadeOut"],
                         dismiss: {
-                            duration: 2000,
+                            duration: 5000,
                             onScreen: false
                         }
                     })
-                // console.log(err.response.data.message)
             })
         }
     }
 }
 
-export const confirmSuggestListSuggest = () => {
-    history.push('/project')
-    return { type: SUGGEST_CANDIDATE.CONFIRM_SUGGEST }
+export const confirmSuggestListSuggest = (isSuccessed) => {
+    return { type: SUGGEST_CANDIDATE.CONFIRM_SUGGEST, isSuccessed }
 }
 
 export const rejectedCandidate = (message, list) => {

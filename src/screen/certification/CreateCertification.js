@@ -6,6 +6,8 @@ import { checkSession } from '../../service/action/user/AuthenticateAction';
 import { createCertification, fetchCertificationDetail, refreshPage, updateCertificate } from '../../service/action/certificate/CertificationSelectBarAction';
 import { fetchHardSkill } from '../../service/action/skill/HardSkillSelectBarAction';
 import { convertSkillList } from '../../service/util/util';
+import { Modal } from 'antd';
+import { history } from '../../service/helper/History';
 
 class CreateCertification extends Component {
 
@@ -58,6 +60,16 @@ class CreateCertification extends Component {
                 skillID: certi.skillID,
                 certiLevel: certi.certiLevel
             })
+        } else if (prevProps.status !== this.props.status) {
+            if (this.props.status)
+                Modal.success({
+                    title: typeof this.props.match === 'undefined' ? 'Create Certificate Successfully' : 'Update Certificate Successfully',
+                    onOk() { history.push('/certification') }
+                })
+            else
+                Modal.error({
+                    title: typeof this.props.match === 'undefined' ? 'Create Certificate Failed' : 'Update Certificate Failed'
+                })
         }
     }
 
@@ -240,7 +252,8 @@ const mapStateToProps = (state) => {
     return {
         certi: state.CertificationReducer,
         hardSkillList: state.HardSkillSelectBarReducer,
-        error: state.ErrorReducer
+        error: state.ErrorReducer,
+        status: state.StatusReducer
     }
 }
 

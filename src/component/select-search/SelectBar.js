@@ -61,7 +61,7 @@ class SelectBar extends Component {
                     onSelect={this.onSelectCommon}
                     optionFilterProp="children"
                     filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        option.children.toString().toLowerCase().indexOf(input.toLowerCase()) >= 0
                     }
                 >
                     {this.showPriorityOption()}

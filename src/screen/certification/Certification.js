@@ -15,13 +15,14 @@ class Certification extends Component {
         super(props);
         this.state = {
             search: '',
-            isLoading: true
+            isLoading: true,
+            page: 1
         }
     }
 
     componentDidMount = () => {
         this.props.checkSession()
-        this.props.fetchCertifications(1, this.state.search)
+        this.props.fetchCertifications(this.state.page, this.state.search)
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -44,12 +45,19 @@ class Certification extends Component {
                     onOk: () => { refreshError() }
                 });
             }
+        } else if (prevProps.status !== this.props.status) {
+            let { fetchCertifications } = this.props
+            let { page, search } = this.state
+            if (this.props.status)
+                Modal.success({
+                    title: 'Change Certificate Status Successfully',
+                    onOk() { fetchCertifications(page, search) }
+                })
         }
     }
 
     onChangeStatus = (certificationID, certificationName) => {
-        var { changeStatus, certiList } = this.props
-        var { search } = this.state
+        var { changeStatus } = this.props
         confirm({
             title: `Are you sure you want to change ${certificationName} status?`,
             okText: 'Yes',
@@ -57,7 +65,7 @@ class Certification extends Component {
             cancelText: 'No',
             style: { width: 'auto' },
             onOk() {
-                changeStatus(certificationID, certiList.pageIndex, search)
+                changeStatus(certificationID)
             },
             onCancel() {
                 console.log('Cancel');
@@ -103,9 +111,11 @@ class Certification extends Component {
 
     searchCert = (value) => {
         this.setState({ search: value })
-        this.props.fetchCertifications(1, value)
+        this.props.fetchCertifications(this.state.page, value)
     }
+
     onSelectPage = (e) => {
+        this.setState({ page: e })
         this.props.fetchCertifications(e, this.state.search)
     }
 
@@ -186,7 +196,8 @@ class Certification extends Component {
 const mapStateToProps = (state) => {
     return {
         certiList: state.CertificationReducer,
-        error: state.ChangeStatusErrorReducer
+        error: state.ChangeStatusErrorReducer,
+        status: state.StatusReducer
     }
 }
 
@@ -198,8 +209,8 @@ const mapDispatchToProps = (dispatch) => {
         checkSession: () => {
             dispatch(checkSession())
         },
-        changeStatus: (certificationID, pageIndex, search) => {
-            dispatch(changeStatus(certificationID, pageIndex, search))
+        changeStatus: (certificationID) => {
+            dispatch(changeStatus(certificationID,))
         },
         refreshError: () => {
             dispatch(refreshPage())

@@ -60,7 +60,7 @@ export const updateProfile = (id, profile) => {
             profile,
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
-            dispatch(updateProfileSuccess(id))
+            dispatch(updateProfileSuccess(res.data.isSuccessed))
         }).catch(err => {
             dispatch(updateProfileFail(err.response.data.errors))
         })
@@ -88,11 +88,8 @@ export const fetchPositionProfileDetailSuccess = (resultObj) => {
     }
 }
 
-export const updateProfileSuccess = (empID) => {
-    history.push(`/employee/profile/${empID}`)
-    return {
-        type: Type.UPDATE_PROFILE,
-    }
+export const updateProfileSuccess = (isSuccessed) => {
+    return { type: Type.UPDATE_PROFILE, isSuccessed }
 }
 
 export const updateProfileFail = (error) => {

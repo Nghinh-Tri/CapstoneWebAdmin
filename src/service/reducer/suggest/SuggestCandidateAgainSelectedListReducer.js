@@ -127,9 +127,9 @@ const SuggestCandidateAgainSelectedListReducer = (state = initState, action) => 
             }
             return [...state]
 
-        case SUGGEST_CANDIDATE.CONFIRM_SUGGEST:
-            state.splice(0, state.length)
-            return [...state]
+        // case SUGGEST_CANDIDATE.CONFIRM_SUGGEST:
+        //     state.splice(0, state.length)
+        //     return [...state]
 
         case ADD_MORE_CANDIDATES.CANCEL_SUGGEST:
             state.splice(0, state.length)

@@ -71,6 +71,8 @@ export const success = () => {
 export const register = (emp) => {
     var url = `${API_URL}/User`
     return dispatch => {
+        // dispatch(registerSuccess('1982524d-d506-493b-8a0e-7d258f0ca098', emp.roleName, emp.name, emp.phoneNumber, emp.email, true))
+
         axios.post(
             url,
             emp,
@@ -79,7 +81,7 @@ export const register = (emp) => {
                 if (res.status === 200) {
                     dispatch(registerFailure({}))
                     dispatch(registerErrorFailure(''))
-                    dispatch(registerSuccess(res.data.resultObj, emp.roleName, emp.name, emp.phoneNumber, emp.email))
+                    dispatch(registerSuccess(res.data.resultObj, emp.roleName, emp.name, emp.phoneNumber, emp.email, res.data.isSuccessed))
                 }
             })
             .catch(err => {
@@ -132,17 +134,8 @@ export const registerRequest = (user) => {
     return { type: Type.REGISTER_REQUEST, user }
 }
 
-export const registerSuccess = (userID, role, name, phone, email) => {
-    if (role === 'Employee' || role === 'PM') {
-        localStorage.setItem('name', name)
-        localStorage.setItem('phone', phone)
-        localStorage.setItem('email', email)
-        history.push('/employee/position-assign', { empID: userID, role: role });
-    }
-    else {
-        history.push('/employee')
-    }
-    return { type: Type.REGISTER_SUCCESS }
+export const registerSuccess = (userID, role, name, phone, email, isSuccessed) => {   
+    return { type: Type.REGISTER_SUCCESS, isSuccessed, resultObj: { userID, role, name, phone, email } }
 }
 
 export const registerFailure = (error) => {

@@ -14,8 +14,9 @@ const CheckRejectedCandidates = (state = initState, action) => {
             state.list = []
             return state
         default:
+            state.message = ''
+            state.list = []
             return state
-
     }
 }
 

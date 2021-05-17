@@ -185,7 +185,7 @@ class SelectBar extends Component {
                     onChange={this.onSelectMulti}
                     optionFilterProp="children"
                     filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        option.children.toString().toLowerCase().indexOf(input.toLowerCase()) >= 0
                     }
                 >
                     {this.showCommonOption()}
