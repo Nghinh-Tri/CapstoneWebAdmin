@@ -161,6 +161,7 @@ class CreateSkills extends Component {
                             ""
                         ) : this.state.skillType === 0 ? (
                             <HardSkillOption
+                                error={this.props.error}
                                 hardSkill={result.hardSkillOption}
                                 onAddHardSkillOption={this.onAddHardSkillOption}
                                 onDeleteHardSkillOption={this.onDeleteHardSkillOption}
@@ -177,6 +178,7 @@ class CreateSkills extends Component {
                                         <SelectBar
                                             name="projectField"
                                             type="multi"
+                                            placeholder="Select project field"
                                             list={projectFieldConverted}
                                             value={result.softSkillOption}
                                             onSelectProjectField={this.onSelectProjectField}
