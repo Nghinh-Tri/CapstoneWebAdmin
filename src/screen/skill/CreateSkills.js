@@ -148,6 +148,7 @@ class CreateSkills extends Component {
                             ""
                         ) : this.state.skillType === 0 ? (
                             <HardSkillOption
+                                error={this.props.error}
                                 hardSkill={result.hardSkillOption}
                                 onAddHardSkillOption={this.onAddHardSkillOption}
                                 onDeleteHardSkillOption={this.onDeleteHardSkillOption}
