@@ -9,6 +9,8 @@ import HardSkillForm from "../../component/create-position-form/hard-skill-form/
 import { compose } from 'redux';
 import { withRouter } from 'react-router';
 import { convertEmpInfo } from '../../service/util/util';
+import { Modal, Spin } from 'antd';
+import { history } from '../../service/helper/History';
 
 class PositionAssign extends Component {
 
@@ -28,7 +30,9 @@ class PositionAssign extends Component {
                 { label: 'Junior', value: 3 },
                 { label: 'Senior', value: 4 },
                 { label: 'Master', value: 5 },
-            ]
+            ],
+            isLoad: true,
+            isSubmit: false
         }
     }
 
@@ -51,7 +55,34 @@ class PositionAssign extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.item !== this.props.item) { }
+        if (prevProps.status !== this.props.status) {
+            if (this.state.isSubmit)
+                if (this.props.status) {
+                    var { location } = this.props
+                    let empID = ''
+                    if (typeof this.props.match.params.id !== 'undefined') {
+                        empID = this.props.match.params.id
+                    }
+                    Modal.success({
+                        title: typeof location.state.empID !== 'undefined' ?
+                            'Assing Employee Skill Successfully' :
+                            'Assing Employee Skill Successfully',
+                        onOk() {
+                            if (typeof location.state.empID !== 'undefined') {//create
+                                history.push('/employee');
+                            } else {
+                                history.push(`/employee/profile/${empID}`)
+                            }
+                        }
+                    })
+                }
+                else
+                    Modal.error({
+                        title: 'Create Position Failed'
+                    })
+        } else if (prevProps.item !== this.props.item) {
+            this.setState({ isLoad: false })
+        }
     }
 
     componentWillUnmount = () => {
@@ -131,6 +162,7 @@ class PositionAssign extends Component {
 
     onAssignPosition = (e) => {
         e.preventDefault()
+        this.setState({ isSubmit: true })
         var itemConverted = convertEmpInfo(this.props.item)
         if (typeof this.props.location.state.empID !== 'undefined') {//create
             this.props.onAssignPosition(this.props.location.state.empID, itemConverted, this.props.location.state.role)
@@ -154,37 +186,43 @@ class PositionAssign extends Component {
                         <li className="breadcrumb-item active" style={{ fontWeight: 600 }}>Email: {localStorage.getItem('email')}</li>
                     </div>
                 </div>
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <HardSkillForm hardSkill={item.hardSkills}
-                            onAddHardSkill={this.onAddHardSkill}
-                            onDeleteHardSkill={this.onDeleteHardSkill}
-                            onUpdateHardSkillID={this.onUpdateHardSkillID}
-                            onUpdateHardSkillLevel={this.onUpdateHardSkillLevel}
+                {this.state.isLoad ?
+                    <div className="row justify-content-center">
+                        <Spin className="text-center" size="large" />
+                    </div> :
 
-                            //Certi
-                            onAddCertificate={this.onAddCertificate}
-                            onDeleteCertificate={this.onDeleteCertificate}
-                            onUpdateCertficateID={this.onUpdateCertficateID}
-                            onUpdateCertificateDate={this.onUpdateCertificateDate}
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <HardSkillForm hardSkill={item.hardSkills}
+                                onAddHardSkill={this.onAddHardSkill}
+                                onDeleteHardSkill={this.onDeleteHardSkill}
+                                onUpdateHardSkillID={this.onUpdateHardSkillID}
+                                onUpdateHardSkillLevel={this.onUpdateHardSkillLevel}
 
-                            hardSkillError={error}
-                        />
-                        <LanguageForm language={item.languages}
-                            onAddLanguage={this.onAddLanguage}
-                            onDeleteLanguage={this.onDeleteLanguage}
-                            onUpdateLanguageID={this.onUpdateLanguageID}
-                            onUpdateLanguageLevel={this.onUpdateLanguageLevel}
-                            languageError={error}
-                        />
+                                //Certi
+                                onAddCertificate={this.onAddCertificate}
+                                onDeleteCertificate={this.onDeleteCertificate}
+                                onUpdateCertficateID={this.onUpdateCertficateID}
+                                onUpdateCertificateDate={this.onUpdateCertificateDate}
 
-                        <SoftSkillForm softSkill={item.softSkills}
-                            onUpdateSoftSkillID={this.onUpdateSoftSkillID}
-                            softSkillError={error}
-                        />
-                        <button type="submit" className="btn btn-primary pull-right" style={{ fontWeight: 700, marginTop: 10 }} onClick={this.onAssignPosition} >Assign</button>
+                                hardSkillError={error}
+                            />
+                            <LanguageForm language={item.languages}
+                                onAddLanguage={this.onAddLanguage}
+                                onDeleteLanguage={this.onDeleteLanguage}
+                                onUpdateLanguageID={this.onUpdateLanguageID}
+                                onUpdateLanguageLevel={this.onUpdateLanguageLevel}
+                                languageError={error}
+                            />
+
+                            <SoftSkillForm softSkill={item.softSkills}
+                                onUpdateSoftSkillID={this.onUpdateSoftSkillID}
+                                softSkillError={error}
+                            />
+                            <button type="submit" className="btn btn-primary pull-right" style={{ fontWeight: 700, marginTop: 10 }} onClick={this.onAssignPosition} >Assign</button>
+                        </div>
                     </div>
-                </div>
+                }
             </React.Fragment>
         );
     }
@@ -194,7 +232,8 @@ const mapStateToProps = (state) => {
     return {
         item: state.PositionAssignReducer,
         positionList: state.PositionSelectBarReducer,
-        error: state.ErrorReducer
+        error: state.ErrorReducer,
+        status: state.StatusReducer
     }
 }
 

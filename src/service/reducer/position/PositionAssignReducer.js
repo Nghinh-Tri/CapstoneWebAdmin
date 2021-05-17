@@ -114,6 +114,9 @@ const PositionAssignReducer = (state = initState, action) => {
             state.hardSkills.splice(action.hardSkillIndex, 1, clone)
             return state
 
+        case POSITION_ASSIGN.REFRESH_PAGE:
+            state = {}
+            return state
         default:
             return state
     }

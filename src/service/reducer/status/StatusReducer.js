@@ -1,4 +1,4 @@
-import { CERTIFICATION, POSITION, SKILL, Type } from "../../constant";
+import { CERTIFICATION, POSITION, POSITION_ASSIGN, SKILL, SUGGEST_CANDIDATE, Type } from "../../constant";
 
 const initState = false
 
@@ -35,6 +35,18 @@ const StatusReducer = (state = initState, action) => {
             state = action.isSuccessed
             return state;
         case Type.UPDATE_PROFILE:
+            state = action.isSuccessed
+            return state;
+        case POSITION_ASSIGN.ASSIGN_POSITION:
+            state = action.isSuccessed
+            return state;
+        case POSITION_ASSIGN.UPDATE_POSITION_DETAIL:
+            state = action.isSuccessed
+            return state;
+        case Type.DECLINE_PROJECT:
+            state = action.isSuccessed
+            return state;
+        case SUGGEST_CANDIDATE.CONFIRM_SUGGEST:
             state = action.isSuccessed
             return state;
         default:

@@ -19,6 +19,7 @@ import PositionFormReducer from "./position/PositionFormReducer";
 import DataStatisticsReducer from "./statistic/DataStatisticsReducer";
 import PositionRequireReducer from "./position/PositionRequireReducer";
 import ProjectTypeReducer from "./project/ProjectTypeReducer";
+import ProjectFieldReducer from "./project/ProjectFieldReducer";
 import PreviosRequrieReducer from "./project/PreviosRequrieReducer";
 import SuggestCandidateAgainSelectedListReducer from "./suggest/SuggestCandidateAgainSelectedListReducer";
 import ProjectDetailFetchReducer from "./project/ProjectDetailFetchReducer";
@@ -57,6 +58,7 @@ const MainReducer = combineReducers({
     DataStatisticsReducer,
     PositionRequireReducer,
     ProjectTypeReducer,
+    ProjectFieldReducer,
     PreviosRequrieReducer,
     SuggestCandidateAgainSelectedListReducer,
     ProjectDetailFetchReducer,
