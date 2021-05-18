@@ -31,8 +31,8 @@ class Dashboard extends Component {
     componentDidUpdate = (prevProp) => {
         if (prevProp.skillInPosition !== this.props.skillInPosition) {
             var posID = this.state.posID
-            if (this.props.positionList.length > 0) {
-                posID = this.props.positionList[0].posID
+            if (this.props.skillInPosition.length > 0) {
+                posID = this.props.skillInPosition[0].posID
             }
             this.setState({ isLoading: false, posID: posID })
         }
@@ -115,12 +115,10 @@ class Dashboard extends Component {
                                     </div>
                                     :
                                     <>
-
                                         <div className="card card-chart">
                                             <div className='row mb-4 mt-4 ml-5' >
                                                 <div className='col-auto mt-1'>Position</div>
                                                 <div className='col-auto'>
-
                                                     <SelectBar type='common'
                                                         placeholder="Select Position"
                                                         name='posID'
@@ -128,7 +126,6 @@ class Dashboard extends Component {
                                                         value={this.state.posID}
                                                         onSelectPos={this.onSelectPos}
                                                     />
-
                                                 </div>
                                             </div>
                                             <div>
