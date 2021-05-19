@@ -19,7 +19,7 @@ class Layout extends Component {
             notiList: [],
             title: '',
             body: '',
-            newest: {},
+            newest: [],
             number: 0
         }
     }
@@ -28,7 +28,7 @@ class Layout extends Component {
         const fb = firebase.database().ref('fir-4d2be-default-rtdb')
         fb.on('value', snapshot => {
             var notiObj = snapshot.val()
-            var temp = []
+            var temp = [], notiNewest = []
             var newest = {}
             var { number } = this.state
             number = 0
@@ -38,12 +38,13 @@ class Layout extends Component {
                     temp.push({ id, ...notiObj[id] })
                     if (notiObj[id].status) {
                         newest = { id, ...notiObj[id] }
+                        notiNewest.push(newest)
                         number++
                     }
                 }
             }
             temp = temp.sort((a, b) => { return moment(b.dateCreate).diff(a.dateCreate) })
-            this.setState({ notiList: temp, newest: newest, number: number })
+            this.setState({ notiList: temp, newest: notiNewest, number: number })
         })
     }
 

@@ -62,6 +62,7 @@ class HardSkillForm extends Component {
                         onDeleteCertificate={this.props.onDeleteCertificate}
                         onUpdateCertficateID={this.props.onUpdateCertficateID}
                         onUpdateCertificateDate={this.props.onUpdateCertificateDate}
+                        isCheck={this.props.isCheck}
                     />
                 );
             })
@@ -118,12 +119,12 @@ class HardSkillForm extends Component {
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
+                                <thead className="text-center">
                                     <tr>
-                                        <th className="text-center" >Hard Skill</th>
-                                        <th className="text-center" >Skill Level</th>
-                                        <th className="text-center">Certificate</th>
-                                        <th  ></th>
+                                        <th>Hard Skill</th>
+                                        <th>Skill Level</th>
+                                        <th>Certificate</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
