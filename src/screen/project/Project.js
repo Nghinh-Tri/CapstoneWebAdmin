@@ -20,7 +20,6 @@ class Project extends Component {
 
     componentDidMount = () => {
         this.props.checkSession()
-        console.log('a')
         this.props.fetchProject(this.state.page, this.state.search)
     }
 
@@ -88,15 +87,15 @@ class Project extends Component {
                                     {projects.items.length > 0 ?
                                         <div class="table-responsive">
                                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                                <thead>
+                                                <thead className="font-weight-bold text-center text-primary">
                                                     <tr>
-                                                        <th width={40} className="font-weight-bold text-center">No</th>
-                                                        <th width={200} className="font-weight-bold text-center" width={400}>Project Name</th>
-                                                        <th className="font-weight-bold text-center" width={150}>Project Manager</th>
-                                                        <th className="font-weight-bold text-center" width={120}>Created Date</th>
-                                                        <th className="font-weight-bold text-center" width={120}>Start Date</th>
-                                                        <th className="font-weight-bold text-center" width={160} >Estimated End Date</th>
-                                                        <th className="font-weight-bold text-center" style={{ width: 80 }}>Status</th>
+                                                        <th width={40}>No</th>
+                                                        <th width={200}>Project Name</th>
+                                                        <th width={150}>Project Manager</th>
+                                                        <th width={120}>Created Date</th>
+                                                        <th width={120}>Start Date</th>
+                                                        <th width={160}>Estimated End Date</th>
+                                                        <th width={80}>Status</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>

@@ -19,6 +19,7 @@ import PositionFormReducer from "./position/PositionFormReducer";
 import DataStatisticsReducer from "./statistic/DataStatisticsReducer";
 import PositionRequireReducer from "./position/PositionRequireReducer";
 import ProjectTypeReducer from "./project/ProjectTypeReducer";
+import ProjectFieldReducer from "./project/ProjectFieldReducer";
 import PreviosRequrieReducer from "./project/PreviosRequrieReducer";
 import SuggestCandidateAgainSelectedListReducer from "./suggest/SuggestCandidateAgainSelectedListReducer";
 import ProjectDetailFetchReducer from "./project/ProjectDetailFetchReducer";
@@ -34,6 +35,8 @@ import RegisterErrorReducer from "./error/RegisterErrorReducer";
 import SuggestAddressReducer from "./employee/SuggestAddressReducer";
 import PagingSuggestListReducer from "./suggest/PagingSuggestListReducer";
 import ChangeStatusErrorReducer from "./error/ChangeStatusErrorReducer";
+import StatusReducer from "./status/StatusReducer";
+
 const MainReducer = combineReducers({
     authentication,//use
     ProjectFetchReducer,//use    
@@ -55,6 +58,7 @@ const MainReducer = combineReducers({
     DataStatisticsReducer,
     PositionRequireReducer,
     ProjectTypeReducer,
+    ProjectFieldReducer,
     PreviosRequrieReducer,
     SuggestCandidateAgainSelectedListReducer,
     ProjectDetailFetchReducer,
@@ -69,7 +73,8 @@ const MainReducer = combineReducers({
     RegisterErrorReducer,
     SuggestAddressReducer,
     PagingSuggestListReducer,
-    ChangeStatusErrorReducer
+    ChangeStatusErrorReducer,
+    StatusReducer
 })
 
 export default MainReducer

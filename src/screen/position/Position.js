@@ -15,13 +15,14 @@ class Position extends Component {
         super(props);
         this.state = {
             search: '',
-            isLoading: true
+            isLoading: true,
+            page: 1
         }
     }
 
     componentDidMount = () => {
         this.props.checkSession()
-        this.props.fetchPosittion(1, this.state.search)
+        this.props.fetchPosittion(this.state.page, this.state.search)
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -44,6 +45,14 @@ class Position extends Component {
                     onOk: () => { refreshError() }
                 });
             }
+        } else if (prevProps.status !== this.props.status) {
+            let { fetchPosittion } = this.props
+            let { page, search } = this.state
+            if (this.props.status)
+                Modal.success({
+                    title: 'Change Position Status Successfully',
+                    onOk() { fetchPosittion(page, search) }
+                })
         }
     }
 
@@ -52,15 +61,14 @@ class Position extends Component {
     }
 
     onChangeStatus = (posID, position) => {
-        var { changeStatus, item } = this.props
-        var { search } = this.state
+        var { changeStatus } = this.props
         confirm({
             title: `Are you sure you want to change ${position} status?`,
             okText: 'Yes',
             okType: 'danger',
             cancelText: 'No',
             onOk() {
-                changeStatus(posID, item.pageIndex, search)
+                changeStatus(posID)
             },
             onCancel() {
                 console.log('Cancel');
@@ -98,10 +106,11 @@ class Position extends Component {
 
     searchPos = (value) => {
         this.setState({ search: value })
-        this.props.fetchPosittion(1, value)
+        this.props.fetchPosittion(this.state.page, value)
     }
 
     onSelectPage = (e) => {
+        this.setState({ page: e })
         this.props.fetchPosittion(e, this.state.search)
     }
 
@@ -138,13 +147,13 @@ class Position extends Component {
                                     {item.items.length > 0 ?
                                         <div className="table-responsive">
                                             <table className="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                                <thead className=" text-primary">
+                                                <thead className="font-weight-bold text-center text-primary">
                                                     <tr>
-                                                        <th className="font-weight-bold text-center">No</th>
-                                                        <th className="font-weight-bold" style={{ marginLeft: 20 }}>Position</th>
-                                                        <th className="font-weight-bold text-center" style={{ marginLeft: 20 }}>Status</th>
-                                                        <th className="font-weight-bold text-center" style={{ marginLeft: 20 }}></th>
-                                                        <th className="font-weight-bold text-center" style={{ marginLeft: 20 }}></th>
+                                                        <th width={40}>No</th>
+                                                        <th>Position</th>
+                                                        <th width={50}>Status</th>
+                                                        <th width={100}></th>
+                                                        <th width={150}></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>{this.onShowListPosition(item.items, item.pageIndex)}</tbody>
@@ -176,7 +185,8 @@ class Position extends Component {
 const mapStateToProps = (state) => {
     return {
         item: state.PositionReducer,
-        error: state.ChangeStatusErrorReducer
+        error: state.ChangeStatusErrorReducer,
+        status: state.StatusReducer
     }
 }
 
@@ -188,8 +198,8 @@ const mapDispatchToProps = (dispatch) => {
         fetchPosittion: (pageIndex, search) => {
             dispatch(fetchPostionListPaging(pageIndex, search))
         },
-        changeStatus: (posID, pageIndex, search) => {
-            dispatch(changeStatusPosition(posID, pageIndex, search))
+        changeStatus: (posID) => {
+            dispatch(changeStatusPosition(posID))
         },
         refreshError: () => {
             dispatch(refreshPage())

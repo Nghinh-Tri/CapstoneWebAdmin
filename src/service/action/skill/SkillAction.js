@@ -49,49 +49,14 @@ export const updateSkill = (skill) => {
             item,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
         ).then(res => {
-            if (res.status = 200) {
-                dispatch(updateSkillSuccess())
-            }
+            dispatch(updateSkillSuccess(res.data.isSuccessed))
         }).catch(err => {
             dispatch(createSkillFail(err.response.data.errors))
         })
     }
 }
 
-export const addFile = (fileList) => {
-    var url = `${API_URL}/User/Import`;
-    const listFileOrigin = fileList.map((file) => file.originFileObj);
-    const formData = new FormData();
-    console.log(fileList)
-    for (let file of listFileOrigin) {
-        formData.append("files", file);
-    }
-
-    return (dispatch) => {
-        axios
-            .put(url, formData, {
-                headers: {
-                    Authorization: `Bearer ${localStorage
-                        .getItem("token")
-                        .replace(/"/g, "")}`,
-                },
-                body: {},
-            })
-            .then((res) => {
-                console.log(res.data)
-                if ((res.status = 200)) {
-                    dispatch(addFileSuccess());
-                }
-            })
-            .catch((err) => {
-                console.log(err.response)
-
-                dispatch(addFileFail(err?.response?.data?.errors));
-            });
-    };
-};
-
-export const changeStatus = (skillID, pageIndex, search) => {
+export const changeStatus = (skillID) => {
     var url = `${API_URL}/Skill/changeStatus/${skillID}`
     return (dispatch) => {
         axios.put(
@@ -99,13 +64,15 @@ export const changeStatus = (skillID, pageIndex, search) => {
             null,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
         ).then(res => {
-            if (res.data.isSuccessed) {
-                dispatch(fetchSkill(pageIndex, search, 0))
-            }
+            dispatch(changeStatusSuccess(res.data.isSuccessed))
         }).catch(err => {
             dispatch(changeStatusFail(err.response.data.message))
         })
     }
+}
+
+export const changeStatusSuccess = (isSuccessed) => {
+    return { type: SKILL.CHANGE_SKILL_STATUS, isSuccessed }
 }
 
 export const changeStatusFail = (error) => {
@@ -113,17 +80,11 @@ export const changeStatusFail = (error) => {
 }
 
 export const fetchSkillSuccess = (skills, refresh) => {
-    return {
-        type: SKILL.FETCH_ALL_SKILL,
-        skills, refresh
-    }
+    return { type: SKILL.FETCH_ALL_SKILL, skills, refresh }
 }
 
 export const fetchSkillDetailSuccess = (skill) => {
-    return {
-        type: SKILL.FETCH_SKILL_DETAIL,
-        skill
-    }
+    return { type: SKILL.FETCH_SKILL_DETAIL, skill }
 }
 
 export const fetchSkillFail = () => {
@@ -171,27 +132,19 @@ export const createSkill = (skill) => {
             skill,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
         ).then(res => {
-            if (res.data.isSuccessed) {
-                dispatch(createSkillSuccess())
-            }
+            dispatch(createSkillSuccess(res.data.isSuccessed))
         }).catch(err => {
             dispatch(createSkillFail(err.response.data.errors))
         })
     }
 }
 
-export const createSkillSuccess = () => {
-    history.push('/skill')
-    return { type: SKILL.CREATE_SKILL }
+export const createSkillSuccess = (isSuccessed) => {
+    return { type: SKILL.CREATE_SKILL, isSuccessed }
 }
 
-export const updateSkillSuccess = () => {
-    history.push('/skill')
-    return { type: SKILL.UPDATE_SKILL }
-}
-
-export const changeStatusSuccess = () => {
-    return { type: SKILL.CHANGE_STATUS }
+export const updateSkillSuccess = (isSuccessed) => {
+    return { type: SKILL.UPDATE_SKILL, isSuccessed }
 }
 
 export const createSkillFail = (error) => {
@@ -201,12 +154,3 @@ export const createSkillFail = (error) => {
 export const refreshPage = () => {
     return { type: SKILL.REFRESH_PAGE, }
 }
-
-export const addFileSuccess = () => {
-    history.push("/skill");
-    return { type: SKILL.ADD_FILE };
-};
-
-export const addFileFail = (error) => {
-    return { type: SKILL.ADD_FILE_FAIL, error };
-};

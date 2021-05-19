@@ -133,7 +133,7 @@ class SelectBar extends Component {
                     onSelect={this.onSelectUnique}
                     optionFilterProp="children"
                     filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        option.children.toString().toLowerCase().indexOf(input.toLowerCase()) >= 0
                     }
                 >
                     {this.showCertiDefaultOption()}
@@ -147,7 +147,7 @@ class SelectBar extends Component {
                     onSelect={this.onSelectUnique}
                     optionFilterProp="children"
                     filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        option.children.toString().toLowerCase().indexOf(input.toLowerCase()) >= 0
                     }
                 >
                     {this.showCertiSelectedOption()}
@@ -168,7 +168,7 @@ class SelectBar extends Component {
                     onChange={this.onSelectMulti}
                     optionFilterProp="children"
                     filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        option.children.toString().toLowerCase().indexOf(input.toLowerCase()) >= 0
                     }
                 >
                     {this.showCommonOption()}
@@ -185,7 +185,7 @@ class SelectBar extends Component {
                     onChange={this.onSelectMulti}
                     optionFilterProp="children"
                     filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        option.children.toString().toLowerCase().indexOf(input.toLowerCase()) >= 0
                     }
                 >
                     {this.showCommonOption()}
@@ -219,7 +219,7 @@ class SelectBar extends Component {
                     onSelect={this.onSelectUnique}
                     optionFilterProp="children"
                     filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        option.children.toString().toLowerCase().indexOf(input.toLowerCase()) >= 0
                     }
                 >
                     {this.showDefaultOption()}
@@ -233,7 +233,7 @@ class SelectBar extends Component {
                     onSelect={this.onSelectUnique}
                     optionFilterProp="children"
                     filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        option.children.toString().toLowerCase().indexOf(input.toLowerCase()) >= 0
                     }
                 >
                     {this.showSelectedOption()}
@@ -253,7 +253,7 @@ class SelectBar extends Component {
                     onSelect={this.onSelectCommon}
                     optionFilterProp="children"
                     filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        option.children.toString().toLowerCase().indexOf(input.toLowerCase()) >= 0
                     }
                 >
                     {this.showCommonOption()}
@@ -267,7 +267,7 @@ class SelectBar extends Component {
                     onSelect={this.onSelectCommon}
                     optionFilterProp="children"
                     filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        option.children.toString().toLowerCase().indexOf(input.toLowerCase()) >= 0
                     }
                 >
                     {this.showCommonOption()}
@@ -287,7 +287,7 @@ class SelectBar extends Component {
                 onSelect={this.onSelectRole}
                 optionFilterProp="children"
                 filterOption={(input, option) =>
-                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    option.children.toString().toLowerCase().indexOf(input.toLowerCase()) >= 0
                 }
             >
                 {this.showCommonOption()}
@@ -307,7 +307,7 @@ class SelectBar extends Component {
                 onSelect={this.onSelectCommon}
                 optionFilterProp="children"
                 filterOption={(input, option) =>
-                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    option.children.toString().toLowerCase().indexOf(input.toLowerCase()) >= 0
                 }
             >
                 {this.showCommonOption()}
@@ -326,7 +326,7 @@ class SelectBar extends Component {
                     onSelect={this.onSelectSpecial}
                     optionFilterProp="children"
                     filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        option.children.toString().toLowerCase().indexOf(input.toLowerCase()) >= 0
                     }
                 >
                     {this.showCommonOption()}
@@ -340,7 +340,7 @@ class SelectBar extends Component {
                     onSelect={this.onSelectSpecial}
                     optionFilterProp="children"
                     filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        option.children.toString().toLowerCase().indexOf(input.toLowerCase()) >= 0
                     }
                 >
                     {this.showCommonOption()}
@@ -368,7 +368,6 @@ class SelectBar extends Component {
                 this.props.onSelectSkill(value)
                 break
             case 'certiLevel':
-                console.log(value)
                 this.props.onUpdateCerti(value)
                 break
             case 'posID':

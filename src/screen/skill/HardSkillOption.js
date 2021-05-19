@@ -79,12 +79,20 @@ class HardSkillOption extends Component {
     }
 
     render() {
-        var { positionList, hardSkill, projectType } = this.props
+        var { positionList, hardSkill, projectType, error } = this.props
         var positionConverted = convertPositionList(positionList)
         var projectTypeConverted = convertProjectTypeList(this.getProjectTypeNotSelect())
-        console.log('a', hardSkill)
         return (
             <React.Fragment>
+                {typeof error.HardSkillOption !== "undefined"
+                    ? error.HardSkillOption.map((element, index) => {
+                        return (
+                            <div key={index} className="error text-danger font-weight-bold">
+                                {element}
+                            </div>
+                        );
+                    })
+                    : ""}
                 {this.showHardSkillOption(hardSkill, positionConverted, projectTypeConverted)}
                 {projectType.length === hardSkill.length ? '' :
                     <span className="material-icons add" style={{ marginTop: 10, cursor: 'pointer' }}

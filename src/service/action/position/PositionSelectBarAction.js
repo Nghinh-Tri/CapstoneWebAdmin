@@ -51,7 +51,7 @@ export const createPosition = (position) => {
             position,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
         ).then(res => {
-            dispatch(createPositionSuccess())
+            dispatch(createPositionSuccess(res.data.isSuccessed))
         }).catch(err => {
             dispatch(createPositionFail(err.response.data.errors))
         })
@@ -66,15 +66,14 @@ export const updatePosition = (posID, position) => {
             position,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
         ).then(res => {
-            if (res.status === 200)
-                dispatch(updatePositionSuccess())
+            dispatch(updatePositionSuccess(res.data.isSuccessed))
         }).catch(err => {
             dispatch(createPositionFail(err.response.data.errors))
         })
     }
 }
 
-export const changeStatusPosition = (posID, pageIndex, search) => {
+export const changeStatusPosition = (posID) => {
     var url = `${API_URL}/Position/changeStatus/${posID}`
     return (dispatch) => {
         axios.put(
@@ -82,21 +81,23 @@ export const changeStatusPosition = (posID, pageIndex, search) => {
             null,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
         ).then(res => {
-            if (res.data.isSuccessed)
-                dispatch(fetchPostionListPaging(pageIndex, search))
+            dispatch(changeStatusSuccess(res.data.isSuccessed))
         }).catch(err => {
             dispatch(changeStatusFail(err.response.data.message))
         })
     }
 }
 
-export const createPositionSuccess = () => {
-    history.push('/position')
-    return { type: POSITION.CREATE_SUCCESS }
+export const createPositionSuccess = (isSuccessed) => {
+    return { type: POSITION.CREATE_SUCCESS, isSuccessed }
 }
 
 export const createPositionFail = (error) => {
     return { type: POSITION.CREATE_FAIL, error }
+}
+
+export const changeStatusSuccess = (isSuccessed) => {
+    return { type: POSITION.CHANGE_STATUS, isSuccessed }
 }
 
 export const changeStatusFail = (error) => {
@@ -111,11 +112,9 @@ export const fetchPostionDetailSuccess = (pos) => {
     return { type: POSITION.FETCH_POSITION_DETAIL, pos }
 }
 
-export const updatePositionSuccess = () => {
-    history.push('/position')
-    return { type: POSITION.UDPATE_SUCCESS }
+export const updatePositionSuccess = (isSuccessed) => {
+    return { type: POSITION.UDPATE_SUCCESS, isSuccessed }
 }
-
 
 export const fetchPostionListPaginSuccess = (positionList, refresh) => {
     return {

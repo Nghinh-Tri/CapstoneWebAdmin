@@ -7,10 +7,9 @@ import { NavLink } from 'react-router-dom';
 import ProgressBar from '../../component/progress-bar/ProgressBar';
 import { confirmSuggestList, fetchSelectedList } from '../../service/action/confirm/SuggestCandidateAction';
 import { convertSuggestList } from '../../service/util/util';
-import { Tabs } from "antd";
 import BriefDetail from '../../component/brief-detail/BrriefDetails';
-
-const TabPane = Tabs.TabPane;
+import { Modal } from 'antd';
+import { history } from '../../service/helper/History';
 
 class ConfirmPage extends Component {
     constructor(props) {
@@ -18,6 +17,7 @@ class ConfirmPage extends Component {
         this.state = {
             select: 1,
             project: {},
+            isSubmit: false
         };
     }
 
@@ -36,9 +36,18 @@ class ConfirmPage extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
+        console.log('st',this.props.status)
         if (prevProps.project !== this.props.project) {
             if (typeof this.props.project.pageIndex === "undefined")
                 this.setState({ project: this.props.project });
+        } else if (prevProps.status !== this.props.status) {
+            if (this.state.isSubmit) {
+                if (this.props.status)
+                    Modal.success({
+                        title: 'Confirm Employee Successfully',
+                        onOk() { history.push('/project') }
+                    })
+            }
         }
     }
 
@@ -47,7 +56,7 @@ class ConfirmPage extends Component {
         var candidates = { candidates: item };
         var projectName = this.state.project.projectName
         var pmID = this.state.project.pmID
-        // console.log(candidates, this.state.project.projectID, projectName, pmID)
+        this.setState({ isSubmit: true })
         this.props.onConfirm(candidates, this.state.project.projectID, projectName, pmID);
     };
 
@@ -87,7 +96,8 @@ class ConfirmPage extends Component {
 const mapStateToProp = state => {
     return {
         project: state.ProjectDetailFetchReducer,
-        candidateList: state.SuggestCandidateSelectedList
+        candidateList: state.SuggestCandidateSelectedList,
+        status: state.StatusReducer
     }
 }
 

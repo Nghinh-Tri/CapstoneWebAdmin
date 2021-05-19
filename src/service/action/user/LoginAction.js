@@ -7,18 +7,20 @@ import { store } from 'react-notifications-component';
 export const login = (username, password) => {
     var user = { email: username.trim(), password: password, rememberMe: true }
     return dispatch => {
-        dispatch(request(user))
-        axios.post(`${API_URL}/User/authenticate`, user).then(res => {
-            if (res.status === 200) {
+        dispatch(request())
+        axios.post(
+            `${API_URL}/User/authenticate`,
+            user
+        ).then(res => {
+            if (res.data.isSuccessed) {
+                dispatch(success())
                 localStorage.setItem('EMP', JSON.stringify(res.data.resultObj.empId));
                 localStorage.setItem('token', JSON.stringify(res.data.resultObj.token));
                 var role = getRole()
                 if (role === 'admin') {
-                    dispatch(success(JSON.stringify(res.data.resultObj)))
                     history.push('/');
                 } else {
                     localStorage.clear()
-                    dispatch(failure())
                     store.addNotification({
                         message: "User role is not match",
                         type: "danger",
@@ -34,20 +36,7 @@ export const login = (username, password) => {
                 }
             }
         }).catch(err => {
-            if (err.response.status === 500) {
-                store.addNotification({
-                    message: "Duplicate email or username",
-                    type: "danger",
-                    insert: "top",
-                    container: "top-center",
-                    animationIn: ["animated", "fadeIn"],
-                    animationOut: ["animated", "fadeOut"],
-                    dismiss: {
-                        duration: 2000,
-                        onScreen: false
-                    }
-                })
-            } else {
+            if (typeof err.response !== 'undefined') {
                 var error = err.response.data
                 if (error.errors !== null) {
                     dispatch(loginFailure(error.errors))
@@ -71,30 +60,19 @@ export const login = (username, password) => {
     }
 }
 
-export const request = (user) => {
-    return {
-        type: Type.LOGIN_REQUEST,
-        user
-    }
+export const request = () => {
+    return { type: Type.LOGIN_REQUEST }
 }
 
-export const success = (user) => {
-    return {
-        type: Type.LOGIN_SUCCESS,
-        user
-    }
-}
-
-export const failure = (user) => {
-    return {
-        type: Type.LOGIN_FAILURE,
-        user
-    }
+export const success = () => {
+    return { type: Type.LOGIN_SUCCESS }
 }
 
 export const register = (emp) => {
     var url = `${API_URL}/User`
     return dispatch => {
+        // dispatch(registerSuccess('1982524d-d506-493b-8a0e-7d258f0ca098', emp.roleName, emp.name, emp.phoneNumber, emp.email, true))
+
         axios.post(
             url,
             emp,
@@ -103,7 +81,7 @@ export const register = (emp) => {
                 if (res.status === 200) {
                     dispatch(registerFailure({}))
                     dispatch(registerErrorFailure(''))
-                    dispatch(registerSuccess(res.data.resultObj, emp.roleName))
+                    dispatch(registerSuccess(res.data.resultObj, emp.roleName, emp.name, emp.phoneNumber, emp.email, res.data.isSuccessed))
                 }
             })
             .catch(err => {
@@ -153,20 +131,11 @@ export const refreshPage = () => {
 }
 
 export const registerRequest = (user) => {
-    return {
-        type: Type.REGISTER_REQUEST,
-        user
-    }
+    return { type: Type.REGISTER_REQUEST, user }
 }
 
-export const registerSuccess = (userID, role) => {
-    if (role === 'Employee' || role === 'PM') {
-        history.push('/employee/position-assign', { empID: userID, role: role });
-    }
-    else {
-        history.push('/employee')
-    }
-    return { type: Type.REGISTER_SUCCESS }
+export const registerSuccess = (userID, role, name, phone, email, isSuccessed) => {   
+    return { type: Type.REGISTER_SUCCESS, isSuccessed, resultObj: { userID, role, name, phone, email } }
 }
 
 export const registerFailure = (error) => {

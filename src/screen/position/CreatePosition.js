@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { checkSession } from '../../service/action/user/AuthenticateAction';
 import { createPosition, fetchPostionDetail, refreshPage, updatePosition } from '../../service/action/position/PositionSelectBarAction';
+import { Modal } from 'antd';
+import { history } from '../../service/helper/History';
 
 class CreatePosition extends Component {
 
@@ -34,13 +36,22 @@ class CreatePosition extends Component {
     componentDidUpdate(prevProps) {
         if (prevProps.position !== this.props.position) {
             var { position } = this.props
-            console.log(position)
             this.setState({
                 posID: position.posID,
                 position: position.name,
                 description: position.description,
                 status: position.status
             })
+        } else if (prevProps.status !== this.props.status) {
+            if (this.props.status)
+                Modal.success({
+                    title: typeof this.props.match === 'undefined' ? 'Create Position Successfully' : 'Update Position Successfully',
+                    onOk() { history.push('/position') }
+                })
+            else
+                Modal.error({
+                    title: typeof this.props.match === 'undefined' ? 'Create Position Failed' : 'Update Position Failed'
+                })
         }
     }
 
@@ -134,6 +145,7 @@ const mapStateToProps = (state) => {
     return {
         error: state.ErrorReducer,
         position: state.PositionFormReducer,
+        status: state.StatusReducer
     }
 }
 

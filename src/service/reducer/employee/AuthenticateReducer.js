@@ -1,28 +1,24 @@
-import { Type } from "../../constant/index";
+import { ERROR, Type } from "../../constant/index";
 import { history } from "../../helper/History";
 
-
-let user = JSON.parse(localStorage.getItem('user'));
-const initialState = user ? { loggedIn: true, user } : {};
+const initialState = false;
 
 const authentication = (state = initialState, action) => {
     switch (action.type) {
         case Type.LOGIN_REQUEST:
-            return {
-                loggingIn: true,
-                user: action.user
-            };
+            state = true
+            return state
         case Type.LOGIN_SUCCESS:
-            return {
-                loggedIn: true,
-                user: action.user
-            };
-        case Type.LOGIN_FAILURE:
-            return {};
+            state = false
+            return state
+        case ERROR.LOGIN_ERROR:
+            state = false
+            return state
         case Type.LOGOUT:
             localStorage.clear()
             history.push('/login')
-            return {};
+            state = false
+            return state;
         default:
             return state
     }

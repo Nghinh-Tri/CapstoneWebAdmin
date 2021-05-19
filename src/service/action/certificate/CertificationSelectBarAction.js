@@ -1,8 +1,6 @@
 import { CERTIFICATION, Type } from "../../constant/index"
 import axios from "axios";
 import { API_URL } from "../../util/util";
-import { store } from "react-notifications-component";
-import { history } from "../../helper/History";
 
 export const fetchCertification = (hardSkillID) => {
     var url = `${API_URL}/Certification/getCertifications/${hardSkillID}`
@@ -52,8 +50,7 @@ export const createCertification = (certification) => {
             certification,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
         ).then(res => {
-            if (res.data.isSuccessed)
-                history.push('/certification')
+            dispatch(createCertificationSuccess(res.data.isSuccessed))
         }).catch(err => {
             dispatch(createCertificationFail(err.response.data.errors))
         })
@@ -74,16 +71,14 @@ export const updateCertificate = (certi) => {
             item,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
         ).then(res => {
-            if (res.status = 200) {
-                dispatch(updateCertificateSuccess())
-            }
+            dispatch(updateCertificateSuccess(res.data.isSuccessed))
         }).catch(err => {
             dispatch(createCertificationFail(err.response.data.errors))
         })
     }
 }
 
-export const changeStatus = (certificationID, pageIndex, search) => {
+export const changeStatus = (certificationID) => {
     var url = `${API_URL}/Certification/changeStatus/${certificationID}`
     return (dispatch) => {
         axios.put(
@@ -91,13 +86,15 @@ export const changeStatus = (certificationID, pageIndex, search) => {
             null,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
         ).then(res => {
-            if (res.data.isSuccessed) {
-                dispatch(fetchCertificationPaging(pageIndex, search))
-            }
+            dispatch(changeStatusSuccess(res.data.isSuccessed))
         }).catch(err => {
             dispatch(changeStatusFail(err.response.data.message))
         })
     }
+}
+
+export const changeStatusSuccess = (isSuccessed) => {
+    return { type: CERTIFICATION.CHANGE_CERTIFICATION_STATUS, isSuccessed }
 }
 
 export const changeStatusFail = (error) => {
@@ -105,33 +102,27 @@ export const changeStatusFail = (error) => {
 }
 
 export const fetchCertificationSuccess = (certiList) => {
-    return {
-        type: Type.FETCH_CERTIFICATION_LIST,
-        certiList
-    };
+    return { type: Type.FETCH_CERTIFICATION_LIST, certiList };
 }
 
 export const fetchCertificationPagingSuccess = (certiList, refresh) => {
-    return {
-        type: CERTIFICATION.FETCH_CERTIFICATION_PAGING,
-        certiList, refresh
-    };
+    return { type: CERTIFICATION.FETCH_CERTIFICATION_PAGING, certiList, refresh };
 }
 
 export const fetchCertificationDetailSuccess = (certi) => {
-    return {
-        type: CERTIFICATION.FETCH_CERTIFICATION_DETAIL,
-        certi
-    };
+    return { type: CERTIFICATION.FETCH_CERTIFICATION_DETAIL, certi };
+}
+
+export const createCertificationSuccess = (isSuccessed) => {
+    return { type: CERTIFICATION.CREATE_CERTIFICATION, isSuccessed }
 }
 
 export const createCertificationFail = (error) => {
     return { type: CERTIFICATION.CREATE_FAIL, error }
 }
 
-export const updateCertificateSuccess = () => {
-    history.push('/certification')
-    return { type: CERTIFICATION.UPDATE_CERTIFICATION }
+export const updateCertificateSuccess = (isSuccessed) => {
+    return { type: CERTIFICATION.UPDATE_CERTIFICATION, isSuccessed }
 }
 
 export const refreshPage = () => {

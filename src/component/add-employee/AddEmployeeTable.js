@@ -87,8 +87,9 @@ class SuggestCandidates extends Component {
     render() {
         var { item, selectedItem, paging } = this.props
         var candidateNeeds = 0
-        if (typeof item.posId !== 'undefined')
-            candidateNeeds = this.getCandidateNeeds(item.posId)
+        if (typeof item !== 'undefined')
+            if (typeof item.posId !== 'undefined')
+                candidateNeeds = this.getCandidateNeeds(item.posId)
         return (
             <React.Fragment>
                 {this.state.isLoad ?
@@ -116,47 +117,47 @@ class SuggestCandidates extends Component {
                                 <>
                                     <div class="table-responsive">
                                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                            <thead>
+                                            <thead className="font-weight-bold text-center text-primary">
                                                 <tr>
-                                                    <th className="font-weight-bold text-center">No</th>
-                                                    <th className="font-weight-bold">Name</th>
-                                                    <th className="font-weight-bold " width={180}  >
+                                                    <th>No</th>
+                                                    <th>Name</th>
+                                                    <th width={180} style={{ cursor: 'pointer', }}>
                                                         <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
                                                             <div>Project Type Match</div>
-                                                            <ArrowDownOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('type')} />
+                                                            <ArrowDownOutlined onClick={() => this.onSort('type')} />
                                                         </div>
                                                     </th>
-                                                    <th className="font-weight-bold text-center" width={180} >
+                                                    <th width={180} style={{ cursor: 'pointer', }}>
                                                         <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
                                                             <div> Project Field Match</div>
-                                                            <ArrowDownOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('field')} />
+                                                            <ArrowDownOutlined onClick={() => this.onSort('field')} />
                                                         </div>
                                                     </th>
-                                                    <th className="font-weight-bold text-center" width={160}>
+                                                    <th width={160} style={{ cursor: 'pointer', }}>
                                                         <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
                                                             <div>Language Match</div>
-                                                            <ArrowDownOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('language')} />
+                                                            <ArrowDownOutlined onClick={() => this.onSort('language')} />
                                                         </div>
                                                     </th>
-                                                    <th className="font-weight-bold text-center" width={160}>
+                                                    <th width={160} style={{ cursor: 'pointer', }}>
                                                         <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
                                                             <div>Soft Skill Match</div>
-                                                            <ArrowDownOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('softSkill')} />
+                                                            <ArrowDownOutlined onClick={() => this.onSort('softSkill')} />
                                                         </div>
                                                     </th>
-                                                    <th className="font-weight-bold text-center" width={160}>
+                                                    <th width={160} style={{ cursor: 'pointer', }}>
                                                         <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
                                                             <div>Hard Skill Match</div>
-                                                            <ArrowDownOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('hardSkill')} />
+                                                            <ArrowDownOutlined onClick={() => this.onSort('hardSkill')} />
                                                         </div>
                                                     </th>
-                                                    <th className="font-weight-bold text-center" width={150}>
+                                                    <th width={150} style={{ cursor: 'pointer', }}>
                                                         <div style={{ display: 'flex', flexDirection: 'row', marginLeft: 10 }}>
                                                             <div>Overall Match</div>
-                                                            <ArrowDownOutlined style={{ cursor: 'pointer', }} onClick={() => this.onSort('overall')} />
+                                                            <ArrowDownOutlined onClick={() => this.onSort('overall')} />
                                                         </div>
                                                     </th>
-                                                    <th className="font-weight-bold text-center">
+                                                    <th>
                                                         {candidateNeeds >= item.matchDetail.length ?
                                                             <input type="checkbox" onClick={this.onSelectAll} checked={selectedItem === null ? false : selectedItem.selectAll} />
                                                             : ''}

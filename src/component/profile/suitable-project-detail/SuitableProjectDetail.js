@@ -1,9 +1,34 @@
+import { Modal } from 'antd';
 import confirm from 'antd/lib/modal/confirm';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import { compose } from 'redux';
 import { confirmSuggestList } from '../../../service/action/confirm/AddSuitableCandidateAction';
+import { fetchSuitableList } from '../../../service/action/confirm/SuitableListAction';
+import { history } from '../../../service/helper/History';
 
 class SuitableProjectDetail extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            isSubmit: false
+        }
+    }
+
+    componentDidUpdate = (prevProp) => {
+        if (prevProp.status !== this.props.status) {
+            if (this.state.isSubmit) {
+                let { fetchSuitableList, match } = this.props
+                if (this.props.status)
+                    Modal.success({
+                        title: 'Confirm Employee Successfully',
+                        onOk() { fetchSuitableList(match.params.id) }
+                    })
+            }
+        }
+    }
 
     addEmployee = (posID, requireID, empID, projectID, projectName, pmID) => {
         var { addEmployee } = this.props
@@ -12,7 +37,7 @@ class SuitableProjectDetail extends Component {
             okText: 'Yes',
             okType: 'danger',
             cancelText: 'No',
-            onOk() {
+            onOk: () => {
                 var resutl = {
                     candidates: [
                         {
@@ -24,13 +49,14 @@ class SuitableProjectDetail extends Component {
                         }
                     ]
                 }
+                this.setState({ isSubmit: true })
                 addEmployee(resutl, projectID, projectName, pmID, empID)
             },
             onCancel() {
                 console.log('Cancel');
             },
         });
-    }
+    }   
 
     showContent = () => {
         var { item } = this.props
@@ -62,7 +88,6 @@ class SuitableProjectDetail extends Component {
 
     render() {
         var { item } = this.props
-        console.log(item)
         return (
             <React.Fragment>
                 {
@@ -96,13 +121,22 @@ class SuitableProjectDetail extends Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        status: state.StatusReducer
+    }
+}
+
 const mapDispatchToProp = (dispatch) => {
     return {
         addEmployee: (item, projectID, projectName, pmID, empID) => {
             dispatch(confirmSuggestList(item, projectID, projectName, pmID, empID))
+        },
+        fetchSuitableList: (empID) => {
+            dispatch(fetchSuitableList(empID))
         }
     }
 }
 
 
-export default connect(null, mapDispatchToProp)(SuitableProjectDetail);
+export default compose(withRouter, connect(mapStateToProps, mapDispatchToProp))(SuitableProjectDetail);

@@ -35,11 +35,11 @@ class Profile extends Component {
             empID = this.props.empID
         else
             empID = this.props.match.params.id
-
         if (select === 1)
             return <ProfileTable empID={empID} />
         if (select === 2)
-            return <PositionTable empID={empID} role={profile.roleName} />
+            return <PositionTable empID={empID} role={profile.roleName}
+                name={profile.name} email={profile.email} phone={profile.phoneNumber} />
         if (select === 3)
             return <SuitableProject empID={empID} />
         if (select === 4)

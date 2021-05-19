@@ -1,10 +1,8 @@
 import axios from "axios"
 import { store } from "react-notifications-component"
 import { SUGGEST_CANDIDATE } from "../../constant"
-import { history } from "../../helper/History"
 import { API_URL } from "../../util/util"
 import { sendNotificate } from "../firebase/FirebaseAction"
-import { fetchSuitableList } from "./SuitableListAction"
 
 export const confirmSuggestList = (suggestList, projectID, projectName, pmID, optionType) => {
     var url = `${API_URL}/Project/confirmCandidate/${projectID}`
@@ -14,13 +12,9 @@ export const confirmSuggestList = (suggestList, projectID, projectName, pmID, op
             suggestList,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
         ).then(res => {
-            if (res.status === 200) {
-                if (res.data.isSuccessed) {
-                    dispatch(fetchSuitableList(optionType))
-                    dispatch(sendNotificate(pmID, `Employee for project '${projectName}' has been confirmed `))
-                } else {
-                    console.log(res.data)
-                }
+            if (res.data.isSuccessed) {
+                dispatch(confirmSuggestListSuggest(res.data.isSuccessed))
+                dispatch(sendNotificate(pmID, `Employee for project '${projectName}' has been confirmed `))
             }
         }).catch(err => {
             if (typeof err.response !== 'undefined')
@@ -36,13 +30,10 @@ export const confirmSuggestList = (suggestList, projectID, projectName, pmID, op
                         onScreen: false
                     }
                 })
-            // console.log(err.response.data.message)
         })
-
     }
 }
 
-export const confirmSuggestListSuggest = (empid) => {
-    history.push(`/employee/profile/${empid}`)
-    return { type: SUGGEST_CANDIDATE.CONFIRM_SUGGEST }
+export const confirmSuggestListSuggest = (isSuccessed) => {
+    return { type: SUGGEST_CANDIDATE.CONFIRM_SUGGEST, isSuccessed }
 }

@@ -1,5 +1,4 @@
 import { SKILL } from "../../constant"
-import { history } from "../../helper/History"
 
 const initState = {}
 
@@ -43,9 +42,7 @@ const skillReducer = (state = initState, action) => {
             return state
         case SKILL.FETCH_SKILL_DETAIL:
             state = action.skill
-            return state
-        case SKILL.CHANGE_STATUS:
-            history.push('/skill')
+            return state       
         default:
             return state
     }

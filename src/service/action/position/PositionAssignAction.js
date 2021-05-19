@@ -88,9 +88,7 @@ export const assignPosition = (empID, positionAssign, role) => {
             positionAssign,
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
-            if (res.status === 200) {
-                dispatch(assignPositionSuccess())
-            }
+            dispatch(assignPositionSuccess(res.data.isSuccessed))
         }).catch(err => {
             dispatch(assignPositionFail(err.response.data.errors))
         })
@@ -117,8 +115,7 @@ export const updatePositionDetail = (empID, positionAssign, role) => {
             positionAssign,
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
-            if (res.data.isSuccessed)
-                dispatch(updatePositionDetailSuccess(empID))
+            dispatch(updatePositionDetailSuccess(res.data.isSuccessed))
         }).catch(err => {
             dispatch(assignPositionFail(err.response.data.errors))
         })
@@ -132,9 +129,8 @@ export const fetchPositionProfileUpdateDetailSuccess = (item) => {
     }
 }
 
-export const assignPositionSuccess = () => {
-    history.push('/employee');
-    return { type: POSITION_ASSIGN.ASSIGN_POSITION }
+export const assignPositionSuccess = (isSuccessed) => {
+    return { type: POSITION_ASSIGN.ASSIGN_POSITION, isSuccessed }
 }
 
 export const assignPositionFail = (error) => {
@@ -146,7 +142,6 @@ export const refreshPage = () => {
 }
 
 
-export const updatePositionDetailSuccess = (empID) => {
-    history.push(`/employee/profile/${empID}`)
-    return { type: POSITION_ASSIGN.UPDATE_POSITION_DETAIL }
+export const updatePositionDetailSuccess = (isSuccessed) => {
+    return { type: POSITION_ASSIGN.UPDATE_POSITION_DETAIL, isSuccessed }
 }

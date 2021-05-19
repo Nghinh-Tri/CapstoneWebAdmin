@@ -1,4 +1,4 @@
-import { Badge, Button, Descriptions, Spin } from 'antd';
+import { Badge, Button, Descriptions, Modal, Spin } from 'antd';
 import confirm from 'antd/lib/modal/confirm';
 import moment from 'moment';
 import React, { Component } from 'react';
@@ -8,6 +8,8 @@ import { checkSession } from '../../service/action/user/AuthenticateAction';
 import * as Action from '../../service/action/project/ProjectAction'
 import { showStatus, showBadge } from '../../service/util/util';
 import { withRouter } from 'react-router';
+import TextArea from 'antd/lib/input/TextArea';
+import { history } from '../../service/helper/History';
 
 class ProjectDetailTable extends Component {
 
@@ -23,10 +25,16 @@ class ProjectDetailTable extends Component {
         this.props.fetchProjectDetail(this.props.projectID)
     }
 
-    componentWillReceiveProps = () => {
-        var { project } = this.props
-        if (typeof project.projectID !== 'undefined')
-            this.setState({ isLoad: false, project: project })
+    componentDidUpdate = (prevProp) => {
+        if (prevProp.project !== this.props.project) {
+            this.setState({ isLoad: false, project: this.props.project })
+        } else if (prevProp.status !== this.props.status) {
+            if (this.props.status)
+                Modal.success({
+                    title: 'Decline Project Successfully',
+                    onOk() { history.push('/project') }
+                })
+        }
     }
 
     onDecline = () => {
@@ -37,7 +45,6 @@ class ProjectDetailTable extends Component {
             cancelText: 'No',
             onOk() {
                 declineProject(match.params.id, project.projectName, project.pmID)
-                // sendNotificate(project.pmID, `Project ${project.projectName} has been declined`)
             },
             onCancel() {
                 console.log('Cancel');
@@ -48,7 +55,6 @@ class ProjectDetailTable extends Component {
 
     render() {
         var { project } = this.state
-        console.log(project)
         return (
             <React.Fragment>
                 {this.state.isLoad ?
@@ -75,7 +81,7 @@ class ProjectDetailTable extends Component {
 
                         <Descriptions.Item label="Start Date">{moment(project.dateBegin).format('DD-MM-YYYY')}</Descriptions.Item>
 
-                        <Descriptions.Item label={project.dateEnd === null ? 'Estimated End Date' : 'Ended Date'} span={2}>
+                        <Descriptions.Item label={project.dateEnd === null ? 'Estimated End Date' : 'End Date'} span={2}>
                             {project.dateEnd === null ? moment(project.dateEstimatedEnd).format('DD-MM-YYYY') : moment(project.dateEnd).format('DD-MM-YYYY')}
                         </Descriptions.Item>
 
@@ -83,8 +89,10 @@ class ProjectDetailTable extends Component {
                             <Badge status={showBadge(project.status)} text={showStatus(project.status)} />
                         </Descriptions.Item>
 
-
-                        <Descriptions.Item span={3} label="Description">{project.description}</Descriptions.Item>
+                        <Descriptions.Item span={3} label="Description">
+                            <TextArea value={project.description} readOnly autoSize={true}
+                                style={{ backgroundColor: 'white', border: 'none' }} />
+                        </Descriptions.Item>
                     </Descriptions>
                 }
             </React.Fragment>
@@ -94,7 +102,8 @@ class ProjectDetailTable extends Component {
 
 const mapStateToProp = state => {
     return {
-        project: state.ProjectDetailFetchReducer
+        project: state.ProjectDetailFetchReducer,
+        status: state.StatusReducer
     }
 }
 

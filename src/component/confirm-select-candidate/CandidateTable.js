@@ -6,7 +6,6 @@ class CandidateTable extends Component {
         var result = null
         if (candidateList.length > 0) {
             result = candidateList.map((candidate, index) => {
-                // console.log('candidate', candidate)
                 return (<tr>
                     <th className="text-center">{index + 1}</th>
                     <th className="">{candidate.name}</th>

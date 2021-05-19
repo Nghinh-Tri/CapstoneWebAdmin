@@ -33,7 +33,6 @@ class ListCandidate extends Component {
     componentDidUpdate = (prevProp) => {
         if (prevProp.suggestCandidateList !== this.props.suggestCandidateList) {
             this.setState({ isLoad: false })
-            // console.log('candidateSelectedList', this.props.candidateSelectedList)
         }
     }
 
@@ -95,7 +94,6 @@ class ListCandidate extends Component {
 
     render() {
         var { suggestCandidateList, selectedIndex, candidateSelectedList, } = this.props;
-        console.log('candidateSelectedList', candidateSelectedList)
         return (
             <div>
                 <ProgressBar current="0" />
@@ -106,7 +104,7 @@ class ListCandidate extends Component {
                     </div> :
                     <div class="card mb-4">
                         <div class="card-header">
-                            <Tabs defaultActiveKey="0" onChange={this.onSelected}>
+                            <Tabs defaultActiveKey={selectedIndex} onChange={this.onSelected}>
                                 {this.getTabName()}
                             </Tabs>
                         </div>
