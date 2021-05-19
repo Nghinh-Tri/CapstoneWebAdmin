@@ -9,7 +9,6 @@ import { checkSession } from '../../service/action/user/AuthenticateAction';
 import * as Action from '../../service/action/user/LoginAction'
 import { fetchProfileDetail, updateProfile } from '../../service/action/user/ProfileAction';
 import { history } from '../../service/helper/History';
-import { showRole } from '../../service/util/util';
 class Register extends Component {
 
     constructor(props) {

@@ -22,7 +22,6 @@ export const fetchProfile = (pageIndex, search, role, refresh) => {
             url,
             { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
         ).then(res => {
-            console.log(res.data)
             dispatch(fetchProfileSuccess(res.data.resultObj, typeof refresh === 'undefined' ? false : refresh))
         })
     }

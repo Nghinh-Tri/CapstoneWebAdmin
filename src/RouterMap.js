@@ -17,6 +17,7 @@ import AddEmployee from "./screen/add-employee/AddEmployee"
 import ConfirmAddEmployee from "./screen/confirm-add-employee/ConfirmAddEmployee"
 import ChangePassword from './screen/change-password/ChangePassword';
 import { getEmpID } from "./service/util/util"
+import CreateNewEmployee from "./screen/create-user/CreateNewEmployee"
 
 
 const route = [
@@ -78,7 +79,7 @@ const route = [
     {
         path: "/employee/register",
         exact: true,
-        main: () => <Register />,
+        main: () => <CreateNewEmployee />,
     },
     {
         path: "/employee/position-assign",

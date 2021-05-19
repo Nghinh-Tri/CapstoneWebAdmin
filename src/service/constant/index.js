@@ -216,3 +216,8 @@ export const ERROR = {
 export const ADDRESS = {
     SUGGEST: 'SUGGEST'
 }
+
+export const PROFILE = {
+    REFRESH: 'REFRESH_SELECT_TAB',
+    SELECT_TAB: 'SELECT_TAB',
+}
