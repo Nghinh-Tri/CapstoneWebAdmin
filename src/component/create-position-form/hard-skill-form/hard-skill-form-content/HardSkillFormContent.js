@@ -47,8 +47,51 @@ class HardSkillFormContent extends Component {
     }
 
     handleOk = (e) => {
-        if (this.state.check && typeof
-            this.props.hardSkillDetail.empCertifications.find(e => e.dateEnd === '') !== 'undefined') {
+        if (typeof this.props.error.Certificate !== 'undefined') {
+            if (this.props.error.Certificate.length === 0) {
+                if (typeof
+                    this.props.hardSkillDetail.empCertifications.find(e => e.certiID === 0) !== 'undefined') {
+                    this.props.certiError({ Certificate: ['Please select certificate'] })
+                }
+                else if (typeof
+                    this.props.hardSkillDetail.empCertifications.find(e => e.dateTaken === '') !== 'undefined') {
+                    this.props.certiError({ Certificate: ['Please input taken date'] })
+                } else if (typeof
+                    this.props.hardSkillDetail.empCertifications.find(e => e.dateEnd === '' && e.check) !== 'undefined') {
+                    this.props.certiError({ Certificate: ['Please input expiration date'] })
+                } else {
+                    this.props.certiError({})
+                    this.setState({
+                        visible: false,
+                    });
+                }
+            } else {
+                if (typeof
+                    this.props.hardSkillDetail.empCertifications.find(e => e.certiID === 0) !== 'undefined') {
+                    this.props.certiError({ Certificate: ['Please select certificate'] })
+                }
+                else if (typeof
+                    this.props.hardSkillDetail.empCertifications.find(e => e.dateTaken === '') !== 'undefined') {
+                    this.props.certiError({ Certificate: ['Please input taken date'] })
+                } else if (typeof
+                    this.props.hardSkillDetail.empCertifications.find(e => e.dateEnd === '' && e.check) !== 'undefined') {
+                    this.props.certiError({ Certificate: ['Please input expiration date'] })
+                } else {
+                    this.props.certiError({})
+                    this.setState({
+                        visible: false,
+                    });
+                }
+            }
+        } else if (typeof
+            this.props.hardSkillDetail.empCertifications.find(e => e.certiID === 0) !== 'undefined') {
+            this.props.certiError({ Certificate: ['Please select certificate'] })
+        }
+        else if (typeof
+            this.props.hardSkillDetail.empCertifications.find(e => e.dateTaken === '') !== 'undefined') {
+            this.props.certiError({ Certificate: ['Please input taken date'] })
+        } else if (typeof
+            this.props.hardSkillDetail.empCertifications.find(e => e.dateEnd === '' && e.check) !== 'undefined') {
             this.props.certiError({ Certificate: ['Please input expiration date'] })
         } else {
             this.props.certiError({})
@@ -56,7 +99,6 @@ class HardSkillFormContent extends Component {
                 visible: false,
             });
         }
-
     }
     handleCancel = (e) => {
         this.setState({
@@ -127,7 +169,7 @@ class HardSkillFormContent extends Component {
                                 onDeleteCertificate={this.props.onDeleteCertificate}
                                 onUpdateCertficateID={this.props.onUpdateCertficateID}
                                 onUpdateCertificateDate={this.props.onUpdateCertificateDate}
-                                isCheck={this.isCheck}
+                                isCheck={this.props.isCheck}
                             />
                         </Modal>
                     </td>

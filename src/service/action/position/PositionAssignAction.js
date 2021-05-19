@@ -80,6 +80,10 @@ export const updateCertificateDate = (name, value, certificateIndex, hardSkillIn
     return { type: POSITION_ASSIGN.UPDATE_CERTIFICATE_DATE, name, value, certificateIndex, hardSkillIndex }
 }
 
+export const checkCertificateExpirationDate = (check, certificateIndex, hardSkillIndex) => {
+    return { type: POSITION_ASSIGN.CHECK_CERTIFICATE, check, certificateIndex, hardSkillIndex }
+}
+
 export const assignPosition = (empID, positionAssign, role) => {
     var url = `${API_URL}/User/${empID}`
     return (dispatch) => {

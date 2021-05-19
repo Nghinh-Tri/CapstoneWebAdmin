@@ -11,7 +11,8 @@ class CertificateForm extends Component {
             empCertifications: {
                 certiID: 0,
                 dateTaken: "",
-                dateEnd: ""
+                dateEnd: "",
+                check: false
             },
             isMinimize: false
         }
@@ -107,11 +108,15 @@ class CertificateForm extends Component {
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead >
+                                <thead className="text-center">
                                     <tr>
-                                        <th className="text-center text-danger" width={300} >Certificate</th>
-                                        <th className="text-center text-danger" width={200} >Taken Date</th>
-                                        <th className="text-center" width={230} >Expiration  Date</th>
+                                        <th width={300} >
+                                            Certificate <span style={{ color: 'red', fontWeight: 500 }} >*</span>
+                                        </th>
+                                        <th width={200} >
+                                            Taken Date <span style={{ color: 'red', fontWeight: 500 }} >*</span>
+                                        </th>
+                                        <th width={230} >Expiration  Date</th>
                                         <th width={50}></th>
                                     </tr>
                                 </thead>

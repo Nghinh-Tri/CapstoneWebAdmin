@@ -114,6 +114,14 @@ const PositionAssignReducer = (state = initState, action) => {
             state.hardSkills.splice(action.hardSkillIndex, 1, clone)
             return state
 
+        case POSITION_ASSIGN.CHECK_CERTIFICATE:
+            clone = { ...state.hardSkills[action.hardSkillIndex] }
+            certificate = { ...clone.empCertifications[action.certificateIndex] }
+            certificate.check = action.check
+            clone.empCertifications.splice(action.certificateIndex, 1, certificate)
+            state.hardSkills.splice(action.hardSkillIndex, 1, clone)
+            return state
+
         case POSITION_ASSIGN.REFRESH_PAGE:
             state = {}
             return state
