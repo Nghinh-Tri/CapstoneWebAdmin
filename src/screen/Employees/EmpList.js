@@ -4,9 +4,10 @@ import * as Action from "../../service/action/user/ProfileAction";
 import EmpTableItem from "./EmpTableItem";
 import { checkSession } from '../../service/action/user/AuthenticateAction';
 import Search from '../../component/search/Search';
-import { Pagination, Spin } from 'antd';
+import { Button, Pagination, Spin } from 'antd';
 import SelectBar from '../../component/create-position-form/select-search/SelectBar';
 import { EMPLOYEE } from '../../service/constant/nodata';
+import { exportTemplate } from '../../service/action/file/FileAction';
 
 class EmpList extends Component {
 
@@ -73,6 +74,10 @@ class EmpList extends Component {
         this.props.fetchProfile(1, this.state.search, role)
     }
 
+    onDownload = () => {
+        this.props.downloadFile()
+    }
+
     render() {
         var { profiles } = this.props
         return (
@@ -106,7 +111,7 @@ class EmpList extends Component {
                                             placeholder="Search employee name ..."
                                             searchEmp={this.searchEmp} />
                                     </div>
-
+                                    <Button type="primary" size='large' onClick={this.onDownload} >Download</Button>
                                     {profiles.items.length > 0 ?
                                         <div class="table-responsive">
                                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -173,6 +178,9 @@ const mapDispatchToProp = (dispatch) => {
         },
         checkSession: () => {
             dispatch(checkSession())
+        },
+        downloadFile: () => {
+            dispatch(exportTemplate())
         }
     }
 }
