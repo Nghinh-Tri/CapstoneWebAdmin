@@ -1,7 +1,7 @@
 import axios from "axios"
 import { ERROR, Type } from "../../constant/index"
 import { history } from "../../helper/History"
-import { API_URL, getEmail, getRole } from "../../util/util"
+import { API_URL, getEmail, getEmpID, getRole } from "../../util/util"
 import { store } from 'react-notifications-component';
 
 export const login = (username, password) => {
@@ -14,8 +14,7 @@ export const login = (username, password) => {
         ).then(res => {
             if (res.data.isSuccessed) {
                 dispatch(success())
-                localStorage.setItem('EMP', JSON.stringify(res.data.resultObj.empId));
-                localStorage.setItem('token', JSON.stringify(res.data.resultObj.token));
+                localStorage.setItem('token', JSON.stringify(res.data.resultObj));
                 var role = getRole()
                 if (role === 'admin') {
                     history.push('/');
@@ -99,7 +98,7 @@ export const register = (emp) => {
 }
 
 export const changePassword = (password) => {
-    var id = JSON.parse(localStorage.getItem('EMP'))
+    var id = getEmpID()
     var email = getEmail()
     var url = `${API_URL}/User/ChangePassword/${id}`
     return dispatch => {
