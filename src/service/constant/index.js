@@ -220,4 +220,6 @@ export const ADDRESS = {
 export const PROFILE = {
     REFRESH: 'REFRESH_SELECT_TAB',
     SELECT_TAB: 'SELECT_TAB',
+    IMPORT: 'IMPORT',
+    IMPORT_FALSE: 'IMPORT_FALSE'
 }
