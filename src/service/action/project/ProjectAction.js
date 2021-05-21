@@ -4,14 +4,6 @@ import { API_URL } from "../../util/util";
 import { history } from "../../helper/History";
 import { sendNotificate } from "../firebase/FirebaseAction";
 
-export const generateProject = (project) => {
-    history.push('/project/create-project')
-    return {
-        type: Type.GENERATE_PROJECT,
-        project
-    }
-}
-
 export const fetchProject = (pageIndex, search, refresh) => {
     var url = ''
     if (search.length > 0)
@@ -109,78 +101,35 @@ export const fetchCandidatesResultSuccess = (result) => {
 
 
 export const fetchPostionTypeSuccess = (projectType) => {
-    return {
-        type: Type.FETCH_PROJECT_TYPE,
-        projectType
-    }
+    return { type: Type.FETCH_PROJECT_TYPE, projectType }
 }
 
 export const fetchProjectFieldSuccess = (projectField) => {
-    return {
-        type: Type.FETCH_PROJECT_FIELD,
-        projectField
-    }
+    return { type: Type.FETCH_PROJECT_FIELD, projectField }
 }
 
 export const fetchPositionRequireSuccess = (resultObj) => {
-    return {
-        type: Type.FETCH_POSITION_REQUIRE,
-        resultObj
-    }
+    return { type: Type.FETCH_POSITION_REQUIRE, resultObj }
 }
 
 export const fetchProjectSuccess = (resultObj, refresh) => {
-    return {
-        type: Type.FETCH_PROJECT,
-        resultObj, refresh
-    }
+    return { type: Type.FETCH_PROJECT, resultObj, refresh }
 }
 
 export const fetchProjectDetail = (projectID) => {
     var url = `${API_URL}/Project/${projectID}`
     return (dispatch) => {
-        return axios.get(url, { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }).then(res => {
+        axios.get(
+            url,
+            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
+        ).then(res => {
             dispatch(fetchProjectDetailSuccess(res.data.resultObj))
         })
     }
 }
 
 export const fetchProjectDetailSuccess = (resultObj) => {
-    return {
-        type: Type.FETCH_PROJECT_DETAIL,
-        resultObj
-    }
-}
-
-export const updateProject = (project, id) => {
-    var url = `${API_URL}/Project/${id}`
-    return (dispatch) => {
-        return axios.put(
-            url,
-            project,
-            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }).then(res => {
-                dispatch(updateProjectSuccess(res.data.resultObj))
-            })
-    }
-}
-
-export const changeStatusToFinish = projectID => {
-    var url = `${API_URL}/Project/changeStatus/${projectID}`
-    return dispatch => {
-        return axios.put(
-            url,
-            null,
-            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }).then(res => {
-                dispatch(fetchProjectDetail(projectID))
-            })
-    }
-}
-
-export const updateProjectSuccess = (resultObj) => {
-    return {
-        type: Type.UPDATE_PROJECT,
-        resultObj
-    }
+    return { type: Type.FETCH_PROJECT_DETAIL, resultObj }
 }
 
 export const declineProject = (projectID, projectName, pmID) => {
@@ -188,19 +137,19 @@ export const declineProject = (projectID, projectName, pmID) => {
     return (dispatch) => {
         return axios.delete(
             url,
-            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }).
-            then(res => {
-                if (res.data.isSuccessed) {
-                    dispatch(declineProjectSuccess(res.data.isSuccessed))
-                    dispatch(sendNotificate(pmID, `Project '${projectName}' has been declined`))
-                }
-            }).catch(err => {
-                dispatch(declineProjectFail())
-            })
+            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }
+        ).then(res => {
+            if (res.data.isSuccessed) {
+                dispatch(declineProjectSuccess(res.data.isSuccessed))
+                dispatch(sendNotificate(pmID, `Project '${projectName}' has been declined`))
+            }
+        }).catch(err => {
+            dispatch(declineProjectFail())
+        })
     }
 }
 
-export const declineProjectSuccess = (isSuccessed) => {   
+export const declineProjectSuccess = (isSuccessed) => {
     return { type: Type.DECLINE_PROJECT, isSuccessed }
 }
 

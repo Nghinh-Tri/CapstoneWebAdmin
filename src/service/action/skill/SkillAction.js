@@ -14,9 +14,7 @@ export const fetchSkill = (pageIndex, search, skillType, refresh) => {
             url,
             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
         ).then(res => {
-            if (res.status = 200) {
-                dispatch(fetchSkillSuccess(res.data.resultObj, typeof refresh === 'undefined' ? false : refresh))
-            }
+            dispatch(fetchSkillSuccess(res.data.resultObj, typeof refresh === 'undefined' ? false : refresh))
         }).catch(err => {
             if (err.response.status === 401) {
                 history.push('/login')

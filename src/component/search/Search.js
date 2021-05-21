@@ -42,6 +42,8 @@ class Search extends Component {
             case 'candidate':
                 this.props.searchCandidate(value.trim())
                 break
+            default:
+                break
         }
     }
 

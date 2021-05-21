@@ -5,7 +5,7 @@ import ListEmployeeContent from './ListEmployeeContent';
 import { history } from '../../service/helper/History';
 import { Spin, Tabs, Tooltip } from "antd";
 import { InfoCircleTwoTone } from "@ant-design/icons";
-import { EMPLOYEE, PROJECT_EMPLOYEE_LIST } from "../../service/constant/nodata";
+import { PROJECT_EMPLOYEE_LIST } from "../../service/constant/nodata";
 const TabPane = Tabs.TabPane;
 
 class ListEmployee extends Component {

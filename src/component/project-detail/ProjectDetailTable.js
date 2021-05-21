@@ -63,7 +63,7 @@ class ProjectDetailTable extends Component {
                     </div>
                     :
                     <Descriptions title="Project Info" layout='horizontal' bordered extra={
-                        project.status === 1 || project.status === 2 && project.noe === 0 || project.status === 0 ?
+                        project.status === 1 || (project.status === 2 && project.noe === 0) || project.status === 0 ?
                             <Button onClick={this.onDecline} type="danger" >
                                 Decline
                         </Button>
@@ -111,9 +111,6 @@ const mapDispatchToProp = dispatch => {
     return {
         fetchProjectDetail: projectID => {
             dispatch(Action.fetchProjectDetail(projectID))
-        },
-        changeStatusToFinish: projectID => {
-            dispatch(Action.changeStatusToFinish(projectID))
         },
         declineProject: (projectID, projectName, pmID) => {
             dispatch(Action.declineProject(projectID, projectName, pmID))

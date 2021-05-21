@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { history } from '../../service/helper/History';
-import { getUserName, showRole } from '../../service/util/util';
+import { showRole } from '../../service/util/util';
 
 class EmpTableItem extends Component {
 

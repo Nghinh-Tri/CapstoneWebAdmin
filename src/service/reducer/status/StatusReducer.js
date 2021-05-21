@@ -1,4 +1,4 @@
-import { CERTIFICATION, POSITION, POSITION_ASSIGN, SKILL, SUGGEST_CANDIDATE, Type } from "../../constant";
+import { CERTIFICATION, POSITION, POSITION_ASSIGN, PROFILE, SKILL, SUGGEST_CANDIDATE, Type } from "../../constant";
 
 const initState = false
 
@@ -48,7 +48,13 @@ const StatusReducer = (state = initState, action) => {
             return state;
         case SUGGEST_CANDIDATE.CONFIRM_SUGGEST:
             state = action.isSuccessed
-            return state;            
+            return state;
+        case PROFILE.IMPORT:
+            state = action.isSuccessed
+            return state;
+        case PROFILE.IMPORT_FALSE:
+            state = action.isSuccessed
+            return state;
         default:
             state = false
             return state;

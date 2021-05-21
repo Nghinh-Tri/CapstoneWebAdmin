@@ -1,7 +1,5 @@
 import axios from "axios"
-import { store } from "react-notifications-component"
-import { alertConstants, POSITION_ASSIGN, Type } from "../../constant"
-import { history } from "../../helper/History"
+import { POSITION_ASSIGN, Type } from "../../constant"
 import { API_URL } from "../../util/util"
 
 export const generatePositionAssign = (item) => {

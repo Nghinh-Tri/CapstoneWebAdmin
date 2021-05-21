@@ -6,7 +6,6 @@ import { withRouter } from 'react-router';
 import { compose } from 'redux';
 import { confirmSuggestList } from '../../../service/action/confirm/AddSuitableCandidateAction';
 import { fetchSuitableList } from '../../../service/action/confirm/SuitableListAction';
-import { history } from '../../../service/helper/History';
 
 class SuitableProjectDetail extends Component {
 

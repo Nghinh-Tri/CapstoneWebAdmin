@@ -150,7 +150,7 @@ class Register extends Component {
 
     render() {
         const { address, phoneNumber, userName, fullname, email,
-            identityNumber, submitted, role, dataSource } = this.state;
+            identityNumber, dataSource } = this.state;
         var { error, duplicateError } = this.props
         var messageError = '', fieldError = ''
         if (typeof duplicateError !== 'undefined') {
@@ -341,9 +341,9 @@ const mapState = (state) => {
 
 const mapDispatchToProp = dispatch => {
     return {
-        register: (emp) => [
+        register: (emp) => {
             dispatch(Action.register(emp))
-        ],
+        },
         checkSession: () => {
             dispatch(checkSession())
         },

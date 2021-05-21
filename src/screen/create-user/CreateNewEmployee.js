@@ -1,5 +1,7 @@
 import { Tabs } from 'antd';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { checkSession } from '../../service/action/user/AuthenticateAction';
 import ImportCV from './ImportCV';
 import Register from './Register';
 const TabPane = Tabs.TabPane
@@ -7,6 +9,10 @@ const TabPane = Tabs.TabPane
 class CreateNewEmployee extends Component {
 
     state = { select: '1' }
+
+    componentDidMount = () => {
+        this.props.checkSession()
+    }
 
     onClickMenu = (value) => {
         this.setState({ select: value })
@@ -40,4 +46,13 @@ class CreateNewEmployee extends Component {
     }
 }
 
-export default CreateNewEmployee;
+const mapDispatchToProp = dispatch => {
+    return {
+        checkSession: () => {
+            dispatch(checkSession())
+        },
+    }
+}
+
+
+export default connect(null, mapDispatchToProp)(CreateNewEmployee);

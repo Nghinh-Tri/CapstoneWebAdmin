@@ -16,6 +16,7 @@ class Header extends Component {
                 if (typeof content.title !== 'undefined' && typeof content.body !== 'undefined')
                     if (content.title !== '' && content.body !== '') {
                         notification.info({
+                            key: index,
                             message: content.title,
                             description: content.body,
                             duration: 0,

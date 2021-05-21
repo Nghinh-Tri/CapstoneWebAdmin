@@ -1,63 +1,54 @@
-import { Header } from "antd/lib/layout/layout";
+import { Modal } from "antd";
+import TextArea from "antd/lib/input/TextArea";
 import axios from "axios";
 import { PROFILE } from "../../constant";
-import { history } from "../../helper/History";
 import { API_URL } from "../../util/util";
+import { registerSuccess } from "../user/LoginAction";
 
 export const addFile = (fileList) => {
     var url = `${API_URL}/User/Import`;
-
-    const listFileOrigin = fileList.map((file) => file.originFileObj);
     const formData = new FormData();
-    for (let file of listFileOrigin) {
-        console.log(file)
-        formData.append("files", file);
-        formData.append("name", 'me');
+    for (let file of fileList) {
+        formData.append("file", file);
     }
-    console.log(formData.get('files'))
-
     return (dispatch) => {
-        axios({
-            url: url,
-            method: 'put',
-            Header: { "Authorization": `Bearer ${localStorage.getItem("token").replace(/"/g, "")}` },
-            data: formData
-        }).then((res) => {
-            console.log(res.data)
-            if ((res.status = 200)) {
-                dispatch(addFileSuccess());
+        axios.put(
+            url,
+            formData,
+            { headers: { Authorization: `Bearer ${localStorage.getItem("token").replace(/"/g, "")}` }, }
+        ).then((res) => {
+            if (res.data.isSuccessed) {
+                dispatch(registerSuccess(res.data.resultObj.id, 'Employee', res.data.resultObj.name,
+                    res.data.resultObj.phoneNumber, res.data.resultObj.email, res.data.isSuccessed));
+                dispatch(addFileSuccess(res.data.isSuccessed))
             }
         }).catch((err) => {
-            console.log('err', err.response)
-
-            dispatch(addFileFail(err?.response?.data?.errors));
+            let error = 'Import CV File  Failed'
+            let content = ''
+            if (err.response.status === 403) {
+                let errors = err.response.data.errors
+                Object.keys(errors).forEach(key => {
+                    errors[key].forEach(element => {
+                        content += element + '\n'
+                    });
+                })
+            }
+            Modal.error({
+                title: error,
+                content: (<>
+                    <TextArea defaultValue={content} disabled={true} autoSize={true}
+                        style={{ color: 'black', backgroundColor: 'white', borderColor: 'white', cursor: 'default' }} />
+                </>)
+            })
+            dispatch(addFileFail(false));
         });
-        // axios.put(
-        //     url,
-        //     formData,
-        //     // formData,
-        //     {
-        //         headers: { Authorization: `Bearer ${localStorage.getItem("token").replace(/"/g, "")}` },
-        //         // body: { file: formData }
-        //     }
-        // ).then((res) => {
-        //     console.log(res.data)
-        //     if ((res.status = 200)) {
-        //         dispatch(addFileSuccess());
-        //     }
-        // }).catch((err) => {
-        //     console.log('err', err.response)
-
-        //     dispatch(addFileFail(err?.response?.data?.errors));
-        // });
     };
 };
 
-export const addFileSuccess = () => {
-    history.push("/employee/position-assign");
-    return { type: PROFILE.IMPORT };
+export const addFileSuccess = (isSuccessed) => {
+    return { type: PROFILE.IMPORT, isSuccessed };
 };
 
-export const addFileFail = (error) => {
-    return { type: PROFILE.IMPORT_FALSE, error };
+export const addFileFail = (isSuccessed) => {
+    return { type: PROFILE.IMPORT_FALSE, isSuccessed };
 };

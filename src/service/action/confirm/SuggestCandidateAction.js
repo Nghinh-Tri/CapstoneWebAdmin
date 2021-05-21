@@ -1,7 +1,6 @@
 import axios from "axios"
 import { store } from "react-notifications-component"
 import { SUGGEST_CANDIDATE } from "../../constant"
-import { history } from "../../helper/History"
 import { API_URL } from "../../util/util"
 import { sendNotificate } from "../firebase/FirebaseAction"
 

@@ -23,7 +23,7 @@ class CertificateFormContent extends Component {
         var { name, value } = e.target
         this.props.onUpdateCertificateDate(name, value, this.props.certificateIndex, this.props.hardSkillIndex)
         if (name === 'dateTake') {
-            var duration = moment.duration(moment().day(2).diff(moment(value)))
+            let duration = moment.duration(moment().day(2).diff(moment(value)))
             if (duration.days() === 0) {
                 if (duration.hours() <= 0) {
                     this.props.certiError({ Certificate: [`Taken Date must before ${moment(moment().day(2)).format("DD-MM-YYYY")}`] })
@@ -37,7 +37,7 @@ class CertificateFormContent extends Component {
                 this.props.certiError({ Certificate: [] })
             }
         } else if (name === 'dateEnd') {
-            var duration = moment.duration(moment(value).diff(moment().day(4)))
+            let duration = moment.duration(moment(value).diff(moment().day(4)))
             if (duration.days() === 0) {
                 if (duration.hours() > 24) {
                     this.props.certiError({ Certificate: [`Expiration Date must before ${moment(moment().day(4)).format("DD-MM-YYYY")}`] })

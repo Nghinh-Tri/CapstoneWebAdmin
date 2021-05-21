@@ -1,5 +1,5 @@
 import { store } from "react-notifications-component";
-import { ADD_MORE_CANDIDATES, SUGGEST_CANDIDATE, Type } from "../../constant";
+import { ADD_MORE_CANDIDATES, Type } from "../../constant";
 import { history } from "../../helper/History";
 import { sortSuggestListByOverallMatch } from "../../util/util";
 
@@ -59,10 +59,10 @@ const SuggestCandidateAgainSelectedListReducer = (state = initState, action) => 
                         }
                     })
                 } else {
-                    var index = getPositionIndex(state, action.candidateList.position)
+                    let index = getPositionIndex(state, action.candidateList.position)
                     if (index !== -1) {
                         positionObjClone = { ...state[index] }
-                        var clone = { ...action.candidate }
+                        let clone = { ...action.candidate }
                         clone.check = true
                         positionObjClone.candidateSelect.push(action.candidate)
                         if (positionObjClone.candidateSelect.length === action.candidateList.matchDetail.length)
@@ -81,7 +81,7 @@ const SuggestCandidateAgainSelectedListReducer = (state = initState, action) => 
         case ADD_MORE_CANDIDATES.SELECT_ALL_CANDIDATE:
             if (action.candidateList.matchDetail.length > 0) {
                 if (state.length > 0) {
-                    var index = getPositionIndex(state, action.position)
+                    let index = getPositionIndex(state, action.position)
                     if (index !== -1) {
                         positionObjClone = { ...state[index] }
                         positionObjClone.candidateSelect = [...action.candidateList.matchDetail]
@@ -99,7 +99,7 @@ const SuggestCandidateAgainSelectedListReducer = (state = initState, action) => 
             return [...state]
 
         case ADD_MORE_CANDIDATES.UNSELECT_ALL_CANDIDATE:
-            var index = getPositionIndex(state, action.position)
+            let index = getPositionIndex(state, action.position)
             state.splice(index, 1)
             return [...state]
 
@@ -141,7 +141,7 @@ const SuggestCandidateAgainSelectedListReducer = (state = initState, action) => 
             localStorage.removeItem('pmID')
             history.push(`/project/detail/${action.projectID}`)
             return [...state]
-            
+
         case Type.FETCH_LIST_EMPLOYEE:
             state = []
             return [...state]
