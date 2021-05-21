@@ -49,6 +49,7 @@ class ImportCV extends Component {
                     newFileList.splice(index, 1);
                     return {
                         fileList: newFileList,
+                        file: false
                     };
                 });
             },
@@ -56,6 +57,7 @@ class ImportCV extends Component {
                 if (fileList.length === 0)
                     this.setState(state => ({
                         fileList: [...state.fileList, file],
+                        file: true
                     }));
                 return false;
             },
@@ -63,7 +65,7 @@ class ImportCV extends Component {
         };
         return (
             <React.Fragment>
-                <Dragger {...props} multiple={false}>
+                <Dragger {...props} multiple={false} accept='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' >
                     {this.state.file ?
                         <p className="ant-upload-drag-icon">
                             <FileExcelOutlined />
