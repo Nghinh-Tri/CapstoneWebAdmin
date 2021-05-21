@@ -1,4 +1,4 @@
-import { ADD_MORE_CANDIDATES, SUGGEST_CANDIDATE, Type } from "../../constant/index";
+import { ADD_MORE_CANDIDATES, SUGGEST_CANDIDATE } from "../../constant/index";
 
 const initState = { message: '', list: [] }
 

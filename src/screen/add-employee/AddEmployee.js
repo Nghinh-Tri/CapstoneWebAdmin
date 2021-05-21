@@ -133,7 +133,6 @@ class SuggestCandidate extends Component {
     getSelectItem = () => {
         var result = []
         var { suggestCandidateList, selectedIndex } = this.props
-        var { selectedIndex } = this.state
         for (let index = 0; index < suggestCandidateList.length; index++) {
             if (index === selectedIndex)
                 result = suggestCandidateList[index]

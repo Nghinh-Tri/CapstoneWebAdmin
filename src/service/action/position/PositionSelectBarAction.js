@@ -1,7 +1,6 @@
 import { POSITION, Type } from "../../constant/index"
 import axios from "axios";
 import { API_URL } from "../../util/util";
-import { history } from "../../helper/History";
 
 export const fetchPostionList = () => {
     var url = `${API_URL}/Position/getPositions`

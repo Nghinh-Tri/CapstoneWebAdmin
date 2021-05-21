@@ -93,7 +93,7 @@ class CreateCertification extends Component {
     onSubmit = (e) => {
         e.preventDefault()
         if (typeof this.props.match === 'undefined') {
-            var certi = {
+            let certi = {
                 certificationName: this.state.certificationName.trim(),
                 description: this.state.description.trim(),
                 skillID: this.state.skillID,
@@ -103,7 +103,7 @@ class CreateCertification extends Component {
         }
         else {
             var { certificationID, certiLevel, certificationName, description, skillID } = this.state
-            var certi = {
+            let certi = {
                 certificationID: certificationID,
                 certificationName: certificationName.trim(),
                 description: description.trim(),

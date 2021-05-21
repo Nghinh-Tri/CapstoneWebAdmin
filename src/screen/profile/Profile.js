@@ -7,6 +7,7 @@ import { fetchProfileDetail } from '../../service/action/user/ProfileAction';
 import { Tabs } from 'antd';
 import SuitableProject from '../../component/profile/SuitableProject';
 import JoinedProject from '../../component/profile/joined-project/JoinedProject';
+import { refeshTab, selectTab } from '../../service/action/user/SelectProfileBarAction';
 const TabPane = Tabs.TabPane;
 
 class Profile extends Component {
@@ -20,12 +21,15 @@ class Profile extends Component {
 
     componentDidMount = () => {
         this.props.checkSession()
-        if (typeof this.props.match !== 'undefined')
+        if (typeof this.props.match !== 'undefined') {
             this.props.fetchProfileDetails(this.props.match.params.id)
+        } else {
+            this.props.refreshSelectTab()
+        }
     }
 
-    onClickMenu = (value) => {
-        this.setState({ select: parseInt(value) })
+    onClickMenu = (value) => {       
+        this.props.selectTab(parseInt(value))
     }
 
     showDetail = (select) => {
@@ -48,8 +52,7 @@ class Profile extends Component {
 
 
     render() {
-        var { select } = this.state
-        var { profile } = this.props
+        var { profile, selectIndex } = this.props
         return (
             <React.Fragment>
                 <div className="row breadcrumb mb-4 mt-3">
@@ -65,21 +68,21 @@ class Profile extends Component {
                 </div>
                 <div className="card mb-4">
                     <div className="card-header">
-                        <Tabs defaultActiveKey="1" onChange={this.onClickMenu}>
-                            <TabPane tab="Personal Infomation" key={1}></TabPane>
+                        <Tabs defaultActiveKey={selectIndex.toString()} onChange={this.onClickMenu}>
+                            <TabPane tab="Personal Infomation" key='1'></TabPane>
                             {
                                 typeof this.props.match !== 'undefined' ?
                                     <>
-                                        <TabPane tab="Skill Details" key={2}></TabPane>
-                                        <TabPane tab="Suitable Projects" key={3}></TabPane>
-                                        <TabPane tab="Joined Projects" key={4}></TabPane>
+                                        <TabPane tab="Skill Details" key='2'></TabPane>
+                                        <TabPane tab="Suitable Projects" key='3'></TabPane>
+                                        <TabPane tab="Joined Projects" key='4'></TabPane>
                                     </>
                                     : ''
                             }
                         </Tabs>
                     </div>
                     <div className="card-body">
-                        {this.showDetail(select)}
+                        {this.showDetail(selectIndex)}
                     </div>
                 </div>
             </React.Fragment>
@@ -89,7 +92,8 @@ class Profile extends Component {
 
 const mapStateToProp = state => {
     return {
-        profile: state.ProfileFetchReducer
+        profile: state.ProfileFetchReducer,
+        selectIndex: state.SelectProfileBarReducer
     }
 }
 
@@ -100,6 +104,13 @@ const mapDispatchToProp = (dispatch) => {
         },
         checkSession: () => {
             dispatch(checkSession())
+        },
+        selectTab: (tab) => {
+            console.log(tab)
+            dispatch(selectTab(tab))
+        },
+        refreshSelectTab: () => {
+            dispatch(refeshTab())
         }
     }
 }

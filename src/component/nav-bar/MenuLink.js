@@ -39,8 +39,8 @@ class MenuLink extends Component {
                 var active = match ? 'active' : '';
                 return (
                     <li className="nav-item" onClick={this.onMovePage}>
-                        <div class="sb-sidenav-menu-heading"></div>
-                        <a class={`nav-link ${active}`} style={{ fontSize: 17 }} >{this.props.label}</a>
+                        <div className="sb-sidenav-menu-heading"></div>
+                        <a className={`nav-link ${active}`} style={{ fontSize: 17 }} >{this.props.label}</a>
                     </li>
                 );
             }} />
