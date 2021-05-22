@@ -8,11 +8,7 @@ const TabPane = Tabs.TabPane
 
 class ListRequirement extends Component {
 
-    state = { select: "0" }
-
-    componentDidMount = () => {
-        // console.log('componentDidMount', this.props.item)
-    }
+    state = { select: "0" }  
 
     componentDidUpdate = (nextProps) => {
         if (nextProps.item !== this.props.item) {
@@ -53,7 +49,7 @@ class ListRequirement extends Component {
         return (
             <div className="card mb-4">
                 <div className="card-header">
-                    <Tabs defaultActiveKey="0" onChange={this.onSelectPos}>
+                    <Tabs defaultActiveKey={selection} onChange={this.onSelectPos}>
                         {this.getTabName()}
                     </Tabs>
                 </div>
