@@ -18,16 +18,16 @@ class ListEmployeeContent extends Component {
     }
 
     componentDidMount = () => {
-        if (typeof this.props.item.posID !== 'undefined') {
-            if (typeof this.props.item.posID === 'number')
-                this.props.getPrevRequire(this.props.project.projectID, this.props.item.posID)
-        }
+        // if (typeof this.props.item.posID !== 'undefined') {
+        //     if (typeof this.props.item.posID === 'number')
+        //         this.props.getPrevRequire(this.props.project.projectID, this.props.item.posID)
+        // }
     }
 
     componentDidUpdate = (prevProp) => {
-        if (prevProp.item !== this.props.item) {
-            this.props.getPrevRequire(this.props.project.projectID, this.props.item.posID)
-        }
+        // if (prevProp.item !== this.props.item) {
+        //     this.props.getPrevRequire(this.props.project.projectID, this.props.item.posID)
+        // }
     }
 
     showCandidate = (employees, posName) => {
@@ -38,7 +38,6 @@ class ListEmployeeContent extends Component {
                     <th >
                         <NavLink className="text-primary" to={`/employee/profile/${employee.empID}`}>{employee.name}</NavLink>
                     </th>
-                    <th className="text-center">{posName}</th>
                     <th className="">{employee.email}</th>
                     <th className="text-center">{employee.phoneNumber}</th>
                     <th className="text-center">
@@ -141,6 +140,7 @@ class ListEmployeeContent extends Component {
 
     render() {
         var { item, prevRequire } = this.props
+        // console.log(item)
         var temp = {}
         if (typeof prevRequire.requiredPosID !== 'undefined') {
             temp = prevRequire
@@ -148,7 +148,7 @@ class ListEmployeeContent extends Component {
         return (
             <React.Fragment>
                 <div className='row pull-right' style={{ width: 'auto' }} >
-                    <h5 style={{ marginRight: 14 }} >{item.noe} / {item.candidateNeeded} Employees </h5>
+                    <h5 style={{ marginRight: 14 }} >{item.candidateNeeded - item.missingEmployee} / {item.candidateNeeded} Employees </h5>
                 </div>
                 {item.employees.length === 0 ?
                     <div className='row justify-content-center'>
@@ -159,7 +159,6 @@ class ListEmployeeContent extends Component {
                         <table className="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead className="font-weight-bold text-center text-primary">
                                 <th>Name</th>
-                                <th>Position</th>
                                 <th>Email</th>
                                 <th>Phone</th>
                                 <th width={140}>Confirmed Date</th>
@@ -170,6 +169,7 @@ class ListEmployeeContent extends Component {
                         </table>
                     </div>
                 }
+                {/*
                 {typeof prevRequire.requiredPosID !== 'undefined' ?
                     item.noe !== item.candidateNeeded && (temp.status === 2 || temp.status === 0) ?
                         <>
@@ -209,7 +209,7 @@ class ListEmployeeContent extends Component {
                                     </div>
                                 </div>
                             </Modal>
-                        </> : '' : ''}
+                        </> : '' : ''} */}
             </React.Fragment>
 
         );

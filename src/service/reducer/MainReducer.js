@@ -37,6 +37,8 @@ import PagingSuggestListReducer from "./suggest/PagingSuggestListReducer";
 import ChangeStatusErrorReducer from "./error/ChangeStatusErrorReducer";
 import StatusReducer from "./status/StatusReducer";
 import SelectProfileBarReducer from "./employee/SelectProfileBarReducer";
+import EmployeeListRequirementReducer from "./tab-select/EmployeeListRequirementReducer";
+
 const MainReducer = combineReducers({
     authentication,//use
     ProjectFetchReducer,//use    
@@ -75,7 +77,8 @@ const MainReducer = combineReducers({
     PagingSuggestListReducer,
     ChangeStatusErrorReducer,
     StatusReducer,
-    SelectProfileBarReducer
+    SelectProfileBarReducer,
+    EmployeeListRequirementReducer
 })
 
 export default MainReducer
