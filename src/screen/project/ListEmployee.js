@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as Action from '../../service/action/project/ListEmployeeAction'
-import ListEmployeeContent from './ListEmployeeContent';
 import { history } from '../../service/helper/History';
-import { Menu, Spin, Tabs, Tooltip } from "antd";
+import { Spin, Tabs, Tooltip } from "antd";
 import { InfoCircleTwoTone } from "@ant-design/icons";
 import { PROJECT_EMPLOYEE_LIST } from "../../service/constant/nodata";
 import ListRequirement from './ListRequirement';
@@ -96,11 +95,8 @@ class ListEmployee extends Component {
                                 </div>
                                 <div class="card-body">
                                     <ListRequirement item={listEmployee[this.state.positionSelect]} project={this.props.project} />
-                                    {/* <ListEmployeeContent item={listEmployee[this.state.positionSelect]} project={this.props.project} /> */}
                                 </div>
-
                             </div>
-
                             {typeof listEmployee.find(i => i.isNeedConfirm) !== 'undefined' ?
                                 <button type="submit" className="btn btn-primary pull-right" onClick={this.onHandle} style={{ fontWeight: 700 }} >
                                     Confirm Candidates
