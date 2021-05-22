@@ -40,7 +40,6 @@ class ListEmployee extends Component {
 
     getTabName = () => {
         var { listEmployee } = this.props;
-        console.log(listEmployee)
         var result = (listEmployee || []).map((item, index) => (
             <>
                 <TabPane
@@ -75,6 +74,7 @@ class ListEmployee extends Component {
 
     render() {
         var { listEmployee } = this.props;
+        // console.log(listEmployee)
         return (
             <React.Fragment>
                 {this.state.isLoading ?
@@ -100,12 +100,13 @@ class ListEmployee extends Component {
                                 </div>
 
                             </div>
-                            {/* {typeof listEmployee.find(i => i.employees.find(k => k.dateIn === null)) !== 'undefined' ?
+
+                            {typeof listEmployee.find(i => i.isNeedConfirm) !== 'undefined' ?
                                 <button type="submit" className="btn btn-primary pull-right" onClick={this.onHandle} style={{ fontWeight: 700 }} >
                                     Confirm Candidates
                                         </button>
                                 : ''
-                            } */}
+                            }
                         </>
                 }
             </React.Fragment>
