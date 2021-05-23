@@ -47,16 +47,23 @@ class ListRequirement extends Component {
     render() {
         var { item, selection } = this.props
         return (
-            <div className="card mb-4">
-                <div className="card-header">
-                    <Tabs defaultActiveKey="0" onChange={this.onSelectPos}>
-                        {this.getTabName()}
-                    </Tabs>
-                </div>
-                <div className="card-body">
-                    <ListEmployeeContent item={item.requirements[parseInt(selection)]} project={this.props.project} />
-                </div>
+          <div className="card mb-4">
+            <div className="card-header">
+              <Tabs
+                defaultActiveKey="0"
+                activeKey={parseInt(selection) + ""}
+                onChange={this.onSelectPos}
+              >
+                {this.getTabName()}
+              </Tabs>
             </div>
+            <div className="card-body">
+              <ListEmployeeContent
+                item={item.requirements[parseInt(selection)]}
+                project={this.props.project}
+              />
+            </div>
+          </div>
         );
     }
 }
