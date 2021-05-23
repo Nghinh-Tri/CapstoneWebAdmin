@@ -1,7 +1,5 @@
 import axios from "axios"
-import { store } from "react-notifications-component"
-import { alertConstants, POSITION_ASSIGN, Type } from "../../constant"
-import { history } from "../../helper/History"
+import { POSITION_ASSIGN, Type } from "../../constant"
 import { API_URL } from "../../util/util"
 
 export const generatePositionAssign = (item) => {
@@ -78,6 +76,10 @@ export const updateCertificateID = (value, certificateIndex, hardSkillIndex) => 
 
 export const updateCertificateDate = (name, value, certificateIndex, hardSkillIndex) => {
     return { type: POSITION_ASSIGN.UPDATE_CERTIFICATE_DATE, name, value, certificateIndex, hardSkillIndex }
+}
+
+export const checkCertificateExpirationDate = (check, certificateIndex, hardSkillIndex) => {
+    return { type: POSITION_ASSIGN.CHECK_CERTIFICATE, check, certificateIndex, hardSkillIndex }
 }
 
 export const assignPosition = (empID, positionAssign, role) => {

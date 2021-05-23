@@ -7,10 +7,10 @@ class Barchart extends Component {
         const arrLabel = [];
         const arryDataset = [];
         if (dataStatisticList.length > 0) {
-            dataStatisticList.map((dataItem, index) => {
-                arrLabel.push(dataItem.name);
-                arryDataset.push(dataItem.missingEmp)
-            })
+            dataStatisticList.forEach(element => {
+                arrLabel.push(element.name);
+                arryDataset.push(element.missingEmp)
+            });
         }
 
         return (

@@ -14,9 +14,9 @@ class SelectBar extends Component {
     //importantt
     showDefaultOption = () => {
         var { list } = this.props
-        var list = this.getUnSelectedList(list)
+        var unselectedList = this.getUnSelectedList(list)
         var result = null
-        result = list.map((item, index) => {
+        result = unselectedList.map((item, index) => {
             return (<Option key={index} value={item.value}>{item.label}</Option>)
         })
         return result
@@ -25,10 +25,9 @@ class SelectBar extends Component {
     //importantt
     showSelectedOption = () => {
         var { list, value } = this.props
-        var list = this.getSelectedList(value, list)
-
+        var selectedList = this.getSelectedList(value, list)
         var result = null
-        result = list.map((item, index) => {
+        result = selectedList.map((item, index) => {
             return (<Option key={index} value={item.value}>{item.label}</Option>)
         })
         return result
@@ -50,9 +49,9 @@ class SelectBar extends Component {
 
     showCertiDefaultOption = () => {
         var { list } = this.props
-        var list = this.getUnSelectedList(list)
+        var unSelectedList = this.getUnSelectedList(list)
         var result = null
-        result = list.map((item, index) => {
+        result = unSelectedList.map((item, index) => {
             return (
                 <Option key={index} value={item.value} title={item.value} onMouseEnter={this.onMouseEnter} >
                     <Tooltip title={this.showContent()} placement='right' >
@@ -70,10 +69,9 @@ class SelectBar extends Component {
 
     showCertiSelectedOption = () => {
         var { list, value } = this.props
-        var list = this.getSelectedList(value, list)
-
+        var selectList = this.getSelectedList(value, list)
         var result = null
-        result = list.map((item, index) => {
+        result = selectList.map((item, index) => {
             return (
                 <Option key={index} value={item.value} title={item.value} onMouseEnter={this.onMouseEnter} >
                     <Tooltip title={this.showContent()} placement='right' >

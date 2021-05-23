@@ -87,21 +87,20 @@ class Skill extends Component {
         var result = null
         if (typeof items !== 'undefined' && items.length > 0) {
             result = items.map((item, index) => {
-                if (item.skillType === this.state.selectType)
-                    return (
-                        <tr key={index}>
-                            <th className="text-center">{(pageIndex - 1) * 10 + index + 1}</th>
-                            <th style={{ minWidth: 200, maxWidth: 200 }} >{item.skillName}</th>
-                            <th className="text-center" style={{ fontWeight: 600, width: 200 }}>{item.skillType === 0 ? 'Hard skill' : 'Soft skill'}</th>
-                            <th className="text-center" style={{ width: 150 }} >
-                                <span className={`badge badge-pill ${showPositionSpan(item.status)} span`}>
-                                    {showPositionStatus(item.status)}
-                                </span>
-                            </th>
-                            <th className="text-primary text-center"><a className="text-primary" style={{ cursor: 'pointer' }} onClick={() => this.onUpdate(item.skillID)}>Update</a></th>
-                            <th className="text-primary text-center"><a className="text-primary" style={{ cursor: 'pointer' }} onClick={() => this.onChangeStatus(item.skillID, item.skillName)}>Change Status</a></th>
-                        </tr>
-                    )
+                return (
+                    <tr key={index}>
+                        <th className="text-center">{(pageIndex - 1) * 10 + index + 1}</th>
+                        <th style={{ minWidth: 200, maxWidth: 200 }} >{item.skillName}</th>
+                        <th className="text-center" style={{ fontWeight: 600, width: 200 }}>{item.skillType === 0 ? 'Hard skill' : 'Soft skill'}</th>
+                        <th className="text-center" style={{ width: 150 }} >
+                            <span className={`badge badge-pill ${showPositionSpan(item.status)} span`}>
+                                {showPositionStatus(item.status)}
+                            </span>
+                        </th>
+                        <th className="text-primary text-center"><a className="text-primary" style={{ cursor: 'pointer' }} onClick={() => this.onUpdate(item.skillID)}>Update</a></th>
+                        <th className="text-primary text-center"><a className="text-primary" style={{ cursor: 'pointer' }} onClick={() => this.onChangeStatus(item.skillID, item.skillName)}>Change Status</a></th>
+                    </tr>
+                )
             })
         }
         return result

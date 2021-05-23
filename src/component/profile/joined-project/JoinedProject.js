@@ -72,8 +72,8 @@ class JoinedProject extends Component {
                                             <th width={350} className="font-weight-bold text-center">Project Name</th>
                                             <th width={150} className="font-weight-bold text-center">Position</th>
                                             <th width={150} className="font-weight-bold text-center">Confirmed Date</th>
-                                            <th width={150} className="font-weight-bold text-center">Start Date</th>
-                                            <th width={150} className="font-weight-bold text-center">End Date</th>
+                                            <th width={150} className="font-weight-bold text-center">Project Start Date</th>
+                                            <th width={150} className="font-weight-bold text-center">Project End Date</th>
                                         </tr>
                                     </thead>
                                     <tbody>

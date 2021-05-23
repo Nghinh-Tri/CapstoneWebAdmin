@@ -3,7 +3,7 @@ import moment from 'moment';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { getPrevRequire } from '../../service/action/position/PositionAction';
+import { getPrevRequire, getPrevRequireSuccess } from '../../service/action/position/PositionAction';
 import { PROJECT_EMPLOYEE_LIST } from '../../service/constant/nodata';
 import { history } from '../../service/helper/History';
 import { showHardSkillLevel } from "../../service/util/util";
@@ -18,15 +18,22 @@ class ListEmployeeContent extends Component {
     }
 
     componentDidMount = () => {
-        if (typeof this.props.item.posID !== 'undefined') {
-            if (typeof this.props.item.posID === 'number')
-                this.props.getPrevRequire(this.props.project.projectID, this.props.item.posID)
+        if (this.props.item.missingEmployee > 0) {
+            this.props.getPrevRequire(this.props.item.requiredPosID)
+        } else {
+            this.props.refreshPrevRequire()
         }
     }
 
     componentDidUpdate = (prevProp) => {
         if (prevProp.item !== this.props.item) {
-            this.props.getPrevRequire(this.props.project.projectID, this.props.item.posID)
+            if (typeof this.props.item !== 'undefined') {
+                if (this.props.item.missingEmployee > 0) {
+                    this.props.getPrevRequire(this.props.item.requiredPosID)
+                } else {
+                    this.props.refreshPrevRequire()
+                }
+            }
         }
     }
 
@@ -38,7 +45,6 @@ class ListEmployeeContent extends Component {
                     <th >
                         <NavLink className="text-primary" to={`/employee/profile/${employee.empID}`}>{employee.name}</NavLink>
                     </th>
-                    <th className="text-center">{posName}</th>
                     <th className="">{employee.email}</th>
                     <th className="text-center">{employee.phoneNumber}</th>
                     <th className="text-center">
@@ -141,41 +147,40 @@ class ListEmployeeContent extends Component {
 
     render() {
         var { item, prevRequire } = this.props
-        var temp = {}
-        if (typeof prevRequire.requiredPosID !== 'undefined') {
-            temp = prevRequire
-        }
         return (
             <React.Fragment>
-                <div className='row pull-right' style={{ width: 'auto' }} >
-                    <h5 style={{ marginRight: 14 }} >{item.noe} / {item.candidateNeeded} Employees </h5>
-                </div>
-                {item.employees.length === 0 ?
-                    <div className='row justify-content-center'>
-                        <h4 style={{ fontStyle: 'italic', color: 'gray' }} >{PROJECT_EMPLOYEE_LIST.NO_EMP_IN_POS}</h4>
-                    </div>
-                    :
-                    <div className="table-responsive">
-                        <table className="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                            <thead className="font-weight-bold text-center text-primary">
-                                <th>Name</th>
-                                <th>Position</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th width={140}>Confirmed Date</th>
-                            </thead>
-                            <tbody>
-                                {this.showCandidate(item.employees, item.posName)}
-                            </tbody>
-                        </table>
-                    </div>
-                }
+                {typeof item !== 'undefined' ?
+                    <>
+                        <div className='row pull-right' style={{ width: 'auto' }} >
+                            <h5 style={{ marginRight: 14 }} >{item.candidateNeeded - item.missingEmployee} / {item.candidateNeeded} Employees </h5>
+                        </div>
+                        { item.employees.length === 0 ?
+                            <div className='row justify-content-center'>
+                                <h4 style={{ fontStyle: 'italic', color: 'gray' }} >{PROJECT_EMPLOYEE_LIST.NO_EMP_IN_POS}</h4>
+                            </div>
+                            :
+                            <div className="table-responsive">
+                                <table className="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead className="font-weight-bold text-center text-primary">
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th width={140}>Confirmed Date</th>
+                                    </thead>
+                                    <tbody>
+                                        {this.showCandidate(item.employees, item.posName)}
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    </>
+                    : ''}
                 {typeof prevRequire.requiredPosID !== 'undefined' ?
-                    item.noe !== item.candidateNeeded && (temp.status === 2 || temp.status === 0) ?
+                    (prevRequire.status === 2 || prevRequire.status === 0) ?
                         <>
                             <button type="submit" className="btn btn-primary pull-right" onClick={this.onHandle} style={{ fontWeight: 700 }} onClick={this.onClickAddEmployees} >
                                 Add Employees
-                        </button>
+                            </button>
                             <Modal title={<span style={{ color: 'red', fontWeight: 600 }} >
                                 System will suggest suitable employees based on these requirements
                                 </span>}
@@ -211,7 +216,6 @@ class ListEmployeeContent extends Component {
                             </Modal>
                         </> : '' : ''}
             </React.Fragment>
-
         );
     }
 }
@@ -224,8 +228,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProp = dispatch => {
     return {
-        getPrevRequire: (projectID, posID) => {
-            dispatch(getPrevRequire(projectID, posID))
+        getPrevRequire: (requireID) => {
+            dispatch(getPrevRequire(requireID))
+        },
+        refreshPrevRequire: () => {
+            dispatch(getPrevRequireSuccess({}))
         }
     }
 }

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as Action from '../../service/action/project/ListEmployeeAction'
-import ListEmployeeContent from './ListEmployeeContent';
 import { history } from '../../service/helper/History';
 import { Spin, Tabs, Tooltip } from "antd";
 import { InfoCircleTwoTone } from "@ant-design/icons";
-import { EMPLOYEE, PROJECT_EMPLOYEE_LIST } from "../../service/constant/nodata";
+import { PROJECT_EMPLOYEE_LIST } from "../../service/constant/nodata";
+import ListRequirement from './ListRequirement';
 const TabPane = Tabs.TabPane;
 
 class ListEmployee extends Component {
@@ -44,9 +44,9 @@ class ListEmployee extends Component {
                 <TabPane
                     tab={
                         <>
-                            <Tooltip title={item.candidateNeeded - item.noe > 0 ? 'This position is missing employees' : ''} >
+                            <Tooltip title={item.isMissEmp ? 'This position is missing employees' : ''} >
                                 <span>{(item || {}).posName} </span>
-                                {item.candidateNeeded - item.noe > 0 ? (
+                                {item.isMissEmp > 0 ? (
                                     <InfoCircleTwoTone twoToneColor="#FF0000"
                                         style={{ fontSize: "16px" }} />
                                 ) : ("")}
@@ -73,6 +73,7 @@ class ListEmployee extends Component {
 
     render() {
         var { listEmployee } = this.props;
+        // console.log(listEmployee)
         return (
             <React.Fragment>
                 {this.state.isLoading ?
@@ -93,11 +94,10 @@ class ListEmployee extends Component {
                                     </Tabs>
                                 </div>
                                 <div class="card-body">
-                                    <ListEmployeeContent item={listEmployee[this.state.positionSelect]} project={this.props.project} />
+                                    <ListRequirement item={listEmployee[this.state.positionSelect]} project={this.props.project} />
                                 </div>
-
                             </div>
-                            {typeof listEmployee.find(i => i.employees.find(k => k.dateIn === null)) !== 'undefined' ?
+                            {typeof listEmployee.find(i => i.isNeedConfirm) !== 'undefined' ?
                                 <button type="submit" className="btn btn-primary pull-right" onClick={this.onHandle} style={{ fontWeight: 700 }} >
                                     Confirm Candidates
                                         </button>

@@ -12,18 +12,25 @@ class Header extends Component {
         if (prevProp.newest !== this.props.newest) {
             notification.destroy()
             var { newest } = this.props
-            if (typeof newest.title !== 'undefined' && typeof newest.body !== 'undefined')
-                if (newest.title !== '' && newest.body !== '') {
-                    notification.info({
-                        message: newest.title,
-                        description: newest.body,
-                        duration: 0,
-                        placement: 'bottomRight',
-                        onClick: () => {
-                            this.props.onSeenNoti(newest.id, newest.status, 'single')
-                        }
-                    })
-                }
+            newest.map((content, index) => {
+                if (typeof content.title !== 'undefined' && typeof content.body !== 'undefined')
+                    if (content.title !== '' && content.body !== '') {
+                        notification.info({
+                            key: index,
+                            message: content.title,
+                            description: content.body,
+                            duration: 0,
+                            placement: 'bottomRight',
+                            onClick: () => {
+                                this.props.onSeenNoti(content.id, content.status, 'single')
+                            },
+                            onClose: () => {
+                                this.props.onSeenNoti(content.id, content.status, 'single')
+                            }
+                        })
+                    }
+            })
+
         }
     }
 

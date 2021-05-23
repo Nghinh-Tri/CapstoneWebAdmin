@@ -160,6 +160,10 @@ class PositionAssign extends Component {
         this.props.onUpdateCertificateDate(name, value, certificateIndex, hardSkillIndex)
     }
 
+    isCheck = (check, certificateIndex, hardSkillIndex) => {
+        this.props.onCheckCertificateExpirationDate(check, certificateIndex, hardSkillIndex)
+    }
+
     onAssignPosition = (e) => {
         e.preventDefault()
         this.setState({ isSubmit: true })
@@ -204,7 +208,7 @@ class PositionAssign extends Component {
                                 onDeleteCertificate={this.onDeleteCertificate}
                                 onUpdateCertficateID={this.onUpdateCertficateID}
                                 onUpdateCertificateDate={this.onUpdateCertificateDate}
-
+                                isCheck={this.isCheck}
                                 hardSkillError={error}
                             />
                             <LanguageForm language={item.languages}
@@ -295,6 +299,9 @@ const mapDispatchToProps = dispatch => {
         },
         onUpdateCertificateDate: (name, value, certificateIndex, hardSkillIndex) => {
             dispatch(Action.updateCertificateDate(name, value, certificateIndex, hardSkillIndex))
+        },
+        onCheckCertificateExpirationDate: (check, certificateIndex, hardSkillIndex) => {
+            dispatch(Action.checkCertificateExpirationDate(check, certificateIndex, hardSkillIndex))
         },
         onAssignPosition: (empID, item, role) => {
             dispatch(Action.assignPosition(empID, item, role))
