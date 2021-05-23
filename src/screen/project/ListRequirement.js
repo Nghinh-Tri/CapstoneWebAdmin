@@ -49,12 +49,15 @@ class ListRequirement extends Component {
         return (
             <div className="card mb-4">
                 <div className="card-header">
-                    <Tabs defaultActiveKey="0" onChange={this.onSelectPos}>
+                    <Tabs defaultActiveKey="0" activeKey={parseInt(selection) + ""} onChange={this.onSelectPos}>
                         {this.getTabName()}
                     </Tabs>
                 </div>
                 <div className="card-body">
-                    <ListEmployeeContent item={item.requirements[parseInt(selection)]} project={this.props.project} />
+                    <ListEmployeeContent
+                        item={item.requirements[parseInt(selection)]}
+                        project={this.props.project}
+                    />
                 </div>
             </div>
         );
