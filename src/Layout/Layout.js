@@ -86,7 +86,7 @@ class Layout extends Component {
                     </div>
                     <div id="layoutSidenav_content">
                         <main>
-                            <div class="container-fluid">
+                            <div className="container-fluid">
                                 {this.showContent(RouteList)}
                             </div>
                         </main>

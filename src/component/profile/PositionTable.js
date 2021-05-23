@@ -107,19 +107,26 @@ class SkillProfile extends Component {
                         <Spin className='text-center' size="large" />
                     </div>
                     :
-                    <>
-                        <Descriptions title="Hard Skill Info" layout="horizontal" bordered extra={<Button type="primary" onClick={this.onEdit}>Edit</Button>}                >
-                            {this.onShowHardSkill((positionDetail || {}).hardSkills)}
-                        </Descriptions>
+                    positionDetail.hardSkills.length > 0 && positionDetail.languages.length > 0 && positionDetail.softSkills.length ?
+                        <>
+                            <Descriptions title="Hard Skill Info" layout="horizontal" bordered extra={<Button type="primary" onClick={this.onEdit}>Edit</Button>}>
+                                {this.onShowHardSkill((positionDetail || {}).hardSkills)}
+                            </Descriptions>
 
-                        <Descriptions title="Language Info" layout="horizontal" bordered >
-                            {this.onShowLanguage((positionDetail || {}).languages)}
-                        </Descriptions>
+                            <Descriptions title="Language Info" layout="horizontal" bordered >
+                                {this.onShowLanguage((positionDetail || {}).languages)}
+                            </Descriptions>
 
-                        <Descriptions title="Soft Skill Info" layout="horizontal" bordered >
-                            {this.onShowSoftSkill((positionDetail || {}).softSkills)}
+                            <Descriptions title="Soft Skill Info" layout="horizontal" bordered >
+                                {this.onShowSoftSkill((positionDetail || {}).softSkills)}
+                            </Descriptions>
+                        </>
+                        :
+                        <Descriptions layout="horizontal" extra={<Button type="primary" onClick={this.onEdit}>Edit</Button>}>
+                            <div className='row justify-content-center'>
+                                <h4 style={{ fontStyle: 'italic', color: 'gray' }} >Employee hasn't been assigned skill</h4>
+                            </div>
                         </Descriptions>
-                    </>
                 }
             </React.Fragment>
         );
