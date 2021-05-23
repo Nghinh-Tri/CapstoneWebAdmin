@@ -26,6 +26,8 @@ export const checkSession = () => {
                 dispatch(sessionAllow())
             }
         }
+    }else{
+        history.push('/login')
     }
 }
 

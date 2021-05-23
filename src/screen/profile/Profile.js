@@ -106,7 +106,6 @@ const mapDispatchToProp = (dispatch) => {
             dispatch(checkSession())
         },
         selectTab: (tab) => {
-            console.log(tab)
             dispatch(selectTab(tab))
         },
         refreshSelectTab: () => {
