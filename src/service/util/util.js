@@ -1,7 +1,7 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 
-export const API_URL = "https://betest.azurewebsites.net/api"
+export const API_URL = "https://esms2020.azurewebsites.net/api"
 
 export const callAPI = (endpoint, method = 'GET', body) => {
     return axios({
