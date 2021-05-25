@@ -10,12 +10,15 @@ class ListRequirement extends Component {
 
     state = { select: "0" }
 
+    componentDidMount = () => {
+        this.props.selectRequire("0")
+    }
+
     componentDidUpdate = (nextProps) => {
         if (nextProps.item !== this.props.item) {
             this.props.selectRequire("0")
         }
     }
-
 
     getTabName = () => {
         var { item } = this.props;
@@ -40,6 +43,22 @@ class ListRequirement extends Component {
         return result;
     };
 
+    groupEmployee = () => {
+        var result = {}
+        let employees = this.props.item.requirements[parseInt(this.props.selection)].employees
+        let group = -1
+        employees.map((emp, key) => {
+            if (!emp.requirementDate) return
+            if (!result[emp.requirementDate]) {
+                group++
+                result[emp.requirementDate] = [{ empID: emp.empID, group: group }]
+            }
+            else
+                result[emp.requirementDate].push({ empID: emp.empID, group: group })
+        })
+        return result
+    }
+
     onSelectPos = (value) => {
         this.props.selectRequire(value)
     }
@@ -53,12 +72,15 @@ class ListRequirement extends Component {
                         {this.getTabName()}
                     </Tabs>
                 </div>
-                <div className="card-body">
-                    <ListEmployeeContent
-                        item={item.requirements[parseInt(selection)]}
-                        project={this.props.project}
-                    />
-                </div>
+                {typeof item.requirements[parseInt(selection)] !== 'undefined' ?
+                    <div className="card-body">
+                        <ListEmployeeContent
+                            item={item.requirements[parseInt(selection)]}
+                            project={this.props.project}
+                            groupEmployee={this.groupEmployee()}
+                        />
+                    </div>
+                    : ''}
             </div>
         );
     }

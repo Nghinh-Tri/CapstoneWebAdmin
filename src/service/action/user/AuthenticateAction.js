@@ -18,13 +18,13 @@ export const checkSession = () => {
         var now = moment().format("DD/MM/YYYY HH:mm:ss")
         var diff = moment(time, "DD/MM/YYYY HH:mm:ss").diff(moment(now, "DD/MM/YYYY HH:mm:ss"))
         return (dispatch) => {
-            if (diff <= 0 || getRole() !== 'admin') {
-                localStorage.clear()
-                dispatch(sessionTimeOut())
-                history.push('/login')
-            } else {
-                dispatch(sessionAllow())
-            }
+            // if (diff <= 0 || getRole() !== 'admin') {
+            //     localStorage.clear()
+            //     dispatch(sessionTimeOut())
+            //     history.push('/login')
+            // } else {
+            //     dispatch(sessionAllow())
+            // }
         }
     }else{
         history.push('/login')

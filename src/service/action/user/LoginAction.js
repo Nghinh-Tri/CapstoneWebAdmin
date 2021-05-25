@@ -16,23 +16,23 @@ export const login = (username, password) => {
                 dispatch(success())
                 localStorage.setItem('token', JSON.stringify(res.data.resultObj));
                 var role = getRole()
-                if (role === 'admin') {
+                // if (role === 'admin') {
                     history.push('/');
-                } else {
-                    localStorage.clear()
-                    store.addNotification({
-                        message: "User role is not match",
-                        type: "danger",
-                        insert: "top",
-                        container: "top-center",
-                        animationIn: ["animated", "fadeIn"],
-                        animationOut: ["animated", "fadeOut"],
-                        dismiss: {
-                            duration: 2000,
-                            onScreen: false
-                        }
-                    })
-                }
+                // } else {
+                //     localStorage.clear()
+                //     store.addNotification({
+                //         message: "User role is not match",
+                //         type: "danger",
+                //         insert: "top",
+                //         container: "top-center",
+                //         animationIn: ["animated", "fadeIn"],
+                //         animationOut: ["animated", "fadeOut"],
+                //         dismiss: {
+                //             duration: 2000,
+                //             onScreen: false
+                //         }
+                //     })
+                // }
             }
         }).catch(err => {
             if (typeof err.response !== 'undefined') {
@@ -70,8 +70,6 @@ export const success = () => {
 export const register = (emp) => {
     var url = `${API_URL}/User`
     return dispatch => {
-        // dispatch(registerSuccess('1982524d-d506-493b-8a0e-7d258f0ca098', emp.roleName, emp.name, emp.phoneNumber, emp.email, true))
-
         axios.post(
             url,
             emp,

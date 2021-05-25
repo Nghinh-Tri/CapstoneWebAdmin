@@ -7,6 +7,7 @@ import { getPrevRequire, getPrevRequireSuccess } from '../../service/action/posi
 import { PROJECT_EMPLOYEE_LIST } from '../../service/constant/nodata';
 import { history } from '../../service/helper/History';
 import { showHardSkillLevel } from "../../service/util/util";
+import { groupColor } from './GroupColor';
 
 class ListEmployeeContent extends Component {
 
@@ -37,11 +38,25 @@ class ListEmployeeContent extends Component {
         }
     }
 
-    showCandidate = (employees, posName) => {
+    findEmployeeGroup = (empID) => {
+        let result = 0
+        let { groupEmployee } = this.props
+        Object.keys(groupEmployee).forEach(group => {
+            let temp = groupEmployee[group]
+            temp.forEach(element => {
+                if (element.empID === empID) {
+                    result = element.group
+                }
+            });
+        })
+        return result
+    }
+
+    showCandidate = (employees) => {
         var result = null
         result = employees.map((employee, index) => {
             return (
-                <tr key={index}>
+                <tr key={index} style={{ backgroundColor: groupColor[this.findEmployeeGroup(employee.empID)].color }} >
                     <th >
                         <NavLink className="text-primary" to={`/employee/profile/${employee.empID}`}>{employee.name}</NavLink>
                     </th>
@@ -168,7 +183,7 @@ class ListEmployeeContent extends Component {
                                         <th width={140}>Confirmed Date</th>
                                     </thead>
                                     <tbody>
-                                        {this.showCandidate(item.employees, item.posName)}
+                                        {this.showCandidate(item.employees)}
                                     </tbody>
                                 </table>
                             </div>
