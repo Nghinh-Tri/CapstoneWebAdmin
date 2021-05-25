@@ -70,8 +70,6 @@ export const success = () => {
 export const register = (emp) => {
     var url = `${API_URL}/User`
     return dispatch => {
-        // dispatch(registerSuccess('1982524d-d506-493b-8a0e-7d258f0ca098', emp.roleName, emp.name, emp.phoneNumber, emp.email, true))
-
         axios.post(
             url,
             emp,
