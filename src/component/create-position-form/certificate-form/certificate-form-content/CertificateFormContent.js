@@ -37,16 +37,16 @@ class CertificateFormContent extends Component {
                 this.props.certiError({ Certificate: [] })
             }
         } else if (name === 'dateEnd') {
-            let duration = moment.duration(moment(value).diff(moment().day(4)))
-            if (duration.days() === 0) {
-                if (duration.hours() > 24) {
-                    this.props.certiError({ Certificate: [`Expiration Date must before ${moment(moment().day(4)).format("DD-MM-YYYY")}`] })
+            let duration = moment.duration(moment(value, 'YYYY-MM-DD').diff(moment(this.props.certificateDetail.dateTaken, "DD-MM-YYYY")))
+            if (duration.years() === -2) {
+                if (duration.days() < -25) {
+                    this.props.certiError({ Certificate: [`Expiration Date must begin from ${moment(this.props.certificateDetail.dateTaken, 'YYYY-MM-DD').add(1, 'y').format('DD-MM-YYYY')}`] })
                 }
                 else {
                     this.props.certiError({ Certificate: [] })
                 }
-            } else if (duration.days() < 0) {
-                this.props.certiError({ Certificate: [`Expiration Date must before ${moment(moment().day(4)).format("DD-MM-YYYY")}`] })
+            } else if (duration.years() < -2) {
+                this.props.certiError({ Certificate: [`Expiration Date must begin from ${moment(this.props.certificateDetail.dateTaken, 'YYYY-MM-DD').add(1, 'y').format('DD-MM-YYYY')}`] })
             } else {
                 this.props.certiError({ Certificate: [] })
             }
@@ -61,6 +61,7 @@ class CertificateFormContent extends Component {
     render() {
         var { certificateDetail, certificateIndex, hardSkillIndex, certificateList } = this.props
         var listConverted = convertCertificationList(certificateList)
+        let minExpiration = moment(certificateDetail.dateTaken, 'YYYY-MM-DD').add(1, 'y').format('YYYY-MM-DD')
         return (
             <React.Fragment>
                 <tr >
@@ -83,7 +84,8 @@ class CertificateFormContent extends Component {
                             style={{ width: 200, height: 32 }} />
                     </td>
                     <td style={{ display: 'flex', flexDirection: 'row' }} >
-                        <input type="date" name="dateEnd" className="form-control" min={moment(moment().day(4)).format("YYYY-MM-DD")}
+                        <input type="date" name="dateEnd" className="form-control"
+                            min={minExpiration === 'Invalid date' ? moment(moment().day(4)).format("YYYY-MM-DD") : minExpiration}
                             value={certificateDetail.dateEnd} onChange={this.handleInputChange}
                             style={{ width: 200, height: 32 }}
                             readOnly={!this.state.check} />
