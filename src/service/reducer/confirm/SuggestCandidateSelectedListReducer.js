@@ -38,6 +38,12 @@ const SuggestCandidateSelectedList = (state = initState, action) => {
 
         case SUGGEST_CANDIDATE.FETCH_SUGGEST_LIST:
             state = action.list
+            state.forEach(position => {
+                position.selectAll = true
+                position.employees.forEach(emp => {
+                    emp.check = true
+                })
+            });
             return [...state]
 
         case SUGGEST_CANDIDATE.SELECT_CANDIDATE:
@@ -82,11 +88,6 @@ const SuggestCandidateSelectedList = (state = initState, action) => {
             if (state.length > 0) {
                 state.forEach(element => {
                     var clone = [...element.employees]
-                    // var temp = []
-                    // clone.forEach(e => {
-                    //     if (e.check)
-                    //         temp.push(e)
-                    // });
                     if (clone.length > 0)
                         sortSuggestListByOverallMatch(clone)
                     element.employees = clone

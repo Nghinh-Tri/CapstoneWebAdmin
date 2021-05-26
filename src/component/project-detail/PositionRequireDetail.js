@@ -73,9 +73,9 @@ class PositionRequireDetail extends Component {
             <React.Fragment>
                 {/* Hard Skill */}
                 <div class="card mb-4">
-                    <div class="card-header">
+                    <div class="card-header" onClick={this.setHardSkillMinimize} style={{ cursor: 'default' }}>
                         <i class="fas fa-table mr-1"></i>Hard Skills
-                    <span className="material-icons pull-right clear" style={{ cursor: 'pointer' }} onClick={this.setHardSkillMinimize} >
+                    <span className="material-icons pull-right clear" style={{ cursor: 'pointer' }} >
                             {!this.state.hardSkillMinimize ? 'minimize' : 'crop_free'}
                         </span>
                     </div>
@@ -102,10 +102,10 @@ class PositionRequireDetail extends Component {
                 </div>
 
                 {/* Language */}
-                <div class="card mb-4">
+                <div class="card mb-4" onClick={this.setLanguageMinimize} style={{ cursor: 'default' }}>
                     <div class="card-header">
                         <i class="fas fa-table mr-1"></i>Language
-                    <span className="material-icons pull-right clear" style={{ cursor: 'pointer' }} onClick={this.setLanguageMinimize} >
+                    <span className="material-icons pull-right clear" style={{ cursor: 'pointer' }} >
                             {!this.state.languageMinimize ? 'minimize' : 'crop_free'}
                         </span>
                     </div>
@@ -130,10 +130,10 @@ class PositionRequireDetail extends Component {
                 </div>
 
                 {/* Soft Skill */}
-                <div class="card mb-4">
+                <div class="card mb-4" onClick={this.setSoftSkillMinimize} style={{ cursor: 'default' }}>
                     <div class="card-header">
                         <i class="fas fa-table mr-1"></i>Soft Skill
-                        <span className="material-icons pull-right clear" style={{ cursor: 'pointer' }} onClick={this.setSoftSkillMinimize} >
+                        <span className="material-icons pull-right clear" style={{ cursor: 'pointer' }} >
                             {!this.state.softSkillMinimize ? 'minimize' : 'crop_free'}
                         </span>
                     </div>
