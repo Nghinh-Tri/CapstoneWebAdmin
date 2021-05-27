@@ -1,5 +1,6 @@
 import { Tooltip } from 'antd';
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 
 class SuggestCandidateItems extends Component {
 
@@ -14,10 +15,15 @@ class SuggestCandidateItems extends Component {
 
     render() {
         var { index, candidate } = this.props
+        console.log(candidate)
         return (
             <tr>
                 <th className="text-center">{index + 1}</th>
-                <th className="">{candidate.name}</th>
+                <th className="">
+                    <NavLink className='text-primary' to={`/employee/profile/${candidate.empID}`}>
+                        {candidate.name}
+                    </NavLink>
+                </th>
                 <th className="">{candidate.phoneNumber}</th>
                 <th className="">{candidate.email}</th>
                 <th className="text-center">{candidate.numberOfProject}</th>

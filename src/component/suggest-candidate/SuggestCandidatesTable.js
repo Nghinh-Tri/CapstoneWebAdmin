@@ -42,7 +42,7 @@ class SuggestCandidates extends Component {
                         <div className="row">
                             <div className="card-body">
                                 <div className="table-responsive">
-                                    <table className="table">
+                                    <table className="table table-bordered">
                                         <thead className=" text-primary">
                                             <tr>
                                                 <th className="font-weight-bold text-center">No</th>
