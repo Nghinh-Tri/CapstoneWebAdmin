@@ -28,7 +28,15 @@ class Profile extends Component {
         }
     }
 
-    onClickMenu = (value) => {       
+    componentDidUpdate = (prevProp) => {
+        if (prevProp.profile !== this.props.profile) {
+            if (this.props.profile.roleName !== 'Employee') {
+                this.props.selectTab(parseInt('1'))
+            }
+        }
+    }
+
+    onClickMenu = (value) => {
         this.props.selectTab(parseInt(value))
     }
 
@@ -68,15 +76,17 @@ class Profile extends Component {
                 </div>
                 <div className="card mb-4">
                     <div className="card-header">
-                        <Tabs defaultActiveKey={selectIndex.toString()} onChange={this.onClickMenu}>
+                        <Tabs defaultActiveKey={selectIndex.toString()} activeKey={selectIndex.toString()} onChange={this.onClickMenu}>
                             <TabPane tab="Personal Infomation" key='1'></TabPane>
                             {
                                 typeof this.props.match !== 'undefined' ?
-                                    <>
-                                        <TabPane tab="Skill Details" key='2'></TabPane>
-                                        <TabPane tab="Suitable Projects" key='3'></TabPane>
-                                        <TabPane tab="Joined Projects" key='4'></TabPane>
-                                    </>
+                                    profile.roleName === 'Employee' ?
+                                        <>
+                                            <TabPane tab="Skill Details" key='2'></TabPane>
+                                            <TabPane tab="Suitable Projects" key='3'></TabPane>
+                                            <TabPane tab="Projects" key='4'></TabPane>
+                                        </>
+                                        : ''
                                     : ''
                             }
                         </Tabs>
@@ -92,7 +102,7 @@ class Profile extends Component {
 
 const mapStateToProp = state => {
     return {
-        profile: state.ProfileFetchReducer,
+        profile: state.ProfileReducer,
         selectIndex: state.SelectProfileBarReducer
     }
 }

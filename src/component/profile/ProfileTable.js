@@ -94,7 +94,7 @@ class ProfileTable extends Component {
 
 const mapStateToProp = state => {
     return {
-        profile: state.ProfileFetchReducer
+        profile: state.ProfileReducer
     }
 }
 

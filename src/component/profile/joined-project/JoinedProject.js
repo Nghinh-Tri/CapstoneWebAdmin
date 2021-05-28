@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { fetchEmployeeJoinedProjects } from '../../../service/action/project/ProjectAction';
+import { showSpan, showStatus } from '../../../service/util/util';
 
 class JoinedProject extends Component {
 
@@ -42,6 +43,11 @@ class JoinedProject extends Component {
                         <th className="text-center">
                             {project.dateEnd === null ? moment(project.dateEstimatedEnd).format('DD-MM-YYYY') : moment(project.dateEnd).format('DD-MM-YYYY')}
                         </th>
+                        <th className="text-center">
+                            <span className={`badge badge-pill ${showSpan(project.status)} span`}>
+                                {showStatus(project.status)}
+                            </span>
+                        </th>
                     </tr>
                 );
             })
@@ -66,14 +72,15 @@ class JoinedProject extends Component {
                         <>
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead className=" text-primary">
+                                    <thead className="font-weight-bold text-center text-primary">
                                         <tr>
-                                            <th width={40} className="font-weight-bold text-center">No</th>
-                                            <th width={350} className="font-weight-bold text-center">Project Name</th>
-                                            <th width={150} className="font-weight-bold text-center">Position</th>
-                                            <th width={150} className="font-weight-bold text-center">Confirmed Date</th>
-                                            <th width={150} className="font-weight-bold text-center">Project Start Date</th>
-                                            <th width={150} className="font-weight-bold text-center">Project End Date</th>
+                                            <th width={40}>No</th>
+                                            <th width={350}>Project Name</th>
+                                            <th width={150}>Position</th>
+                                            <th width={150}>Confirmed Date</th>
+                                            <th width={150}>Project Start Date</th>
+                                            <th width={150}>Project End Date</th>
+                                            <th width={50}>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>

@@ -7,6 +7,7 @@ import Search from '../../component/search/Search';
 import { Pagination, Spin } from 'antd';
 import SelectBar from '../../component/create-position-form/select-search/SelectBar';
 import { EMPLOYEE } from '../../service/constant/nodata';
+import { refeshTab } from '../../service/action/user/SelectProfileBarAction';
 
 class EmpList extends Component {
 
@@ -27,6 +28,7 @@ class EmpList extends Component {
     componentDidMount = () => {
         this.props.checkSession()
         this.props.fetchProfile(this.state.page, this.state.search, this.state.role)
+        this.props.refreshSelectTab()
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -173,6 +175,9 @@ const mapDispatchToProp = (dispatch) => {
         },
         checkSession: () => {
             dispatch(checkSession())
+        },
+        refreshSelectTab: () => {
+            dispatch(refeshTab())
         }
     }
 }

@@ -38,7 +38,7 @@ import ChangeStatusErrorReducer from "./error/ChangeStatusErrorReducer";
 import StatusReducer from "./status/StatusReducer";
 import SelectProfileBarReducer from "./employee/SelectProfileBarReducer";
 import EmployeeListRequirementReducer from "./tab-select/EmployeeListRequirementReducer";
-
+import ProfileReducer from "./employee/ProfileReducer";
 const MainReducer = combineReducers({
     authentication,//use
     ProjectFetchReducer,//use    
@@ -78,7 +78,8 @@ const MainReducer = combineReducers({
     ChangeStatusErrorReducer,
     StatusReducer,
     SelectProfileBarReducer,
-    EmployeeListRequirementReducer
+    EmployeeListRequirementReducer,
+    ProfileReducer
 })
 
 export default MainReducer
