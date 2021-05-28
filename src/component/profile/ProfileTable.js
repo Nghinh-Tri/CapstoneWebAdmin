@@ -8,6 +8,8 @@ import { showRole } from '../../service/util/util';
 import { Button, Descriptions } from 'antd';
 import { compose } from 'redux';
 import { withRouter } from 'react-router';
+import { DownloadOutlined } from "@ant-design/icons";
+import { downloadCVFile } from "../../service/action/import-file/ImportActio";
 
 class ProfileTable extends Component {
 
@@ -29,12 +31,16 @@ class ProfileTable extends Component {
         }
     }
 
-    onUpdate = () => {        
+    onUpdate = () => {
         history.push(`/employee/update-profile/${this.props.empID}`)
     }
 
     onMoveToChangePassword = () => {
         history.push('/profile/change-password')
+    }
+
+    onDownload = () => {
+        this.props.downloadCV(this.props.profile.id)
     }
 
     render() {
@@ -52,7 +58,10 @@ class ProfileTable extends Component {
                                 <Descriptions title="Profile Info" layout='horizontal' bordered
                                     extra={
                                         this.props.match.path.includes('profile/') ?
-                                            <Button onClick={this.onUpdate} type="primary" >Edit</Button>
+                                            <>
+                                                {/* <Button onClick={this.onDownload} type="link" icon={<DownloadOutlined />} >Donwload CV File</Button> */}
+                                                <Button onClick={this.onUpdate} type="primary" >Edit</Button>
+                                            </>
                                             :
                                             <Button onClick={this.onMoveToChangePassword} type="primary">Change Password</Button>
                                     }>
@@ -105,6 +114,9 @@ const mapDispatchToProp = (dispatch) => {
         },
         checkSession: () => {
             dispatch(checkSession())
+        },
+        downloadCV: (empID) => {
+            dispatch(downloadCVFile(empID))
         }
     }
 }

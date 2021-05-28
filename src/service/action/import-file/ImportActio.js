@@ -45,6 +45,21 @@ export const addFile = (fileList) => {
     };
 };
 
+export const downloadCVFile = (empID) => {
+    var url = `${API_URL}/User/Export/${empID}`;
+    console.log(url)
+    return (dispatch) => {
+        axios.get(
+            url,
+            { headers: { Authorization: `Bearer ${localStorage.getItem("token").replace(/"/g, "")}` }, }
+        ).then(res => {
+            console.log(res.data)
+        }).catch(err => {
+            console.log('err', err)
+        })
+    }
+}
+
 export const addFileSuccess = (isSuccessed) => {
     return { type: PROFILE.IMPORT, isSuccessed };
 };
