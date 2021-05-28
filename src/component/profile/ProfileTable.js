@@ -9,7 +9,7 @@ import { Button, Descriptions } from 'antd';
 import { compose } from 'redux';
 import { withRouter } from 'react-router';
 import { DownloadOutlined } from "@ant-design/icons";
-import { downloadCVFile } from "../../service/action/import-file/ImportActio";
+import { downloadCVFile } from "../../service/action/import-file/ImportAction";
 
 class ProfileTable extends Component {
 
@@ -59,7 +59,7 @@ class ProfileTable extends Component {
                                     extra={
                                         this.props.match.path.includes('profile/') ?
                                             <>
-                                                {/* <Button onClick={this.onDownload} type="link" icon={<DownloadOutlined />} >Donwload CV File</Button> */}
+                                                <Button onClick={this.onDownload} type="link" icon={<DownloadOutlined />} >Donwload CV File</Button>
                                                 <Button onClick={this.onUpdate} type="primary" >Edit</Button>
                                             </>
                                             :

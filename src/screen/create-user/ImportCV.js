@@ -2,9 +2,10 @@ import { Button, Modal } from 'antd';
 import Dragger from 'antd/lib/upload/Dragger';
 import React, { Component } from 'react';
 import { InboxOutlined, FileExcelOutlined } from "@ant-design/icons";
-import { addFile } from '../../service/action/import-file/ImportActio';
+import { addFile, exportTemplate } from '../../service/action/import-file/ImportAction';
 import { connect } from 'react-redux';
 import { history } from '../../service/helper/History';
+import { DownloadOutlined } from "@ant-design/icons";
 
 class ImportCV extends Component {
 
@@ -39,6 +40,10 @@ class ImportCV extends Component {
         this.props.addFile(fileList);
     }
 
+    onDownloadTemplate = () => {
+        this.props.downloadTemplate()
+    }
+
     render() {
         const { fileList } = this.state;
         const props = {
@@ -65,6 +70,7 @@ class ImportCV extends Component {
         };
         return (
             <React.Fragment>
+                <Button onClick={this.onDownloadTemplate} type="link" icon={<DownloadOutlined />} >Donwload Template</Button>
                 <Dragger {...props} multiple={false} accept='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' >
                     {this.state.file ?
                         <p className="ant-upload-drag-icon">
@@ -99,6 +105,9 @@ const mapDispatchToProp = (dispatch) => {
     return {
         addFile: (fileList) => {
             dispatch(addFile(fileList))
+        },
+        downloadTemplate: () => {
+            dispatch(exportTemplate())
         }
     }
 }
