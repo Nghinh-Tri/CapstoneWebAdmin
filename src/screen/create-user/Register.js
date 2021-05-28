@@ -53,10 +53,14 @@ class Register extends Component {
                     title: this.props.location.pathname === '/employee/register' ? 'Create Employee Successfully' : 'Update Employee Successfully',
                     onOk() {
                         if (location.pathname === '/employee/register') {
-                            localStorage.setItem('name', name)
-                            localStorage.setItem('phone', phone)
-                            localStorage.setItem('email', email)
-                            history.push('/employee/position-assign', { empID: userID, role: role });
+                            if (role === 'Employee') {
+                                localStorage.setItem('name', name)
+                                localStorage.setItem('phone', phone)
+                                localStorage.setItem('email', email)
+                                history.push('/employee/position-assign', { empID: userID, role: role });
+                            } else {
+                                history.push('/employee')
+                            }
                         }
                         else
                             history.push(`/employee/profile/${empID}`)

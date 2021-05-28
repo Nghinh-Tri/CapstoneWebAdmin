@@ -37,12 +37,14 @@ class ChangePassword extends Component {
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-5">
-                        <div class="card"  style={{ marginTop: "50px", }}>
+                        <div class="card" style={{ marginTop: "50px", }}>
                             <div class="card-header card-header-primary"><h4 class="card-title ">Change Password</h4></div>
                             <div class="card-body">
                                 <form onSubmit={this.handleSubmit}>
                                     <div class="form-group">
-                                        <label class="small mb-1" for="inputEmailAddress">Current Password</label>
+                                        <label class="small mb-1" for="inputEmailAddress">
+                                            Current Password<span style={{ color: 'red', fontWeight: 500 }} >*</span>
+                                        </label>
                                         <input class="form-control py-4" type="password"
                                             id="email" name="currentPass"
                                             className="form-control"
@@ -54,7 +56,9 @@ class ChangePassword extends Component {
                                             : ''}
                                     </div>
                                     <div class="form-group">
-                                        <label class="small mb-1" for="inputPassword">New Password</label>
+                                        <label class="small mb-1" for="inputPassword">
+                                            New Password<span style={{ color: 'red', fontWeight: 500 }} >*</span>
+                                        </label>
                                         <input class="form-control py-4" type="password"
                                             id="password" name="newPass"
                                             className="form-control"
@@ -66,7 +70,9 @@ class ChangePassword extends Component {
                                             : ''}
                                     </div>
                                     <div class="form-group">
-                                        <label class="small mb-1" for="inputPassword">Confirm</label>
+                                        <label class="small mb-1" for="inputPassword">
+                                            Confirm<span style={{ color: 'red', fontWeight: 500 }} >*</span>
+                                        </label>
                                         <input class="form-control py-4" type="password"
                                             id="password" name="confirmPass"
                                             className="form-control"
