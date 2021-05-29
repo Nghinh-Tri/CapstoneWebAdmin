@@ -29,7 +29,7 @@ class Login extends Component {
         e.preventDefault();
         this.setState({ submitted: true });
         const { email, password } = this.state;
-        this.props.login(email, password);
+        this.props.login(email.trim(), password);
     }
 
     render() {

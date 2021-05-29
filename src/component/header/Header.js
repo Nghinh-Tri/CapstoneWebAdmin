@@ -69,6 +69,7 @@ class Header extends Component {
     }
 
     logout = () => {
+        notification.destroy()
         this.props.logout()
     }
 
