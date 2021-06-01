@@ -1,14 +1,15 @@
-import { Tabs, Tooltip } from 'antd';
+import { Button, Modal, Tabs, Tooltip } from 'antd';
 import React, { Component } from 'react';
 import { InfoCircleTwoTone } from "@ant-design/icons";
 import ListEmployeeContent from './ListEmployeeContent';
 import { selectRequirement } from '../../service/action/tab-select/EmployeeListRequirementAction';
 import { connect } from 'react-redux';
+import PositionRequireDetail from '../../component/project-detail/PositionRequireDetail';
 const TabPane = Tabs.TabPane
 
 class ListRequirement extends Component {
 
-    state = { select: "0" }
+    state = { select: "0", visible: false }
 
     componentDidMount = () => {
         this.props.selectRequire("0")
@@ -63,8 +64,13 @@ class ListRequirement extends Component {
         this.props.selectRequire(value)
     }
 
+    showRequirement = () => {
+        this.setState({ visible: true })
+    }
+
     render() {
         var { item, selection } = this.props
+        console.log(item)
         return (
             <div className="card mb-4" style={item.requirements.length === 1 ? { border: 'none' } : {}} >
                 {item.requirements.length > 1 ?
@@ -76,6 +82,14 @@ class ListRequirement extends Component {
                     : ''}
                 {typeof item.requirements[parseInt(selection)] !== 'undefined' ?
                     <div className="card-body">
+                        <Button type='link' onClick={this.showRequirement}>Requirement Details</Button>
+                        <Modal width={1000} title='Requirement Details'
+                            visible={this.state.visible} footer={null}
+                            onCancel={() => this.setState({ visible: false })} >
+                            <PositionRequireDetail hardSkills={item.requirements[parseInt(selection)].hardSkills}
+                                language={item.requirements[parseInt(selection)].language}
+                                softSkills={item.requirements[parseInt(selection)].softSkillIDs} />
+                        </Modal>
                         <ListEmployeeContent
                             item={item.requirements[parseInt(selection)]}
                             project={this.props.project}
