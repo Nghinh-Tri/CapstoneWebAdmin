@@ -46,7 +46,7 @@ class CertificateFormContent extends Component {
                     this.props.certiError({ Certificate: [] })
                 }
             } else if (able.days() > 0) {
-                this.props.certiError({ Certificate: [`Taken Date must before ${moment(moment().day(2)).format("DD-MM-YYYY")}`] })
+                this.props.certiError({ Certificate: [`Taken Date must after ${moment(moment().day(2)).format("DD-MM-YYYY")}`] })
             } else {
                 let duration = moment.duration(moment(value, 'YYYY-MM-DD').diff(moment(this.props.certificateDetail.dateTaken)))
                 if (duration.years() === 1) {
