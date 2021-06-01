@@ -99,7 +99,6 @@ class CreateSkills extends Component {
 
     render() {
         var { skill, projectField, error } = this.props
-        console.log(projectField)
         var projectFieldConverted = convertProjectTypeList(projectField)
         var result = null
         if (typeof skill !== 'undefined' || skill !== null)

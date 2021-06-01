@@ -161,7 +161,7 @@ class ListEmployeeContent extends Component {
     }
 
     render() {
-        var { item, prevRequire } = this.props
+        var { item, prevRequire, project } = this.props
         return (
             <React.Fragment>
                 {typeof item !== 'undefined' ?
@@ -191,45 +191,46 @@ class ListEmployeeContent extends Component {
                     </>
                     : ''}
                 {typeof prevRequire.requiredPosID !== 'undefined' ?
-                    (prevRequire.status === 2 || prevRequire.status === 0) ?
-                        <>
-                            <button type="submit" className="btn btn-primary pull-right" onClick={this.onHandle} style={{ fontWeight: 700 }} onClick={this.onClickAddEmployees} >
-                                Add Employees
+                    project.status === 4 ? '' :
+                        (prevRequire.status === 2 || prevRequire.status === 0) ?
+                            <>
+                                <button type="submit" className="btn btn-primary pull-right" onClick={this.onHandle} style={{ fontWeight: 700 }} onClick={this.onClickAddEmployees} >
+                                    Add Employees
                             </button>
-                            <Modal title={<span style={{ color: 'red', fontWeight: 600 }} >
-                                System will suggest suitable employees based on these requirements
+                                <Modal title={<span style={{ color: 'red', fontWeight: 600 }} >
+                                    System will suggest suitable employees based on these requirements
                                 </span>}
-                                width={1000}
-                                visible={this.state.visible}
-                                onOk={this.handleOk}
-                                onCancel={this.handleCancel} >
-                                <div>
-                                    <div style={{ display: 'flex', flexDirection: 'row', marginBottom: 10 }} >
-                                        <span style={{ fontWeight: 600 }} >{prevRequire.posName}</span>
-                                        <span style={{ marginLeft: 300, fontWeight: 600 }} >Candidate Needed:</span>
-                                        <span style={{ marginLeft: 20 }}>{prevRequire.missingEmployee}</span>
-                                    </div>
-                                    <div style={{ marginTop: 10, marginBottom: 10 }} >
-                                        <div style={{ marginTop: 10, marginBottom: 10, fontWeight: 600 }}>Hard Skill</div>
-                                        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }} >
-                                            {this.showHardSkill(prevRequire.hardSkills)}
-                                        </div>
-                                    </div>
+                                    width={1000}
+                                    visible={this.state.visible}
+                                    onOk={this.handleOk}
+                                    onCancel={this.handleCancel} >
                                     <div>
-                                        <div style={{ marginTop: 10, marginBottom: 10, fontWeight: 600 }}>Language</div>
-                                        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }} >
-                                            {this.showLanguage(prevRequire.language)}
+                                        <div style={{ display: 'flex', flexDirection: 'row', marginBottom: 10 }} >
+                                            <span style={{ fontWeight: 600 }} >{prevRequire.posName}</span>
+                                            <span style={{ marginLeft: 300, fontWeight: 600 }} >Candidate Needed:</span>
+                                            <span style={{ marginLeft: 20 }}>{prevRequire.missingEmployee}</span>
+                                        </div>
+                                        <div style={{ marginTop: 10, marginBottom: 10 }} >
+                                            <div style={{ marginTop: 10, marginBottom: 10, fontWeight: 600 }}>Hard Skill</div>
+                                            <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }} >
+                                                {this.showHardSkill(prevRequire.hardSkills)}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div style={{ marginTop: 10, marginBottom: 10, fontWeight: 600 }}>Language</div>
+                                            <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }} >
+                                                {this.showLanguage(prevRequire.language)}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div style={{ marginTop: 10, marginBottom: 10, fontWeight: 600 }}>Soft Skill</div>
+                                            <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }} >
+                                                {this.showSoftSkill(prevRequire.softSkillIDs)}
+                                            </div>
                                         </div>
                                     </div>
-                                    <div>
-                                        <div style={{ marginTop: 10, marginBottom: 10, fontWeight: 600 }}>Soft Skill</div>
-                                        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }} >
-                                            {this.showSoftSkill(prevRequire.softSkillIDs)}
-                                        </div>
-                                    </div>
-                                </div>
-                            </Modal>
-                        </> : '' : ''}
+                                </Modal>
+                            </> : '' : ''}
             </React.Fragment>
         );
     }

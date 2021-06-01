@@ -22,45 +22,6 @@ class CertificateFormContent extends Component {
     handleInputChange = (e) => {
         var { name, value } = e.target
         this.props.onUpdateCertificateDate(name, value, this.props.certificateIndex, this.props.hardSkillIndex)
-        if (name === 'dateTake') {
-            let duration = moment.duration(moment().day(2).diff(moment(value)))
-            if (duration.days() === 0) {
-                if (duration.hours() <= 0) {
-                    this.props.certiError({ Certificate: [`Taken Date must before ${moment(moment().day(2)).format("DD-MM-YYYY")}`] })
-                }
-                else {
-                    this.props.certiError({ Certificate: [] })
-                }
-            } else if (duration.days() < 0) {
-                this.props.certiError({ Certificate: [`Taken Date must before ${moment(moment().day(2)).format("DD-MM-YYYY")}`] })
-            } else {
-                this.props.certiError({ Certificate: [] })
-            }
-        } else if (name === 'dateEnd') {
-            let able = moment.duration(moment().day(3).diff(moment(value)))
-            if (able.days() === 0) {
-                if (able.hours() <= 0) {
-                    this.props.certiError({ Certificate: [`Taken Date must after ${moment(moment().day(2)).format("DD-MM-YYYY")}`] })
-                }
-                else {
-                    this.props.certiError({ Certificate: [] })
-                }
-            } else if (able.days() > 0) {
-                this.props.certiError({ Certificate: [`Taken Date must after ${moment(moment().day(2)).format("DD-MM-YYYY")}`] })
-            } else {
-                let duration = moment.duration(moment(value, 'YYYY-MM-DD').diff(moment(this.props.certificateDetail.dateTaken)))
-                if (duration.years() === 1) {
-                    this.props.certiError({ Certificate: [] })
-                } else if (duration.years() < 1) {
-                    if (duration.years() === 0 && duration.months() === 11 && duration.days() === 30) {
-                        this.props.certiError({ Certificate: [] })
-                    } else
-                        this.props.certiError({ Certificate: [`Expiration Date must begin from ${moment(this.props.certificateDetail.dateTaken, 'YYYY-MM-DD').add(1, 'y').format('DD-MM-YYYY')}`] })
-                } else {
-                    this.props.certiError({ Certificate: [] })
-                }
-            }
-        }
     }
 
     onCheck = (e) => {

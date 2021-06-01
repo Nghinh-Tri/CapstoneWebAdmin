@@ -39,6 +39,7 @@ import StatusReducer from "./status/StatusReducer";
 import SelectProfileBarReducer from "./employee/SelectProfileBarReducer";
 import EmployeeListRequirementReducer from "./tab-select/EmployeeListRequirementReducer";
 import ProfileReducer from "./employee/ProfileReducer";
+import ValidateCertificateReducer from "./error/ValidateCertificateReducer";
 const MainReducer = combineReducers({
     authentication,//use
     ProjectFetchReducer,//use    
@@ -79,7 +80,8 @@ const MainReducer = combineReducers({
     StatusReducer,
     SelectProfileBarReducer,
     EmployeeListRequirementReducer,
-    ProfileReducer
+    ProfileReducer,
+    ValidateCertificateReducer
 })
 
 export default MainReducer

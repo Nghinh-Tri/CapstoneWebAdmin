@@ -16,7 +16,7 @@ class RequireModal extends Component {
                 <td className='text-center'>{value.hardSkills.length}</td>
                 <td className='text-center'>{value.language.length}</td>
                 <td className='text-center'>{value.softSkillIDs.length}</td>
-                <td className='text-center'>{moment(value.dateCreated).format('DD-MM-YYYY hh:mm:ss')}</td>
+                <td className='text-center'>{moment(value.dateCreated).format('DD-MM-YYYY HH:mm:ss')}</td>
                 <td className='text-center'>{showRequestStatus(value.status)}</td>
                 <td className='text-center'>
                     <RequireModalDetail value={value} />

@@ -46,7 +46,7 @@ export const addFile = (fileList) => {
 };
 
 export const downloadCVFile = (empID) => {
-    var url = `${API_URL}/User/Export/${empID}`;
+    var url = `${API_URL}/User/Export/${empID}/${getEmpID()}`;
     return (dispatch) => {
         axios.get(
             url,

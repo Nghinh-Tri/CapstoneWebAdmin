@@ -6,6 +6,7 @@ import { convertSkillList } from '../../../../service/util/util';
 import CertificateForm from '../../certificate-form/CertificateForm';
 import SelectBar from "../../select-search/SelectBar";
 import { assignPositionFail } from "../../../../service/action/position/PositionAssignAction";
+import { closeModal, openModal } from '../../../../service/action/certificate/ValidateCertifcate';
 
 class HardSkillFormContent extends Component {
 
@@ -30,7 +31,7 @@ class HardSkillFormContent extends Component {
 
     onShowCertificate = () => {
         if (this.props.hardSkillDetail.skillID !== 0)
-            this.setState({ visible: true })
+            this.props.openModal()
         else
             store.addNotification({
                 message: "Please select position",
@@ -47,112 +48,11 @@ class HardSkillFormContent extends Component {
     }
 
     handleOk = (e) => {
-        if (typeof this.props.error.Certificate !== 'undefined') {
-            if (this.props.error.Certificate.length === 0) {
-                if (typeof
-                    this.props.hardSkillDetail.empCertifications.find(e => e.certiID === 0) !== 'undefined') {
-                    this.props.certiError({ Certificate: ['Please select certificate'] })
-                }
-                else if (typeof
-                    this.props.hardSkillDetail.empCertifications.find(e => e.dateTaken === '') !== 'undefined') {
-                    this.props.certiError({ Certificate: ['Please input taken date'] })
-                } else if (typeof
-                    this.props.hardSkillDetail.empCertifications.find(e => e.dateEnd === '' && e.check) !== 'undefined') {
-                    this.props.certiError({ Certificate: ['Please input expiration date'] })
-                } else {
-                    this.props.certiError({})
-                    this.setState({
-                        visible: false,
-                    });
-                }
-            } else {
-                if (typeof
-                    this.props.hardSkillDetail.empCertifications.find(e => e.certiID === 0) !== 'undefined') {
-                    this.props.certiError({ Certificate: ['Please select certificate'] })
-                }
-                else if (typeof
-                    this.props.hardSkillDetail.empCertifications.find(e => e.dateTaken === '') !== 'undefined') {
-                    this.props.certiError({ Certificate: ['Please input taken date'] })
-                } else if (typeof
-                    this.props.hardSkillDetail.empCertifications.find(e => e.dateEnd === '' && e.check) !== 'undefined') {
-                    this.props.certiError({ Certificate: ['Please input expiration date'] })
-                } else {
-                    this.props.certiError({})
-                    this.setState({
-                        visible: false,
-                    });
-                }
-            }
-        } else if (typeof
-            this.props.hardSkillDetail.empCertifications.find(e => e.certiID === 0) !== 'undefined') {
-            this.props.certiError({ Certificate: ['Please select certificate'] })
-        }
-        else if (typeof
-            this.props.hardSkillDetail.empCertifications.find(e => e.dateTaken === '') !== 'undefined') {
-            this.props.certiError({ Certificate: ['Please input taken date'] })
-        } else if (typeof
-            this.props.hardSkillDetail.empCertifications.find(e => e.dateEnd === '' && e.check) !== 'undefined') {
-            this.props.certiError({ Certificate: ['Please input expiration date'] })
-        } else {
-            this.props.certiError({})
-            this.setState({
-                visible: false,
-            });
-        }
+        this.props.closeModal(this.props.hardSkillDetail.empCertifications)
     }
+
     handleCancel = (e) => {
-        if (typeof this.props.error.Certificate !== 'undefined') {
-            if (this.props.error.Certificate.length === 0) {
-                if (typeof
-                    this.props.hardSkillDetail.empCertifications.find(e => e.certiID === 0) !== 'undefined') {
-                    this.props.certiError({ Certificate: ['Please select certificate'] })
-                }
-                else if (typeof
-                    this.props.hardSkillDetail.empCertifications.find(e => e.dateTaken === '') !== 'undefined') {
-                    this.props.certiError({ Certificate: ['Please input taken date'] })
-                } else if (typeof
-                    this.props.hardSkillDetail.empCertifications.find(e => e.dateEnd === '' && e.check) !== 'undefined') {
-                    this.props.certiError({ Certificate: ['Please input expiration date'] })
-                } else {
-                    this.props.certiError({})
-                    this.setState({
-                        visible: false,
-                    });
-                }
-            } else {
-                if (typeof
-                    this.props.hardSkillDetail.empCertifications.find(e => e.certiID === 0) !== 'undefined') {
-                    this.props.certiError({ Certificate: ['Please select certificate'] })
-                }
-                else if (typeof
-                    this.props.hardSkillDetail.empCertifications.find(e => e.dateTaken === '') !== 'undefined') {
-                    this.props.certiError({ Certificate: ['Please input taken date'] })
-                } else if (typeof
-                    this.props.hardSkillDetail.empCertifications.find(e => e.dateEnd === '' && e.check) !== 'undefined') {
-                    this.props.certiError({ Certificate: ['Please input expiration date'] })
-                } else {
-                    this.props.certiError({})
-                    this.setState({
-                        visible: false,
-                    });
-                }
-            }
-        } else if (typeof
-            this.props.hardSkillDetail.empCertifications.find(e => e.certiID === 0) !== 'undefined') {
-            this.props.certiError({ Certificate: ['Please select certificate'] })
-        }
-        else if (typeof
-            this.props.hardSkillDetail.empCertifications.find(e => e.dateTaken === '') !== 'undefined') {
-            this.props.certiError({ Certificate: ['Please input taken date'] })
-        } else if (typeof
-            this.props.hardSkillDetail.empCertifications.find(e => e.dateEnd === '' && e.check) !== 'undefined') {
-            this.props.certiError({ Certificate: ['Please input expiration date'] })
-        } else {
-            this.props.certiError({})
-            this.setState({
-                visible: false,
-            });
-        }
+        this.props.closeModal(this.props.hardSkillDetail.empCertifications)
     }
 
     getHardSkillName = (hardSkillList, hardSkillId) => {
@@ -169,8 +69,9 @@ class HardSkillFormContent extends Component {
     }
 
     render() {
-        var { hardSkillIndex, hardSkillList, hardSkillDetail } = this.props
+        var { hardSkillIndex, hardSkillList, hardSkillDetail, validate } = this.props
         var listConverted = convertSkillList(hardSkillList)
+        // console.log(validate)
         return (
             <React.Fragment>
                 <tr>
@@ -202,15 +103,23 @@ class HardSkillFormContent extends Component {
                                     <div style={{ marginRight: 10 }}>
                                         {this.getHardSkillName(listConverted, hardSkillDetail.skillID)}
                                     </div>
-                                    {typeof this.props.error.Certificate !== 'undefined' ?
-                                        this.props.error.Certificate.map((element, index) => {
-                                            return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
-                                        })
-                                        : ''}
+
                                 </div>
                             }
                             cancelButtonProps={{ style: { display: 'none' } }}
-                            visible={this.state.visible} onOk={this.handleOk} onCancel={this.handleCancel}>
+                            visible={validate.visible} onOk={this.handleOk} onCancel={this.handleCancel}>
+                            {validate.certiError.map((element, index) => {
+                                return (<><div key={index} className="error text-danger font-weight-bold">{element}</div><br /></>)
+                            })}
+                            {validate.dateTakenError.map((element, index) => {
+                                return (
+                                    <><div key={index} className="error text-danger font-weight-bold">{element}</div> <br />
+                                    </>)
+                            })}
+
+                            {validate.dateExprireError.map((element, index) => {
+                                return (<div key={index} className="error text-danger font-weight-bold">{element}</div>)
+                            })}
                             <CertificateForm
                                 certificate={hardSkillDetail.empCertifications}
                                 certiList={hardSkillDetail.certiList}
@@ -236,15 +145,18 @@ class HardSkillFormContent extends Component {
 }
 
 const mapStateToProps = (state) => {
-    return {
-        error: state.ErrorReducer
+    return {        
+        validate: state.ValidateCertificateReducer
     }
 }
 
 const mapDispatchToProp = (dispatch) => {
-    return {
-        certiError: (error) => {
-            dispatch(assignPositionFail(error))
+    return {        
+        openModal: () => {
+            dispatch(openModal())
+        },
+        closeModal: (certificates) => {
+            dispatch(closeModal(certificates))
         }
     }
 }
