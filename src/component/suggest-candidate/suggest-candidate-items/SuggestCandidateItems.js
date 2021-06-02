@@ -19,13 +19,13 @@ class SuggestCandidateItems extends Component {
         return (
             <tr>
                 <th className="text-center">{index + 1}</th>
-                <th className="">
+                <th className="text-center">
                     <NavLink className='text-primary' to={`/employee/profile/${candidate.empID}`}>
                         {candidate.name}
                     </NavLink>
                 </th>
-                <th className="">{candidate.phoneNumber}</th>
-                <th className="">{candidate.email}</th>
+                <th className="text-center">{candidate.phoneNumber}</th>
+                <th className="text-center">{candidate.email}</th>
                 <th className="text-center">{candidate.numberOfProject}</th>
                 <th className="text-center">
                     <Tooltip title='Check to apply this candidate' placement='right'>

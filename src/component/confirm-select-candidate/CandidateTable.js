@@ -8,9 +8,9 @@ class CandidateTable extends Component {
             result = candidateList.map((candidate, index) => {
                 return (<tr>
                     <th className="text-center">{index + 1}</th>
-                    <th className="">{candidate.name}</th>
-                    <th className="">{candidate.phoneNumber}</th>
-                    <th className="">{candidate.email}</th>
+                    <th className="text-center">{candidate.name}</th>
+                    <th className="text-center">{candidate.phoneNumber}</th>
+                    <th className="text-center">{candidate.email}</th>
                     <th className="text-center">{candidate.numberOfProject}</th>
                     <th className="text-center">{typeof candidate.check === 'undefined' ? 'Rejected' : candidate.check ? 'Accepted' : 'Rejected'}</th>
                     <th className="text-center">{typeof candidate.check === 'undefined' ? candidate.note : candidate.check ? '' : candidate.note}</th>
@@ -31,15 +31,15 @@ class CandidateTable extends Component {
                     <div className="card-body ">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead className=" text-primary">
+                                <thead className="font-weight-bold text-center text-primary">
                                     <tr>
-                                        <th className="font-weight-bold text-center" width={50}>No</th>
-                                        <th className="font-weight-bold" width={200}>Name</th>
-                                        <th className="font-weight-bold" width={100}>Phone</th>
-                                        <th className="font-weight-bold" width={200}>Email</th>
-                                        <th className="font-weight-bold text-center" width={125}>Joined projects</th>
-                                        <th className="font-weight-bold text-center" width={100}>Status</th>
-                                        <th className="font-weight-bold text-center" width={300}>Rejecting Reason</th>
+                                        <th width={50}>No</th>
+                                        <th width={200}>Name</th>
+                                        <th width={100}>Phone</th>
+                                        <th width={200}>Email</th>
+                                        <th width={125}>Joined projects</th>
+                                        <th width={100}>Status</th>
+                                        <th width={300}>Rejecting Reason</th>
                                     </tr>
                                 </thead>
                                 {item.employees.length > 0 ?

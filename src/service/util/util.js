@@ -245,7 +245,7 @@ export const convertSuggestList = list => {
                     if (typeof e.note === 'undefined')
                         note = ''
                     else
-                        note = e.note
+                        note = e.note.trim()
                 }
                 var obj = { empID: e.empID, isAccept: typeof e.check === 'undefined' ? false : e.check, note: note }
                 positionObj.empIDs.push(obj)

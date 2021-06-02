@@ -73,7 +73,7 @@ class ListCandidate extends Component {
     onMoveToConfirmPage = () => {
         if (typeof this.props.candidateSelectedList.find(obj =>
             obj.employees.find(emp =>
-                (typeof emp.check === 'undefined' && typeof emp.note === 'undefined') || (emp.check === false && (emp.note === '' || typeof emp.note === 'undefined'))))
+                (typeof emp.check === 'undefined' && typeof emp.note === 'undefined') || (emp.check === false && (emp.note.trim() === '' || typeof emp.note === 'undefined'))))
             !== 'undefined')
             store.addNotification({
                 message: "Please type rejecting reason for the candidate you not check",

@@ -43,13 +43,13 @@ class SuggestCandidates extends Component {
                             <div className="card-body">
                                 <div className="table-responsive">
                                     <table className="table table-bordered">
-                                        <thead className=" text-primary">
+                                        <thead className="font-weight-bold text-center text-primary">
                                             <tr>
-                                                <th className="font-weight-bold text-center">No</th>
-                                                <th className="font-weight-bold">Name</th>
-                                                <th className="font-weight-bold">Phone</th>
-                                                <th className="font-weight-bold">Email</th>
-                                                <th className="font-weight-bold text-center">Joined Projects</th>
+                                                <th>No</th>
+                                                <th>Name</th>
+                                                <th>Phone</th>
+                                                <th>Email</th>
+                                                <th>Joined Projects</th>
                                                 <Tooltip title='Check to apply all candidates' placement='right'>
                                                     <th className="font-weight-bold text-center">
                                                         <input type="checkbox" onClick={this.onSelectAll} checked={
