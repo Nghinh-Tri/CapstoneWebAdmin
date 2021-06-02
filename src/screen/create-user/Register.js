@@ -335,7 +335,7 @@ class Register extends Component {
 const mapState = (state) => {
     return {
         registering: state.authentication,
-        profile: state.ProfileFetchReducer,
+        profile: state.ProfileReducer,
         error: state.ErrorReducer,
         duplicateError: state.RegisterErrorReducer,
         addressSugget: state.SuggestAddressReducer,

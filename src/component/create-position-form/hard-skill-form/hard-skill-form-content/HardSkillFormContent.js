@@ -34,7 +34,7 @@ class HardSkillFormContent extends Component {
             this.props.openModal()
         else
             store.addNotification({
-                message: "Please select position",
+                message: "Please select hard skill",
                 type: "danger",
                 insert: "top",
                 container: "top-center",

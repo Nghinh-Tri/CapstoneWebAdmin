@@ -86,7 +86,7 @@ class ImportCV extends Component {
                     }
                 </Dragger>
                 <Button className='pull-right mt-3' type="primary" onClick={this.onHandleSubmit}
-                    disabled={fileList.length === 0} style={{ marginTop: 16 }}>
+                    disabled={fileList.length === 0} style={{ marginTop: 16 }} loading={this.props.loading} >
                     Confirm
                     </Button>
             </React.Fragment>
@@ -98,6 +98,7 @@ const mapState = (state) => {
     return {
         status: state.StatusReducer,
         profile: state.ProfileFetchReducer,
+        loading: state.ImportReducer
     };
 }
 

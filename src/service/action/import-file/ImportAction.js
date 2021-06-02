@@ -5,6 +5,7 @@ import { PROFILE } from "../../constant";
 import { API_URL, getEmpID } from "../../util/util";
 import { registerSuccess } from "../user/LoginAction";
 const FileDownload = require('js-file-download');
+
 export const addFile = (fileList) => {
     var url = `${API_URL}/User/Import`;
     const formData = new FormData();
@@ -12,6 +13,7 @@ export const addFile = (fileList) => {
         formData.append("file", file);
     }
     return (dispatch) => {
+        dispatch(exportRequire())
         axios.put(
             url,
             formData,
@@ -84,6 +86,10 @@ export const exportTemplate = (empID) => {
 export const exportSuccess = () => {
     return { type: true };
 };
+
+export const exportRequire = () => {
+    return { type: PROFILE.IMPORT_REQUEST }
+}
 
 export const addFileSuccess = (isSuccessed) => {
     return { type: PROFILE.IMPORT, isSuccessed };

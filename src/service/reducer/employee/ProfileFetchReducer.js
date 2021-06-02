@@ -6,6 +6,7 @@ const profileFormReducer = (state = initState, action) => {
     switch (action.type) {
         case Type.FETCH_PROFILE:
             state = action.resultObj
+            console.log(state)
             state.isRefresh = action.refresh
             return state       
         case Type.REGISTER_SUCCESS:
