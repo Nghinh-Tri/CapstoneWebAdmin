@@ -10,12 +10,12 @@ class SuggestCandidateItems extends Component {
     }
 
     onHandle = (e) => {
-        this.props.onNoteRejectingReason(e.target.value, this.props.candidate, this.props.posID)
+        if (e.target.value.length <= 88)
+            this.props.onNoteRejectingReason(e.target.value, this.props.candidate, this.props.posID)
     }
 
     render() {
         var { index, candidate } = this.props
-        console.log(candidate)
         return (
             <tr>
                 <th className="text-center">{index + 1}</th>

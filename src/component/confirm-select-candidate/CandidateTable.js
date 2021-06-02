@@ -6,14 +6,14 @@ class CandidateTable extends Component {
         var result = null
         if (candidateList.length > 0) {
             result = candidateList.map((candidate, index) => {
-                return (<tr>
-                    <th className="text-center">{index + 1}</th>
-                    <th className="text-center">{candidate.name}</th>
-                    <th className="text-center">{candidate.phoneNumber}</th>
-                    <th className="text-center">{candidate.email}</th>
-                    <th className="text-center">{candidate.numberOfProject}</th>
-                    <th className="text-center">{typeof candidate.check === 'undefined' ? 'Rejected' : candidate.check ? 'Accepted' : 'Rejected'}</th>
-                    <th className="text-center">{typeof candidate.check === 'undefined' ? candidate.note : candidate.check ? '' : candidate.note}</th>
+                return (<tr className="text-center">
+                    <th>{index + 1}</th>
+                    <th>{candidate.name}</th>
+                    <th>{candidate.phoneNumber}</th>
+                    <th>{candidate.email}</th>
+                    <th>{candidate.numberOfProject}</th>
+                    <th>{typeof candidate.check === 'undefined' ? 'Rejected' : candidate.check ? 'Accepted' : 'Rejected'}</th>
+                    <th>{typeof candidate.check === 'undefined' ? candidate.note : candidate.check ? '' : candidate.note}</th>
                 </tr>)
             })
         }
