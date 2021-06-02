@@ -192,7 +192,7 @@ class ListEmployeeContent extends Component {
                     : ''}
                 {typeof prevRequire.requiredPosID !== 'undefined' ?
                     project.status === 4 ? '' :
-                        (prevRequire.status === 2 || prevRequire.status === 0) ?
+                        (prevRequire.status === 2) ?
                             <>
                                 <button type="submit" className="btn btn-primary pull-right" onClick={this.onHandle} style={{ fontWeight: 700 }} onClick={this.onClickAddEmployees} >
                                     Add Employees

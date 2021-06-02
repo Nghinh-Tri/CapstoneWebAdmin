@@ -23,10 +23,10 @@ const ValidateCertificateReducer = (state = initState, action) => {
                     const takenDuration = moment.duration(moment().day(2).diff(moment(certi.dateTaken)))
                     if (takenDuration.days() === 0) {
                         if (takenDuration.hours() <= 0) {
-                            state.dateTakenError = [`Taken Date must before ${moment(moment().day(2)).format("DD-MM-YYYY")}`]
+                            state.dateTakenError = [`Taken Date must be before ${moment(moment().day(2)).format("DD-MM-YYYY")}`]
                         }
                     } else if (takenDuration.days() < 0) {
-                        state.dateTakenError = [`Taken Date must before ${moment(moment().day(2)).format("DD-MM-YYYY")}`]
+                        state.dateTakenError = [`Taken Date must be before ${moment(moment().day(2)).format("DD-MM-YYYY")}`]
                     }
                 }
 
@@ -36,8 +36,8 @@ const ValidateCertificateReducer = (state = initState, action) => {
                     const able = moment.duration(moment().day(3).diff(moment(certi.dateEnd)))
                     let duration = moment.duration(moment(certi.dateEnd, 'YYYY-MM-DD').diff(moment(certi.dateTaken)))
                     if (able.days() === 0) {
-                        if (able.hours() <= 0) {
-                            state.dateExprireError = [`Expiration Date must after ${moment(moment().day(2)).format("DD-MM-YYYY")}`]
+                        if (able.hours() > 0) {
+                            state.dateExprireError = [`Expiration Date must be after ${moment(moment().day(3)).format("DD-MM-YYYY")}`]
                         }
                         else {
                             if (duration.years() === 1) {
@@ -51,7 +51,7 @@ const ValidateCertificateReducer = (state = initState, action) => {
                             }
                         }
                     } else if (able.days() > 0) {
-                        state.dateExprireError = [`Taken Date must after ${moment(moment().day(2)).format("DD-MM-YYYY")}`]
+                        state.dateExprireError = [`Taken Date must after ${moment(moment().day(3)).format("DD-MM-YYYY")}`]
                     } else {
                         if (duration.years() === 1) {
                             state.dateExprireError = []
