@@ -19,9 +19,7 @@ export const checkSession = () => {
         var diff = moment(time, "DD/MM/YYYY HH:mm:ss").diff(moment(now, "DD/MM/YYYY HH:mm:ss"))
         return (dispatch) => {
             if (diff <= 0 || getRole() !== 'admin') {
-                localStorage.clear()
                 dispatch(sessionTimeOut())
-                history.push('/login')
             } else {
                 dispatch(sessionAllow())
             }
@@ -32,6 +30,8 @@ export const checkSession = () => {
 }
 
 export const sessionTimeOut = () => {
+    localStorage.clear()
+    history.push('/login')
     return { type: SESSION.SESSION_TIME_OUT }
 }
 
